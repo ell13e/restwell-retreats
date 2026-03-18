@@ -1,0 +1,58 @@
+# Restwell WordPress Theme - Cursor Rules
+
+## Project Context
+Migrating a React/TypeScript SPA to a custom WordPress theme.
+Source files are for reference only — translate to vanilla PHP/HTML/CSS/JS.
+Do NOT introduce React, TypeScript, JSX, or any npm dependencies.
+
+## Project Structure
+This is a monorepo. The WordPress theme lives in /restwell-theme/.
+The React source for reference only lives in /client/src/.
+ONLY ever write or create files inside /restwell-theme/.
+Never modify anything in /client/, /server/, /shared/, or /patches/.
+
+## WordPress Standards
+- Follow WordPress Coding Standards throughout
+- Always escape output: esc_html(), esc_attr(), esc_url(), wp_kses_post()
+- Always sanitise input: sanitize_text_field(), absint() etc.
+- Enqueue ALL scripts and styles via wp_enqueue_scripts hook in functions.php
+- Never inline <style> or <script> tags directly in templates
+- Use get_template_part() for reusable components
+- Prefix all functions with restwell_ to avoid conflicts
+
+## File Structure
+- Template partials go in /template-parts/
+- CSS goes in /assets/css/
+- JS goes in /assets/js/
+- Images go in /assets/images/
+- Additional PHP functions go in /inc/ (split logically: enqueue.php, helpers.php, post-types.php)
+
+## HTML/CSS
+- Maintain the existing HTML structure and class names from the React source where possible
+- CSS variables preferred for colours and spacing
+- BEM naming convention for any new CSS classes
+- No jQuery — vanilla JS only
+
+## Frontend & UI/UX Design
+When generating or modifying HTML/PHP/CSS, follow these design principles:
+1. **Whitespace is king**: Use generous padding and margins. Favor open, airy layouts. Use Tailwind's spacing scale intentionally (e.g., py-16, gap-8). Never cramp elements.
+2. **Typography matters**: Never output a raw `<p>` or `<h1>` without considering line-height (leading-relaxed, leading-tight), font weight, and subtle text colors (e.g., text-gray-600 for body copy, not pure black).
+3. **Premium borders & shadows**: Avoid harsh, thick borders. Use subtle touches like border-white/20, shadow-sm, or shadow-[0_8px_30px_rgb(0,0,0,0.04)].
+4. **Soft corners**: Use rounded-2xl for large cards and rounded-full for pills/icons unless instructed otherwise.
+5. **Tailwind first**: Always use Tailwind utility classes. Never write custom CSS unless necessary for complex animations or pseudo-elements.
+6. **Interactive states**: Include smooth transitions on clickable elements (e.g., hover:bg-opacity-80 transition-all duration-300 ease-in-out hover:-translate-y-1).
+
+## Content Management
+- Any hardcoded strings that editors might need to change should become ACF fields
+- Use get_field() / the_field() for ACF content
+- Always include fallback content if ACF field is empty
+
+## JavaScript
+- Preserve existing Map.tsx logic — translate to vanilla JS
+- Use wp_localize_script() to pass PHP data to JS (not inline scripts)
+
+## Do Not
+- Do not add page builders or Gutenberg block dependencies
+- Do not use any WordPress starter themes as a base — build from scratch
+- Do not convert class components — these are just HTML templates now
+- Do not install any plugins without being asked

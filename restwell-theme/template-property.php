@@ -1,0 +1,600 @@
+<?php
+/**
+ * Template Name: The Property
+ * Page template for the property page with editable meta fields.
+ *
+ * @package Restwell_Retreats
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+get_header();
+
+$pid = get_the_ID();
+$prop_hero_label    = get_post_meta( $pid, 'prop_hero_label', true ) ?: 'The Property';
+$prop_hero_heading  = get_post_meta( $pid, 'prop_hero_heading', true ) ?: '101 Russell Drive, Whitstable';
+$prop_hero_subtitle = get_post_meta( $pid, 'prop_hero_subtitle', true ) ?: 'A whole home designed for real holidays on the Kent coast';
+$prop_hero_image_id = (int) get_post_meta( $pid, 'prop_hero_image_id', true );
+$prop_hero_src      = $prop_hero_image_id ? wp_get_attachment_image_url( $prop_hero_image_id, 'full' ) : '';
+$prop_hero_cta_text           = get_post_meta( $pid, 'prop_hero_cta_text', true ) ?: 'Enquire about dates';
+$prop_hero_cta_url            = esc_url( get_post_meta( $pid, 'prop_hero_cta_url', true ) ?: home_url( '/enquire/' ) );
+$prop_hero_cta_promise        = get_post_meta( $pid, 'prop_hero_cta_promise', true ) ?: '';
+$prop_hero_cta_secondary_text = get_post_meta( $pid, 'prop_hero_cta_secondary_text', true ) ?: '';
+$prop_hero_cta_secondary_url  = esc_url( get_post_meta( $pid, 'prop_hero_cta_secondary_url', true ) ?: home_url( '/how-it-works/' ) );
+
+$prop_home_heading = get_post_meta( $pid, 'prop_home_heading', true ) ?: 'Your home for the week';
+$prop_home_label   = get_post_meta( $pid, 'prop_home_label', true ) ?: '';
+$prop_home_cards   = array(
+	array(
+		'title' => get_post_meta( $pid, 'prop_home_1_title', true ) ?: 'Fully Accessible Layout',
+		'body'  => get_post_meta( $pid, 'prop_home_1_body', true ) ?: 'Enjoy total freedom with step-free access throughout the whole single story building. Wide doorways and a mobile wet room ensure complete ease of use.',
+	),
+	array(
+		'title' => get_post_meta( $pid, 'prop_home_2_title', true ) ?: 'Private Garden',
+		'body'  => get_post_meta( $pid, 'prop_home_2_body', true ) ?: 'Relax and unwind in the private, level access garden. Enjoy comfortable outdoor seating, a paved terrace, and space for all to enjoy.',
+	),
+	array(
+		'title' => get_post_meta( $pid, 'prop_home_3_title', true ) ?: 'Coastal Views',
+		'body'  => get_post_meta( $pid, 'prop_home_3_body', true ) ?: 'Take in the stunning coastal views from the comfort of the lounge. It\'s a serene, relaxing outlook for any time of year.',
+	),
+);
+
+$prop_dignity_heading  = get_post_meta( $pid, 'prop_dignity_heading', true ) ?: 'Designed for dignity and comfort';
+$prop_dignity_label    = get_post_meta( $pid, 'prop_dignity_label', true ) ?: '';
+$prop_dignity_body_raw = get_post_meta( $pid, 'prop_dignity_body', true );
+$prop_dignity_image_id = (int) get_post_meta( $pid, 'prop_dignity_image_id', true );
+$prop_dignity_src      = $prop_dignity_image_id ? wp_get_attachment_image_url( $prop_dignity_image_id, 'large' ) : '';
+
+$prop_features = array(
+	array( 'title' => get_post_meta( $pid, 'prop_feature_1', true ) ?: 'Wet Room', 'desc' => get_post_meta( $pid, 'prop_feature_1_desc', true ) ?: 'Level-access shower with rails.' ),
+	array( 'title' => get_post_meta( $pid, 'prop_feature_2', true ) ?: 'Wide Doorways', 'desc' => get_post_meta( $pid, 'prop_feature_2_desc', true ) ?: 'Accessible to all mobility aids.' ),
+	array( 'title' => get_post_meta( $pid, 'prop_feature_3', true ) ?: 'Step-free Access', 'desc' => get_post_meta( $pid, 'prop_feature_3_desc', true ) ?: 'No steps or tight corners.' ),
+	array( 'title' => get_post_meta( $pid, 'prop_feature_4', true ) ?: 'Parking', 'desc' => get_post_meta( $pid, 'prop_feature_4_desc', true ) ?: 'Dedicated accessible bay.' ),
+	array( 'title' => get_post_meta( $pid, 'prop_feature_5', true ) ?: 'Fully Equipped Kitchen', 'desc' => get_post_meta( $pid, 'prop_feature_5_desc', true ) ?: 'Accessible counters and appliances.' ),
+	array( 'title' => get_post_meta( $pid, 'prop_feature_6', true ) ?: 'Garden with Seating', 'desc' => get_post_meta( $pid, 'prop_feature_6_desc', true ) ?: 'Level paving and comfy seating.' ),
+	array( 'title' => get_post_meta( $pid, 'prop_feature_7', true ) ?: 'Walk to the Beach', 'desc' => get_post_meta( $pid, 'prop_feature_7_desc', true ) ?: 'Easy access to promenade paths.' ),
+	array( 'title' => get_post_meta( $pid, 'prop_feature_8', true ) ?: 'Accessible WC', 'desc' => get_post_meta( $pid, 'prop_feature_8_desc', true ) ?: 'Ground-floor accessible toilet.' ),
+);
+
+$prop_overview_heading = get_post_meta( $pid, 'prop_overview_heading', true ) ?: 'Your coastal home-from-home';
+$prop_overview_body   = get_post_meta( $pid, 'prop_overview_body', true ) ?: "101 Russell Drive is more than just a place to stay — it is your base for a proper coastal break. Located in a quiet residential corner of Whitstable, this property blends modern comfort with thoughtful accessibility. The neighbourhood is peaceful and flat, making it easy to get out and about whether you are on foot or using a wheelchair.\n\nWhitstable itself is one of Kent's most charming towns. Famous for its oysters, independent shops along Harbour Street, and a thriving arts scene, it has a relaxed, authentic atmosphere that feels a world away from the everyday — without being difficult to reach.";
+$prop_dignity_body    = $prop_dignity_body_raw !== '' ? $prop_dignity_body_raw : $prop_overview_body;
+
+$prop_features_label   = get_post_meta( $pid, 'prop_features_label', true ) ?: 'Accessibility';
+$prop_features_heading = get_post_meta( $pid, 'prop_features_heading', true ) ?: 'Accessibility features';
+
+$prop_acc_label   = get_post_meta( $pid, 'prop_acc_label', true ) ?: 'Accessibility';
+$prop_acc_heading = get_post_meta( $pid, 'prop_acc_heading', true ) ?: 'Accessibility you can rely on';
+$prop_acc_intro   = get_post_meta( $pid, 'prop_acc_intro', true ) ?: 'Every property in the Restwell collection is assessed for access. Here is what we have verified about 101 Russell Drive — and if you have a requirement not listed, we are always happy to talk it through.';
+$prop_acc_confirmed = get_post_meta( $pid, 'prop_acc_confirmed', true ) ?: "Level access throughout the ground floor\nWide doorways suitable for wheelchair access\nQuiet, flat residential street\nClose to level promenade walks";
+
+// Comparison: why not just an accessible hotel?
+$prop_comparison_label         = get_post_meta( $pid, 'prop_comparison_label', true ) ?: 'The difference';
+$prop_comparison_heading       = get_post_meta( $pid, 'prop_comparison_heading', true ) ?: 'Why not just book an accessible hotel?';
+$prop_comparison_intro         = get_post_meta( $pid, 'prop_comparison_intro', true ) ?: 'Most \'accessible\' accommodation means a wider door and a grab rail. Restwell means something else entirely.';
+$prop_comparison_left_heading  = get_post_meta( $pid, 'prop_comparison_left_heading', true ) ?: 'A standard \'accessible\' room';
+$prop_comparison_right_heading = get_post_meta( $pid, 'prop_comparison_right_heading', true ) ?: 'Your Restwell stay';
+$comparison_left_defaults  = array(
+	'An adapted room in a shared building, with other guests and communal spaces',
+	'No care support on site — you arrange everything yourself in advance',
+	'Retrofitted accessibility: wider corridors, grab rails, a roll-in shower if you\'re lucky',
+	'You find out what doesn\'t work once you\'ve already arrived',
+);
+$comparison_right_defaults = array(
+	'The entire property — private garden, no shared spaces, no other guests',
+	'Optional CQC-regulated care arranged around your stay, or bring your own',
+	'Designed from the ground up for complex needs — nothing retrofitted, nothing assumed',
+	'Ask us anything before you book — we\'ll tell you exactly what works for you',
+);
+$prop_comparison_left  = array();
+$prop_comparison_right = array();
+for ( $i = 1; $i <= 4; $i++ ) {
+	$prop_comparison_left[]  = get_post_meta( $pid, "prop_comparison_left_{$i}", true ) ?: $comparison_left_defaults[ $i - 1 ];
+	$prop_comparison_right[] = get_post_meta( $pid, "prop_comparison_right_{$i}", true ) ?: $comparison_right_defaults[ $i - 1 ];
+}
+
+$prop_gallery_label   = get_post_meta( $pid, 'prop_gallery_label', true ) ?: 'Gallery';
+$prop_gallery_heading = get_post_meta( $pid, 'prop_gallery_heading', true ) ?: 'See the space';
+$prop_gallery_1 = (int) get_post_meta( $pid, 'prop_gallery_1_image_id', true );
+$prop_gallery_2 = (int) get_post_meta( $pid, 'prop_gallery_2_image_id', true );
+$prop_gallery_3 = (int) get_post_meta( $pid, 'prop_gallery_3_image_id', true );
+
+$prop_practical_label   = get_post_meta( $pid, 'prop_practical_label', true ) ?: 'Practical details';
+$prop_practical_heading = get_post_meta( $pid, 'prop_practical_heading', true ) ?: 'The essentials';
+$prop_bedrooms  = get_post_meta( $pid, 'prop_bedrooms', true ) ?: 'Number of bedrooms and bed types to be confirmed by client.';
+$prop_bathroom  = get_post_meta( $pid, 'prop_bathroom', true ) ?: 'Bathroom type and accessibility features to be confirmed by client.';
+$prop_parking   = get_post_meta( $pid, 'prop_parking', true ) ?: 'Driveway or street parking details to be confirmed by client.';
+$prop_distances = get_post_meta( $pid, 'prop_distances', true ) ?: "Approximately 15 minutes' flat walk to the Tankerton promenade. Around 7 minutes' drive to Whitstable town centre and harbour.";
+// Display values for essentials cards (number or short label). Design: 5 Bedrooms, 3 Bathrooms, Parking, 9+ Sleeps.
+$prop_essentials = array(
+	'bedrooms'  => array( 'value' => get_post_meta( $pid, 'prop_bedrooms_count', true ) ?: '2', 'label' => 'Bedrooms' ),
+	'bathrooms' => array( 'value' => get_post_meta( $pid, 'prop_bathrooms_count', true ) ?: '1', 'label' => 'Bathrooms' ),
+	'parking'   => array( 'value' => get_post_meta( $pid, 'prop_parking_label', true ) ?: 'Free', 'label' => 'Parking' ),
+	'sleeps'    => array( 'value' => get_post_meta( $pid, 'prop_sleeps_value', true ) ?: '2', 'label' => get_post_meta( $pid, 'prop_sleeps_label', true ) ?: 'Sleeps' ),
+);
+$prop_confirm_details_url = esc_url( get_post_meta( $pid, 'prop_confirm_details_url', true ) ?: home_url( '/enquire/' ) );
+// See the space: three buttons (design).
+$prop_gallery_buttons = array(
+	array( 'label' => get_post_meta( $pid, 'prop_gallery_btn_1_label', true ) ?: 'See all photos', 'url' => esc_url( get_post_meta( $pid, 'prop_gallery_btn_1_url', true ) ?: $prop_confirm_details_url ) ),
+	array( 'label' => get_post_meta( $pid, 'prop_gallery_btn_2_label', true ) ?: 'Explore video', 'url' => esc_url( get_post_meta( $pid, 'prop_gallery_btn_2_url', true ) ?: '#' ) ),
+	array( 'label' => get_post_meta( $pid, 'prop_gallery_btn_3_label', true ) ?: 'Take 3D Tour', 'url' => esc_url( get_post_meta( $pid, 'prop_gallery_btn_3_url', true ) ?: '#' ) ),
+);
+
+$prop_nearby_label   = get_post_meta( $pid, 'prop_nearby_label', true ) ?: "What's nearby";
+$prop_nearby_heading = get_post_meta( $pid, 'prop_nearby_heading', true ) ?: 'Explore Whitstable';
+// Researched distances/times (Tankerton/Russell Drive area): Plough & St John's Road ~5 min; Tankerton Slopes ~15 min flat walk; Harbour ~17–20 min walk / ~7 min drive; medical 0.3–1.5 miles. Estuary View UTC: 8am–8pm daily, Blue Badge free parking; parking charges may apply from 2025 at some sites.
+$nearby = array(
+	array(
+		'title'    => get_post_meta( $pid, 'prop_nearby_1_title', true ) ?: 'The Plough Pub',
+		'body'     => get_post_meta( $pid, 'prop_nearby_1_body', true ) ?: "A friendly local pub on St John's Road, just a short walk from the property. The Plough has a relaxed, casual atmosphere with good food (around £10–20 per person), live music nights, and a welcoming vibe for families and groups.",
+		'acc'      => get_post_meta( $pid, 'prop_nearby_1_acc', true ) ?: 'Wheelchair-accessible entrance, accessible parking, and an accessible restroom (confirm current details with the pub).',
+		'distance' => get_post_meta( $pid, 'prop_nearby_1_distance', true ) ?: 'Approx. 5 min walk',
+		'filter'   => get_post_meta( $pid, 'prop_nearby_1_filter', true ) ?: 'wheelchair-friendly quieter',
+		'map_url'  => get_post_meta( $pid, 'prop_nearby_1_map_url', true ) ?: 'https://maps.google.com/?q=The+Plough+St+Johns+Road+Whitstable',
+		'icon'     => 'fa-utensils',
+		'type'     => 'Food &amp; Drink',
+	),
+	array(
+		'title'    => get_post_meta( $pid, 'prop_nearby_2_title', true ) ?: 'Tankerton Slopes & Promenade',
+		'body'     => get_post_meta( $pid, 'prop_nearby_2_body', true ) ?: 'One of the best level coastal walks in Kent. The long, flat concrete promenade stretches along the seafront with stunning views across the Thames Estuary. It is wheelchair and pushchair friendly, with accessible toilets at the harbour end.',
+		'acc'      => get_post_meta( $pid, 'prop_nearby_2_acc', true ) ?: 'Level concrete surface, suitable for wheelchairs. Accessible WC available.',
+		'distance' => get_post_meta( $pid, 'prop_nearby_2_distance', true ) ?: 'Approx. 15 min flat walk',
+		'filter'   => get_post_meta( $pid, 'prop_nearby_2_filter', true ) ?: 'wheelchair-friendly',
+		'map_url'  => get_post_meta( $pid, 'prop_nearby_2_map_url', true ) ?: 'https://maps.google.com/?q=Tankerton+Slopes+Whitstable',
+		'icon'     => 'fa-water',
+		'type'     => 'The Coast',
+	),
+	array(
+		'title'    => get_post_meta( $pid, 'prop_nearby_3_title', true ) ?: 'Whitstable Beach',
+		'body'     => get_post_meta( $pid, 'prop_nearby_3_body', true ) ?: "Whitstable's beach is characteristically shingle — beautiful to look at, but we want to be honest: shingle is generally not wheelchair-friendly. However, the promenade above the beach provides excellent sea views and level access.",
+		'acc'      => get_post_meta( $pid, 'prop_nearby_3_acc', true ) ?: 'Honest note: The shingle beach itself is difficult for wheelchair users. We recommend the promenade for the best accessible coastal experience.',
+		'distance' => get_post_meta( $pid, 'prop_nearby_3_distance', true ) ?: 'Approx. 15 min walk',
+		'filter'   => get_post_meta( $pid, 'prop_nearby_3_filter', true ) ?: 'wheelchair-friendly',
+		'map_url'  => get_post_meta( $pid, 'prop_nearby_3_map_url', true ) ?: 'https://maps.google.com/?q=Whitstable+Beach+Kent',
+		'icon'     => 'fa-umbrella-beach',
+		'type'     => 'The Coast',
+	),
+	array(
+		'title'    => get_post_meta( $pid, 'prop_nearby_4_title', true ) ?: 'Whitstable Town Centre & Harbour Street',
+		'body'     => get_post_meta( $pid, 'prop_nearby_4_body', true ) ?: "The heart of Whitstable is Harbour Street — a charming strip of independent shops, galleries, and cafes. The town has a relaxed, artistic character that draws visitors year-round. The harbour itself is a lovely spot for fresh seafood.",
+		'acc'      => get_post_meta( $pid, 'prop_nearby_4_acc', true ) ?: 'Some pavements in the old town are narrow and can be crowded during peak times. We recommend visiting during quieter weekday mornings.',
+		'distance' => get_post_meta( $pid, 'prop_nearby_4_distance', true ) ?: 'Approx. 20 min walk or 7 min drive',
+		'filter'   => get_post_meta( $pid, 'prop_nearby_4_filter', true ) ?: 'quieter',
+		'map_url'  => get_post_meta( $pid, 'prop_nearby_4_map_url', true ) ?: 'https://maps.google.com/?q=Harbour+Street+Whitstable+Kent',
+		'icon'     => 'fa-bag-shopping',
+		'type'     => 'Town &amp; Shops',
+	),
+	array(
+		'title'    => get_post_meta( $pid, 'prop_nearby_5_title', true ) ?: 'Nearby Medical Services',
+		'body'     => get_post_meta( $pid, 'prop_nearby_5_body', true ) ?: 'For peace of mind: Swalecliffe Pharmacy is approximately 0.3 miles away on St John\'s Road. Chestfield Medical Centre (GP surgery) is around 0.5 miles away. The Estuary View Urgent Treatment Centre is approximately 1.5 miles away on Boorman Way, open 8am–8pm daily with on-site pharmacy. Blue Badge holders get free parking at Estuary View; standard parking charges may apply at some sites.',
+		'acc'      => get_post_meta( $pid, 'prop_nearby_5_acc', true ) ?: 'All listed services have step-free access. Confirm current accessibility and parking with each venue.',
+		'distance' => get_post_meta( $pid, 'prop_nearby_5_distance', true ) ?: 'From 0.3 miles (pharmacy)',
+		'filter'   => get_post_meta( $pid, 'prop_nearby_5_filter', true ) ?: 'practical',
+		'map_url'  => get_post_meta( $pid, 'prop_nearby_5_map_url', true ) ?: 'https://maps.google.com/?q=medical+centre+near+101+Russell+Drive+Whitstable',
+		'icon'     => 'fa-kit-medical',
+		'type'     => 'Wellbeing',
+	),
+);
+$prop_nearby_cta_label = get_post_meta( $pid, 'prop_nearby_cta_label', true ) ?: '';
+$prop_nearby_cta_url   = get_post_meta( $pid, 'prop_nearby_cta_url', true ) ?: '';
+
+$prop_cta_heading = get_post_meta( $pid, 'prop_cta_heading', true ) ?: 'Like what you see?';
+$prop_cta_body    = get_post_meta( $pid, 'prop_cta_body', true ) ?: 'Get in touch to check availability or any other questions.';
+$prop_cta_btn     = get_post_meta( $pid, 'prop_cta_btn', true ) ?: 'Enquire about dates';
+$prop_cta_url     = get_post_meta( $pid, 'prop_cta_url', true ) ?: home_url( '/enquire/' );
+$prop_cta_url     = esc_url( $prop_cta_url );
+$prop_cta_promise = get_post_meta( $pid, 'prop_cta_promise', true ) ?: '';
+?>
+<?php
+$prop_hero_image_src = $prop_hero_image_id ? wp_get_attachment_image_url( $prop_hero_image_id, 'large' ) : '';
+?>
+<main class="flex-1" id="main-content">
+<?php get_template_part( 'template-parts/breadcrumb' ); ?>
+	<section class="hero relative flex items-end overflow-hidden min-h-[32rem] <?php echo $prop_hero_src ? '' : 'bg-[var(--deep-teal)]'; ?>" aria-labelledby="page-hero-heading">
+		<?php if ( $prop_hero_src ) : ?>
+			<img src="<?php echo esc_url( $prop_hero_src ); ?>" alt="<?php echo esc_attr( $prop_hero_heading ); ?>" class="absolute inset-0 w-full h-full object-cover -z-10" />
+		<?php endif; ?>
+		<div class="absolute inset-0 bg-black/30 -z-[5]" aria-hidden="true"></div>
+		<div class="absolute inset-0 bg-gradient-to-t from-[var(--deep-teal)]/85 via-[var(--deep-teal)]/45 to-transparent -z-[5]" aria-hidden="true"></div>
+		<div class="relative z-10 container pb-16 md:pb-24 pt-32">
+			<div class="max-w-2xl">
+			<?php if ( $prop_hero_label !== '' ) : ?>
+				<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-4 font-sans"><?php echo esc_html( $prop_hero_label ); ?></p>
+			<?php endif; ?>
+				<h1 id="page-hero-heading" class="text-white text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight font-serif"><?php echo esc_html( $prop_hero_heading ); ?></h1>
+				<?php if ( $prop_hero_subtitle !== '' ) : ?>
+					<p class="text-[#F5EDE0] text-lg md:text-xl mb-8 leading-relaxed max-w-prose drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"><?php echo esc_html( $prop_hero_subtitle ); ?></p>
+				<?php endif; ?>
+				<div class="flex flex-wrap gap-4">
+					<?php if ( $prop_hero_cta_text !== '' ) : ?>
+						<a href="<?php echo esc_url( $prop_hero_cta_url ); ?>" class="btn btn-gold">
+							<?php echo esc_html( $prop_hero_cta_text ); ?>
+							<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+						</a>
+					<?php endif; ?>
+					<?php if ( $prop_hero_cta_secondary_text !== '' ) : ?>
+						<a href="<?php echo esc_url( $prop_hero_cta_secondary_url ); ?>" class="btn btn-ghost-light">
+							<?php echo esc_html( $prop_hero_cta_secondary_text ); ?>
+						</a>
+					<?php endif; ?>
+				</div>
+				<?php if ( $prop_hero_cta_promise !== '' ) : ?>
+					<p class="text-white/90 text-sm mt-4"><?php echo esc_html( $prop_hero_cta_promise ); ?></p>
+				<?php endif; ?>
+			</div>
+		</div>
+	</section>
+
+	<!-- Your home for the week (3 feature cards) -->
+	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]">
+		<div class="container">
+			<?php if ( $prop_home_label !== '' ) : ?>
+				<p class="section-label text-center mb-3"><?php echo esc_html( $prop_home_label ); ?></p>
+			<?php endif; ?>
+			<h2 class="text-3xl font-serif text-[var(--deep-teal)] text-center mb-12 md:mb-16"><?php echo esc_html( $prop_home_heading ); ?></h2>
+			<div class="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-5xl mx-auto">
+				<?php
+				$home_icons = array( 'fa-house', 'fa-heart', 'fa-location-dot' );
+				foreach ( $prop_home_cards as $i => $card ) :
+				?>
+				<div class="bg-white rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100/80 flex flex-col items-center text-center transition-all duration-300 ease-in-out hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1">
+					<div class="text-[var(--deep-teal)] mb-5" aria-hidden="true">
+						<i class="fa-solid <?php echo esc_attr( $home_icons[ $i ] ); ?> text-3xl"></i>
+					</div>
+					<h3 class="text-xl font-serif text-[var(--deep-teal)] mb-3 leading-tight"><?php echo esc_html( $card['title'] ); ?></h3>
+					<p class="text-gray-600 leading-relaxed text-sm md:text-base"><?php echo esc_html( $card['body'] ); ?></p>
+				</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+
+	<!-- Designed for dignity and comfort -->
+	<section class="py-16 md:py-24 bg-[var(--soft-sand)] overflow-hidden">
+		<div class="container">
+			<div class="grid md:grid-cols-2 gap-0 items-stretch max-w-6xl mx-auto">
+				<?php if ( $prop_dignity_src ) : ?>
+					<div class="relative order-2 md:order-1">
+						<img src="<?php echo esc_url( $prop_dignity_src ); ?>" alt="<?php echo esc_attr( $prop_dignity_heading ); ?>" class="rounded-2xl w-full h-full min-h-[280px] object-cover aspect-[4/3]" />
+					</div>
+				<?php endif; ?>
+			<div class="order-1 md:order-2 <?php echo $prop_dignity_src ? 'md:-ml-12 lg:-ml-16 md:pl-8 lg:pl-12 flex flex-col justify-center' : 'md:col-span-2'; ?>">
+			<div class="bg-white rounded-2xl p-8 md:p-10 lg:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-[var(--driftwood)]/30 <?php echo $prop_dignity_src ? '' : 'max-w-2xl mx-auto'; ?>">
+					<?php if ( $prop_dignity_label !== '' ) : ?>
+						<p class="section-label mb-3"><?php echo esc_html( $prop_dignity_label ); ?></p>
+					<?php endif; ?>
+					<h2 class="text-3xl font-serif text-[var(--deep-teal)] mb-6"><?php echo esc_html( $prop_dignity_heading ); ?></h2>
+						<div class="text-gray-600 text-lg leading-relaxed space-y-4 max-w-prose">
+							<?php echo wp_kses_post( wpautop( $prop_dignity_body ) ); ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Accessibility features grid (8 items, 2 rows of 4) -->
+	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]">
+		<div class="container">
+			<?php if ( $prop_features_label !== '' ) : ?>
+				<p class="section-label text-center mb-3"><?php echo esc_html( $prop_features_label ); ?></p>
+			<?php endif; ?>
+			<h2 class="text-3xl font-serif text-[var(--deep-teal)] text-center mb-12"><?php echo esc_html( $prop_features_heading ); ?></h2>
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+				<?php
+				$feature_icons = array( 'fa-shower', 'fa-door-open', 'fa-person-walking', 'fa-square-parking', 'fa-utensils', 'fa-chair', 'fa-route', 'fa-toilet' );
+				foreach ( $prop_features as $j => $feature ) :
+				?>
+				<div class="bg-white rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col items-center text-center gap-3 transition-all duration-300 ease-in-out hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none">
+					<div class="text-[var(--deep-teal)]" aria-hidden="true">
+						<i class="fa-solid <?php echo esc_attr( $feature_icons[ $j ] ); ?> text-2xl"></i>
+					</div>
+					<h3 class="text-[var(--deep-teal)] font-semibold text-base"><?php echo esc_html( $feature['title'] ); ?></h3>
+					<p class="text-gray-600 text-sm leading-relaxed"><?php echo esc_html( $feature['desc'] ); ?></p>
+				</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+
+	<!-- Accessibility you can rely on -->
+	<section class="py-16 md:py-24 bg-white">
+		<div class="container max-w-4xl">
+			<?php if ( $prop_acc_label !== '' ) : ?>
+				<p class="section-label mb-3"><?php echo esc_html( $prop_acc_label ); ?></p>
+			<?php endif; ?>
+			<h2 class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php echo esc_html( $prop_acc_heading ); ?></h2>
+			<p class="text-gray-600 mb-10 leading-relaxed max-w-prose"><?php echo esc_html( $prop_acc_intro ); ?></p>
+			<div class="grid md:grid-cols-2 gap-8 items-start">
+				<!-- Verified features list -->
+				<ul class="space-y-3" aria-label="<?php echo esc_attr__( 'Verified accessibility features', 'restwell-retreats' ); ?>">
+					<?php foreach ( array_filter( array_map( 'trim', explode( "\n", $prop_acc_confirmed ) ) ) as $item ) : ?>
+						<li class="flex items-start gap-3">
+							<span class="w-6 h-6 rounded-full bg-[#A8D5D0]/40 flex items-center justify-center flex-shrink-0 mt-0.5 text-[var(--deep-teal)]" aria-hidden="true">
+								<i class="fa-solid fa-check text-xs"></i>
+							</span>
+							<span class="text-gray-700 leading-snug"><?php echo esc_html( $item ); ?></span>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+				<!-- Specific requirements card -->
+				<div class="bg-[var(--bg-subtle)] rounded-2xl p-7 flex flex-col gap-5 border border-gray-100">
+					<div>
+						<h3 class="text-lg font-semibold font-serif text-[var(--deep-teal)] mb-2"><?php echo esc_html__( 'Have a specific requirement?', 'restwell-retreats' ); ?></h3>
+						<p class="text-gray-600 text-sm leading-relaxed"><?php echo esc_html__( 'Every guest is different. Whether you need to know about hoist access, particular bathroom equipment, bed configuration, or sensory environment — we are happy to talk it through before you commit to anything.', 'restwell-retreats' ); ?></p>
+					</div>
+					<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary self-start">
+						<?php echo esc_html__( 'Ask us directly', 'restwell-retreats' ); ?>
+						<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Why not just an accessible hotel? -->
+	<section class="py-16 md:py-24 bg-[var(--soft-sand)]">
+		<div class="container">
+			<div class="text-center mb-12 md:mb-14">
+				<p class="section-label mb-3"><?php echo esc_html( $prop_comparison_label ); ?></p>
+				<h2 class="text-3xl md:text-4xl font-serif text-[var(--deep-teal)] mb-4 section-heading">
+					<?php echo esc_html( $prop_comparison_heading ); ?>
+				</h2>
+				<p class="text-gray-600 leading-relaxed max-w-prose mx-auto">
+					<?php echo esc_html( $prop_comparison_intro ); ?>
+				</p>
+			</div>
+			<div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+				<div class="rounded-2xl p-7 bg-[var(--bg-subtle)] border border-gray-200/60">
+					<h3 class="text-base font-semibold text-gray-500 uppercase tracking-wide mb-6">
+						<?php echo esc_html( $prop_comparison_left_heading ); ?>
+					</h3>
+					<ul class="space-y-4" role="list">
+						<?php foreach ( $prop_comparison_left as $item ) : ?>
+							<li class="flex items-start gap-3">
+								<span class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center" aria-hidden="true">
+									<i class="fa-solid fa-xmark text-gray-400 text-xs"></i>
+								</span>
+								<span class="text-gray-600 text-sm leading-relaxed"><?php echo esc_html( $item ); ?></span>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+				<div class="rounded-2xl p-7 bg-[var(--deep-teal)]">
+					<h3 class="text-base font-semibold text-[var(--warm-gold-hero)] uppercase tracking-wide mb-6">
+						<?php echo esc_html( $prop_comparison_right_heading ); ?>
+					</h3>
+					<ul class="space-y-4" role="list">
+						<?php foreach ( $prop_comparison_right as $item ) : ?>
+							<li class="flex items-start gap-3">
+								<span class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-white/15 flex items-center justify-center" aria-hidden="true">
+									<i class="fa-solid fa-check text-[var(--warm-gold-hero)] text-xs"></i>
+								</span>
+								<span class="text-white/90 text-sm leading-relaxed"><?php echo esc_html( $item ); ?></span>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- See the space -->
+	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]">
+		<div class="container">
+			<?php if ( $prop_gallery_label !== '' ) : ?>
+				<p class="section-label text-center mb-3"><?php echo esc_html( $prop_gallery_label ); ?></p>
+			<?php endif; ?>
+			<h2 class="text-3xl font-serif text-[var(--deep-teal)] text-center mb-10"><?php echo esc_html( $prop_gallery_heading ); ?></h2>
+			<?php
+			$alts = array(
+				'Spacious open-plan living area with wide doorways and coastal decor',
+				'Private garden with level patio and coastal plants',
+				'Tankerton promenade at golden hour',
+			);
+			$src1 = $prop_gallery_1 ? wp_get_attachment_image_url( $prop_gallery_1, 'large' ) : '';
+			$src2 = $prop_gallery_2 ? wp_get_attachment_image_url( $prop_gallery_2, 'large' ) : '';
+			$src3 = $prop_gallery_3 ? wp_get_attachment_image_url( $prop_gallery_3, 'large' ) : '';
+			?>
+			<div class="prop-gallery-grid max-w-6xl mx-auto">
+			<figure class="gallery-item gallery-main m-0">
+				<?php if ( $src1 ) : ?>
+					<img src="<?php echo esc_url( $src1 ); ?>" alt="<?php echo esc_attr( $alts[0] ); ?>" />
+				<?php else : ?>
+					<div class="gallery-placeholder">
+						<span class="flex flex-col items-center gap-2 text-[var(--muted-grey)]">
+					<i class="fa-solid fa-image text-3xl" aria-hidden="true"></i>
+						<span class="font-semibold text-sm">Add image</span>
+						</span>
+					</div>
+				<?php endif; ?>
+			</figure>
+			<figure class="gallery-item m-0">
+				<?php if ( $src2 ) : ?>
+					<img src="<?php echo esc_url( $src2 ); ?>" alt="<?php echo esc_attr( $alts[1] ); ?>" />
+				<?php else : ?>
+					<div class="gallery-placeholder">
+						<span class="flex flex-col items-center gap-2 text-[var(--muted-grey)]">
+					<i class="fa-solid fa-image text-2xl" aria-hidden="true"></i>
+						<span class="font-semibold text-sm">Add image</span>
+					</span>
+				</div>
+			<?php endif; ?>
+		</figure>
+		<figure class="gallery-item m-0">
+			<?php if ( $src3 ) : ?>
+				<img src="<?php echo esc_url( $src3 ); ?>" alt="<?php echo esc_attr( $alts[2] ); ?>" />
+			<?php else : ?>
+				<div class="gallery-placeholder">
+					<span class="flex flex-col items-center gap-2 text-[var(--muted-grey)]">
+						<i class="fa-solid fa-image text-2xl" aria-hidden="true"></i>
+							<span class="font-semibold text-sm">Add image</span>
+						</span>
+					</div>
+				<?php endif; ?>
+			</figure>
+			</div>
+			<div class="mt-8 flex flex-wrap justify-center gap-3 max-w-6xl mx-auto">
+				<?php foreach ( $prop_gallery_buttons as $bi => $btn ) : ?>
+					<?php if ( $bi === 0 ) : ?>
+						<a href="<?php echo esc_url( $btn['url'] ); ?>" class="btn btn-primary">
+							<i class="fa-solid fa-images" aria-hidden="true"></i>
+							<?php echo esc_html( $btn['label'] ); ?>
+						</a>
+					<?php else : ?>
+						<a href="<?php echo esc_url( $btn['url'] ); ?>" class="btn btn-outline">
+							<?php echo esc_html( $btn['label'] ); ?>
+						</a>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+
+	<!-- The essentials -->
+	<section class="py-16 md:py-24 bg-white">
+		<div class="container">
+			<?php if ( $prop_practical_label !== '' ) : ?>
+				<p class="section-label text-center mb-3"><?php echo esc_html( $prop_practical_label ); ?></p>
+			<?php endif; ?>
+			<h2 class="text-3xl font-serif text-[var(--deep-teal)] text-center mb-10"><?php echo esc_html( $prop_practical_heading ); ?></h2>
+			<!-- Spec strip: single container, items divided by lines -->
+			<div class="max-w-3xl mx-auto bg-[var(--bg-subtle)] rounded-2xl overflow-hidden grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200/70">
+				<?php
+				$essentials_icons = array( 'fa-bed', 'fa-bath', 'fa-square-parking', 'fa-user-group' );
+				$essentials_keys  = array( 'bedrooms', 'bathrooms', 'parking', 'sleeps' );
+				foreach ( $essentials_keys as $k => $key ) :
+					$item = $prop_essentials[ $key ];
+				?>
+				<div class="py-8 px-5 flex flex-col items-center text-center gap-1.5">
+					<div class="w-10 h-10 rounded-full bg-[var(--deep-teal)]/10 flex items-center justify-center text-[var(--deep-teal)] mb-1" aria-hidden="true">
+						<i class="fa-solid <?php echo esc_attr( $essentials_icons[ $k ] ); ?> text-base"></i>
+					</div>
+					<span class="text-3xl font-bold text-[var(--deep-teal)] leading-none"><?php echo esc_html( $item['value'] ); ?></span>
+					<span class="text-gray-500 text-xs tracking-wide uppercase"><?php echo esc_html( $item['label'] ); ?></span>
+				</div>
+				<?php endforeach; ?>
+			</div>
+			<p class="text-center text-gray-500 text-sm mt-6">
+				<?php echo esc_html__( 'Have a question about the property?', 'restwell-retreats' ); ?>
+				<a href="<?php echo esc_url( $prop_confirm_details_url ); ?>" class="text-[var(--deep-teal)] font-medium hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] rounded ml-0.5"><?php echo esc_html__( 'Get in touch', 'restwell-retreats' ); ?></a>
+			</p>
+		</div>
+	</section>
+
+	<!-- Explore Whitstable: filter by access, distance on each card, 6th CTA, a11y label + icon -->
+	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]" aria-labelledby="explore-whitstable-heading">
+		<div class="container">
+			<?php if ( $prop_nearby_label !== '' ) : ?>
+				<p class="section-label text-center mb-3"><?php echo esc_html( $prop_nearby_label ); ?></p>
+			<?php endif; ?>
+			<h2 id="explore-whitstable-heading" class="text-3xl md:text-4xl font-serif text-[var(--deep-teal)] text-center mb-6 md:mb-8 tracking-tight"><?php echo esc_html( $prop_nearby_heading ); ?></h2>
+			<p class="text-gray-600 text-center max-w-lg mx-auto mb-10 md:mb-12 leading-relaxed"><?php echo esc_html__( 'Places and services near the property. Filter by what matters to you.', 'restwell-retreats' ); ?></p>
+
+			<div class="explore-whitstable-filter flex flex-wrap justify-center gap-2 mb-6 md:mb-8" role="group" aria-label="<?php echo esc_attr__( 'Filter nearby places', 'restwell-retreats' ); ?>">
+				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="all" aria-pressed="true"><?php echo esc_html__( 'All', 'restwell-retreats' ); ?></button>
+				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="wheelchair-friendly" aria-pressed="false"><?php echo esc_html__( 'Wheelchair-friendly', 'restwell-retreats' ); ?></button>
+				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="quieter" aria-pressed="false"><?php echo esc_html__( 'Quieter', 'restwell-retreats' ); ?></button>
+				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="practical" aria-pressed="false"><?php echo esc_html__( 'Practical', 'restwell-retreats' ); ?></button>
+			</div>
+			<p id="explore-filter-status" class="explore-filter-status text-center text-gray-500 text-xs min-h-0 mb-6" aria-live="polite" aria-atomic="true"></p>
+
+			<div id="explore-empty-state" class="hidden text-center py-12 px-4 max-w-md mx-auto" aria-live="polite" aria-atomic="true">
+				<p class="text-gray-600 leading-relaxed mb-4"><?php echo esc_html__( 'No places match this filter. Try another or show all.', 'restwell-retreats' ); ?></p>
+				<button type="button" class="explore-filter-show-all inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium bg-[var(--deep-teal)] text-white border-2 border-[var(--deep-teal)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" aria-label="<?php echo esc_attr__( 'Show all places', 'restwell-retreats' ); ?>"><?php echo esc_html__( 'Show all', 'restwell-retreats' ); ?></button>
+			</div>
+
+		<div class="grid sm:grid-cols-2 gap-5 max-w-4xl mx-auto" role="list" id="explore-whitstable-list">
+			<?php foreach ( $nearby as $place ) :
+				$card_icon = ! empty( $place['icon'] ) ? $place['icon'] : 'fa-location-dot';
+				$card_type = ! empty( $place['type'] ) ? $place['type'] : '';
+			?>
+				<article class="explore-card bg-white rounded-2xl p-5 sm:p-6 shadow-[0_4px_20px_rgb(0,0,0,0.05)] flex flex-col border border-gray-100 transition-[box-shadow,transform] duration-200 ease-out hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0" role="listitem" data-filter="<?php echo esc_attr( $place['filter'] ); ?>">
+
+					<!-- 1. Meta row: icon + category type + distance, all left-aligned -->
+					<div class="flex items-center gap-2 mb-2.5">
+						<span class="shrink-0 size-6 rounded-full bg-[var(--deep-teal)]/10 flex items-center justify-center text-[var(--deep-teal)]" aria-hidden="true">
+							<i class="fa-solid <?php echo esc_attr( $card_icon ); ?> text-[9px]"></i>
+						</span>
+						<?php if ( $card_type !== '' ) : ?>
+							<span class="text-[10px] font-semibold uppercase tracking-widest text-[var(--deep-teal)]/55 whitespace-nowrap"><?php echo wp_kses_post( $card_type ); ?></span>
+						<?php endif; ?>
+						<?php if ( ! empty( $place['distance'] ) ) : ?>
+							<span class="text-[10px] text-gray-400 whitespace-nowrap before:content-['·'] before:mr-2" aria-label="<?php echo esc_attr__( 'Distance from property', 'restwell-retreats' ); ?>"><?php echo esc_html( $place['distance'] ); ?></span>
+						<?php endif; ?>
+					</div>
+
+					<!-- 2. Title — now left-aligned with body text below -->
+					<h3 class="text-base font-semibold font-serif text-[var(--deep-teal)] leading-snug mb-3">
+						<?php if ( ! empty( $place['map_url'] ) ) : ?>
+							<a href="<?php echo esc_url( $place['map_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="group inline-flex items-baseline gap-1.5 text-[var(--deep-teal)] no-underline hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] rounded-sm">
+								<?php echo esc_html( $place['title'] ); ?>
+								<i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-40 group-hover:opacity-70 transition-opacity shrink-0" aria-hidden="true"></i>
+								<span class="sr-only"><?php echo esc_html__( '(opens in Google Maps)', 'restwell-retreats' ); ?></span>
+							</a>
+						<?php else : ?>
+							<?php echo esc_html( $place['title'] ); ?>
+						<?php endif; ?>
+					</h3>
+
+					<!-- 3. Body text -->
+					<div class="text-gray-600 leading-relaxed text-sm flex-1 space-y-2">
+						<?php echo wp_kses_post( wpautop( $place['body'] ) ); ?>
+					</div>
+
+					<!-- 4. Access footer -->
+					<?php if ( ! empty( $place['acc'] ) ) : ?>
+						<div class="mt-3 pt-3 border-t border-gray-100" aria-label="<?php echo esc_attr__( 'Accessibility information', 'restwell-retreats' ); ?>">
+							<p class="text-gray-500 text-xs leading-relaxed flex items-start gap-1.5">
+								<i class="fa-solid fa-universal-access shrink-0 mt-[3px]" aria-hidden="true"></i>
+								<span><?php echo esc_html( $place['acc'] ); ?></span>
+							</p>
+						</div>
+					<?php endif; ?>
+
+				</article>
+			<?php endforeach; ?>
+
+				<?php if ( $prop_nearby_cta_label !== '' && $prop_nearby_cta_url !== '' ) : ?>
+				<article class="explore-card explore-card-cta bg-[var(--deep-teal)]/5 rounded-2xl p-5 sm:p-6 flex flex-col border border-dashed border-[var(--deep-teal)]/20 items-center justify-center text-center min-h-[160px]" role="listitem" data-filter="all">
+					<i class="fa-solid fa-envelope text-2xl text-[var(--deep-teal)] mb-3" aria-hidden="true"></i>
+					<p class="text-[var(--deep-teal)] font-medium text-sm mb-3"><?php echo esc_html( $prop_nearby_cta_label ); ?></p>
+					<a href="<?php echo esc_url( $prop_nearby_cta_url ); ?>" class="btn btn-primary btn-sm"><?php echo esc_html__( 'Get in touch', 'restwell-retreats' ); ?></a>
+				</article>
+			<?php else : ?>
+				<?php
+				$enquire_url = home_url( '/enquire/' );
+				$acc_url     = home_url( '/accessibility/' );
+				?>
+				<article class="explore-card explore-card-cta bg-[var(--deep-teal)]/5 rounded-2xl p-5 sm:p-6 flex flex-col border border-dashed border-[var(--deep-teal)]/20 items-center justify-center text-center min-h-[160px]" role="listitem" data-filter="all">
+					<i class="fa-solid fa-universal-access text-2xl text-[var(--deep-teal)] mb-3" aria-hidden="true"></i>
+					<p class="text-[var(--deep-teal)] font-medium text-sm mb-3"><?php echo esc_html__( 'Questions about access?', 'restwell-retreats' ); ?></p>
+					<a href="<?php echo esc_url( $enquire_url ); ?>" class="btn btn-primary btn-sm"><?php echo esc_html__( 'Get in touch', 'restwell-retreats' ); ?></a>
+					</article>
+				<?php endif; ?>
+			</div>
+		</div>
+	</section>
+
+	<!-- CTA -->
+	<section class="py-16 md:py-20 bg-[var(--deep-teal)] text-center">
+		<div class="container">
+			<h2 class="text-white text-3xl font-serif mb-4"><?php echo esc_html( $prop_cta_heading ); ?></h2>
+			<p class="text-white/90 text-lg mb-8 max-w-md mx-auto leading-relaxed"><?php echo esc_html( $prop_cta_body ); ?></p>
+		<a href="<?php echo esc_url( $prop_cta_url ); ?>" class="btn btn-gold">
+			<?php echo esc_html( $prop_cta_btn ); ?>
+			<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+		</a>
+			<?php if ( $prop_cta_promise !== '' ) : ?>
+				<p class="text-white/90 text-sm mt-4"><?php echo esc_html( $prop_cta_promise ); ?></p>
+			<?php endif; ?>
+		</div>
+	</section>
+</main>
+<?php
+global $restwell_hide_footer_cta;
+$restwell_hide_footer_cta = true;
+get_footer();
+?>
