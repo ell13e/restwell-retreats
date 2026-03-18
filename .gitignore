@@ -107,3 +107,29 @@ temp/
 
 # Webdev artifacts (checkpoint zips, migrations, etc.)
 .webdev/
+
+# Cursor IDE config
+.cursor/
+
+# React/TypeScript source (reference only — not part of the WP theme)
+client/
+server/
+shared/
+patches/
+pnpm-lock.yaml
+package.json
+components.json
+tsconfig.json
+tsconfig.node.json
+vite.config.ts
+
+# Theme zip (theme lives in /restwell-theme/)
+*.zip
+
+# Personal notes and reference docs
+ideas.md
+SEO_Web_Development.md
+respite_care_guide.md
+*.md
+!restwell-theme/DESIGN-SYSTEM.md
+!restwell-theme/VISUAL-FRONTEND-AUDIT.md
