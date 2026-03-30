@@ -15,12 +15,12 @@ get_header();
 
 $pid = get_the_ID();
 $hero_eyebrow            = get_post_meta( $pid, 'hero_eyebrow', true ) ?: 'Accessible holidays in Whitstable';
-$hero_heading            = get_post_meta( $pid, 'hero_heading', true ) ?: 'Rest easy. A real holiday for both of you.';
+$hero_heading            = get_post_meta( $pid, 'hero_heading', true ) ?: 'Restwell retreats. Rest, made easy.';
 $hero_subheading         = get_post_meta( $pid, 'hero_subheading', true ) ?: 'A beautiful, accessible home on the Kent coast — where guests find adventure and carers find a true break.';
 $hero_cta_primary_label  = get_post_meta( $pid, 'hero_cta_primary_label', true ) ?: 'See the property';
-$hero_cta_primary_url    = get_post_meta( $pid, 'hero_cta_primary_url', true ) ?: '/property';
+$hero_cta_primary_url    = get_post_meta( $pid, 'hero_cta_primary_url', true ) ?: '/the-property/';
 $hero_cta_secondary_label= get_post_meta( $pid, 'hero_cta_secondary_label', true ) ?: 'Enquire about dates';
-$hero_cta_secondary_url  = get_post_meta( $pid, 'hero_cta_secondary_url', true ) ?: '/enquire';
+$hero_cta_secondary_url  = get_post_meta( $pid, 'hero_cta_secondary_url', true ) ?: '/enquire/';
 $hero_cta_promise        = get_post_meta( $pid, 'hero_cta_promise', true ) ?: '';
 
 $what_label   = get_post_meta( $pid, 'what_restwell_label', true ) ?: 'What is Restwell Retreats?';
@@ -34,10 +34,10 @@ $who_carer_title = get_post_meta( $pid, 'who_carer_title', true ) ?: 'For the ca
 $who_carer_body  = get_post_meta( $pid, 'who_carer_body', true ) ?: 'Peace of mind is the ultimate luxury. With optional professional support available from CCS, you can step back, relax, and enjoy being a partner, a parent, or a friend again — rather than a full-time carer. Rest easy knowing they are safe, happy, and having a proper break too.';
 
 $property_label    = get_post_meta( $pid, 'property_label', true ) ?: 'Our Whitstable home';
-$property_heading  = get_post_meta( $pid, 'property_heading', true ) ?: '101 Russell Drive';
+$property_heading  = get_post_meta( $pid, 'property_heading', true ) ?: 'Our Whitstable home';
 $property_body     = get_post_meta( $pid, 'property_body', true ) ?: 'Our flagship property sits in a quiet residential corner of Whitstable, just a short, flat walk from the famous Tankerton Slopes promenade. It is the perfect base for exploring everything this charming coastal town has to offer — from Harbour Street\'s independent shops to fresh oysters by the water.';
 $property_cta_label = get_post_meta( $pid, 'property_cta_label', true ) ?: 'Explore the property';
-$property_cta_url  = get_post_meta( $pid, 'property_cta_url', true ) ?: '/property';
+$property_cta_url  = get_post_meta( $pid, 'property_cta_url', true ) ?: '/the-property/';
 $property_image_id = (int) get_post_meta( $pid, 'property_image_id', true );
 
 $why_label   = get_post_meta( $pid, 'why_label', true ) ?: 'Why Restwell?';
@@ -54,9 +54,9 @@ $why4_desc   = get_post_meta( $pid, 'why_item4_desc', true ) ?: 'We tell you exa
 $cta_heading   = get_post_meta( $pid, 'cta_heading', true ) ?: 'Ready to plan your break?';
 $cta_body      = get_post_meta( $pid, 'cta_body', true ) ?: 'Whether you have dates in mind or just want to ask a question, we are here to help. No pressure, just a conversation.';
 $cta_primary_label   = get_post_meta( $pid, 'cta_primary_label', true ) ?: 'See the property';
-$cta_primary_url     = get_post_meta( $pid, 'cta_primary_url', true ) ?: '/property';
+$cta_primary_url     = get_post_meta( $pid, 'cta_primary_url', true ) ?: '/the-property/';
 $cta_secondary_label = get_post_meta( $pid, 'cta_secondary_label', true ) ?: 'Enquire about dates';
-$cta_secondary_url   = get_post_meta( $pid, 'cta_secondary_url', true ) ?: '/enquire';
+$cta_secondary_url   = get_post_meta( $pid, 'cta_secondary_url', true ) ?: '/enquire/';
 $cta_promise         = get_post_meta( $pid, 'cta_promise', true ) ?: '';
 $cta_image_id = (int) get_post_meta( $pid, 'cta_image_id', true );
 
@@ -101,6 +101,7 @@ $cta_src      = $cta_image_id ? wp_get_attachment_image_url( $cta_image_id, 'ful
 					muted
 					loop
 					playsinline
+					preload="metadata"
 					aria-hidden="true"
 				>
 					<source src="<?php echo esc_url( $hero_media_url ); ?>" type="<?php echo esc_attr( $hero_media_mime ); ?>">

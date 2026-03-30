@@ -42,11 +42,11 @@ $acc_dest_label             = get_post_meta( $pid, 'acc_dest_label', true ) ?: '
 $acc_dest_heading           = get_post_meta( $pid, 'acc_dest_heading', true ) ?: 'Whitstable: what to expect';
 $acc_dest_intro             = get_post_meta( $pid, 'acc_dest_intro', true ) ?: 'An honest picture of the area — what is accessible, where there are challenges, and what matters most for your visit.';
 $acc_dest_good_heading      = get_post_meta( $pid, 'acc_dest_good_heading', true ) ?: 'The good';
-$acc_dest_good_body         = get_post_meta( $pid, 'acc_dest_good_body', true ) ?: 'The Tankerton Slopes promenade is one of the best level coastal walks in Kent — a long, flat concrete path with stunning sea views, suitable for wheelchairs and pushchairs. There are accessible toilets at the harbour end. The area around Russell Drive is generally flat and easy to navigate.';
+$acc_dest_good_body         = get_post_meta( $pid, 'acc_dest_good_body', true ) ?: 'The Tankerton Slopes promenade is one of the best level coastal walks in Kent — a long, flat concrete path with stunning sea views, suitable for wheelchairs and pushchairs. There are accessible toilets at the harbour end. The area around the property is generally flat and easy to navigate.';
 $acc_dest_challenge_heading = get_post_meta( $pid, 'acc_dest_challenge_heading', true ) ?: 'The challenge';
 $acc_dest_challenge_body    = get_post_meta( $pid, 'acc_dest_challenge_body', true ) ?: 'Harbour Street and the old town centre have some narrow pavements that can be crowded during peak times and weekends. We recommend visiting during quieter weekday mornings. Some shops may have stepped entrances.';
 $acc_dest_reality_heading   = get_post_meta( $pid, 'acc_dest_reality_heading', true ) ?: 'The reality';
-$acc_dest_reality_body      = get_post_meta( $pid, 'acc_dest_reality_body', true ) ?: "Whitstable's beach is shingle. We want to be honest: shingle beaches are generally not wheelchair-friendly. The promenade above the beach provides excellent views and is fully accessible. There are also accessible cafes and restaurants along the seafront at street level.";
+$acc_dest_reality_body      = get_post_meta( $pid, 'acc_dest_reality_body', true ) ?: "Whitstable's beach is shingle. We want to be honest: shingle beaches are generally not wheelchair-friendly. The promenade above the beach provides excellent views and is accessible for most wheelchair users. There are also accessible cafes and restaurants along the seafront at street level.";
 
 // CTA
 $acc_cta_heading = get_post_meta( $pid, 'acc_cta_heading', true ) ?: 'Still have questions?';

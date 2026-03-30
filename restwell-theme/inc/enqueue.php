@@ -19,7 +19,7 @@ function restwell_enqueue_scripts() {
 
 	wp_enqueue_style(
 		'font-awesome',
-		'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+		$theme_uri . '/assets/css/fontawesome/all.min.css',
 		array(),
 		'6.5.1'
 	);

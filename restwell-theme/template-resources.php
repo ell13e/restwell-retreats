@@ -44,8 +44,8 @@ if ( $res_fund_body === '' ) {
 	$res_fund_body = '<ul class="space-y-3">'
 		. '<li><strong>Carers Assessment</strong> — Kent County Council: <a href="tel:03000416161">03000 41 61 61</a> or <a href="https://kent.connecttosupport.org" target="_blank" rel="noopener noreferrer">Kent Connect to Support<span class="sr-only"> (opens in new tab)</span></a> (self-referral, reviewed in 2 working days).</li>'
 		. '<li><strong>Care Needs Assessment</strong> — KCC Adult Social Care: <a href="tel:03000418181">03000 41 81 81</a> or online form (free, means-tested).</li>'
-		. '<li><strong>Paying for Care</strong> — <a href="https://www.kent.gov.uk/social-care-and-health/adult-social-care/paying-for-care-and-support" target="_blank" rel="noopener noreferrer">kent.gov.uk — Paying for care and support<span class="sr-only"> (opens in new tab)</span></a>.</li>'
-		. '<li><strong>Direct Payments</strong> — <a href="https://www.kent.gov.uk/social-care-and-health/adult-social-care/arranging-your-own-care/direct-payments" target="_blank" rel="noopener noreferrer">kent.gov.uk — Direct payments<span class="sr-only"> (opens in new tab)</span></a> (use funding for PAs or respite).</li>'
+		. '<li><strong>Paying for Care</strong> — <a href="https://www.kent.gov.uk/social-care-and-health/adult-social-care/paying-for-care" target="_blank" rel="noopener noreferrer">kent.gov.uk — Paying for care<span class="sr-only"> (opens in new tab)</span></a>.</li>'
+		. '<li><strong>Direct Payments</strong> — <a href="https://www.kent.gov.uk/social-care-and-health/adult-social-care/arranging-your-own-care/direct-payments-self-directed-support" target="_blank" rel="noopener noreferrer">kent.gov.uk — Direct payments<span class="sr-only"> (opens in new tab)</span></a> (use funding for PAs or respite).</li>'
 		. '</ul>';
 }
 if ( $res_grants_body === '' ) {

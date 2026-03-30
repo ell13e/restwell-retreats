@@ -79,15 +79,48 @@ $label_class = 'block text-sm font-medium text-[#1B4D5C] mb-1.5';
 
 				<!-- Form column -->
 				<div class="md:col-span-3">
-					<?php if ( $sent ) : ?>
-						<!-- Success state -->
-						<div class="bg-white rounded-2xl p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 text-center">
-							<div class="w-16 h-16 bg-[#A8D5D0]/40 rounded-full flex items-center justify-center mx-auto mb-6 text-[var(--deep-teal)] text-2xl" aria-hidden="true">
-								<i class="fa-solid fa-check"></i>
+				<?php if ( $sent ) : ?>
+					<!-- Success state -->
+					<div id="enquiry-result" class="bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-[#E8DFD0]" role="status" aria-live="polite">
+						<!-- Coloured top bar -->
+						<div class="h-1.5 bg-gradient-to-r from-[var(--deep-teal)] to-[#A8D5D0]"></div>
+						<div class="p-8 md:p-10">
+							<!-- Icon + heading -->
+							<div class="flex items-start gap-5 mb-6">
+								<div class="shrink-0 w-14 h-14 bg-[#A8D5D0]/25 rounded-full flex items-center justify-center text-[var(--deep-teal)]" aria-hidden="true">
+									<i class="fa-solid fa-check text-xl"></i>
+								</div>
+								<div>
+									<h2 id="enq-form-heading" class="text-2xl font-serif text-[var(--deep-teal)] leading-snug mb-1"><?php echo esc_html( $enq_success_heading ); ?></h2>
+									<p class="text-gray-600 leading-relaxed"><?php echo esc_html( $urgent ? $enq_success_urgent_body : $enq_success_body ); ?></p>
+								</div>
 							</div>
-							<h2 id="enq-form-heading" class="text-2xl font-serif text-[var(--deep-teal)] mb-4"><?php echo esc_html( $enq_success_heading ); ?></h2>
-							<p class="text-gray-600 leading-relaxed"><?php echo esc_html( $urgent ? $enq_success_urgent_body : $enq_success_body ); ?></p>
+							<!-- What happens next -->
+							<div class="border-t border-[#E8DFD0] pt-6">
+								<p class="text-xs font-semibold text-[var(--warm-gold-text)] uppercase tracking-wider mb-4">What happens next</p>
+								<ol class="space-y-3 text-sm text-gray-600 list-none p-0 m-0">
+									<li class="flex items-start gap-3">
+										<span class="shrink-0 w-6 h-6 rounded-full bg-[var(--deep-teal)]/10 text-[var(--deep-teal)] text-xs font-semibold flex items-center justify-center mt-0.5" aria-hidden="true">1</span>
+										<span>We&rsquo;ll review your enquiry and check availability for your dates.</span>
+									</li>
+									<li class="flex items-start gap-3">
+										<span class="shrink-0 w-6 h-6 rounded-full bg-[var(--deep-teal)]/10 text-[var(--deep-teal)] text-xs font-semibold flex items-center justify-center mt-0.5" aria-hidden="true">2</span>
+										<span>We&rsquo;ll contact you by your preferred method to confirm details and answer any questions.</span>
+									</li>
+									<li class="flex items-start gap-3">
+										<span class="shrink-0 w-6 h-6 rounded-full bg-[var(--deep-teal)]/10 text-[var(--deep-teal)] text-xs font-semibold flex items-center justify-center mt-0.5" aria-hidden="true">3</span>
+										<span>No commitment at this stage &mdash; just a conversation at your own pace.</span>
+									</li>
+								</ol>
+							</div>
+							<!-- CTA back to site -->
+							<div class="mt-8">
+								<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-outline">
+									<i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to home
+								</a>
+							</div>
 						</div>
+					</div>
 					<?php else : ?>
 						<!-- Multi-step form -->
 						<form method="post" action="<?php echo esc_url( $current_url ); ?>"
@@ -97,6 +130,11 @@ $label_class = 'block text-sm font-medium text-[#1B4D5C] mb-1.5';
 							<?php wp_nonce_field( RESTWELL_ENQUIRE_NONCE_ACTION, RESTWELL_ENQUIRE_NONCE_NAME ); ?>
 							<input type="hidden" name="restwell_enquire" value="1" />
 							<input type="hidden" name="enq_redirect" value="<?php echo esc_url( $current_url ); ?>" />
+							<!-- Honeypot: must stay empty; bots fill it, humans don't see it -->
+							<div style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+								<label for="enq_website">Website</label>
+								<input type="text" id="enq_website" name="enq_website" tabindex="-1" autocomplete="off" />
+							</div>
 
 							<!-- Screen-reader live region: announces step name when the user moves between steps. -->
 						<p id="enq-step-announcement" class="sr-only" aria-live="assertive" aria-atomic="true"></p>
@@ -170,11 +208,21 @@ $label_class = 'block text-sm font-medium text-[#1B4D5C] mb-1.5';
 
 							<!-- Step 2: Your stay -->
 							<div class="enquire-step space-y-5 hidden" data-step="2">
-								<div>
-									<label for="enq_dates" class="<?php echo esc_attr( $label_class ); ?>">Preferred dates <span class="text-[var(--muted-grey)] font-normal">(optional)</span></label>
-									<input type="text" id="enq_dates" name="enq_dates"
-									       class="<?php echo esc_attr( $input_class ); ?>" placeholder="e.g. 15–22 July 2026" />
-								</div>
+								<fieldset class="border-0 p-0 m-0">
+									<legend class="<?php echo esc_attr( $label_class ); ?>">Preferred dates <span class="text-[var(--muted-grey)] font-normal">(optional)</span></legend>
+									<div class="grid grid-cols-2 gap-3 mt-1.5">
+										<div>
+											<label for="enq_date_from" class="block text-xs text-[var(--muted-grey)] mb-1">From</label>
+											<input type="date" id="enq_date_from" name="enq_date_from"
+											       class="<?php echo esc_attr( $input_class ); ?>" />
+										</div>
+										<div>
+											<label for="enq_date_to" class="block text-xs text-[var(--muted-grey)] mb-1">To</label>
+											<input type="date" id="enq_date_to" name="enq_date_to"
+											       class="<?php echo esc_attr( $input_class ); ?>" />
+										</div>
+									</div>
+								</fieldset>
 								<div>
 									<label for="enq_guests" class="<?php echo esc_attr( $label_class ); ?>">Number of guests <span class="text-[var(--muted-grey)] font-normal">(optional)</span></label>
 									<input type="number" id="enq_guests" name="enq_guests" min="1" max="20"

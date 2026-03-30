@@ -121,7 +121,7 @@ function restwell_page_content_meta_box_callback( $post ) {
 						echo '<img src="' . $preview_src . '" alt="" />';
 					}
 					echo '</div>';
-					$select_btn_text = ( $key === 'hero_media_id' ) ? __( 'Select image or video', 'restwell-retreats' ) : __( 'Select Image', 'restwell' );
+					$select_btn_text = ( $key === 'hero_media_id' ) ? __( 'Select image or video', 'restwell-retreats' ) : __( 'Select Image', 'restwell-retreats' );
 					echo '<button type="button" id="' . esc_attr( $id ) . '" class="button button-secondary restwell-select-image">' . esc_html( $select_btn_text ) . '</button>';
 					echo '<button type="button" class="button button-link restwell-remove-image"' . $remove_show . '>' . esc_html__( 'Remove', 'restwell-retreats' ) . '</button>';
 					echo '</div>';

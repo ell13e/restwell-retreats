@@ -16,8 +16,13 @@ add_filter( 'use_widgets_block_editor', '__return_false' );
 require_once get_template_directory() . '/inc/enqueue.php';
 require_once get_template_directory() . '/inc/meta-fields.php';
 require_once get_template_directory() . '/inc/theme-setup.php';
+require_once get_template_directory() . '/inc/emails.php';
+require_once get_template_directory() . '/inc/crm.php';
 require_once get_template_directory() . '/inc/enquire-handler.php';
 require_once get_template_directory() . '/inc/seo.php';
+require_once get_template_directory() . '/inc/seo-admin.php';
+require_once get_template_directory() . '/inc/guest-guide.php';
+require_once get_template_directory() . '/inc/video-optimizer.php';
 
 /**
  * Declare theme support and register nav menu.
@@ -99,4 +104,52 @@ function restwell_get_fallback_nav_links() {
  */
 function restwell_get_footer_nav_links() {
 	return restwell_get_primary_nav_links();
+}
+
+/**
+ * Ensure the Excerpt meta box is always visible on the post edit screen.
+ * Without this, editors need to find it under Screen Options.
+ */
+function restwell_show_excerpt_meta_box() {
+	add_meta_box(
+		'postexcerpt',
+		__( 'Excerpt (archive summary)', 'restwell-retreats' ),
+		'post_excerpt_meta_box',
+		'post',
+		'normal',
+		'high'
+	);
+}
+add_action( 'add_meta_boxes_post', 'restwell_show_excerpt_meta_box' );
+
+/**
+ * Return the name of the primary (first assigned) category for the current post.
+ * Returns an empty string if no category is assigned.
+ *
+ * @return string
+ */
+function restwell_get_primary_category() {
+	$cats = get_the_category();
+	if ( empty( $cats ) ) {
+		return '';
+	}
+	// Prefer a category that isn't the WordPress default "Uncategorized".
+	foreach ( $cats as $cat ) {
+		if ( $cat->slug !== 'uncategorized' ) {
+			return $cat->name;
+		}
+	}
+	return $cats[0]->name;
+}
+
+/**
+ * Estimate reading time in minutes for a block of post content.
+ * Based on ~200 words per minute (comfortable for accessibility).
+ *
+ * @param string $content Raw post content.
+ * @return int Minutes, minimum 1.
+ */
+function restwell_estimate_read_time( $content ) {
+	$word_count = str_word_count( wp_strip_all_tags( $content ) );
+	return max( 1, (int) ceil( $word_count / 200 ) );
 }

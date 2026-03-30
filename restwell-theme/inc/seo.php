@@ -36,6 +36,53 @@ function restwell_document_title_parts( $parts ) {
 add_filter( 'document_title_parts', 'restwell_document_title_parts' );
 
 // ---------------------------------------------------------------------------
+// 1b. Google Search Console verification
+// ---------------------------------------------------------------------------
+
+/**
+ * Output the Google Search Console verification meta tag when the option is set.
+ */
+function restwell_output_gsc_verification() {
+	$token = (string) get_option( 'restwell_gsc_verification', '' );
+	if ( $token === '' ) {
+		return;
+	}
+	echo '<meta name="google-site-verification" content="' . esc_attr( $token ) . '">' . "\n";
+}
+add_action( 'wp_head', 'restwell_output_gsc_verification', 1 );
+
+// ---------------------------------------------------------------------------
+// 1c. Robots meta (noindex) + canonical URL
+// ---------------------------------------------------------------------------
+
+/**
+ * Output <meta name="robots"> noindex tag when the field is set.
+ * Also outputs <link rel="canonical"> when a custom canonical is stored,
+ * or the default permalink otherwise (on singular pages).
+ */
+function restwell_output_canonical_and_robots() {
+	if ( ! is_singular() ) {
+		return;
+	}
+
+	$pid = get_queried_object_id();
+
+	// Noindex.
+	$noindex = (bool) get_post_meta( $pid, 'meta_noindex', true );
+	if ( $noindex ) {
+		echo '<meta name="robots" content="noindex, nofollow">' . "\n";
+	}
+
+	// Canonical.
+	$canonical = (string) get_post_meta( $pid, 'meta_canonical', true );
+	if ( $canonical === '' ) {
+		$canonical = get_permalink( $pid );
+	}
+	echo '<link rel="canonical" href="' . esc_url( $canonical ) . '">' . "\n";
+}
+add_action( 'wp_head', 'restwell_output_canonical_and_robots', 2 );
+
+// ---------------------------------------------------------------------------
 // 2. OG + Twitter Card meta tags
 // ---------------------------------------------------------------------------
 
@@ -67,12 +114,19 @@ function restwell_output_social_meta() {
 		$url = home_url( '/' );
 	}
 
-	// Image — og_image_id → template hero image → blank
+	// Image — og_image_id → featured image (posts) → template hero image → blank
 	$image_url = '';
 	if ( $pid ) {
 		$og_img_id = absint( get_post_meta( $pid, 'og_image_id', true ) );
 		if ( $og_img_id ) {
 			$image_url = wp_get_attachment_image_url( $og_img_id, 'full' );
+		}
+		// For posts, use the featured image as the OG image.
+		if ( ! $image_url && is_singular( 'post' ) ) {
+			$thumb_id = get_post_thumbnail_id( $pid );
+			if ( $thumb_id ) {
+				$image_url = wp_get_attachment_image_url( $thumb_id, 'full' );
+			}
 		}
 		if ( ! $image_url ) {
 			// Fallback: try common hero image meta keys across templates
@@ -90,8 +144,11 @@ function restwell_output_social_meta() {
 		}
 	}
 
-	// og:type — use 'website' sitewide; could extend for articles if needed
-	$og_type = 'website';
+	// og:type — use saved value if set, otherwise derive from post type.
+	$og_type = $pid ? (string) get_post_meta( $pid, 'meta_og_type', true ) : '';
+	if ( ! in_array( $og_type, array( 'website', 'article' ), true ) ) {
+		$og_type = is_singular( 'post' ) ? 'article' : 'website';
+	}
 
 	echo "\n<!-- Open Graph -->\n";
 	echo '<meta property="og:locale" content="en_GB">' . "\n";
@@ -104,6 +161,13 @@ function restwell_output_social_meta() {
 	echo '<meta property="og:url" content="' . esc_url( $url ) . '">' . "\n";
 	if ( $image_url ) {
 		echo '<meta property="og:image" content="' . esc_url( $image_url ) . '">' . "\n";
+	}
+	if ( is_singular( 'post' ) ) {
+		$post_obj = get_post();
+		if ( $post_obj ) {
+			echo '<meta property="article:published_time" content="' . esc_attr( get_the_date( 'c', $post_obj ) ) . '">' . "\n";
+			echo '<meta property="article:author" content="' . esc_attr( get_the_author_meta( 'display_name', (int) $post_obj->post_author ) ) . '">' . "\n";
+		}
 	}
 
 	echo "\n<!-- Twitter Card -->\n";
@@ -131,6 +195,10 @@ function restwell_output_structured_data() {
 
 	if ( is_singular() && ! is_front_page() ) {
 		restwell_output_jsonld_breadcrumb();
+	}
+
+	if ( is_singular( 'post' ) ) {
+		restwell_output_jsonld_article();
 	}
 
 	if ( is_page_template( 'template-property.php' ) ) {
@@ -173,14 +241,6 @@ function restwell_output_jsonld_website_organization() {
 		'@type'    => 'WebSite',
 		'name'     => $site_name,
 		'url'      => $site_url,
-		'potentialAction' => array(
-			'@type'       => 'SearchAction',
-			'target'      => array(
-				'@type'       => 'EntryPoint',
-				'urlTemplate' => $site_url . '?s={search_term_string}',
-			),
-			'query-input' => 'required name=search_term_string',
-		),
 	);
 
 	$organization = array(
@@ -191,10 +251,10 @@ function restwell_output_jsonld_website_organization() {
 		'description' => get_bloginfo( 'description' ),
 		'address' => array(
 			'@type'           => 'PostalAddress',
-			'streetAddress'   => '101 Russell Drive',
+			'streetAddress'   => (string) get_option( 'restwell_property_address', '101 Russell Drive' ),
 			'addressLocality' => 'Whitstable',
 			'addressRegion'   => 'Kent',
-			'postalCode'      => 'CT5',
+			'postalCode'      => (string) get_option( 'restwell_property_postcode', 'CT5 2RQ' ),
 			'addressCountry'  => 'GB',
 		),
 	);
@@ -205,26 +265,102 @@ function restwell_output_jsonld_website_organization() {
 
 /**
  * BreadcrumbList — output on interior singular pages.
+ * For single posts, outputs a 3-level crumb: Home > Articles > Post title.
  */
 function restwell_output_jsonld_breadcrumb() {
-	$schema = array(
-		'@context'        => 'https://schema.org',
-		'@type'           => 'BreadcrumbList',
-		'itemListElement' => array(
-			array(
-				'@type'    => 'ListItem',
-				'position' => 1,
-				'name'     => 'Home',
-				'item'     => home_url( '/' ),
-			),
-			array(
-				'@type'    => 'ListItem',
-				'position' => 2,
-				'name'     => get_the_title(),
-				'item'     => get_permalink(),
-			),
+	$items = array(
+		array(
+			'@type'    => 'ListItem',
+			'position' => 1,
+			'name'     => 'Home',
+			'item'     => home_url( '/' ),
 		),
 	);
+
+	if ( is_singular( 'post' ) ) {
+		// Middle crumb: the "page for posts" or a fallback label.
+		$posts_page_id  = (int) get_option( 'page_for_posts' );
+		$archive_name   = $posts_page_id ? get_the_title( $posts_page_id ) : __( 'Articles', 'restwell-retreats' );
+		$archive_url    = $posts_page_id ? get_permalink( $posts_page_id ) : home_url( '/articles/' );
+
+		$items[] = array(
+			'@type'    => 'ListItem',
+			'position' => 2,
+			'name'     => $archive_name,
+			'item'     => $archive_url,
+		);
+		$items[] = array(
+			'@type'    => 'ListItem',
+			'position' => 3,
+			'name'     => get_the_title(),
+			'item'     => get_permalink(),
+		);
+	} else {
+		$items[] = array(
+			'@type'    => 'ListItem',
+			'position' => 2,
+			'name'     => get_the_title(),
+			'item'     => get_permalink(),
+		);
+	}
+
+	restwell_print_jsonld( array(
+		'@context'        => 'https://schema.org',
+		'@type'           => 'BreadcrumbList',
+		'itemListElement' => $items,
+	) );
+}
+
+/**
+ * Article (BlogPosting) — output on single post pages.
+ */
+function restwell_output_jsonld_article() {
+	$pid = get_queried_object_id();
+	if ( ! $pid ) {
+		return;
+	}
+
+	$title       = get_the_title( $pid );
+	$excerpt     = wp_strip_all_tags( get_the_excerpt( $pid ) );
+	$date_pub    = get_the_date( 'c', $pid );
+	$date_mod    = get_the_modified_date( 'c', $pid );
+	$author_name = get_bloginfo( 'name' ); // site name as author for brand articles
+
+	$image_url = '';
+	$thumb_id  = get_post_thumbnail_id( $pid );
+	if ( $thumb_id ) {
+		$image_url = wp_get_attachment_image_url( $thumb_id, 'full' );
+	}
+
+	$schema = array(
+		'@context'         => 'https://schema.org',
+		'@type'            => 'BlogPosting',
+		'headline'         => $title,
+		'url'              => get_permalink( $pid ),
+		'datePublished'    => $date_pub,
+		'dateModified'     => $date_mod,
+		'description'      => $excerpt,
+		'author'           => array(
+			'@type' => 'Organization',
+			'name'  => $author_name,
+			'url'   => home_url( '/' ),
+		),
+		'publisher'        => array(
+			'@type' => 'Organization',
+			'name'  => get_bloginfo( 'name' ),
+			'url'   => home_url( '/' ),
+		),
+		'inLanguage'       => 'en-GB',
+		'isPartOf'         => array(
+			'@type' => 'WebSite',
+			'url'   => home_url( '/' ),
+			'name'  => get_bloginfo( 'name' ),
+		),
+	);
+
+	if ( $image_url ) {
+		$schema['image'] = $image_url;
+	}
 
 	restwell_print_jsonld( $schema );
 }
@@ -244,7 +380,7 @@ function restwell_output_jsonld_vacation_rental() {
 		$name = get_post_meta( $pid, 'prop_hero_heading', true );
 	}
 	if ( $name === '' ) {
-		$name = get_bloginfo( 'name' ) . ' – 101 Russell Drive, Whitstable';
+		$name = get_bloginfo( 'name' ) . ' – ' . (string) get_option( 'restwell_property_address', '101 Russell Drive' ) . ', Whitstable';
 	}
 
 	// Description
@@ -257,7 +393,7 @@ function restwell_output_jsonld_vacation_rental() {
 	$street   = get_post_meta( $pid, 'prop_address_street', true )   ?: '101 Russell Drive';
 	$locality = get_post_meta( $pid, 'prop_address_locality', true ) ?: 'Whitstable';
 	$region   = get_post_meta( $pid, 'prop_address_region', true )   ?: 'Kent';
-	$postcode = get_post_meta( $pid, 'prop_address_postcode', true ) ?: 'CT5';
+	$postcode = get_post_meta( $pid, 'prop_address_postcode', true ) ?: 'CT5 2RQ';
 
 	// Practical details
 	$bedrooms = get_post_meta( $pid, 'prop_bedrooms_count', true );

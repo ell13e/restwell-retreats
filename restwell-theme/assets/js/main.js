@@ -279,15 +279,18 @@
 			}
 		}
 
-	function showStep(n) {
+	function showStep(n, skipScroll) {
 		steps.forEach(function (step) {
 			var stepNum = parseInt(step.getAttribute('data-step'), 10);
 			step.classList.toggle('hidden', stepNum !== n);
 		});
 		updateProgress(n);
 		currentStep = n;
-		// Smooth scroll to top of form.
-		form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		// Smooth scroll to top of form when navigating between steps,
+		// but not on initial load (skipScroll = true) so the page starts at the top.
+		if (!skipScroll) {
+			form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
 
 		// Announce the new step to screen readers and move focus to the form
 		// heading so keyboard users know where they are after the transition.
@@ -404,8 +407,8 @@
 			}
 		});
 
-		// Initialise at step 1.
-		showStep(1);
+	// Initialise at step 1 — skip scroll so the page loads at the top.
+	showStep(1, true);
 	}
 
 	ready(function () {

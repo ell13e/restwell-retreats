@@ -15,8 +15,8 @@ $enquire_url = home_url( '/enquire/' );
 	<?php if ( empty( $restwell_hide_footer_cta ) ) : ?>
 	<div class="footer-cta">
 		<div class="container">
-			<h2 class="footer-cta__heading"><?php esc_html_e( 'Ready to book your stay?', 'restwell-retreats' ); ?></h2>
-			<a href="<?php echo esc_url( $enquire_url ); ?>" class="footer-cta__btn"><?php esc_html_e( 'Enquire Now', 'restwell-retreats' ); ?></a>
+			<h2 class="footer-cta__heading"><?php echo esc_html( (string) get_option( 'restwell_footer_cta_heading', 'Ready to book your stay?' ) ); ?></h2>
+			<a href="<?php echo esc_url( $enquire_url ); ?>" class="footer-cta__btn"><?php echo esc_html( (string) get_option( 'restwell_footer_cta_btn', 'Enquire Now' ) ); ?></a>
 		</div>
 	</div>
 	<?php endif; ?>
@@ -29,11 +29,11 @@ $enquire_url = home_url( '/enquire/' );
 						src="<?php echo esc_url( restwell_get_logo_url( 'restwell_logo_long_id', 'long_logo.png' ) ); ?>"
 						alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
 						class="site-logo__img"
-						width="180"
-						height="48"
+						width="282"
+						height="44"
 					>
 				</a>
-				<p class="footer-description"><?php echo esc_html( sprintf( __( 'A %s property. Care provided by Continuity of Care Services.', 'restwell-retreats' ), get_bloginfo( 'name' ) ) ); ?></p>
+				<p class="footer-description"><?php echo esc_html( sprintf( __( 'A %s property. Care provided by Continuity Care Services.', 'restwell-retreats' ), get_bloginfo( 'name' ) ) ); ?></p>
 			</div>
 
 			<!-- Explore -->
@@ -51,7 +51,7 @@ $enquire_url = home_url( '/enquire/' );
 			<!-- Contact -->
 			<div class="footer-contact">
 				<h3 class="footer-heading"><?php esc_html_e( 'Contact', 'restwell-retreats' ); ?></h3>
-				<p class="footer-contact__copy"><?php esc_html_e( 'Questions? Get in touch via the form above or enquire about your stay.', 'restwell-retreats' ); ?></p>
+				<p class="footer-contact__copy"><?php esc_html_e( 'Questions about dates, accessibility, or anything else? We\'re happy to help.', 'restwell-retreats' ); ?></p>
 				<a href="<?php echo esc_url( $enquire_url ); ?>" class="footer-contact__link"><?php esc_html_e( 'Enquire now', 'restwell-retreats' ); ?></a>
 			</div>
 		</div>
@@ -62,7 +62,7 @@ $enquire_url = home_url( '/enquire/' );
 				<span class="site-footer__legal-sep" aria-hidden="true">·</span>
 				<a href="<?php echo esc_url( home_url( '/terms-and-conditions/' ) ); ?>"><?php esc_html_e( 'Terms &amp; Conditions', 'restwell-retreats' ); ?></a>
 			</nav>
-			<p class="site-footer__copyright">&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?>. <?php esc_html_e( 'All rights reserved.', 'restwell-retreats' ); ?></p>
+			<p class="site-footer__copyright">&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?>. <?php esc_html_e( 'All rights reserved.', 'restwell-retreats' ); ?></p>
 		</div>
 	</div>
 	<?php wp_footer(); ?>

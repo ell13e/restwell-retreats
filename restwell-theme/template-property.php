@@ -14,7 +14,7 @@ get_header();
 
 $pid = get_the_ID();
 $prop_hero_label    = get_post_meta( $pid, 'prop_hero_label', true ) ?: 'The Property';
-$prop_hero_heading  = get_post_meta( $pid, 'prop_hero_heading', true ) ?: '101 Russell Drive, Whitstable';
+$prop_hero_heading  = get_post_meta( $pid, 'prop_hero_heading', true ) ?: 'Our accessible home in Whitstable';
 $prop_hero_subtitle = get_post_meta( $pid, 'prop_hero_subtitle', true ) ?: 'A whole home designed for real holidays on the Kent coast';
 $prop_hero_image_id = (int) get_post_meta( $pid, 'prop_hero_image_id', true );
 $prop_hero_src      = $prop_hero_image_id ? wp_get_attachment_image_url( $prop_hero_image_id, 'full' ) : '';
@@ -28,7 +28,7 @@ $prop_home_heading = get_post_meta( $pid, 'prop_home_heading', true ) ?: 'Your h
 $prop_home_label   = get_post_meta( $pid, 'prop_home_label', true ) ?: '';
 $prop_home_cards   = array(
 	array(
-		'title' => get_post_meta( $pid, 'prop_home_1_title', true ) ?: 'Fully Accessible Layout',
+		'title' => get_post_meta( $pid, 'prop_home_1_title', true ) ?: 'Accessible throughout',
 		'body'  => get_post_meta( $pid, 'prop_home_1_body', true ) ?: 'Enjoy total freedom with step-free access throughout the whole single story building. Wide doorways and a mobile wet room ensure complete ease of use.',
 	),
 	array(
@@ -59,7 +59,7 @@ $prop_features = array(
 );
 
 $prop_overview_heading = get_post_meta( $pid, 'prop_overview_heading', true ) ?: 'Your coastal home-from-home';
-$prop_overview_body   = get_post_meta( $pid, 'prop_overview_body', true ) ?: "101 Russell Drive is more than just a place to stay — it is your base for a proper coastal break. Located in a quiet residential corner of Whitstable, this property blends modern comfort with thoughtful accessibility. The neighbourhood is peaceful and flat, making it easy to get out and about whether you are on foot or using a wheelchair.\n\nWhitstable itself is one of Kent's most charming towns. Famous for its oysters, independent shops along Harbour Street, and a thriving arts scene, it has a relaxed, authentic atmosphere that feels a world away from the everyday — without being difficult to reach.";
+$prop_overview_body   = get_post_meta( $pid, 'prop_overview_body', true ) ?: "Our Whitstable home is more than just a place to stay — it is your base for a proper coastal break. Located in a quiet residential corner of Whitstable, this property blends modern comfort with thoughtful accessibility. The neighbourhood is peaceful and flat, making it easy to get out and about whether you are on foot or using a wheelchair.\n\nWhitstable itself is one of Kent's most charming towns. Famous for its oysters, independent shops along Harbour Street, and a thriving arts scene, it has a relaxed, authentic atmosphere that feels a world away from the everyday — without being difficult to reach.";
 $prop_dignity_body    = $prop_dignity_body_raw !== '' ? $prop_dignity_body_raw : $prop_overview_body;
 
 $prop_features_label   = get_post_meta( $pid, 'prop_features_label', true ) ?: 'Accessibility';
@@ -67,7 +67,7 @@ $prop_features_heading = get_post_meta( $pid, 'prop_features_heading', true ) ?:
 
 $prop_acc_label   = get_post_meta( $pid, 'prop_acc_label', true ) ?: 'Accessibility';
 $prop_acc_heading = get_post_meta( $pid, 'prop_acc_heading', true ) ?: 'Accessibility you can rely on';
-$prop_acc_intro   = get_post_meta( $pid, 'prop_acc_intro', true ) ?: 'Every property in the Restwell collection is assessed for access. Here is what we have verified about 101 Russell Drive — and if you have a requirement not listed, we are always happy to talk it through.';
+$prop_acc_intro   = get_post_meta( $pid, 'prop_acc_intro', true ) ?: 'We have assessed every aspect of the property for access. Here is what we have verified — and if you have a requirement not listed, we are always happy to talk it through.';
 $prop_acc_confirmed = get_post_meta( $pid, 'prop_acc_confirmed', true ) ?: "Level access throughout the ground floor\nWide doorways suitable for wheelchair access\nQuiet, flat residential street\nClose to level promenade walks";
 
 // Comparison: why not just an accessible hotel?
@@ -124,12 +124,11 @@ $prop_gallery_buttons = array(
 
 $prop_nearby_label   = get_post_meta( $pid, 'prop_nearby_label', true ) ?: "What's nearby";
 $prop_nearby_heading = get_post_meta( $pid, 'prop_nearby_heading', true ) ?: 'Explore Whitstable';
-// Researched distances/times (Tankerton/Russell Drive area): Plough & St John's Road ~5 min; Tankerton Slopes ~15 min flat walk; Harbour ~17–20 min walk / ~7 min drive; medical 0.3–1.5 miles. Estuary View UTC: 8am–8pm daily, Blue Badge free parking; parking charges may apply from 2025 at some sites.
 $nearby = array(
 	array(
 		'title'    => get_post_meta( $pid, 'prop_nearby_1_title', true ) ?: 'The Plough Pub',
-		'body'     => get_post_meta( $pid, 'prop_nearby_1_body', true ) ?: "A friendly local pub on St John's Road, just a short walk from the property. The Plough has a relaxed, casual atmosphere with good food (around £10–20 per person), live music nights, and a welcoming vibe for families and groups.",
-		'acc'      => get_post_meta( $pid, 'prop_nearby_1_acc', true ) ?: 'Wheelchair-accessible entrance, accessible parking, and an accessible restroom (confirm current details with the pub).',
+		'body'     => get_post_meta( $pid, 'prop_nearby_1_body', true ) ?: "A friendly local pub on St John's Road, just a short walk from the property. Relaxed atmosphere, good food, live music nights, and welcoming to families and groups.",
+		'acc'      => get_post_meta( $pid, 'prop_nearby_1_acc', true ) ?: 'Wheelchair-accessible entrance and accessible restroom — confirm current details with the pub.',
 		'distance' => get_post_meta( $pid, 'prop_nearby_1_distance', true ) ?: 'Approx. 5 min walk',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_1_filter', true ) ?: 'wheelchair-friendly quieter',
 		'map_url'  => get_post_meta( $pid, 'prop_nearby_1_map_url', true ) ?: 'https://maps.google.com/?q=The+Plough+St+Johns+Road+Whitstable',
@@ -138,8 +137,8 @@ $nearby = array(
 	),
 	array(
 		'title'    => get_post_meta( $pid, 'prop_nearby_2_title', true ) ?: 'Tankerton Slopes & Promenade',
-		'body'     => get_post_meta( $pid, 'prop_nearby_2_body', true ) ?: 'One of the best level coastal walks in Kent. The long, flat concrete promenade stretches along the seafront with stunning views across the Thames Estuary. It is wheelchair and pushchair friendly, with accessible toilets at the harbour end.',
-		'acc'      => get_post_meta( $pid, 'prop_nearby_2_acc', true ) ?: 'Level concrete surface, suitable for wheelchairs. Accessible WC available.',
+		'body'     => get_post_meta( $pid, 'prop_nearby_2_body', true ) ?: 'One of the best level coastal walks in Kent — a long, flat concrete promenade with stunning views across the Thames Estuary. Wheelchair and pushchair friendly, with accessible toilets at the harbour end.',
+		'acc'      => get_post_meta( $pid, 'prop_nearby_2_acc', true ) ?: 'Flat tarmac path, no steps, suitable for wheelchairs. Accessible WC at harbour end.',
 		'distance' => get_post_meta( $pid, 'prop_nearby_2_distance', true ) ?: 'Approx. 15 min flat walk',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_2_filter', true ) ?: 'wheelchair-friendly',
 		'map_url'  => get_post_meta( $pid, 'prop_nearby_2_map_url', true ) ?: 'https://maps.google.com/?q=Tankerton+Slopes+Whitstable',
@@ -147,32 +146,62 @@ $nearby = array(
 		'type'     => 'The Coast',
 	),
 	array(
-		'title'    => get_post_meta( $pid, 'prop_nearby_3_title', true ) ?: 'Whitstable Beach',
-		'body'     => get_post_meta( $pid, 'prop_nearby_3_body', true ) ?: "Whitstable's beach is characteristically shingle — beautiful to look at, but we want to be honest: shingle is generally not wheelchair-friendly. However, the promenade above the beach provides excellent sea views and level access.",
-		'acc'      => get_post_meta( $pid, 'prop_nearby_3_acc', true ) ?: 'Honest note: The shingle beach itself is difficult for wheelchair users. We recommend the promenade for the best accessible coastal experience.',
-		'distance' => get_post_meta( $pid, 'prop_nearby_3_distance', true ) ?: 'Approx. 15 min walk',
-		'filter'   => get_post_meta( $pid, 'prop_nearby_3_filter', true ) ?: 'wheelchair-friendly',
-		'map_url'  => get_post_meta( $pid, 'prop_nearby_3_map_url', true ) ?: 'https://maps.google.com/?q=Whitstable+Beach+Kent',
-		'icon'     => 'fa-umbrella-beach',
-		'type'     => 'The Coast',
-	),
-	array(
-		'title'    => get_post_meta( $pid, 'prop_nearby_4_title', true ) ?: 'Whitstable Town Centre & Harbour Street',
-		'body'     => get_post_meta( $pid, 'prop_nearby_4_body', true ) ?: "The heart of Whitstable is Harbour Street — a charming strip of independent shops, galleries, and cafes. The town has a relaxed, artistic character that draws visitors year-round. The harbour itself is a lovely spot for fresh seafood.",
-		'acc'      => get_post_meta( $pid, 'prop_nearby_4_acc', true ) ?: 'Some pavements in the old town are narrow and can be crowded during peak times. We recommend visiting during quieter weekday mornings.',
-		'distance' => get_post_meta( $pid, 'prop_nearby_4_distance', true ) ?: 'Approx. 20 min walk or 7 min drive',
-		'filter'   => get_post_meta( $pid, 'prop_nearby_4_filter', true ) ?: 'quieter',
-		'map_url'  => get_post_meta( $pid, 'prop_nearby_4_map_url', true ) ?: 'https://maps.google.com/?q=Harbour+Street+Whitstable+Kent',
+		'title'    => get_post_meta( $pid, 'prop_nearby_3_title', true ) ?: 'Whitstable Harbour & Harbour Street',
+		'body'     => get_post_meta( $pid, 'prop_nearby_3_body', true ) ?: "Fresh oysters, fish and chips, independent restaurants, boutiques, galleries, and cafes. The harbour is a lively working port with a relaxed, artistic character that draws visitors year-round.",
+		'acc'      => get_post_meta( $pid, 'prop_nearby_3_acc', true ) ?: 'Mostly flat approach. Some cobblestone sections near the harbour itself. Harbour Street pavements can be narrow during peak times — quieter on weekday mornings.',
+		'distance' => get_post_meta( $pid, 'prop_nearby_3_distance', true ) ?: 'Approx. 20 min walk or 7 min drive',
+		'filter'   => get_post_meta( $pid, 'prop_nearby_3_filter', true ) ?: 'quieter',
+		'map_url'  => get_post_meta( $pid, 'prop_nearby_3_map_url', true ) ?: 'https://maps.google.com/?q=Harbour+Street+Whitstable+Kent',
 		'icon'     => 'fa-bag-shopping',
 		'type'     => 'Town &amp; Shops',
 	),
 	array(
-		'title'    => get_post_meta( $pid, 'prop_nearby_5_title', true ) ?: 'Nearby Medical Services',
-		'body'     => get_post_meta( $pid, 'prop_nearby_5_body', true ) ?: 'For peace of mind: Swalecliffe Pharmacy is approximately 0.3 miles away on St John\'s Road. Chestfield Medical Centre (GP surgery) is around 0.5 miles away. The Estuary View Urgent Treatment Centre is approximately 1.5 miles away on Boorman Way, open 8am–8pm daily with on-site pharmacy. Blue Badge holders get free parking at Estuary View; standard parking charges may apply at some sites.',
-		'acc'      => get_post_meta( $pid, 'prop_nearby_5_acc', true ) ?: 'All listed services have step-free access. Confirm current accessibility and parking with each venue.',
-		'distance' => get_post_meta( $pid, 'prop_nearby_5_distance', true ) ?: 'From 0.3 miles (pharmacy)',
+		'title'    => get_post_meta( $pid, 'prop_nearby_4_title', true ) ?: 'Whitstable Beach',
+		'body'     => get_post_meta( $pid, 'prop_nearby_4_body', true ) ?: "Whitstable's iconic shingle beach is beautiful, but we want to be honest — shingle is generally not suitable for wheelchairs. The promenade above provides excellent sea views and is accessible for most wheelchair users.",
+		'acc'      => get_post_meta( $pid, 'prop_nearby_4_acc', true ) ?: 'Shingle beach is not recommended for wheelchairs. The level promenade path above the beach is the accessible alternative.',
+		'distance' => get_post_meta( $pid, 'prop_nearby_4_distance', true ) ?: 'Approx. 15 min walk',
+		'filter'   => get_post_meta( $pid, 'prop_nearby_4_filter', true ) ?: 'wheelchair-friendly',
+		'map_url'  => get_post_meta( $pid, 'prop_nearby_4_map_url', true ) ?: 'https://maps.google.com/?q=Whitstable+Beach+Kent',
+		'icon'     => 'fa-umbrella-beach',
+		'type'     => 'The Coast',
+	),
+	array(
+		'title'    => get_post_meta( $pid, 'prop_nearby_5_title', true ) ?: 'Supermarkets',
+		'body'     => get_post_meta( $pid, 'prop_nearby_5_body', true ) ?: "Sainsbury's is the closest at 4 minutes (Reeves Way, Chestfield CT5 3QS). Tesco Extra is 7 minutes (Millstrood Rd CT5 3EE). Co-op is 9 minutes (14–16 Canterbury Rd CT5 4EX). Aldi is 10 minutes (Prospect Retail Park CT5 3SD). All have disabled parking.",
+		'acc'      => get_post_meta( $pid, 'prop_nearby_5_acc', true ) ?: 'All four stores have step-free access and disabled parking bays.',
+		'distance' => get_post_meta( $pid, 'prop_nearby_5_distance', true ) ?: 'From 4 min drive',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_5_filter', true ) ?: 'practical',
-		'map_url'  => get_post_meta( $pid, 'prop_nearby_5_map_url', true ) ?: 'https://maps.google.com/?q=medical+centre+near+101+Russell+Drive+Whitstable',
+		'map_url'  => get_post_meta( $pid, 'prop_nearby_5_map_url', true ) ?: 'https://maps.google.com/?q=Sainsbury%27s+Whitstable+Chestfield',
+		'icon'     => 'fa-cart-shopping',
+		'type'     => 'Practical',
+	),
+	array(
+		'title'    => get_post_meta( $pid, 'prop_nearby_6_title', true ) ?: 'Local Pharmacies',
+		'body'     => get_post_meta( $pid, 'prop_nearby_6_body', true ) ?: 'Boots Pharmacy and Superdrug Pharmacy are both in Whitstable town centre and open 7 days a week. Hours may vary slightly on Sundays — check locally if urgent.',
+		'acc'      => get_post_meta( $pid, 'prop_nearby_6_acc', true ) ?: 'Accessible entrances — confirm current details with each pharmacy.',
+		'distance' => get_post_meta( $pid, 'prop_nearby_6_distance', true ) ?: 'Short drive or bus to town',
+		'filter'   => get_post_meta( $pid, 'prop_nearby_6_filter', true ) ?: 'practical',
+		'map_url'  => get_post_meta( $pid, 'prop_nearby_6_map_url', true ) ?: 'https://maps.google.com/?q=Boots+Pharmacy+Whitstable',
+		'icon'     => 'fa-prescription-bottle-medical',
+		'type'     => 'Wellbeing',
+	),
+	array(
+		'title'    => get_post_meta( $pid, 'prop_nearby_7_title', true ) ?: 'Getting Around',
+		'body'     => get_post_meta( $pid, 'prop_nearby_7_body', true ) ?: 'Accessible taxis: Abacus Cars LTD (01227 277745) — pre-book wheelchair-accessible vehicles, especially during school run times. Stagecoach South East: the 400 bus from The Plough runs to the beach, harbour, and Canterbury bus station. Whitstable Railway Station has direct trains to London St Pancras and Victoria; Chestfield & Swalecliffe is a quieter alternative nearby.',
+		'acc'      => get_post_meta( $pid, 'prop_nearby_7_acc', true ) ?: 'Pre-book accessible vehicles with Abacus Cars. Bus stops within walking distance. Confirm station accessibility with National Rail.',
+		'distance' => get_post_meta( $pid, 'prop_nearby_7_distance', true ) ?: 'Various',
+		'filter'   => get_post_meta( $pid, 'prop_nearby_7_filter', true ) ?: 'practical',
+		'map_url'  => get_post_meta( $pid, 'prop_nearby_7_map_url', true ) ?: 'https://maps.google.com/?q=Whitstable+Railway+Station',
+		'icon'     => 'fa-bus',
+		'type'     => 'Transport',
+	),
+	array(
+		'title'    => get_post_meta( $pid, 'prop_nearby_8_title', true ) ?: 'Medical & Emergency',
+		'body'     => get_post_meta( $pid, 'prop_nearby_8_body', true ) ?: 'Nearest A&E: Kent and Canterbury Hospital, Ethelbert Rd, Canterbury CT1 3NG — approximately 7 miles, 15–20 minutes by car. Non-emergency NHS: call 111. Local GP: Whitstable Medical Practice (approx. 5 min drive). Emergencies: 999.',
+		'acc'      => get_post_meta( $pid, 'prop_nearby_8_acc', true ) ?: 'Kent and Canterbury Hospital has accessible parking and entrances. Call ahead for GP appointments.',
+		'distance' => get_post_meta( $pid, 'prop_nearby_8_distance', true ) ?: 'A&E approx. 7 miles / 15–20 min',
+		'filter'   => get_post_meta( $pid, 'prop_nearby_8_filter', true ) ?: 'practical',
+		'map_url'  => get_post_meta( $pid, 'prop_nearby_8_map_url', true ) ?: 'https://maps.google.com/?q=Kent+and+Canterbury+Hospital+CT1+3NG',
 		'icon'     => 'fa-kit-medical',
 		'type'     => 'Wellbeing',
 	),

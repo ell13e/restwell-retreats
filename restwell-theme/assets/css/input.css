@@ -1,4 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap');
+/* ─── Local fonts: Inter (sans) + Lora (serif) ─────────────────────────────
+   Variable fonts cover the full weight range in a single file each.
+   Paths are relative to the compiled tailwind.css output in assets/css/.     */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/inter/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/inter/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('../fonts/lora/Lora-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('../fonts/lora/Lora-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -125,7 +159,7 @@
     --muted-grey: #6B6355;
     --body-secondary: #2d4a52;
     --font-sans: 'Inter', system-ui, sans-serif;
-    --font-serif: 'DM Serif Display', Georgia, serif;
+    --font-serif: 'Lora', Georgia, serif;
     --radius: 0.75rem;
     --space-1: 0.25rem;
     --space-2: 0.5rem;
@@ -342,7 +376,7 @@
     display: block;
     height: 44px;
     width: auto;
-    max-width: 200px;
+    max-width: 300px;
     object-fit: contain;
   }
 
@@ -1189,7 +1223,7 @@
     .features-grid { grid-template-columns: 1fr; }
     .who-card { padding: 1.5rem; }
     .hero h1 { font-size: 1.75rem; }
-    .site-logo__img { height: 36px; }
+    .site-logo__img { height: 32px; }
   }
 
   /* -----------------------------------------------------------------------------

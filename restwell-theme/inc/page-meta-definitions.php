@@ -33,13 +33,8 @@ function restwell_get_page_content_field_definitions( $post = null ) {
 	if ( isset( $map[ $template ] ) && is_callable( $map[ $template ] ) ) {
 		return call_user_func( $map[ $template ] );
 	}
-	return array(
-		'SEO' => array(
-			'meta_title'       => __( 'SEO title (overrides page title in search results)', 'restwell-retreats' ),
-			'meta_description' => __( 'Meta description (for search engines)', 'restwell-retreats' ),
-			'og_image_id'      => __( 'Social share image', 'restwell-retreats' ),
-		),
-	);
+	// Generic page — no additional content fields; SEO fields handled by the Search & Social meta box.
+	return array();
 }
 
 /**
@@ -47,11 +42,6 @@ function restwell_get_page_content_field_definitions( $post = null ) {
  */
 function restwell_get_front_page_field_definitions() {
 	return array(
-		'SEO' => array(
-			'meta_title'       => __( 'SEO title (overrides page title in search results)', 'restwell-retreats' ),
-			'meta_description' => __( 'Meta description (for search engines)', 'restwell-retreats' ),
-			'og_image_id'      => __( 'Social share image', 'restwell-retreats' ),
-		),
 		'Hero' => array(
 			'hero_eyebrow'            => __( 'Hero eyebrow label', 'restwell-retreats' ),
 			'hero_heading'            => __( 'Hero heading (h1)', 'restwell-retreats' ),
@@ -139,14 +129,11 @@ function restwell_get_front_page_field_definitions() {
  */
 function restwell_get_property_field_definitions() {
 	return array(
-		'SEO' => array(
-			'meta_title'            => __( 'SEO title (overrides page title in search results)', 'restwell-retreats' ),
-			'meta_description'      => __( 'Meta description', 'restwell-retreats' ),
-			'og_image_id'           => __( 'Social share image', 'restwell-retreats' ),
-			'prop_address_street'   => __( 'Street address (structured data)', 'restwell-retreats' ),
-			'prop_address_locality' => __( 'Town / city (structured data)', 'restwell-retreats' ),
-			'prop_address_region'   => __( 'County / region (structured data)', 'restwell-retreats' ),
-			'prop_address_postcode' => __( 'Postcode (structured data)', 'restwell-retreats' ),
+		'Structured Data (Address)' => array(
+			'prop_address_street'   => __( 'Street address (for VacationRental schema)', 'restwell-retreats' ),
+			'prop_address_locality' => __( 'Town / city (for VacationRental schema)', 'restwell-retreats' ),
+			'prop_address_region'   => __( 'County / region (for VacationRental schema)', 'restwell-retreats' ),
+			'prop_address_postcode' => __( 'Postcode (for VacationRental schema)', 'restwell-retreats' ),
 		),
 		'Hero' => array(
 			'prop_hero_label'   => __( 'Hero label (e.g. The Property)', 'restwell-retreats' ),
@@ -317,11 +304,6 @@ function restwell_get_how_it_works_field_definitions() {
 		$faq[ "hiw_faq_{$i}_a" ] = __( "Answer $i", 'restwell-retreats' );
 	}
 	return array(
-		'SEO' => array(
-			'meta_title'       => __( 'SEO title (overrides page title in search results)', 'restwell-retreats' ),
-			'meta_description' => __( 'Meta description', 'restwell-retreats' ),
-			'og_image_id'      => __( 'Social share image', 'restwell-retreats' ),
-		),
 		'Header' => array(
 			'hiw_hero_image_id' => __( 'Hero background image ID (optional)', 'restwell-retreats' ),
 			'hiw_label'         => __( 'Hero eyebrow label (e.g. WHITSTABLE, KENT)', 'restwell-retreats' ),
@@ -345,22 +327,6 @@ function restwell_get_how_it_works_field_definitions() {
 			'hiw_step3_body'  => __( 'Step 3 body', 'restwell-retreats' ),
 			'hiw_step4_title' => __( 'Step 4 title', 'restwell-retreats' ),
 			'hiw_step4_body'  => __( 'Step 4 body', 'restwell-retreats' ),
-		),
-		'Your journey' => array(
-			'hiw_journey_label'   => __( 'Section label (optional)', 'restwell-retreats' ),
-			'hiw_journey_heading' => __( 'Section heading (h2)', 'restwell-retreats' ),
-			'hiw_journey_1_title' => __( 'Journey step 1 title', 'restwell-retreats' ),
-			'hiw_journey_1_body'  => __( 'Journey step 1 body (optional)', 'restwell-retreats' ),
-			'hiw_journey_2_title' => __( 'Journey step 2 title', 'restwell-retreats' ),
-			'hiw_journey_2_body'  => __( 'Journey step 2 body (optional)', 'restwell-retreats' ),
-			'hiw_journey_3_title' => __( 'Journey step 3 title', 'restwell-retreats' ),
-			'hiw_journey_3_body'  => __( 'Journey step 3 body (optional)', 'restwell-retreats' ),
-			'hiw_journey_4_title' => __( 'Journey step 4 title', 'restwell-retreats' ),
-			'hiw_journey_4_body'  => __( 'Journey step 4 body (optional)', 'restwell-retreats' ),
-			'hiw_journey_5_title' => __( 'Journey step 5 title', 'restwell-retreats' ),
-			'hiw_journey_5_body'  => __( 'Journey step 5 body (optional)', 'restwell-retreats' ),
-			'hiw_journey_6_title' => __( 'Journey step 6 title', 'restwell-retreats' ),
-			'hiw_journey_6_body'  => __( 'Journey step 6 body (optional)', 'restwell-retreats' ),
 		),
 		'Care support CTA band' => array(
 			'hiw_care_cta_label'   => __( 'Band eyebrow label', 'restwell-retreats' ),
@@ -389,11 +355,6 @@ function restwell_get_how_it_works_field_definitions() {
  */
 function restwell_get_accessibility_field_definitions() {
 	return array(
-		'SEO' => array(
-			'meta_title'       => __( 'SEO title (overrides page title in search results)', 'restwell-retreats' ),
-			'meta_description' => __( 'Meta description', 'restwell-retreats' ),
-			'og_image_id'      => __( 'Social share image', 'restwell-retreats' ),
-		),
 		'Header' => array(
 			'acc_hero_image_id' => __( 'Hero background image (attachment ID, optional)', 'restwell-retreats' ),
 			'acc_label'         => __( 'Hero eyebrow label', 'restwell-retreats' ),
@@ -447,11 +408,6 @@ function restwell_get_faq_field_definitions() {
 		$faq_section[ "faq_{$i}_cat" ] = __( "Question $i category (about | booking | care | local)", 'restwell-retreats' );
 	}
 	return array(
-		'SEO' => array(
-			'meta_title'       => __( 'SEO title (overrides page title in search results)', 'restwell-retreats' ),
-			'meta_description' => __( 'Meta description', 'restwell-retreats' ),
-			'og_image_id'      => __( 'Social share image', 'restwell-retreats' ),
-		),
 		'Header' => array(
 			'faq_hero_image_id' => __( 'Hero background image (attachment ID, optional)', 'restwell-retreats' ),
 			'faq_label'         => __( 'Hero eyebrow label', 'restwell-retreats' ),
@@ -476,11 +432,6 @@ function restwell_get_faq_field_definitions() {
  */
 function restwell_get_resources_field_definitions() {
 	return array(
-		'SEO' => array(
-			'meta_title'       => __( 'SEO title (overrides page title in search results)', 'restwell-retreats' ),
-			'meta_description' => __( 'Meta description', 'restwell-retreats' ),
-			'og_image_id'      => __( 'Social share image', 'restwell-retreats' ),
-		),
 		'Header' => array(
 			'res_hero_image_id' => __( 'Hero background image (attachment ID, optional)', 'restwell-retreats' ),
 			'res_label'         => __( 'Hero eyebrow label', 'restwell-retreats' ),
@@ -521,11 +472,6 @@ function restwell_get_resources_field_definitions() {
  */
 function restwell_get_enquire_field_definitions() {
 	return array(
-		'SEO' => array(
-			'meta_title'       => __( 'SEO title (overrides page title in search results)', 'restwell-retreats' ),
-			'meta_description' => __( 'Meta description', 'restwell-retreats' ),
-			'og_image_id'      => __( 'Social share image', 'restwell-retreats' ),
-		),
 		'Header' => array(
 			'enq_hero_image_id' => __( 'Hero background image (attachment ID, optional)', 'restwell-retreats' ),
 			'enq_label'         => __( 'Hero eyebrow label', 'restwell-retreats' ),

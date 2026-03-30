@@ -46,8 +46,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				src="<?php echo esc_url( restwell_get_logo_url( 'restwell_logo_long_id', 'long_logo.png' ) ); ?>"
 				alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
 				class="site-logo__img"
-				width="180"
-				height="48"
+				width="282"
+				height="44"
 			>
 		</a>
 

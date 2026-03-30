@@ -23,6 +23,13 @@ function restwell_handle_enquire_submit() {
 		return;
 	}
 
+	// Honeypot: if this field is filled the submission is from a bot.
+	if ( ! empty( $_POST['enq_website'] ) ) {
+		$redirect = isset( $_POST['enq_redirect'] ) ? esc_url_raw( wp_unslash( $_POST['enq_redirect'] ) ) : home_url( '/enquire/' );
+		wp_safe_redirect( add_query_arg( 'sent', '1', $redirect ) . '#enquiry-result' );
+		exit;
+	}
+
 	$name    = isset( $_POST['enq_name'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_name'] ) ) : '';
 	$email   = isset( $_POST['enq_email'] ) ? sanitize_email( wp_unslash( $_POST['enq_email'] ) ) : '';
 	$message = isset( $_POST['enq_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['enq_message'] ) ) : '';
@@ -30,15 +37,21 @@ function restwell_handle_enquire_submit() {
 		return;
 	}
 
-	$phone    = isset( $_POST['enq_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_phone'] ) ) : '';
-	$dates    = isset( $_POST['enq_dates'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_dates'] ) ) : '';
-	$guests   = isset( $_POST['enq_guests'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_guests'] ) ) : '';
-	$care     = isset( $_POST['enq_care'] ) ? sanitize_textarea_field( wp_unslash( $_POST['enq_care'] ) ) : '';
-	$access   = isset( $_POST['enq_accessibility'] ) ? sanitize_textarea_field( wp_unslash( $_POST['enq_accessibility'] ) ) : '';
-	$funding  = isset( $_POST['enq_funding'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_funding'] ) ) : '';
-	$urgent   = ! empty( $_POST['enq_urgent'] );
+	$phone     = isset( $_POST['enq_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_phone'] ) ) : '';
+	// Structured date fields replacing the old free-text enq_dates field.
+	$date_from = isset( $_POST['enq_date_from'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_date_from'] ) ) : '';
+	$date_to   = isset( $_POST['enq_date_to'] )   ? sanitize_text_field( wp_unslash( $_POST['enq_date_to'] ) )   : '';
+	// Build a human-readable dates string for the email body and legacy column.
+	$dates     = $date_from && $date_to
+		? gmdate( 'j M Y', strtotime( $date_from ) ) . ' – ' . gmdate( 'j M Y', strtotime( $date_to ) )
+		: ( $date_from ? gmdate( 'j M Y', strtotime( $date_from ) ) : '' );
+	$guests    = isset( $_POST['enq_guests'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_guests'] ) ) : '';
+	$care      = isset( $_POST['enq_care'] ) ? sanitize_textarea_field( wp_unslash( $_POST['enq_care'] ) ) : '';
+	$access    = isset( $_POST['enq_accessibility'] ) ? sanitize_textarea_field( wp_unslash( $_POST['enq_accessibility'] ) ) : '';
+	$funding   = isset( $_POST['enq_funding'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_funding'] ) ) : '';
+	$urgent    = ! empty( $_POST['enq_urgent'] );
 	$contact_pref = isset( $_POST['enq_contact_preference'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_contact_preference'] ) ) : '';
-	$pref_time = isset( $_POST['enq_preferred_time'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_preferred_time'] ) ) : '';
+	$pref_time    = isset( $_POST['enq_preferred_time'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_preferred_time'] ) ) : '';
 
 	$body = "Name: $name\nEmail: $email\n";
 	if ( $phone ) {
@@ -70,10 +83,34 @@ function restwell_handle_enquire_submit() {
 	}
 	$body .= "\nMessage:\n$message";
 
-	$to      = get_option( 'admin_email' );
+	$to      = (string) get_option( 'restwell_enquiry_notify_email', 'hello@restwellretreats.co.uk' );
 	$subject = sprintf( '[Restwell Retreats] %sEnquiry from %s', $urgent ? 'URGENT — ' : '', $name );
 	$headers = array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: ' . $name . ' <' . $email . '>' );
 	wp_mail( $to, $subject, $body, $headers );
+
+	// Persist to the CRM leads database.
+	restwell_crm_save_enquiry(
+		array(
+			'name'         => $name,
+			'email'        => $email,
+			'phone'        => $phone,
+			'dates'        => $dates,
+			'date_from'    => $date_from,
+			'date_to'      => $date_to,
+			'guests'       => $guests,
+			'care'         => $care,
+			'access'       => $access,
+			'funding'      => $funding,
+			'contact_pref' => $contact_pref,
+			'pref_time'    => $pref_time,
+			'message'      => $message,
+			'urgent'       => $urgent,
+		)
+	);
+
+	// Auto-acknowledgement email to the enquirer (HTML template).
+	$ack = restwell_email_enquiry_ack( $name, $email, $urgent );
+	wp_mail( $email, $ack['subject'], $ack['body'], $ack['headers'] );
 
 	$redirect = isset( $_POST['enq_redirect'] ) ? esc_url_raw( wp_unslash( $_POST['enq_redirect'] ) ) : '';
 	if ( ! $redirect ) {
@@ -83,7 +120,7 @@ function restwell_handle_enquire_submit() {
 	if ( $urgent ) {
 		$args['urgent'] = '1';
 	}
-	wp_safe_redirect( add_query_arg( $args, $redirect ) );
+	wp_safe_redirect( add_query_arg( $args, $redirect ) . '#enquiry-result' );
 	exit;
 }
 add_action( 'template_redirect', 'restwell_handle_enquire_submit', 5 );
