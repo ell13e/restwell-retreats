@@ -42,8 +42,8 @@ for ( $i = 1; $i <= 4; $i++ ) {
 		$body  = $body ?: "We'll confirm the property, walk you through what's included, and answer any questions.";
 	}
 	if ( $i === 3 && ! $title ) {
-		$title = 'Arrange care (optional)';
-		$body  = $body ?: "If you'd like support from Continuity of Care Services, we'll connect you directly. Fully flexible.";
+		$title = 'Arrange support (if needed)';
+		$body  = $body ?: "If you want care support during your stay, we can connect you with Continuity of Care Services — a CQC-regulated provider based in Kent. You can also bring your own carer or PA. This step is entirely optional.";
 	}
 	if ( $i === 4 && ! $title ) {
 		$title = 'Arrive and enjoy';
@@ -68,7 +68,7 @@ $hiw_included_heading = get_post_meta( $pid, 'hiw_included_heading', true ) ?: "
 $hiw_included_intro   = get_post_meta( $pid, 'hiw_included_intro', true ) ?: 'No hidden extras. These come with every booking as standard.';
 $included_items = array(
 	array( 'title' => 'Bed linen & towels', 'desc' => 'Fresh linen and towels so you can relax from the moment you arrive.', 'icon' => 'linen' ),
-	array( 'title' => 'Welcome pack', 'desc' => 'A few essentials to get you started.', 'icon' => 'gift' ),
+	array( 'title' => 'Welcome pack', 'desc' => 'Tea, coffee, milk, and a few basics so you are not shopping the moment you arrive.', 'icon' => 'gift' ),
 	array( 'title' => 'Full kitchen', 'desc' => 'Fully equipped kitchen for cooking at your own pace.', 'icon' => 'kitchen' ),
 	array( 'title' => 'Private garden', 'desc' => 'Your own outdoor space to enjoy.', 'icon' => 'garden' ),
 	array( 'title' => 'Fast Wi-Fi', 'desc' => 'Stay connected when you need to.', 'icon' => 'wifi' ),
@@ -89,7 +89,7 @@ $hiw_cta_heading          = get_post_meta( $pid, 'hiw_cta_heading', true ) ?: 'R
 $hiw_cta_body             = get_post_meta( $pid, 'hiw_cta_body', true ) ?: 'Get in touch and we\'ll answer any questions, check availability, and take it from there.';
 $hiw_cta_primary_label     = get_post_meta( $pid, 'hiw_cta_primary_label', true ) ?: 'Enquire about dates';
 $hiw_cta_primary_url      = esc_url( get_post_meta( $pid, 'hiw_cta_primary_url', true ) ?: home_url( '/enquire/' ) );
-$hiw_cta_promise          = get_post_meta( $pid, 'hiw_cta_promise', true ) ?: '';
+$hiw_cta_promise          = get_post_meta( $pid, 'hiw_cta_promise', true ) ?: 'No obligation. Ask us anything.';
 $hiw_cta_secondary_label  = get_post_meta( $pid, 'hiw_cta_secondary_label', true ) ?: 'See the property';
 $hiw_cta_secondary_url    = esc_url( get_post_meta( $pid, 'hiw_cta_secondary_url', true ) ?: home_url( '/the-property/' ) );
 
@@ -111,7 +111,7 @@ for ( $i = 1; $i <= 3; $i++ ) {
 	}
 	if ( $i === 3 && ! $q ) {
 		$q = 'How far is the property from the beach?';
-		$a = $a ?: 'The property is on a quiet residential street in Whitstable. Walking distance to the beach and high street – we can give you exact details when you enquire.';
+		$a = $a ?: 'The Tankerton promenade is about 15 minutes\' flat walk from the property. The town centre and harbour are about a 7-minute drive or 20-minute walk. We can provide exact routes and accessibility notes for any destination before your stay.';
 	}
 	if ( $q || $a ) {
 		$faq_pairs[] = array( 'q' => $q ?: '', 'a' => $a ?: '' );

@@ -16,8 +16,8 @@ get_header();
 // Pull the "page for posts" if set, to allow editors to set a title/excerpt
 // in the WordPress admin for the archive hero.
 $posts_page_id = (int) get_option( 'page_for_posts' );
-$archive_title  = $posts_page_id ? get_the_title( $posts_page_id ) : __( 'News & local guides', 'restwell-retreats' );
-$archive_intro  = $posts_page_id ? get_the_excerpt( $posts_page_id ) : __( 'Stories, updates, and guides about Whitstable, Kent, and accessible travel.', 'restwell-retreats' );
+$archive_title  = $posts_page_id ? get_the_title( $posts_page_id ) : __( 'Guides & articles', 'restwell-retreats' );
+$archive_intro  = $posts_page_id ? get_the_excerpt( $posts_page_id ) : __( 'Practical guides to accessible travel on the Kent coast, local area information, and updates from Restwell.', 'restwell-retreats' );
 $archive_label  = __( 'From the blog', 'restwell-retreats' );
 
 // Separate the first post (featured) from the rest.
@@ -39,7 +39,7 @@ if ( have_posts() ) {
 				'img_id'    => get_post_thumbnail_id(),
 				'img_src'   => get_the_post_thumbnail_url( null, 'large' ),
 				'category'  => restwell_get_primary_category(),
-				'read_time' => restwell_estimate_read_time( get_the_content() ),
+				'read_time' => restwell_estimate_read_time( (string) get_post_field( 'post_content', get_the_ID() ) ),
 			);
 		} else {
 			$remaining_posts[] = array(
@@ -52,7 +52,7 @@ if ( have_posts() ) {
 				'img_id'    => get_post_thumbnail_id(),
 				'img_src'   => get_the_post_thumbnail_url( null, 'medium_large' ),
 				'category'  => restwell_get_primary_category(),
-				'read_time' => restwell_estimate_read_time( get_the_content() ),
+				'read_time' => restwell_estimate_read_time( (string) get_post_field( 'post_content', get_the_ID() ) ),
 			);
 		}
 		$post_index++;
@@ -82,6 +82,7 @@ if ( have_posts() ) {
 				<article class="group mb-14 md:mb-20" aria-label="<?php echo esc_attr( $first_post['title'] ); ?>">
 					<a href="<?php echo esc_url( $first_post['permalink'] ); ?>"
 					   class="grid md:grid-cols-2 gap-0 bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.05)] border border-gray-100 no-underline hover:shadow-[0_12px_40px_rgb(0,0,0,0.09)] transition-shadow duration-300"
+					   aria-label="<?php echo esc_attr( sprintf( /* translators: %s post title */ __( 'Continue reading: %s', 'restwell-retreats' ), $first_post['title'] ) ); ?>"
 					   tabindex="0">
 						<!-- Image -->
 						<div class="relative overflow-hidden min-h-[16rem] md:min-h-[22rem] bg-[var(--deep-teal)]/10">
@@ -99,21 +100,20 @@ if ( have_posts() ) {
 						<!-- Content -->
 						<div class="flex flex-col justify-between p-8 md:p-10">
 							<div>
-								<div class="flex items-center gap-3 mb-4">
+								<div class="flex flex-wrap items-center gap-3 mb-4">
 									<?php if ( $first_post['category'] ) : ?>
 										<span class="inline-block bg-[#A8D5D0]/30 text-[var(--deep-teal)] text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full"><?php echo esc_html( $first_post['category'] ); ?></span>
 									<?php endif; ?>
-									<span class="text-[var(--muted-grey)] text-xs font-medium bg-[var(--bg-subtle)] px-3 py-1 rounded-full">
-										<?php echo esc_html( $first_post['read_time'] ); ?> min read
-									</span>
+									<span class="text-[var(--muted-grey)] text-xs"><?php echo esc_html( $first_post['date'] ); ?></span>
+									<span class="text-[var(--muted-grey)] text-xs" aria-hidden="true">&bull;</span>
+									<span class="text-[var(--muted-grey)] text-xs"><?php echo esc_html( $first_post['read_time'] ); ?> min read</span>
 								</div>
 								<h2 class="text-2xl md:text-3xl font-serif text-[var(--deep-teal)] leading-snug mb-4 group-hover:underline decoration-[var(--deep-teal)]/30 underline-offset-4"><?php echo esc_html( $first_post['title'] ); ?></h2>
 								<p class="text-gray-600 leading-relaxed text-base line-clamp-4"><?php echo esc_html( $first_post['excerpt'] ); ?></p>
 							</div>
-							<div class="flex items-center justify-between mt-6 pt-6 border-t border-gray-100">
-								<time class="text-xs text-[var(--muted-grey)]" datetime="<?php echo esc_attr( $first_post['date_iso'] ); ?>"><?php echo esc_html( $first_post['date'] ); ?></time>
+							<div class="flex items-center justify-end mt-6 pt-6 border-t border-gray-100">
 								<span class="inline-flex items-center gap-1.5 text-[var(--deep-teal)] text-sm font-semibold">
-									Read article <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+									<?php esc_html_e( 'Continue reading', 'restwell-retreats' ); ?> <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
 								</span>
 							</div>
 						</div>
@@ -126,7 +126,8 @@ if ( have_posts() ) {
 						<?php foreach ( $remaining_posts as $post ) : ?>
 							<article class="group" aria-label="<?php echo esc_attr( $post['title'] ); ?>">
 								<a href="<?php echo esc_url( $post['permalink'] ); ?>"
-								   class="flex flex-col bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 no-underline hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5 transition-all duration-300 ease-out motion-reduce:transition-none motion-reduce:hover:translate-y-0 h-full">
+								   class="flex flex-col bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 no-underline hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5 transition-all duration-300 ease-out motion-reduce:transition-none motion-reduce:hover:translate-y-0 h-full"
+								   aria-label="<?php echo esc_attr( sprintf( /* translators: %s post title */ __( 'Continue reading: %s', 'restwell-retreats' ), $post['title'] ) ); ?>">
 									<!-- Image -->
 									<div class="relative overflow-hidden aspect-[16/9] bg-[var(--deep-teal)]/10">
 										<?php if ( $post['img_src'] ) : ?>
@@ -153,7 +154,7 @@ if ( have_posts() ) {
 										<div class="flex items-center justify-between mt-5 pt-4 border-t border-gray-100">
 											<time class="text-xs text-[var(--muted-grey)]" datetime="<?php echo esc_attr( $post['date_iso'] ); ?>"><?php echo esc_html( $post['date'] ); ?></time>
 											<span class="inline-flex items-center gap-1 text-[var(--deep-teal)] text-xs font-semibold">
-												Read <i class="fa-solid fa-arrow-right text-[10px]" aria-hidden="true"></i>
+												<?php esc_html_e( 'Continue', 'restwell-retreats' ); ?> <i class="fa-solid fa-arrow-right text-[10px]" aria-hidden="true"></i>
 											</span>
 										</div>
 									</div>
@@ -181,8 +182,8 @@ if ( have_posts() ) {
 					<div class="w-16 h-16 bg-[#A8D5D0]/30 rounded-full flex items-center justify-center mx-auto mb-6" aria-hidden="true">
 						<i class="fa-solid fa-pen-nib text-[var(--deep-teal)] text-2xl"></i>
 					</div>
-					<h2 class="text-2xl font-serif text-[var(--deep-teal)] mb-3"><?php esc_html_e( 'Articles coming soon', 'restwell-retreats' ); ?></h2>
-					<p class="text-gray-600 leading-relaxed"><?php esc_html_e( 'We\'re working on guides to Whitstable, accessible travel tips, and updates from Restwell Retreats. Check back soon.', 'restwell-retreats' ); ?></p>
+					<h2 class="text-2xl font-serif text-[var(--deep-teal)] mb-3"><?php esc_html_e( 'Guides coming soon', 'restwell-retreats' ); ?></h2>
+					<p class="text-gray-600 leading-relaxed"><?php esc_html_e( 'We are working on practical guides to accessible holidays, the Whitstable area, and funding your stay. Check back soon, or enquire now and we will send you updates.', 'restwell-retreats' ); ?></p>
 				</div>
 
 			<?php endif; ?>
@@ -195,7 +196,7 @@ if ( have_posts() ) {
 		<div class="container max-w-2xl text-center">
 			<p class="section-label mb-3"><?php esc_html_e( 'Planning a stay?', 'restwell-retreats' ); ?></p>
 			<h2 id="archive-cta-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Come and see Whitstable for yourself.', 'restwell-retreats' ); ?></h2>
-			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'Restwell Retreats is an accessible holiday home on the Kent coast, designed for guests with disabilities and their families.', 'restwell-retreats' ); ?></p>
+			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'Restwell is a fully adapted holiday home in Whitstable, Kent — designed for disabled guests, their families, and carers.', 'restwell-retreats' ); ?></p>
 			<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary">
 				<?php esc_html_e( 'Enquire about dates', 'restwell-retreats' ); ?>
 				<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
@@ -204,4 +205,8 @@ if ( have_posts() ) {
 	</section>
 
 </main>
-<?php get_footer(); ?>
+<?php
+global $restwell_hide_footer_cta;
+$restwell_hide_footer_cta = true;
+get_footer();
+?>

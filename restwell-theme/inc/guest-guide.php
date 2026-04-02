@@ -430,8 +430,8 @@ function restwell_guest_guide_settings_page() {
 		'not_found' => array( 'error',   __( 'Guest not found.', 'restwell-retreats' ) ),
 	);
 	?>
-	<div class="wrap">
-		<h1><?php esc_html_e( 'Guest Guide Settings', 'restwell-retreats' ); ?></h1>
+	<div class="wrap restwell-admin restwell-admin-guest-guide">
+		<h1 class="rw-page-title"><?php esc_html_e( 'Guest Guide Settings', 'restwell-retreats' ); ?></h1>
 
 		<?php if ( isset( $notices[ $status ] ) ) : ?>
 			<div class="notice notice-<?php echo esc_attr( $notices[ $status ][0] ); ?> is-dismissible">
@@ -443,21 +443,22 @@ function restwell_guest_guide_settings_page() {
 		<!-- Guest list                                                        -->
 		<!-- ================================================================ -->
 		<h2><?php esc_html_e( 'Scheduled guest emails', 'restwell-retreats' ); ?></h2>
-		<p class="description" style="margin-bottom:1rem;">
+		<p class="description rw-lead">
 			<?php esc_html_e( 'Add each confirmed guest. The invitation email is sent automatically at the scheduled date and time, or you can send it manually at any time. Only guests in this table can access the arrival guide.', 'restwell-retreats' ); ?>
 		</p>
 
 		<?php if ( empty( $guests ) ) : ?>
-			<p style="color:#646970;"><?php esc_html_e( 'No guests yet. Add one using the form below.', 'restwell-retreats' ); ?></p>
+			<p class="rw-empty-copy"><?php esc_html_e( 'No guests yet. Add one using the form below.', 'restwell-retreats' ); ?></p>
 		<?php else : ?>
-		<table class="wp-list-table widefat fixed striped" style="max-width:900px;">
+		<div class="rw-table-shell rw-table-shell--guest-guide">
+		<table class="wp-list-table widefat striped rw-guest-guide-table">
 			<thead>
 				<tr>
-					<th style="width:18%;"><?php esc_html_e( 'Name', 'restwell-retreats' ); ?></th>
-					<th style="width:25%;"><?php esc_html_e( 'Email', 'restwell-retreats' ); ?></th>
-					<th style="width:22%;"><?php esc_html_e( 'Scheduled send', 'restwell-retreats' ); ?></th>
-					<th style="width:20%;"><?php esc_html_e( 'Status', 'restwell-retreats' ); ?></th>
-					<th style="width:15%;"><?php esc_html_e( 'Actions', 'restwell-retreats' ); ?></th>
+					<th scope="col" class="column-name"><?php esc_html_e( 'Name', 'restwell-retreats' ); ?></th>
+					<th scope="col" class="column-email"><?php esc_html_e( 'Email', 'restwell-retreats' ); ?></th>
+					<th scope="col" class="column-scheduled"><?php esc_html_e( 'Scheduled send', 'restwell-retreats' ); ?></th>
+					<th scope="col" class="column-status"><?php esc_html_e( 'Status', 'restwell-retreats' ); ?></th>
+					<th scope="col" class="column-actions"><?php esc_html_e( 'Actions', 'restwell-retreats' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -470,29 +471,30 @@ function restwell_guest_guide_settings_page() {
 				}
 
 				if ( ! empty( $guest['sent_at'] ) ) {
-					$status_label = '<span style="color:#00a32a;">&#10003; ' . esc_html__( 'Sent', 'restwell-retreats' ) . '</span>'
-						. '<br><small style="color:#646970;">'
+					$status_label = '<span class="rw-status-sent">&#10003; ' . esc_html__( 'Sent', 'restwell-retreats' ) . '</span>'
+						. '<br><small>'
 						. esc_html( date_i18n( 'j M Y, g:i a', strtotime( $guest['sent_at'] ) ) )
 						. '</small>';
 					$send_btn_label = esc_html__( 'Resend', 'restwell-retreats' );
 				} else {
 					$now_local = current_time( 'mysql' );
 					if ( ! empty( $guest['send_date'] ) && $guest['send_date'] > $now_local ) {
-						$status_label = '<span style="color:#646970;">' . esc_html__( 'Scheduled', 'restwell-retreats' ) . '</span>';
+						$status_label = '<span class="rw-status-scheduled">' . esc_html__( 'Scheduled', 'restwell-retreats' ) . '</span>';
 					} else {
-						$status_label = '<span style="color:#d63638;">' . esc_html__( 'Pending', 'restwell-retreats' ) . '</span>';
+						$status_label = '<span class="rw-status-pending">' . esc_html__( 'Pending', 'restwell-retreats' ) . '</span>';
 					}
 					$send_btn_label = esc_html__( 'Send now', 'restwell-retreats' );
 				}
 				?>
 				<tr>
-					<td><?php echo esc_html( $guest['name'] ?: '—' ); ?></td>
-					<td><?php echo esc_html( $guest['email'] ); ?></td>
-					<td><?php echo esc_html( $formatted_date ); ?></td>
-					<td><?php echo wp_kses( $status_label, array( 'span' => array( 'style' => array() ), 'br' => array(), 'small' => array( 'style' => array() ) ) ); ?></td>
-					<td style="white-space:nowrap;">
+					<td class="column-name"><?php echo esc_html( $guest['name'] ?: '—' ); ?></td>
+					<td class="column-email"><span class="rw-cell-email"><?php echo esc_html( $guest['email'] ); ?></span></td>
+					<td class="column-scheduled"><?php echo esc_html( $formatted_date ); ?></td>
+					<td class="column-status"><?php echo wp_kses( $status_label, array( 'span' => array( 'class' => array() ), 'br' => array(), 'small' => array() ) ); ?></td>
+					<td class="rw-action-cell">
+						<div class="rw-action-cell-inner">
 						<!-- Send now / Resend -->
-						<form method="post" action="<?php echo esc_url( $admin_post ); ?>" style="display:inline;">
+						<form method="post" action="<?php echo esc_url( $admin_post ); ?>">
 							<?php wp_nonce_field( 'restwell_gg_send_now' ); ?>
 							<input type="hidden" name="action" value="restwell_gg_send_now" />
 							<input type="hidden" name="gg_guest_id" value="<?php echo esc_attr( $guest['id'] ); ?>" />
@@ -501,7 +503,7 @@ function restwell_guest_guide_settings_page() {
 							</button>
 						</form>
 						<!-- Delete -->
-						<form method="post" action="<?php echo esc_url( $admin_post ); ?>" style="display:inline;margin-left:4px;"
+						<form method="post" action="<?php echo esc_url( $admin_post ); ?>"
 						      onsubmit="return confirm('<?php echo esc_js( __( 'Remove this guest?', 'restwell-retreats' ) ); ?>')">
 							<?php wp_nonce_field( 'restwell_gg_delete_guest' ); ?>
 							<input type="hidden" name="action" value="restwell_gg_delete_guest" />
@@ -510,15 +512,17 @@ function restwell_guest_guide_settings_page() {
 								<?php esc_html_e( 'Delete', 'restwell-retreats' ); ?>
 							</button>
 						</form>
+						</div>
 					</td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+		</div>
 		<?php endif; ?>
 
 		<!-- Add guest form -->
-		<h3 style="margin-top:1.5rem;">
+		<h3 class="rw-subsection-title">
 			<?php
 			echo $prefill_name
 				? sprintf(
@@ -529,7 +533,7 @@ function restwell_guest_guide_settings_page() {
 				: esc_html__( 'Add a guest', 'restwell-retreats' );
 			?>
 		</h3>
-		<form method="post" action="<?php echo esc_url( $admin_post ); ?>" style="max-width:600px;">
+		<form method="post" action="<?php echo esc_url( $admin_post ); ?>" class="rw-settings-wrap">
 			<?php wp_nonce_field( 'restwell_gg_add_guest' ); ?>
 			<input type="hidden" name="action" value="restwell_gg_add_guest" />
 			<?php if ( $prefill_enquiry_id ) : ?>
@@ -549,7 +553,7 @@ function restwell_guest_guide_settings_page() {
 				</tr>
 				<tr>
 					<th scope="row">
-						<label for="gg_email"><?php esc_html_e( 'Email address', 'restwell-retreats' ); ?> <span style="color:#d63638;">*</span></label>
+						<label for="gg_email"><?php esc_html_e( 'Email address', 'restwell-retreats' ); ?> <span class="rw-required" aria-hidden="true">*</span></label>
 					</th>
 					<td>
 						<input type="email" id="gg_email" name="gg_email" class="regular-text" required
@@ -559,7 +563,7 @@ function restwell_guest_guide_settings_page() {
 				</tr>
 				<tr>
 					<th scope="row">
-						<label for="gg_send_date"><?php esc_html_e( 'Scheduled send', 'restwell-retreats' ); ?> <span style="color:#d63638;">*</span></label>
+						<label for="gg_send_date"><?php esc_html_e( 'Scheduled send', 'restwell-retreats' ); ?> <span class="rw-required" aria-hidden="true">*</span></label>
 					</th>
 					<td>
 						<input type="datetime-local" id="gg_send_date" name="gg_send_date" class="regular-text" required />
@@ -572,16 +576,16 @@ function restwell_guest_guide_settings_page() {
 			<?php submit_button( __( 'Add guest', 'restwell-retreats' ), 'secondary', 'submit', false ); ?>
 		</form>
 
-		<hr style="margin:2rem 0;" />
+		<hr class="rw-section-rule" />
 
 		<!-- ================================================================ -->
 		<!-- CC email addresses                                                -->
 		<!-- ================================================================ -->
 		<h2><?php esc_html_e( 'Invitation email: CC addresses', 'restwell-retreats' ); ?></h2>
-		<p class="description" style="margin-bottom:1rem;">
+		<p class="description rw-lead">
 			<?php esc_html_e( 'Every invitation email will CC these addresses. One address per line.', 'restwell-retreats' ); ?>
 		</p>
-		<form method="post" action="<?php echo esc_url( $admin_post ); ?>" style="max-width:600px;">
+		<form method="post" action="<?php echo esc_url( $admin_post ); ?>" class="rw-settings-wrap">
 			<?php wp_nonce_field( 'restwell_gg_save_cc' ); ?>
 			<input type="hidden" name="action" value="restwell_gg_save_cc" />
 			<table class="form-table" role="presentation">
@@ -828,7 +832,7 @@ function restwell_guest_guide_meta_box_callback( $post ) {
 	echo '<table class="form-table" role="presentation">';
 
 	foreach ( $sections as $section_label => $fields ) {
-		echo '<tr><td colspan="2"><h3 style="margin:1.25em 0 0.5em;padding-bottom:0.3em;border-bottom:1px solid #c3c4c7;font-size:13px;font-weight:600;color:#1d2327;">'
+		echo '<tr><td colspan="2"><h3 class="rw-gg-section-title">'
 			. esc_html( $section_label )
 			. '</h3></td></tr>';
 
@@ -837,17 +841,17 @@ function restwell_guest_guide_meta_box_callback( $post ) {
 			$el_id = 'restwell_' . $key;
 
 			echo '<tr>';
-			echo '<th scope="row" style="width:220px;vertical-align:top;padding-top:1.1rem;">';
+			echo '<th scope="row" class="rw-gg-meta-th">';
 			echo '<label for="' . esc_attr( $el_id ) . '">' . esc_html( $field['label'] ) . '</label>';
 			echo '</th>';
 			echo '<td>';
 
 			if ( 'textarea' === $field['type'] ) {
-				echo '<textarea id="' . esc_attr( $el_id ) . '" name="' . esc_attr( $key ) . '" rows="4" style="width:100%;max-width:40rem;">'
+				echo '<textarea id="' . esc_attr( $el_id ) . '" name="' . esc_attr( $key ) . '" rows="4" class="rw-gg-meta-textarea large-text">'
 					. esc_textarea( $value )
 					. '</textarea>';
 			} else {
-				echo '<input type="text" id="' . esc_attr( $el_id ) . '" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value ) . '" style="width:100%;max-width:30rem;" />';
+				echo '<input type="text" id="' . esc_attr( $el_id ) . '" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value ) . '" class="rw-gg-meta-input large-text" />';
 			}
 
 			echo '</td>';

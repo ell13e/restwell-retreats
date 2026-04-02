@@ -42,9 +42,9 @@ $acc_dest_label             = get_post_meta( $pid, 'acc_dest_label', true ) ?: '
 $acc_dest_heading           = get_post_meta( $pid, 'acc_dest_heading', true ) ?: 'Whitstable: what to expect';
 $acc_dest_intro             = get_post_meta( $pid, 'acc_dest_intro', true ) ?: 'An honest picture of the area — what is accessible, where there are challenges, and what matters most for your visit.';
 $acc_dest_good_heading      = get_post_meta( $pid, 'acc_dest_good_heading', true ) ?: 'The good';
-$acc_dest_good_body         = get_post_meta( $pid, 'acc_dest_good_body', true ) ?: 'The Tankerton Slopes promenade is one of the best level coastal walks in Kent — a long, flat concrete path with stunning sea views, suitable for wheelchairs and pushchairs. There are accessible toilets at the harbour end. The area around the property is generally flat and easy to navigate.';
+$acc_dest_good_body         = get_post_meta( $pid, 'acc_dest_good_body', true ) ?: 'The Tankerton promenade is a long, flat, surfaced path along the seafront — one of the most wheelchair-friendly coastal routes in Kent. Free parking at Marine Parade. Accessible toilets at the harbour end. The streets around the property are flat and paved with dropped kerbs.';
 $acc_dest_challenge_heading = get_post_meta( $pid, 'acc_dest_challenge_heading', true ) ?: 'The challenge';
-$acc_dest_challenge_body    = get_post_meta( $pid, 'acc_dest_challenge_body', true ) ?: 'Harbour Street and the old town centre have some narrow pavements that can be crowded during peak times and weekends. We recommend visiting during quieter weekday mornings. Some shops may have stepped entrances.';
+$acc_dest_challenge_body    = get_post_meta( $pid, 'acc_dest_challenge_body', true ) ?: 'Harbour Street and the old town have narrow pavements that get crowded at weekends and in summer. Some shops and cafes have stepped entrances with no ramp. The harbour itself has some uneven surfaces near the fish market. Weekday mornings are the easiest time to visit.';
 $acc_dest_reality_heading   = get_post_meta( $pid, 'acc_dest_reality_heading', true ) ?: 'The reality';
 $acc_dest_reality_body      = get_post_meta( $pid, 'acc_dest_reality_body', true ) ?: "Whitstable's beach is shingle. We want to be honest: shingle beaches are generally not wheelchair-friendly. The promenade above the beach provides excellent views and is accessible for most wheelchair users. There are also accessible cafes and restaurants along the seafront at street level.";
 
@@ -53,6 +53,9 @@ $acc_cta_heading = get_post_meta( $pid, 'acc_cta_heading', true ) ?: 'Still have
 $acc_cta_body    = get_post_meta( $pid, 'acc_cta_body', true ) ?: 'We understand that accessibility details matter — and that everyone\'s needs are different. If you have specific questions about the property, the local area, or anything else, please get in touch.';
 $acc_cta_btn     = get_post_meta( $pid, 'acc_cta_btn', true ) ?: 'Ask us anything';
 $acc_cta_url     = esc_url( get_post_meta( $pid, 'acc_cta_url', true ) ?: home_url( '/enquire/' ) );
+
+$access_statement_url = restwell_get_access_statement_url();
+$access_statement_url = $access_statement_url !== '' ? esc_url( $access_statement_url ) : '';
 
 $rooms = array(
 	array( 'heading' => $acc_arrival_heading,  'body' => $acc_arrival_body ),
@@ -201,6 +204,25 @@ $rooms = array(
 			</div>
 		</div>
 	</section>
+
+	<?php if ( $access_statement_url !== '' ) : ?>
+	<!-- Access statement download -->
+	<section class="py-16 md:py-24 bg-white border-t border-[#E8DFD0]/80" aria-labelledby="acc-statement-heading">
+		<div class="container max-w-3xl text-center">
+			<h2 id="acc-statement-heading" class="text-2xl md:text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Download our access statement', 'restwell-retreats' ); ?></h2>
+			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'A PDF summary of access routes, door widths, equipment, and the local area — useful for OTs, commissioners, and planning your stay.', 'restwell-retreats' ); ?></p>
+			<a href="<?php echo esc_url( $access_statement_url ); ?>" class="btn btn-primary inline-flex items-center gap-2" rel="noopener" target="_blank">
+				<i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+				<?php esc_html_e( 'Open access statement (PDF)', 'restwell-retreats' ); ?>
+			</a>
+			<p class="text-sm text-[var(--muted-grey)] mt-6">
+				<a href="<?php echo esc_url( home_url( '/the-property/' ) ); ?>" class="text-[var(--deep-teal)] underline underline-offset-2 hover:no-underline"><?php esc_html_e( 'The Property', 'restwell-retreats' ); ?></a>
+				<span aria-hidden="true"> · </span>
+				<a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>" class="text-[var(--deep-teal)] underline underline-offset-2 hover:no-underline"><?php esc_html_e( 'FAQ', 'restwell-retreats' ); ?></a>
+			</p>
+		</div>
+	</section>
+	<?php endif; ?>
 
 	<!-- CTA -->
 	<section class="py-16 md:py-20 bg-[var(--deep-teal)] text-center" aria-labelledby="acc-cta-heading">

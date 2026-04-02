@@ -29,7 +29,7 @@ $img_src = $img_id ? wp_get_attachment_image_url( $img_id, 'full' ) : '';
 $img_alt = $img_id ? trim( wp_strip_all_tags( (string) get_post_meta( $img_id, '_wp_attachment_image_alt', true ) ) ) : '';
 
 // Blog archive URL — respects the "page for posts" setting.
-$archive_url   = get_post_type_archive_link( 'post' ) ?: home_url( '/articles/' );
+$archive_url   = get_post_type_archive_link( 'post' ) ?: home_url( '/blog/' );
 $posts_page_id = (int) get_option( 'page_for_posts' );
 if ( $posts_page_id ) {
 	$archive_url = get_permalink( $posts_page_id );
@@ -39,10 +39,22 @@ $archive_label = $posts_page_id ? get_the_title( $posts_page_id ) : __( 'News & 
 // Related posts: same category, exclude current.
 $related_posts = array();
 if ( $category ) {
-	$cat_obj = get_category_by_slug( sanitize_title( $category ) );
-	if ( $cat_obj ) {
+	$cats = get_the_category( $post_id );
+	$cat_id = 0;
+	if ( ! empty( $cats ) ) {
+		foreach ( $cats as $cat_obj ) {
+			if ( 'uncategorized' !== $cat_obj->slug ) {
+				$cat_id = (int) $cat_obj->term_id;
+				break;
+			}
+		}
+		if ( ! $cat_id ) {
+			$cat_id = (int) $cats[0]->term_id;
+		}
+	}
+	if ( $cat_id ) {
 		$related_query = new WP_Query( array(
-			'category__in'   => array( $cat_obj->term_id ),
+			'category__in'   => array( $cat_id ),
 			'post__not_in'   => array( $post_id ),
 			'posts_per_page' => 2,
 			'orderby'        => 'date',
@@ -56,7 +68,7 @@ if ( $category ) {
 					'permalink' => get_permalink(),
 					'date'      => get_the_date(),
 					'img_src'   => get_the_post_thumbnail_url( null, 'medium_large' ),
-					'read_time' => restwell_estimate_read_time( get_the_content() ),
+					'read_time' => restwell_estimate_read_time( (string) get_post_field( 'post_content', get_the_ID() ) ),
 				);
 			}
 			wp_reset_postdata();
@@ -170,7 +182,7 @@ if ( $category ) {
 		<div class="container max-w-2xl text-center">
 			<p class="section-label mb-3"><?php esc_html_e( 'Planning a stay?', 'restwell-retreats' ); ?></p>
 			<h2 id="article-cta-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Come and see Whitstable for yourself.', 'restwell-retreats' ); ?></h2>
-			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'Restwell Retreats is an accessible holiday home on the Kent coast — designed for guests with disabilities and their families. Get in touch to check availability.', 'restwell-retreats' ); ?></p>
+			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'Restwell is a fully adapted holiday home in Whitstable, Kent — designed for disabled guests, their families, and carers. Enquire to check dates and suitability.', 'restwell-retreats' ); ?></p>
 			<div class="flex flex-wrap gap-4 justify-center">
 				<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary">
 					<?php esc_html_e( 'Enquire about dates', 'restwell-retreats' ); ?>
@@ -184,4 +196,8 @@ if ( $category ) {
 	</section>
 
 </main>
-<?php get_footer(); ?>
+<?php
+global $restwell_hide_footer_cta;
+$restwell_hide_footer_cta = true;
+get_footer();
+?>

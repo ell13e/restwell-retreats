@@ -14,28 +14,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 
 $pid = get_the_ID();
-$hero_eyebrow            = get_post_meta( $pid, 'hero_eyebrow', true ) ?: 'Accessible holidays in Whitstable';
-$hero_heading            = get_post_meta( $pid, 'hero_heading', true ) ?: 'Restwell retreats. Rest, made easy.';
-$hero_subheading         = get_post_meta( $pid, 'hero_subheading', true ) ?: 'A beautiful, accessible home on the Kent coast — where guests find adventure and carers find a true break.';
+$hero_eyebrow            = get_post_meta( $pid, 'hero_eyebrow', true ) ?: 'Accessible holiday cottage · Whitstable, Kent';
+$hero_heading            = 'A proper holiday. Adapted and practical.';
+$hero_subheading         = get_post_meta( $pid, 'hero_subheading', true ) ?: 'A private, fully adapted holiday home on the Kent coast. Designed for disabled guests and their families — with optional care support from a CQC-registered provider.';
 $hero_cta_primary_label  = get_post_meta( $pid, 'hero_cta_primary_label', true ) ?: 'See the property';
 $hero_cta_primary_url    = get_post_meta( $pid, 'hero_cta_primary_url', true ) ?: '/the-property/';
 $hero_cta_secondary_label= get_post_meta( $pid, 'hero_cta_secondary_label', true ) ?: 'Enquire about dates';
 $hero_cta_secondary_url  = get_post_meta( $pid, 'hero_cta_secondary_url', true ) ?: '/enquire/';
-$hero_cta_promise        = get_post_meta( $pid, 'hero_cta_promise', true ) ?: '';
+$hero_cta_promise        = get_post_meta( $pid, 'hero_cta_promise', true ) ?: 'No booking commitment. Just a conversation.';
 
-$what_label   = get_post_meta( $pid, 'what_restwell_label', true ) ?: 'What is Restwell Retreats?';
+$what_label   = get_post_meta( $pid, 'what_restwell_label', true ) ?: 'What is Restwell?';
 $what_heading = get_post_meta( $pid, 'what_restwell_heading', true ) ?: 'A holiday, not a care home.';
+$intro_body   = get_post_meta( $pid, 'intro_body', true ) ?: 'Restwell is a high-quality, wheelchair-accessible single-storey holiday bungalow in Whitstable, Kent — with ceiling track hoist, profiling bed, and a full wet room. This is not a care home or a clinical facility; it is a proper coastal self-catering holiday. Optional professional, CQC-regulated care is available through our partner, Continuity of Care Services, if you want it.';
 
 $who_label   = get_post_meta( $pid, 'who_label', true ) ?: 'Who it\'s for';
 $who_heading = get_post_meta( $pid, 'who_heading', true ) ?: 'Two people. One break.';
 $who_guest_title = get_post_meta( $pid, 'who_guest_title', true ) ?: 'For the guest';
-$who_guest_body  = get_post_meta( $pid, 'who_guest_body', true ) ?: 'A space designed around you. Wide doorways, level access, and the freedom to explore Whitstable\'s vibrant coast at your own pace. This is your holiday — not an appointment, not a schedule. Just the sea air, good food, and a comfortable home to come back to.';
+$who_guest_body  = get_post_meta( $pid, 'who_guest_body', true ) ?: 'A private home with the access features you actually need — wet room, wide doorways, level thresholds, space for your equipment. Explore Whitstable at your own pace. No shared spaces, no schedules, no clinical atmosphere.';
 $who_carer_title = get_post_meta( $pid, 'who_carer_title', true ) ?: 'For the carer';
-$who_carer_body  = get_post_meta( $pid, 'who_carer_body', true ) ?: 'Peace of mind is the ultimate luxury. With optional professional support available from CCS, you can step back, relax, and enjoy being a partner, a parent, or a friend again — rather than a full-time carer. Rest easy knowing they are safe, happy, and having a proper break too.';
+$who_carer_body  = get_post_meta( $pid, 'who_carer_body', true ) ?: 'The property layout supports care routines — separate sleeping, practical bathroom access, space to assist. Optional CQC-regulated support is available through Continuity of Care Services, or bring your own carer. Either way, the environment is set up so you are not improvising.';
 
 $property_label    = get_post_meta( $pid, 'property_label', true ) ?: 'Our Whitstable home';
 $property_heading  = get_post_meta( $pid, 'property_heading', true ) ?: 'Our Whitstable home';
-$property_body     = get_post_meta( $pid, 'property_body', true ) ?: 'Our flagship property sits in a quiet residential corner of Whitstable, just a short, flat walk from the famous Tankerton Slopes promenade. It is the perfect base for exploring everything this charming coastal town has to offer — from Harbour Street\'s independent shops to fresh oysters by the water.';
+$property_body     = get_post_meta( $pid, 'property_body', true ) ?: 'A fully adapted property in a quiet residential street in Whitstable. Level approach, off-street parking for adapted vehicles, and a flat route to the Tankerton promenade. The town centre — with its harbour, independent shops, and seafood restaurants — is a short drive or bus ride away.';
 $property_cta_label = get_post_meta( $pid, 'property_cta_label', true ) ?: 'Explore the property';
 $property_cta_url  = get_post_meta( $pid, 'property_cta_url', true ) ?: '/the-property/';
 $property_image_id = (int) get_post_meta( $pid, 'property_image_id', true );
@@ -44,10 +45,10 @@ $why_label   = get_post_meta( $pid, 'why_label', true ) ?: 'Why Restwell?';
 $why_heading = get_post_meta( $pid, 'why_heading', true ) ?: 'What makes us different';
 $why1_title  = get_post_meta( $pid, 'why_item1_title', true ) ?: 'Private & personal';
 $why1_desc   = get_post_meta( $pid, 'why_item1_desc', true ) ?: 'A real home, not a ward or a hotel room. The whole house is yours.';
-$why2_title  = get_post_meta( $pid, 'why_item2_title', true ) ?: 'Expertly supported';
-$why2_desc   = get_post_meta( $pid, 'why_item2_desc', true ) ?: 'Optional CQC-regulated care from Continuity of Care Services.';
-$why3_title  = get_post_meta( $pid, 'why_item3_title', true ) ?: 'Whitstable local';
-$why3_desc   = get_post_meta( $pid, 'why_item3_desc', true ) ?: 'We know the best accessible spots, the quietest cafes, and the flattest routes.';
+$why2_title  = get_post_meta( $pid, 'why_item2_title', true ) ?: 'Care if you need it';
+$why2_desc   = get_post_meta( $pid, 'why_item2_desc', true ) ?: 'Optional support from Continuity of Care Services, a CQC-regulated provider. Arrange as much or as little as you need — or bring your own carer.';
+$why3_title  = get_post_meta( $pid, 'why_item3_title', true ) ?: 'Local knowledge';
+$why3_desc   = get_post_meta( $pid, 'why_item3_desc', true ) ?: 'We can tell you which cafes have step-free access, where to park near the harbour, and which routes work for wheelchairs.';
 $why4_title  = get_post_meta( $pid, 'why_item4_title', true ) ?: 'Honest & open';
 $why4_desc   = get_post_meta( $pid, 'why_item4_desc', true ) ?: 'We tell you exactly what to expect — no surprises, no overselling.';
 
@@ -57,7 +58,7 @@ $cta_primary_label   = get_post_meta( $pid, 'cta_primary_label', true ) ?: 'See 
 $cta_primary_url     = get_post_meta( $pid, 'cta_primary_url', true ) ?: '/the-property/';
 $cta_secondary_label = get_post_meta( $pid, 'cta_secondary_label', true ) ?: 'Enquire about dates';
 $cta_secondary_url   = get_post_meta( $pid, 'cta_secondary_url', true ) ?: '/enquire/';
-$cta_promise         = get_post_meta( $pid, 'cta_promise', true ) ?: '';
+$cta_promise         = get_post_meta( $pid, 'cta_promise', true ) ?: 'No booking commitment. Just a conversation.';
 $cta_image_id = (int) get_post_meta( $pid, 'cta_image_id', true );
 
 $trust_label          = get_post_meta( $pid, 'trust_label', true ) ?: '';
@@ -158,7 +159,6 @@ $cta_src      = $cta_image_id ? wp_get_attachment_image_url( $cta_image_id, 'ful
 				<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $what_label ) ); ?>
 				<h2 class="text-3xl md:text-4xl mb-8 section-heading"><?php echo esc_html( $what_heading ); ?></h2>
 				<?php
-				$intro_body = get_post_meta( get_the_ID(), 'intro_body', true );
 				if ( $intro_body ) {
 					echo '<p class="text-lg">' . wp_kses_post( $intro_body ) . '</p>';
 				}
@@ -203,6 +203,10 @@ $cta_src      = $cta_image_id ? wp_get_attachment_image_url( $cta_image_id, 'ful
 							src="<?php echo esc_url( $property_src ); ?>"
 							alt="<?php echo esc_attr( $property_heading ); ?>"
 							class="w-full h-[350px] md:h-[450px] object-cover"
+							loading="lazy"
+							decoding="async"
+							width="800"
+							height="450"
 						/>
 					<?php else : ?>
 						<!-- PROPERTY IMAGE NEEDED -->
@@ -213,6 +217,30 @@ $cta_src      = $cta_image_id ? wp_get_attachment_image_url( $cta_image_id, 'ful
 					<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $property_label ) ); ?>
 					<h2 class="text-3xl"><?php echo esc_html( $property_heading ); ?></h2>
 					<p class="text-[#3a5a63] leading-relaxed"><?php echo esc_html( $property_body ); ?></p>
+					<?php
+					$fp_acc  = get_page_by_path( 'accessibility', OBJECT, 'page' );
+					$fp_who  = get_page_by_path( 'who-its-for', OBJECT, 'page' );
+					$fp_guide = get_page_by_path( 'whitstable-area-guide', OBJECT, 'page' );
+					if ( $fp_acc || $fp_who || $fp_guide ) :
+						?>
+					<p class="text-sm text-[#3a5a63]/90 leading-relaxed pt-2">
+						<?php if ( $fp_acc ) : ?>
+							<a href="<?php echo esc_url( get_permalink( $fp_acc ) ); ?>" class="text-[#1B4D5C] font-medium underline underline-offset-2 hover:no-underline"><?php esc_html_e( 'Full accessibility specification', 'restwell-retreats' ); ?></a>
+						<?php endif; ?>
+						<?php if ( $fp_acc && ( $fp_who || $fp_guide ) ) : ?>
+							<span class="text-[var(--muted-grey)]" aria-hidden="true"> · </span>
+						<?php endif; ?>
+						<?php if ( $fp_who ) : ?>
+							<a href="<?php echo esc_url( get_permalink( $fp_who ) ); ?>" class="text-[#1B4D5C] font-medium underline underline-offset-2 hover:no-underline"><?php esc_html_e( 'Who it\'s for', 'restwell-retreats' ); ?></a>
+						<?php endif; ?>
+						<?php if ( $fp_who && $fp_guide ) : ?>
+							<span class="text-[var(--muted-grey)]" aria-hidden="true"> · </span>
+						<?php endif; ?>
+						<?php if ( $fp_guide ) : ?>
+							<a href="<?php echo esc_url( get_permalink( $fp_guide ) ); ?>" class="text-[#1B4D5C] font-medium underline underline-offset-2 hover:no-underline"><?php esc_html_e( 'Whitstable &amp; Kent guide', 'restwell-retreats' ); ?></a>
+						<?php endif; ?>
+					</p>
+					<?php endif; ?>
 					<a
 						href="<?php echo esc_url( $property_cta_url ); ?>"
 						class="inline-flex items-center gap-2 text-[#1B4D5C] font-semibold hover:text-[#815F10] hover:underline transition-colors duration-300 no-underline"

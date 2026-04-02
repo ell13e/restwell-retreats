@@ -45,6 +45,160 @@
 		window.addEventListener('scroll', updateScrolled, { passive: true });
 	}
 
+	function closeAllNavDropdowns() {
+		document.querySelectorAll('.site-nav .site-nav-list li.site-nav__item--has-dropdown.is-open').forEach(function (li) {
+			li.classList.remove('is-open');
+			var btn = li.querySelector('.site-nav__dropdown-toggle');
+			if (btn) {
+				btn.setAttribute('aria-expanded', 'false');
+			}
+			var parentLink = li.querySelector(':scope > a');
+			if (parentLink && parentLink.getAttribute('aria-expanded') !== null) {
+				parentLink.setAttribute('aria-expanded', 'false');
+			}
+		});
+	}
+
+	/** Parent menu items that only toggle the panel (no navigation). */
+	function restwellIsPlaceholderNavHref(href) {
+		if (!href) {
+			return true;
+		}
+		var h = String(href).trim();
+		if (h === '#' || h === '#0') {
+			return true;
+		}
+		if (/^javascript:/i.test(h)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Desktop: disclosure-style dropdowns (fallback buttons + WP Primary nested items).
+	 */
+	function initNavDropdowns() {
+		var nav = document.querySelector('.site-nav');
+		if (!nav) {
+			return;
+		}
+
+		var hasFallback = nav.querySelector('[data-nav-dropdown]');
+		var hasWpDropdown = nav.querySelector('li.menu-item-has-children > .sub-menu');
+		if (!hasFallback && !hasWpDropdown) {
+			return;
+		}
+
+		var dropdowns = nav.querySelectorAll('[data-nav-dropdown]');
+		dropdowns.forEach(function (li) {
+			var btn = li.querySelector('.site-nav__dropdown-toggle');
+			var menu = li.querySelector('.site-nav__submenu');
+			if (!btn || !menu) {
+				return;
+			}
+
+			btn.addEventListener('click', function (e) {
+				e.preventDefault();
+				e.stopPropagation();
+				dropdowns.forEach(function (other) {
+					if (other !== li && other.classList.contains('is-open')) {
+						other.classList.remove('is-open');
+						var ob = other.querySelector('.site-nav__dropdown-toggle');
+						if (ob) {
+							ob.setAttribute('aria-expanded', 'false');
+						}
+					}
+				});
+				nav.querySelectorAll('li.menu-item-has-children.is-open').forEach(function (other) {
+					if (!other.hasAttribute('data-nav-dropdown')) {
+						other.classList.remove('is-open');
+						var oa = other.querySelector(':scope > a');
+						if (oa) {
+							oa.setAttribute('aria-expanded', 'false');
+						}
+					}
+				});
+				var willOpen = !li.classList.contains('is-open');
+				li.classList.toggle('is-open', willOpen);
+				btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+			});
+		});
+
+		nav.querySelectorAll('li.menu-item-has-children').forEach(function (li) {
+			if (li.hasAttribute('data-nav-dropdown')) {
+				return;
+			}
+			var sub = li.querySelector(':scope > .sub-menu');
+			var parentLink = li.querySelector(':scope > a');
+			if (!sub || !parentLink) {
+				return;
+			}
+			parentLink.setAttribute('aria-haspopup', 'true');
+			if (parentLink.getAttribute('aria-expanded') === null) {
+				parentLink.setAttribute('aria-expanded', 'false');
+			}
+			parentLink.addEventListener('click', function (e) {
+				if (window.matchMedia('(max-width: 1023px)').matches) {
+					return;
+				}
+				if (!restwellIsPlaceholderNavHref(parentLink.getAttribute('href'))) {
+					return;
+				}
+				e.preventDefault();
+				e.stopPropagation();
+				dropdowns.forEach(function (other) {
+					if (other.classList.contains('is-open')) {
+						other.classList.remove('is-open');
+						var ob = other.querySelector('.site-nav__dropdown-toggle');
+						if (ob) {
+							ob.setAttribute('aria-expanded', 'false');
+						}
+					}
+				});
+				nav.querySelectorAll('li.menu-item-has-children.is-open').forEach(function (other) {
+					if (other !== li) {
+						other.classList.remove('is-open');
+						var oa = other.querySelector(':scope > a');
+						if (oa && !other.hasAttribute('data-nav-dropdown')) {
+							oa.setAttribute('aria-expanded', 'false');
+						}
+					}
+				});
+				var willOpen = !li.classList.contains('is-open');
+				li.classList.toggle('is-open', willOpen);
+				parentLink.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+			});
+		});
+
+		nav.addEventListener('click', function (e) {
+			var a = e.target.closest('a');
+			if (!a || !a.closest('.site-nav__submenu, .sub-menu')) {
+				return;
+			}
+			closeAllNavDropdowns();
+		});
+
+		document.addEventListener('click', function (e) {
+			if (!nav.contains(e.target)) {
+				closeAllNavDropdowns();
+				return;
+			}
+			if (e.target.closest('.site-nav__dropdown-toggle')) {
+				return;
+			}
+			if (e.target.closest('.site-nav__submenu, .site-nav .sub-menu')) {
+				return;
+			}
+			closeAllNavDropdowns();
+		});
+
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape') {
+				closeAllNavDropdowns();
+			}
+		});
+	}
+
 	function initMobileMenu() {
 		var btn = document.querySelector('.mobile-menu-btn');
 		var mobileNav = document.getElementById('mobile-nav');
@@ -411,12 +565,45 @@
 	showStep(1, true);
 	}
 
+	/**
+	 * After enquiry form redirect (?sent=1), scroll to the thank-you card.
+	 * Fragments on redirect URLs are unreliable across browsers; this runs client-side.
+	 */
+	function initEnquirySuccessScroll() {
+		var params = new URLSearchParams(window.location.search);
+		if (params.get('sent') !== '1') {
+			return;
+		}
+		var el = document.getElementById('enquiry-result');
+		if (!el) {
+			return;
+		}
+		function scrollToResult() {
+			el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			try {
+				el.focus({ preventScroll: true });
+			} catch (err) {
+				/* IE / older */
+			}
+		}
+		/* Double rAF: layout + fonts settled before scroll */
+		if (window.requestAnimationFrame) {
+			requestAnimationFrame(function () {
+				requestAnimationFrame(scrollToResult);
+			});
+		} else {
+			window.setTimeout(scrollToResult, 0);
+		}
+	}
+
 	ready(function () {
 		setActiveNavLinks();
 		initStickyHeaderShadow();
+		initNavDropdowns();
 		initMobileMenu();
 		initExploreFilter();
 		initFaqTabs();
 		initMultiStepForm();
+		initEnquirySuccessScroll();
 	});
 })();

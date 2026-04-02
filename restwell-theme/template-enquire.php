@@ -18,7 +18,7 @@ $pid = get_the_ID();
 $enq_hero_image_id  = (int) get_post_meta( $pid, 'enq_hero_image_id', true );
 $enq_hero_image_src = $enq_hero_image_id ? wp_get_attachment_image_url( $enq_hero_image_id, 'full' ) : '';
 $enq_label          = get_post_meta( $pid, 'enq_label', true ) ?: 'Get in touch';
-$enq_heading        = get_post_meta( $pid, 'enq_heading', true ) ?: 'Ready to rest easy?';
+$enq_heading        = get_post_meta( $pid, 'enq_heading', true ) ?: 'Start a conversation.';
 $enq_intro          = get_post_meta( $pid, 'enq_intro', true ) ?: 'Whether you have specific dates in mind or just want to ask about a bathroom measurement, we are here to help. This isn\'t a booking commitment — it is just the start of a conversation. No pressure, no hard sell.';
 
 // Form copy
@@ -29,25 +29,28 @@ $enq_success_urgent_body = get_post_meta( $pid, 'enq_success_urgent_body', true 
 
 // Sidebar
 $enq_contact_heading      = get_post_meta( $pid, 'enq_contact_heading', true ) ?: 'Direct contact';
-$enq_email                = get_post_meta( $pid, 'enq_email', true ) ?: '';
-$enq_phone                = get_post_meta( $pid, 'enq_phone', true ) ?: '';
+$enq_email                = get_post_meta( $pid, 'enq_email', true ) ?: 'hello@restwellretreats.co.uk';
+$enq_phone                = get_post_meta( $pid, 'enq_phone', true ) ?: (string) get_option( 'restwell_phone_number', '01622 809881' );
 $enq_response_heading     = get_post_meta( $pid, 'enq_response_heading', true ) ?: 'Response time';
 $enq_response_body        = get_post_meta( $pid, 'enq_response_body', true ) ?: 'We aim to respond to all enquiries as soon as we can. If your enquiry is urgent, please call us directly.';
 $enq_no_pressure_heading  = get_post_meta( $pid, 'enq_no_pressure_heading', true ) ?: 'No pressure';
-$enq_no_pressure_body     = get_post_meta( $pid, 'enq_no_pressure_body', true ) ?: 'Sending an enquiry is not a booking commitment. It is simply the start of a conversation. We are happy to answer questions, talk through specific needs, or just have a chat about whether Restwell Retreats is right for you.';
+$enq_no_pressure_body     = get_post_meta( $pid, 'enq_no_pressure_body', true ) ?: 'Sending an enquiry is not a booking commitment. It is simply the start of a conversation. We are happy to answer questions, talk through specific needs, or just have a chat about whether Restwell is right for you.';
 
 $sent        = isset( $_GET['sent'] ) && $_GET['sent'] === '1';
 $urgent      = $sent && isset( $_GET['urgent'] ) && $_GET['urgent'] === '1';
 $current_url = get_permalink( $pid );
 $resources_url = home_url( '/resources/' );
 
+$sidebar_card_base    = 'bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100';
+$sidebar_card_heading = 'text-lg font-serif text-[var(--deep-teal)] mb-3';
+
 // Common input classes
 // focus:outline-none is intentionally removed — the global :focus-visible rule
 // provides a 3px deep-teal outline for keyboard users (2.4.7 Focus Visible, WCAG AA).
 // focus-visible:outline-none would suppress it for mouse clicks only, but Tailwind
 // v3 generates a :focus selector here, so we let the CSS layer handle focus-visible.
-$input_class = 'w-full px-4 py-3 rounded-xl border border-[#E8DFD0] bg-[#F5EDE0]/50 text-[#1B4D5C] text-base focus:border-[#A8D5D0] focus:ring-2 focus:ring-[#A8D5D0]/30';
-$label_class = 'block text-sm font-medium text-[#1B4D5C] mb-1.5';
+$input_class = 'w-full px-4 py-3 rounded-xl border border-[#CFC2AD] bg-[#FFFEFC] text-[#1B4D5C] text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A8D5D0] focus:ring-offset-2';
+$label_class = 'block text-sm font-semibold text-[#1B4D5C] mb-1.5';
 ?>
 <main class="flex-1" id="main-content">
 <?php get_template_part( 'template-parts/breadcrumb' ); ?>
@@ -81,7 +84,7 @@ $label_class = 'block text-sm font-medium text-[#1B4D5C] mb-1.5';
 				<div class="md:col-span-3">
 				<?php if ( $sent ) : ?>
 					<!-- Success state -->
-					<div id="enquiry-result" class="bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-[#E8DFD0]" role="status" aria-live="polite">
+					<div id="enquiry-result" class="enquiry-result bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-[#E8DFD0] scroll-mt-[clamp(5rem,14vh,8rem)]" role="status" aria-live="polite" tabindex="-1">
 						<!-- Coloured top bar -->
 						<div class="h-1.5 bg-gradient-to-r from-[var(--deep-teal)] to-[#A8D5D0]"></div>
 						<div class="p-8 md:p-10">
@@ -98,18 +101,18 @@ $label_class = 'block text-sm font-medium text-[#1B4D5C] mb-1.5';
 							<!-- What happens next -->
 							<div class="border-t border-[#E8DFD0] pt-6">
 								<p class="text-xs font-semibold text-[var(--warm-gold-text)] uppercase tracking-wider mb-4">What happens next</p>
-								<ol class="space-y-3 text-sm text-gray-600 list-none p-0 m-0">
-									<li class="flex items-start gap-3">
-										<span class="shrink-0 w-6 h-6 rounded-full bg-[var(--deep-teal)]/10 text-[var(--deep-teal)] text-xs font-semibold flex items-center justify-center mt-0.5" aria-hidden="true">1</span>
-										<span>We&rsquo;ll review your enquiry and check availability for your dates.</span>
+								<ol class="enquiry-next-steps space-y-4 text-sm text-gray-600 list-none p-0 m-0">
+									<li class="flex gap-3 items-center">
+										<span class="enquiry-step-num shrink-0 w-8 h-8 rounded-full bg-[var(--deep-teal)]/10 text-[var(--deep-teal)] text-sm font-serif font-semibold inline-flex items-center justify-center leading-none" aria-hidden="true">1</span>
+										<span class="min-w-0 leading-relaxed">We&rsquo;ll review your enquiry and check availability for your dates.</span>
 									</li>
-									<li class="flex items-start gap-3">
-										<span class="shrink-0 w-6 h-6 rounded-full bg-[var(--deep-teal)]/10 text-[var(--deep-teal)] text-xs font-semibold flex items-center justify-center mt-0.5" aria-hidden="true">2</span>
-										<span>We&rsquo;ll contact you by your preferred method to confirm details and answer any questions.</span>
+									<li class="flex gap-3 items-center">
+										<span class="enquiry-step-num shrink-0 w-8 h-8 rounded-full bg-[var(--deep-teal)]/10 text-[var(--deep-teal)] text-sm font-serif font-semibold inline-flex items-center justify-center leading-none" aria-hidden="true">2</span>
+										<span class="min-w-0 leading-relaxed">We&rsquo;ll contact you by your preferred method to confirm details and answer any questions.</span>
 									</li>
-									<li class="flex items-start gap-3">
-										<span class="shrink-0 w-6 h-6 rounded-full bg-[var(--deep-teal)]/10 text-[var(--deep-teal)] text-xs font-semibold flex items-center justify-center mt-0.5" aria-hidden="true">3</span>
-										<span>No commitment at this stage &mdash; just a conversation at your own pace.</span>
+									<li class="flex gap-3 items-center">
+										<span class="enquiry-step-num shrink-0 w-8 h-8 rounded-full bg-[var(--deep-teal)]/10 text-[var(--deep-teal)] text-sm font-serif font-semibold inline-flex items-center justify-center leading-none" aria-hidden="true">3</span>
+										<span class="min-w-0 leading-relaxed">No commitment at this stage &mdash; just a conversation at your own pace.</span>
 									</li>
 								</ol>
 							</div>
@@ -241,10 +244,10 @@ $label_class = 'block text-sm font-medium text-[#1B4D5C] mb-1.5';
 										<a href="<?php echo esc_url( $resources_url ); ?>" class="text-[var(--deep-teal)] hover:underline">Not sure? See our Funding &amp; support page</a>
 									</p>
 								</div>
-								<div class="flex items-start gap-3 py-1">
+								<div class="flex items-center gap-3 py-2">
 									<input type="checkbox" id="enq_urgent" name="enq_urgent" value="1"
-									       class="mt-1.5 h-4 w-4 rounded border-[#E8DFD0] text-[var(--deep-teal)] focus:ring-[#A8D5D0]" />
-									<label for="enq_urgent" class="text-sm font-medium text-[#1B4D5C] cursor-pointer">
+									       class="enquire-checkbox-urgent h-[1.125rem] w-[1.125rem] shrink-0 rounded border-2 border-[#C4B8A8] bg-white focus:outline-none focus:ring-2 focus:ring-[#A8D5D0] focus:ring-offset-2" />
+									<label for="enq_urgent" class="text-sm font-medium leading-snug text-[#1B4D5C] cursor-pointer select-none">
 										This is urgent — please prioritise my enquiry
 									</label>
 								</div>
@@ -296,17 +299,18 @@ $label_class = 'block text-sm font-medium text-[#1B4D5C] mb-1.5';
 				<!-- Sidebar -->
 				<div class="md:col-span-2 space-y-6">
 					<?php if ( $enq_phone ) : ?>
-						<div class="bg-[var(--bg-subtle)] rounded-2xl p-7 border border-gray-100">
-							<p class="text-sm font-semibold text-[var(--warm-gold-text)] uppercase tracking-wider mb-2">Prefer to call?</p>
+						<div class="<?php echo esc_attr( $sidebar_card_base ); ?>">
+							<h3 class="<?php echo esc_attr( $sidebar_card_heading ); ?>"><?php esc_html_e( 'Prefer to call?', 'restwell-retreats' ); ?></h3>
 							<a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $enq_phone ) ); ?>"
-							   class="text-xl font-serif text-[var(--deep-teal)] font-medium hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] focus-visible:ring-offset-2 rounded no-underline">
+							   class="inline-flex items-center gap-2 text-lg font-serif text-[var(--deep-teal)] font-medium hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] focus-visible:ring-offset-2 rounded no-underline">
+								<i class="fa-solid fa-phone text-xs opacity-70" aria-hidden="true"></i>
 								<?php echo esc_html( $enq_phone ); ?>
 							</a>
 						</div>
 					<?php endif; ?>
 
-					<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
-						<h3 class="text-lg font-serif text-[var(--deep-teal)] mb-4"><?php echo esc_html( $enq_contact_heading ); ?></h3>
+					<div class="<?php echo esc_attr( $sidebar_card_base ); ?>">
+						<h3 class="<?php echo esc_attr( $sidebar_card_heading ); ?>"><?php echo esc_html( $enq_contact_heading ); ?></h3>
 						<div class="space-y-4 text-gray-600">
 							<div>
 								<p class="text-sm font-medium text-[var(--deep-teal)] mb-0.5">Email</p>
@@ -327,10 +331,27 @@ $label_class = 'block text-sm font-medium text-[#1B4D5C] mb-1.5';
 						</div>
 					</div>
 
+					<?php
+					$enq_who_page = get_page_by_path( 'who-its-for', OBJECT, 'page' );
+					$enq_who_url  = $enq_who_page ? get_permalink( $enq_who_page ) : home_url( '/who-its-for/' );
+					?>
+					<div class="<?php echo esc_attr( $sidebar_card_base ); ?>">
+						<h3 class="<?php echo esc_attr( $sidebar_card_heading ); ?>"><?php esc_html_e( 'Funding your stay', 'restwell-retreats' ); ?></h3>
+						<p class="text-gray-600 text-sm leading-relaxed mb-5"><?php esc_html_e( 'Direct payments, personal budgets, and NHS CHC may apply depending on your package and local authority. We can provide documentation to support applications.', 'restwell-retreats' ); ?></p>
+						<div class="flex flex-wrap gap-2">
+							<a href="<?php echo esc_url( $resources_url ); ?>" class="inline-flex items-center gap-2 rounded-full border border-[var(--deep-teal)]/25 px-3 py-1.5 text-[var(--deep-teal)] font-medium text-sm hover:border-[var(--deep-teal)]/45 hover:bg-[var(--sea-glass)]/20 transition-colors">
+								<?php esc_html_e( 'Funding &amp; support', 'restwell-retreats' ); ?>
+							</a>
+							<a href="<?php echo esc_url( $enq_who_url ); ?>" class="inline-flex items-center gap-2 rounded-full border border-[var(--deep-teal)]/25 px-3 py-1.5 text-[var(--deep-teal)] font-medium text-sm hover:border-[var(--deep-teal)]/45 hover:bg-[var(--sea-glass)]/20 transition-colors">
+								<?php esc_html_e( 'Who it\'s for', 'restwell-retreats' ); ?>
+							</a>
+						</div>
+					</div>
+
 				<?php if ( $enq_response_heading || $enq_response_body ) : ?>
-				<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
+				<div class="<?php echo esc_attr( $sidebar_card_base ); ?>">
 					<?php if ( $enq_response_heading ) : ?>
-					<h3 class="text-lg font-serif text-[var(--deep-teal)] mb-3"><?php echo esc_html( $enq_response_heading ); ?></h3>
+					<h3 class="<?php echo esc_attr( $sidebar_card_heading ); ?>"><?php echo esc_html( $enq_response_heading ); ?></h3>
 					<?php endif; ?>
 					<?php if ( $enq_response_body ) : ?>
 					<p class="text-gray-600 leading-relaxed text-sm"><?php echo esc_html( $enq_response_body ); ?></p>

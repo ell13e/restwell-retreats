@@ -8,7 +8,9 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-$enquire_url = home_url( '/enquire/' );
+$enquire_url          = home_url( '/enquire/' );
+$access_statement_url = function_exists( 'restwell_get_access_statement_url' ) ? restwell_get_access_statement_url() : '';
+$legal_entity_name    = (string) get_option( 'restwell_footer_legal_name', __( 'Homely Housing Investments Ltd t/a Restwell Retreats', 'restwell-retreats' ) );
 ?>
 <footer class="site-footer" role="contentinfo">
 	<?php global $restwell_hide_footer_cta; ?>
@@ -33,7 +35,8 @@ $enquire_url = home_url( '/enquire/' );
 						height="44"
 					>
 				</a>
-				<p class="footer-description"><?php echo esc_html( sprintf( __( 'A %s property. Care provided by Continuity Care Services.', 'restwell-retreats' ), get_bloginfo( 'name' ) ) ); ?></p>
+				<p class="footer-description"><?php echo esc_html__( 'Care provided by Continuity of Care Services.', 'restwell-retreats' ); ?></p>
+				<p class="footer-legal-name"><?php echo esc_html( $legal_entity_name ); ?></p>
 			</div>
 
 			<!-- Explore -->
@@ -58,11 +61,17 @@ $enquire_url = home_url( '/enquire/' );
 
 		<div class="site-footer__bottom">
 			<nav class="site-footer__legal" aria-label="<?php esc_attr_e( 'Legal', 'restwell-retreats' ); ?>">
+				<?php if ( $access_statement_url !== '' ) : ?>
+					<a href="<?php echo esc_url( $access_statement_url ); ?>" rel="noopener" target="_blank"><?php esc_html_e( 'Access statement (PDF)', 'restwell-retreats' ); ?></a>
+					<span class="site-footer__legal-sep" aria-hidden="true">·</span>
+				<?php endif; ?>
+				<a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>"><?php esc_html_e( 'FAQ', 'restwell-retreats' ); ?></a>
+				<span class="site-footer__legal-sep" aria-hidden="true">·</span>
 				<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'restwell-retreats' ); ?></a>
 				<span class="site-footer__legal-sep" aria-hidden="true">·</span>
 				<a href="<?php echo esc_url( home_url( '/terms-and-conditions/' ) ); ?>"><?php esc_html_e( 'Terms &amp; Conditions', 'restwell-retreats' ); ?></a>
 			</nav>
-			<p class="site-footer__copyright">&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?>. <?php esc_html_e( 'All rights reserved.', 'restwell-retreats' ); ?></p>
+			<p class="site-footer__copyright">&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( $legal_entity_name ); ?>. <?php esc_html_e( 'All rights reserved.', 'restwell-retreats' ); ?></p>
 		</div>
 	</div>
 	<?php wp_footer(); ?>

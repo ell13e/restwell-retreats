@@ -31,10 +31,68 @@ $faq_cta_body    = get_post_meta( $pid, 'faq_cta_body', true ) ?: 'We are here t
 $faq_cta_btn     = get_post_meta( $pid, 'faq_cta_btn', true ) ?: 'Ask us';
 $faq_cta_url     = esc_url( get_post_meta( $pid, 'faq_cta_url', true ) ?: home_url( '/enquire/' ) );
 
+$faq_question_sent   = isset( $_GET['question_sent'] ) && '1' === sanitize_text_field( wp_unslash( $_GET['question_sent'] ) );
+$faq_question_errors = array();
+$faq_q_name          = '';
+$faq_q_email         = '';
+$faq_q_message       = '';
+
+$faq_form_input_class = 'w-full rounded-xl border border-[#CFC2AD] bg-[#FFFEFC] px-4 py-3 text-sm text-[#1B4D5C] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A8D5D0] focus:ring-offset-2';
+$faq_form_label_class = 'block text-sm font-semibold text-[#1B4D5C] mb-1.5';
+
+if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['restwell_faq_question'] ) ) {
+	$nonce = isset( $_POST['restwell_faq_question_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['restwell_faq_question_nonce'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'restwell_faq_question' ) ) {
+		$faq_question_errors[] = __( 'Security check failed. Please try again.', 'restwell-retreats' );
+	} else {
+		$faq_q_name    = isset( $_POST['faq_q_name'] ) ? sanitize_text_field( wp_unslash( $_POST['faq_q_name'] ) ) : '';
+		$faq_q_email   = isset( $_POST['faq_q_email'] ) ? sanitize_email( wp_unslash( $_POST['faq_q_email'] ) ) : '';
+		$faq_q_message = isset( $_POST['faq_q_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['faq_q_message'] ) ) : '';
+
+		if ( '' === $faq_q_name ) {
+			$faq_question_errors[] = __( 'Please add your name.', 'restwell-retreats' );
+		}
+
+		if ( '' === $faq_q_email || ! is_email( $faq_q_email ) ) {
+			$faq_question_errors[] = __( 'Please add a valid email address.', 'restwell-retreats' );
+		}
+
+		if ( '' === $faq_q_message ) {
+			$faq_question_errors[] = __( 'Please type your question.', 'restwell-retreats' );
+		}
+
+		if ( empty( $faq_question_errors ) ) {
+			$to      = get_option( 'admin_email' );
+			$subject = sprintf( __( 'FAQ question from %s', 'restwell-retreats' ), $faq_q_name );
+			$lines   = array(
+				sprintf( __( 'Name: %s', 'restwell-retreats' ), $faq_q_name ),
+				sprintf( __( 'Email: %s', 'restwell-retreats' ), $faq_q_email ),
+				'',
+				__( 'Question:', 'restwell-retreats' ),
+				$faq_q_message,
+			);
+			$headers = array( 'Reply-To: ' . $faq_q_name . ' <' . $faq_q_email . '>' );
+
+			$sent = wp_mail( $to, $subject, implode( "\n", $lines ), $headers );
+
+			if ( $sent ) {
+				$redirect = add_query_arg(
+					array( 'question_sent' => '1' ),
+					get_permalink( $pid )
+				);
+				wp_safe_redirect( $redirect . '#faq-question-form' );
+				exit;
+			}
+
+			$faq_question_errors[] = __( 'Sorry, your question could not be sent right now. Please try again.', 'restwell-retreats' );
+		}
+	}
+}
+
 // Build FAQ pairs with optional category (faq_N_cat).
-// Category values: about | booking | care | local
+// Category values: about | booking | care | local | funding
 $faq_pairs = array();
-for ( $i = 1; $i <= 12; $i++ ) {
+for ( $i = 1; $i <= 14; $i++ ) {
 	$q   = get_post_meta( $pid, "faq_{$i}_q", true );
 	$a   = get_post_meta( $pid, "faq_{$i}_a", true );
 	$cat = get_post_meta( $pid, "faq_{$i}_cat", true ) ?: 'about';
@@ -46,7 +104,7 @@ if ( empty( $faq_pairs ) ) {
 	$faq_pairs = array(
 		array(
 			'q'   => 'Is this a care home?',
-			'a'   => 'No. Restwell Retreats is a private holiday let — a real house that you have entirely to yourself. It is not a care home, a residential facility, or a clinical environment. Care is an optional extra that you can choose to add through our partner, Continuity of Care Services.',
+			'a'   => 'No. Restwell is a private holiday let — a real house that you have entirely to yourself. It is not a care home, a residential facility, or a clinical environment. Care is an optional extra that you can choose to add through our partner, Continuity of Care Services.',
 			'cat' => 'about',
 		),
 		array(
@@ -84,6 +142,26 @@ if ( empty( $faq_pairs ) ) {
 			'a'   => 'Much of central Whitstable and the seafront area is relatively flat and accessible. The town has accessible parking, and the high street has a good mix of level and stepped access venues. We are happy to suggest specific places to eat, visit, and explore.',
 			'cat' => 'local',
 		),
+		array(
+			'q'   => 'Can I use my direct payment to stay at Restwell?',
+			'a'   => 'In many cases, yes. Direct payments can often be used for short breaks and respite accommodation, depending on your care plan and local authority. We can provide the documentation your social worker or broker needs to approve the spend. Start with our Funding & Support page or get in touch to discuss your situation.',
+			'cat' => 'funding',
+		),
+		array(
+			'q'   => 'Is the property suitable for hoists and profiling beds?',
+			'a'   => 'The property has space for portable hoists and equipment. For specific requirements — ceiling track hoists, particular bed configurations, or specialist equipment — please get in touch before booking so we can confirm whether we can accommodate your needs.',
+			'cat' => 'about',
+		),
+		array(
+			'q'   => 'What is the minimum stay?',
+			'a'   => 'We are flexible. Most guests stay for a week, but shorter breaks are sometimes available depending on the time of year. Get in touch with your preferred dates and we will let you know.',
+			'cat' => 'booking',
+		),
+		array(
+			'q'   => 'What does CQC-regulated mean?',
+			'a'   => 'CQC stands for Care Quality Commission — the independent regulator of health and social care in England. Continuity of Care Services, our partner provider, is inspected and rated by the CQC. This means the care you receive meets nationally recognised standards for safety and quality.',
+			'cat' => 'care',
+		),
 	);
 }
 
@@ -94,6 +172,7 @@ $categories = array(
 	'booking' => 'Booking & dates',
 	'care'    => 'Care & support',
 	'local'   => 'The local area',
+	'funding' => 'Funding & payments',
 );
 ?>
 <main class="flex-1" id="main-content">
@@ -169,21 +248,69 @@ $categories = array(
 
 			<!-- Empty state (shown by JS when no results) -->
 			<p id="faq-empty-state" class="hidden text-gray-600 text-center py-8">
-				No questions in this category yet. <a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="text-[var(--deep-teal)] hover:underline font-medium">Ask us directly</a>.
+				No questions in this category yet. <a href="#faq-question-form" class="text-[var(--deep-teal)] hover:underline font-medium">Ask us directly</a>.
 			</p>
 
 		</div>
 	</section>
 
 	<!-- CTA -->
-	<section class="py-16 md:py-20 bg-[var(--deep-teal)] text-center" aria-labelledby="faq-cta-heading">
-		<div class="container max-w-2xl">
-			<h2 id="faq-cta-heading" class="text-3xl font-serif text-white mb-4"><?php echo esc_html( $faq_cta_heading ); ?></h2>
-			<p class="text-white/90 text-lg mb-2 max-w-md mx-auto leading-relaxed"><?php echo esc_html( $faq_cta_body ); ?></p>
-			<p class="text-white/80 text-sm mb-8 max-w-sm mx-auto">Your question might help us write a better answer for someone else.</p>
-			<a href="<?php echo esc_url( $faq_cta_url ); ?>" class="btn btn-gold">
-				<?php echo esc_html( $faq_cta_btn ); ?> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-			</a>
+	<section class="py-16 md:py-20 bg-[var(--deep-teal)]" aria-labelledby="faq-cta-heading">
+		<div class="container max-w-4xl">
+			<div id="faq-question-form" class="rounded-3xl bg-white border border-[#E9E1D5] overflow-hidden shadow-[0_18px_44px_rgba(0,0,0,0.2)]">
+				<div class="grid gap-0 lg:grid-cols-5 divide-y lg:divide-y-0 lg:divide-x divide-[#E8DFD0]">
+					<div class="lg:col-span-2 bg-[#FBF8F3] px-6 py-7 md:px-8 md:py-8">
+						<p class="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--warm-gold-text)] mb-2"><?php esc_html_e( 'Quick question form', 'restwell-retreats' ); ?></p>
+						<h2 id="faq-cta-heading" class="text-[2rem] font-serif text-[var(--deep-teal)] leading-tight mb-3"><?php echo esc_html( $faq_cta_heading ); ?></h2>
+						<p class="text-[#395962] text-[15px] leading-relaxed mb-3"><?php echo esc_html( $faq_cta_body ); ?></p>
+						<p class="text-[#5f747b] text-sm leading-relaxed"><?php esc_html_e( 'Ask anything here and we will reply directly by email.', 'restwell-retreats' ); ?></p>
+					</div>
+
+					<div class="lg:col-span-3 px-6 py-7 md:px-8 md:py-8">
+						<h3 class="text-xl md:text-2xl font-serif text-[var(--deep-teal)] mb-5"><?php esc_html_e( 'Ask a simple question', 'restwell-retreats' ); ?></h3>
+
+						<?php if ( $faq_question_sent ) : ?>
+							<p class="text-sm font-medium text-[var(--deep-teal)] bg-[var(--sea-glass)]/35 border border-[var(--sea-glass)] rounded-xl px-4 py-3 mb-4">
+								<?php esc_html_e( 'Thanks — your question has been sent. We usually reply within 24 hours.', 'restwell-retreats' ); ?>
+							</p>
+						<?php endif; ?>
+
+						<?php if ( ! empty( $faq_question_errors ) ) : ?>
+							<div class="text-sm text-[#7a1c1c] bg-[#fef2f2] border border-[#fecaca] rounded-xl px-4 py-3 mb-4" role="alert">
+								<?php foreach ( $faq_question_errors as $error ) : ?>
+									<p><?php echo esc_html( $error ); ?></p>
+								<?php endforeach; ?>
+							</div>
+						<?php endif; ?>
+
+						<form method="post" action="<?php echo esc_url( get_permalink( $pid ) ); ?>#faq-question-form" class="space-y-4 text-left">
+							<?php wp_nonce_field( 'restwell_faq_question', 'restwell_faq_question_nonce' ); ?>
+							<input type="hidden" name="restwell_faq_question" value="1" />
+
+							<div class="grid gap-4 md:grid-cols-2">
+								<div>
+									<label for="faq_q_name" class="<?php echo esc_attr( $faq_form_label_class ); ?>"><?php esc_html_e( 'Your name', 'restwell-retreats' ); ?></label>
+									<input type="text" id="faq_q_name" name="faq_q_name" required value="<?php echo esc_attr( $faq_q_name ); ?>" class="<?php echo esc_attr( $faq_form_input_class ); ?>" />
+								</div>
+
+								<div>
+									<label for="faq_q_email" class="<?php echo esc_attr( $faq_form_label_class ); ?>"><?php esc_html_e( 'Email address', 'restwell-retreats' ); ?></label>
+									<input type="email" id="faq_q_email" name="faq_q_email" required value="<?php echo esc_attr( $faq_q_email ); ?>" class="<?php echo esc_attr( $faq_form_input_class ); ?>" />
+								</div>
+							</div>
+
+							<div>
+								<label for="faq_q_message" class="<?php echo esc_attr( $faq_form_label_class ); ?>"><?php esc_html_e( 'Your question', 'restwell-retreats' ); ?></label>
+								<textarea id="faq_q_message" name="faq_q_message" required rows="5" class="<?php echo esc_attr( $faq_form_input_class ); ?>"><?php echo esc_textarea( $faq_q_message ); ?></textarea>
+							</div>
+
+							<button type="submit" class="btn btn-gold min-h-[46px] px-7 w-full md:w-auto">
+								<?php esc_html_e( 'Send question', 'restwell-retreats' ); ?> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
 

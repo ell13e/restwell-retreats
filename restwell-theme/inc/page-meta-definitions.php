@@ -26,8 +26,11 @@ function restwell_get_page_content_field_definitions( $post = null ) {
 		'template-property.php'    => 'restwell_get_property_field_definitions',
 		'template-how-it-works.php'=> 'restwell_get_how_it_works_field_definitions',
 		'template-accessibility.php' => 'restwell_get_accessibility_field_definitions',
+		'template-who-its-for.php' => 'restwell_get_who_its_for_field_definitions',
+		'template-whitstable-guide.php' => 'restwell_get_whitstable_guide_field_definitions',
 		'template-faq.php'        => 'restwell_get_faq_field_definitions',
 		'template-enquire.php'    => 'restwell_get_enquire_field_definitions',
+		'template-contact.php'    => 'restwell_get_contact_field_definitions',
 		'template-resources.php'  => 'restwell_get_resources_field_definitions',
 	);
 	if ( isset( $map[ $template ] ) && is_callable( $map[ $template ] ) ) {
@@ -224,13 +227,13 @@ function restwell_get_property_field_definitions() {
 		'Practical details' => array(
 			'prop_practical_label'  => __( 'Section label', 'restwell-retreats' ),
 			'prop_practical_heading'=> __( 'Section heading (h2)', 'restwell-retreats' ),
-			'prop_bedrooms_count'   => __( 'Bedrooms number (e.g. 5)', 'restwell-retreats' ),
+			'prop_bedrooms_count'   => __( 'Bedrooms number (set only if verified)', 'restwell-retreats' ),
 			'prop_bedrooms'   => __( 'Bedrooms text (fallback)', 'restwell-retreats' ),
-			'prop_bathrooms_count'  => __( 'Bathrooms number (e.g. 3)', 'restwell-retreats' ),
+			'prop_bathrooms_count'  => __( 'Bathrooms number (set only if verified)', 'restwell-retreats' ),
 			'prop_bathroom'   => __( 'Bathroom text (fallback)', 'restwell-retreats' ),
 			'prop_parking_label'    => __( 'Parking label (e.g. Parking)', 'restwell-retreats' ),
 			'prop_parking'    => __( 'Parking text (fallback)', 'restwell-retreats' ),
-			'prop_sleeps_value'     => __( 'Sleeps value (e.g. 9+)', 'restwell-retreats' ),
+			'prop_sleeps_value'     => __( 'Sleeps value (set only if verified)', 'restwell-retreats' ),
 			'prop_sleeps_label'     => __( 'Sleeps label (e.g. Sleeps)', 'restwell-retreats' ),
 			'prop_distances'  => __( 'Distances text (fallback)', 'restwell-retreats' ),
 			'prop_confirm_details_url' => __( 'Confirm details / gallery button fallback URL', 'restwell-retreats' ),
@@ -492,6 +495,111 @@ function restwell_get_enquire_field_definitions() {
 			'enq_response_body'   => __( 'Response time body', 'restwell-retreats' ),
 			'enq_no_pressure_heading' => __( 'No pressure box heading', 'restwell-retreats' ),
 			'enq_no_pressure_body'   => __( 'No pressure box body', 'restwell-retreats' ),
+		),
+	);
+}
+
+/**
+ * Who It's For page.
+ */
+function restwell_get_who_its_for_field_definitions() {
+	return array(
+		'Header' => array(
+			'wif_hero_image_id' => __( 'Hero background image (attachment ID, optional)', 'restwell-retreats' ),
+			'wif_label'         => __( 'Hero eyebrow label', 'restwell-retreats' ),
+			'wif_heading'       => __( 'Page heading (h1)', 'restwell-retreats' ),
+			'wif_intro'         => __( 'Intro paragraph', 'restwell-retreats' ),
+		),
+		'Audience cards' => array(
+			'wif_family_title'        => __( 'Families card title', 'restwell-retreats' ),
+			'wif_family_body'         => __( 'Families card body', 'restwell-retreats' ),
+			'wif_carers_title'        => __( 'Carers card title', 'restwell-retreats' ),
+			'wif_carers_body'         => __( 'Carers card body', 'restwell-retreats' ),
+			'wif_ot_title'            => __( 'OT/case manager card title', 'restwell-retreats' ),
+			'wif_ot_body'             => __( 'OT/case manager card body', 'restwell-retreats' ),
+			'wif_commissioners_title' => __( 'Commissioners card title', 'restwell-retreats' ),
+			'wif_commissioners_body'  => __( 'Commissioners card body', 'restwell-retreats' ),
+		),
+		'Funding block' => array(
+			'wif_funding_heading' => __( 'Funding heading (h2)', 'restwell-retreats' ),
+			'wif_funding_body'    => __( 'Funding body', 'restwell-retreats' ),
+		),
+		'CTA' => array(
+			'wif_cta_heading'         => __( 'CTA heading', 'restwell-retreats' ),
+			'wif_cta_body'            => __( 'CTA body', 'restwell-retreats' ),
+			'wif_cta_primary_label'   => __( 'Primary CTA label', 'restwell-retreats' ),
+			'wif_cta_primary_url'     => __( 'Primary CTA URL', 'restwell-retreats' ),
+			'wif_cta_secondary_label' => __( 'Secondary CTA label', 'restwell-retreats' ),
+			'wif_cta_secondary_url'   => __( 'Secondary CTA URL', 'restwell-retreats' ),
+		),
+	);
+}
+
+/**
+ * Whitstable guide page.
+ */
+function restwell_get_whitstable_guide_field_definitions() {
+	return array(
+		'Header' => array(
+			'wg_hero_image_id' => __( 'Hero background image (attachment ID, optional)', 'restwell-retreats' ),
+			'wg_label'         => __( 'Hero eyebrow label', 'restwell-retreats' ),
+			'wg_heading'       => __( 'Page heading (h1)', 'restwell-retreats' ),
+			'wg_intro'         => __( 'Intro paragraph', 'restwell-retreats' ),
+		),
+		'Sections' => array(
+			'wg_about_heading'         => __( 'About section heading', 'restwell-retreats' ),
+			'wg_about_body'            => __( 'About section body', 'restwell-retreats' ),
+			'wg_towns_heading'         => __( 'Nearby towns heading', 'restwell-retreats' ),
+			'wg_towns_body'            => __( 'Nearby towns body', 'restwell-retreats' ),
+			'wg_getting_here_heading'  => __( 'Getting here heading', 'restwell-retreats' ),
+			'wg_getting_here_body'     => __( 'Getting here body', 'restwell-retreats' ),
+			'wg_getting_around_heading'=> __( 'Getting around heading', 'restwell-retreats' ),
+			'wg_getting_around_body'   => __( 'Getting around body', 'restwell-retreats' ),
+		),
+		'Image slots' => array(
+			'wg_spotlight_image_1_id'      => __( 'Spotlight image 1 attachment ID (optional)', 'restwell-retreats' ),
+			'wg_spotlight_image_1_caption' => __( 'Spotlight image 1 caption', 'restwell-retreats' ),
+			'wg_spotlight_image_2_id'      => __( 'Spotlight image 2 attachment ID (optional)', 'restwell-retreats' ),
+			'wg_spotlight_image_2_caption' => __( 'Spotlight image 2 caption', 'restwell-retreats' ),
+			'wg_spotlight_image_3_id'      => __( 'Spotlight image 3 attachment ID (optional)', 'restwell-retreats' ),
+			'wg_spotlight_image_3_caption' => __( 'Spotlight image 3 caption', 'restwell-retreats' ),
+		),
+		'CTA' => array(
+			'wg_cta_heading'         => __( 'CTA heading', 'restwell-retreats' ),
+			'wg_cta_body'            => __( 'CTA body', 'restwell-retreats' ),
+			'wg_cta_primary_label'   => __( 'Primary CTA label', 'restwell-retreats' ),
+			'wg_cta_primary_url'     => __( 'Primary CTA URL', 'restwell-retreats' ),
+			'wg_cta_secondary_label' => __( 'Secondary CTA label', 'restwell-retreats' ),
+			'wg_cta_secondary_url'   => __( 'Secondary CTA URL', 'restwell-retreats' ),
+		),
+	);
+}
+
+/**
+ * Contact page.
+ */
+function restwell_get_contact_field_definitions() {
+	return array(
+		'Header' => array(
+			'contact_hero_image_id' => __( 'Hero background image (attachment ID, optional)', 'restwell-retreats' ),
+			'contact_label'         => __( 'Hero eyebrow label', 'restwell-retreats' ),
+			'contact_heading'       => __( 'Page heading (h1)', 'restwell-retreats' ),
+			'contact_intro'         => __( 'Intro paragraph', 'restwell-retreats' ),
+		),
+		'Details' => array(
+			'contact_phone'         => __( 'Phone number', 'restwell-retreats' ),
+			'contact_email'         => __( 'Email address', 'restwell-retreats' ),
+			'contact_address'       => __( 'Address (multi-line)', 'restwell-retreats' ),
+			'contact_hours_heading' => __( 'Response heading', 'restwell-retreats' ),
+			'contact_hours_body'    => __( 'Response body', 'restwell-retreats' ),
+			'contact_prof_heading'  => __( 'Professionals heading', 'restwell-retreats' ),
+			'contact_prof_body'     => __( 'Professionals body', 'restwell-retreats' ),
+		),
+		'CTA' => array(
+			'contact_cta_heading' => __( 'CTA heading', 'restwell-retreats' ),
+			'contact_cta_body'    => __( 'CTA body', 'restwell-retreats' ),
+			'contact_cta_label'   => __( 'CTA label', 'restwell-retreats' ),
+			'contact_cta_url'     => __( 'CTA URL', 'restwell-retreats' ),
 		),
 	);
 }

@@ -1,0 +1,1203 @@
+/**
+ * Restwell CRM / Guest Guide admin — spacing, rhythm, hierarchy.
+ */
+
+.restwell-admin {
+	--rw-bg: #f3f5f7;
+	--rw-surface: #ffffff;
+	--rw-border: #d9e1e8;
+	--rw-text: #1f2933;
+	--rw-muted: #5f6c7b;
+	--rw-subtle: #787c82;
+	--rw-primary: #1b4d5c;
+	--rw-accent: #d4a853;
+	--rw-space-1: 0.25rem;
+	--rw-space-2: 0.5rem;
+	--rw-space-3: 0.75rem;
+	--rw-space-4: 1rem;
+	--rw-space-5: 1.25rem;
+	--rw-space-6: 1.5rem;
+	--rw-space-8: 2rem;
+	--rw-radius-lg: 14px;
+	--rw-radius-md: 12px;
+	--rw-radius-pill: 999px;
+}
+
+/* ── Page shell & vertical rhythm ───────────────────────────────────────── */
+
+.restwell-admin {
+	padding-bottom: var(--rw-space-8);
+}
+
+.restwell-admin-dashboard .notice,
+.restwell-admin-enquiries .notice {
+	margin-top: var(--rw-space-4);
+	margin-bottom: var(--rw-space-5);
+}
+
+.restwell-admin .rw-page-title {
+	margin-bottom: var(--rw-space-5);
+	color: var(--rw-text);
+}
+
+.restwell-admin-dashboard .rw-stat-grid {
+	margin-top: var(--rw-space-2);
+	margin-bottom: var(--rw-space-6);
+}
+
+.restwell-admin-dashboard .rw-dashboard-grid {
+	margin-top: var(--rw-space-2);
+}
+
+/* Title row: heading + export (enquiries) */
+.restwell-admin .rw-page-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--rw-space-3);
+	margin-bottom: var(--rw-space-2);
+}
+
+.restwell-admin-enquiries .rw-page-toolbar {
+	gap: var(--rw-space-4);
+	margin-bottom: var(--rw-space-4);
+}
+
+.restwell-admin .rw-page-toolbar .rw-export-form {
+	display: inline-flex;
+	align-items: center;
+	margin: 0;
+}
+
+.restwell-admin .rw-subsubsub--owner {
+	clear: both;
+	margin-top: var(--rw-space-2);
+	margin-bottom: var(--rw-space-4);
+}
+
+.restwell-admin .search-box {
+	margin-top: var(--rw-space-3);
+	margin-bottom: var(--rw-space-5);
+}
+
+/*
+ * Enquiries list: avoid wp-admin float collision — .search-box floats right in core,
+ * which can pull the empty state (or table) up beside .subsubsub. Stack controls vertically.
+ */
+.restwell-admin-enquiries .rw-enquiries-panel {
+	background: var(--rw-surface);
+	border: 1px solid var(--rw-border);
+	border-radius: var(--rw-radius-lg);
+	box-shadow: 0 2px 10px rgba(16, 24, 40, 0.04);
+	overflow: hidden;
+	margin-bottom: var(--rw-space-5);
+	box-sizing: border-box;
+}
+
+/* Filters left + search right on wide screens; single column on small */
+.restwell-admin-enquiries .rw-enquiries-controls {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+	gap: var(--rw-space-5) var(--rw-space-8);
+	align-items: start;
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	padding: var(--rw-space-5) var(--rw-space-6);
+	box-sizing: border-box;
+}
+
+.restwell-admin-enquiries .rw-enquiries-controls__primary {
+	display: flex;
+	flex-direction: column;
+	gap: var(--rw-space-3);
+	min-width: 0;
+}
+
+.restwell-admin-enquiries .rw-enquiries-controls .subsubsub {
+	float: none;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.restwell-admin-enquiries .rw-enquiries-controls .rw-subsubsub--owner {
+	clear: none;
+	margin: 0;
+}
+
+/* Filter rows: label + pill chips (replaces pipe-separated subsubsub) */
+.restwell-admin-enquiries .rw-filter-group {
+	display: flex;
+	flex-direction: column;
+	gap: var(--rw-space-2);
+}
+
+.restwell-admin-enquiries .rw-filter-group__label {
+	display: block;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--rw-subtle);
+}
+
+.restwell-admin-enquiries .rw-filter-pills {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--rw-space-2);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.restwell-admin-enquiries .rw-filter-pills li {
+	margin: 0;
+	padding: 0;
+}
+
+.restwell-admin-enquiries .rw-filter-pills a {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 7px 14px;
+	border-radius: var(--rw-radius-pill);
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.3;
+	text-decoration: none;
+	color: #3c434a;
+	background: #fff;
+	border: 1px solid #d0d5dd;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+	transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.restwell-admin-enquiries .rw-filter-pills a:hover,
+.restwell-admin-enquiries .rw-filter-pills a:focus {
+	color: var(--rw-primary);
+	border-color: #b8c4cc;
+	background: #f8fafb;
+	box-shadow: 0 2px 6px rgba(16, 24, 40, 0.06);
+	outline: none;
+}
+
+.restwell-admin-enquiries .rw-filter-pills a:focus-visible {
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--rw-primary);
+}
+
+.restwell-admin-enquiries .rw-filter-pills a.current {
+	color: #fff;
+	background: var(--rw-primary);
+	border-color: #164a57;
+	box-shadow: 0 2px 8px rgba(27, 77, 92, 0.25);
+}
+
+.restwell-admin-enquiries .rw-filter-pills a.current .count {
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.restwell-admin-enquiries .rw-filter-pills .count {
+	font-weight: 500;
+	opacity: 0.9;
+}
+
+.restwell-admin-enquiries .rw-enquiries-search {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-self: end;
+	width: 100%;
+	max-width: 300px;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+.restwell-admin-enquiries .rw-enquiries-search form {
+	margin: 0;
+	width: 100%;
+}
+
+.restwell-admin-enquiries .rw-enquiries-search .search-box {
+	float: none;
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-start;
+	gap: var(--rw-space-2);
+	width: 100%;
+}
+
+.restwell-admin-enquiries .rw-enquiries-search .rw-filter-group__label {
+	margin-bottom: var(--rw-space-2);
+}
+
+.restwell-admin-enquiries .rw-enquiries-search input[type="search"] {
+	flex: 1 1 100%;
+	min-width: 0;
+	width: 100%;
+	max-width: 100%;
+}
+
+@media (max-width: 960px) {
+	.restwell-admin-enquiries .rw-enquiries-controls {
+		grid-template-columns: 1fr;
+	}
+
+	.restwell-admin-enquiries .rw-enquiries-search {
+		justify-self: stretch;
+		max-width: none;
+		padding-top: var(--rw-space-4);
+		border-top: 1px solid #e8eaeb;
+	}
+}
+
+/* Table + bulk actions: continue the panel without a second outer card */
+.restwell-admin-enquiries .rw-enquiries-panel > form {
+	margin: 0;
+}
+
+.restwell-admin-enquiries .rw-enquiries-panel .rw-table-shell--enquiries {
+	margin-top: 0;
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	border-top: 1px solid #e8eaeb;
+}
+
+/* CRM notice (e.g. off-site SEO) */
+.notice.rw-notice--crm {
+	margin-top: var(--rw-space-4);
+	margin-bottom: var(--rw-space-5);
+	max-width: 720px;
+	padding: var(--rw-space-4) var(--rw-space-5);
+}
+
+.notice.rw-notice--crm p {
+	margin: 0.5em 0;
+}
+
+.notice.rw-notice--crm p:first-child {
+	margin-top: 0;
+}
+
+.notice.rw-notice--crm p:last-child {
+	margin-bottom: 0;
+}
+
+.restwell-admin .rw-section-card {
+	background: var(--rw-surface);
+	border: 1px solid var(--rw-border);
+	border-radius: var(--rw-radius-lg);
+	padding: var(--rw-space-4);
+}
+
+.restwell-admin .rw-stat-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--rw-space-4);
+	max-width: 980px;
+}
+
+.restwell-admin .rw-stat-tile {
+	--rw-tile-accent: var(--rw-primary);
+
+	display: block;
+	background: var(--rw-surface);
+	border: 1px solid var(--rw-border);
+	border-radius: var(--rw-radius-md);
+	border-top: 3px solid var(--rw-tile-accent);
+	padding: 14px 16px;
+	text-decoration: none;
+	box-shadow: 0 2px 10px rgba(16, 24, 40, 0.04);
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.restwell-admin .rw-stat-value {
+	font-size: 1.9rem;
+	line-height: 1;
+	font-weight: 700;
+	color: var(--rw-tile-accent);
+}
+
+.restwell-admin .rw-stat-tile:hover,
+.restwell-admin .rw-stat-tile:focus-visible {
+	transform: translateY(-1px);
+	box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08);
+}
+
+.restwell-admin .rw-stat-label {
+	font-size: 0.75rem;
+	color: var(--rw-muted);
+	margin-top: 0.35rem;
+}
+
+.restwell-admin .rw-dashboard-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--rw-space-5);
+	max-width: 1120px;
+	align-items: start;
+}
+
+.restwell-admin .rw-settings-wrap {
+	max-width: 880px;
+	margin-top: var(--rw-space-6);
+}
+
+.restwell-admin .rw-settings-wrap .submit {
+	margin-top: var(--rw-space-5);
+	padding-top: var(--rw-space-4);
+}
+
+.restwell-admin .postbox {
+	border: 1px solid var(--rw-border);
+	border-radius: var(--rw-radius-md);
+	overflow: hidden;
+	box-shadow: 0 1px 4px rgba(16, 24, 40, 0.05);
+}
+
+.restwell-admin .postbox .postbox-header {
+	background: #f9fafb;
+	border-bottom: 1px solid var(--rw-border);
+}
+
+.restwell-admin .postbox .hndle {
+	padding: 14px 18px !important;
+	margin: 0;
+	line-height: 1.35;
+}
+
+.restwell-admin .postbox .inside {
+	background: var(--rw-surface);
+	padding: 18px !important;
+}
+
+.restwell-admin .postbox .inside > .description.rw-description--tight-top {
+	margin-top: 0;
+}
+
+.restwell-admin .rw-empty {
+	color: var(--rw-muted);
+	padding: var(--rw-space-4) var(--rw-space-2);
+	margin: 0;
+}
+
+.restwell-admin .rw-filter-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--rw-space-2);
+	margin: var(--rw-space-2) 0 var(--rw-space-3);
+}
+
+/* Dashboard data tables */
+.restwell-admin .rw-dashboard-table {
+	border: none;
+}
+
+.restwell-admin .rw-dashboard-table td.rw-table-meta {
+	font-size: 12px;
+	color: #50575e;
+}
+
+/* ── Empty states ────────────────────────────────────────────────────────── */
+
+.restwell-admin .rw-empty-state {
+	max-width: 640px;
+	margin-top: var(--rw-space-5);
+	padding: var(--rw-space-5) var(--rw-space-6);
+	border: 1px dashed var(--rw-border);
+	border-radius: var(--rw-radius-md);
+	background: #fcfdff;
+	color: var(--rw-muted);
+}
+
+.restwell-admin .rw-empty-state--card {
+	max-width: 520px;
+	padding: var(--rw-space-6) var(--rw-space-8);
+	border: 1px solid var(--rw-border);
+	border-radius: var(--rw-radius-lg);
+	background: var(--rw-surface);
+	box-shadow: 0 4px 24px rgba(16, 24, 40, 0.06);
+	text-align: left;
+}
+
+.restwell-admin .rw-empty-state__title {
+	margin: 0 0 var(--rw-space-3);
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--rw-text);
+	line-height: 1.35;
+}
+
+.restwell-admin .rw-empty-state__text {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.55;
+	color: var(--rw-muted);
+}
+
+/*
+ * Enquiries empty state — dedicated block (do not use .rw-empty-state: generic rule
+ * uses dashed border + max-width and wins the cascade, which looked left-aligned / lopsided).
+ */
+.restwell-admin-enquiries .rw-enquiries-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: min(48vh, 400px);
+	margin: 0;
+	padding: clamp(2rem, 5vw, 3rem) var(--rw-space-6) clamp(2.5rem, 6vw, 3.5rem);
+	box-sizing: border-box;
+	border: none;
+	border-top: 1px solid #e8eaeb;
+	border-radius: 0;
+	background: linear-gradient(165deg, #eef2f5 0%, #fafbfc 45%, #f0f4f6 100%);
+	text-align: center;
+}
+
+.restwell-admin-enquiries .rw-enquiries-empty__inner {
+	width: 100%;
+	max-width: 28rem;
+	margin: 0 auto;
+}
+
+.restwell-admin-enquiries .rw-enquiries-empty__figure {
+	color: var(--rw-primary);
+	width: 4.5rem;
+	height: 4.5rem;
+	margin: 0 auto var(--rw-space-5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0.92;
+}
+
+.restwell-admin-enquiries .rw-enquiries-empty__figure svg {
+	width: 100%;
+	height: 100%;
+}
+
+.restwell-admin-enquiries .rw-enquiries-empty__title {
+	margin: 0 0 var(--rw-space-3);
+	font-size: 1.28rem;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	color: var(--rw-text);
+	line-height: 1.35;
+}
+
+.restwell-admin-enquiries .rw-enquiries-empty__text {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.65;
+	color: var(--rw-muted);
+}
+
+/* ── Badges & pills ───────────────────────────────────────────────────── */
+
+.restwell-admin .rw-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 11px;
+	font-weight: 600;
+	padding: 4px 10px;
+	border-radius: var(--rw-radius-pill);
+	line-height: 1.35;
+}
+
+.restwell-admin .rw-badge--urgent {
+	background: #fde8e8;
+	color: #b42318;
+}
+
+.restwell-admin .rw-badge--overdue {
+	background: #fff4e5;
+	color: #8a4b00;
+}
+
+/* Status badge (dynamic background via inline style on .rw-status-pill) */
+.restwell-admin .rw-status-pill {
+	display: inline-block;
+	padding: 3px 10px;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+	color: #fff;
+	line-height: 1.35;
+}
+
+.restwell-admin .rw-sla-pill {
+	display: inline-block;
+	margin-top: 4px;
+	padding: 3px 8px;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 600;
+	color: #fff;
+	line-height: 1.35;
+}
+
+.restwell-admin .rw-sla-pill--warn {
+	background: #996800;
+}
+
+.restwell-admin .rw-sla-pill--critical {
+	background: #d63638;
+}
+
+.restwell-admin .rw-panel-title {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.restwell-admin .rw-panel-title__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.3em;
+	margin-left: 2px;
+}
+
+.restwell-admin .description {
+	margin-top: 6px;
+	line-height: 1.55;
+}
+
+.restwell-admin .form-table th,
+.restwell-admin .form-table td {
+	padding-top: 14px;
+	padding-bottom: 14px;
+}
+
+.restwell-admin .form-table .rw-checkbox-stack label {
+	display: block;
+	margin-bottom: var(--rw-space-2);
+}
+
+.restwell-admin .wp-list-table th,
+.restwell-admin .wp-list-table td,
+.restwell-admin .widefat th,
+.restwell-admin .widefat td {
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+.restwell-admin .wp-list-table .column-rw-flag {
+	width: 24px;
+	padding-left: 6px;
+	padding-right: 6px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+/* Enquiries list: card shell + auto layout (drop WP `fixed` — was crushing columns) */
+.restwell-admin-enquiries .rw-table-shell--enquiries {
+	border: 1px solid var(--rw-border);
+	border-radius: var(--rw-radius-md);
+	background: var(--rw-surface);
+	box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06);
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	margin-top: var(--rw-space-2);
+}
+
+.restwell-admin-enquiries .rw-table-shell--enquiries .tablenav {
+	margin: 0;
+	padding: 12px 16px;
+	border-bottom: 1px solid #dcdcde;
+	background: #fafbfc;
+	border-radius: var(--rw-radius-md) var(--rw-radius-md) 0 0;
+}
+
+.restwell-admin-enquiries .rw-table-shell--enquiries .tablenav .button.action {
+	vertical-align: middle;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table {
+	width: 100%;
+	table-layout: auto;
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	margin: 0;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table thead th,
+.restwell-admin-enquiries .rw-enquiries-table thead td.check-column {
+	padding: 12px 14px;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--rw-muted);
+	background: #f0f2f4;
+	border-bottom: 1px solid #c3c4c7;
+	vertical-align: middle;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table thead th {
+	text-transform: uppercase;
+	letter-spacing: 0.035em;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table tbody td {
+	padding: 14px 16px;
+	font-size: 13px;
+	line-height: 1.45;
+	vertical-align: top;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .check-column {
+	width: 2.5rem;
+	padding-left: 12px;
+	padding-right: 8px;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .column-rw-flag {
+	width: 1%;
+	min-width: 5.5rem;
+	max-width: 7rem;
+	text-align: center;
+	vertical-align: middle;
+	padding-top: 14px;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .column-rw-name {
+	min-width: 9rem;
+	max-width: 16rem;
+	font-weight: 500;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .column-rw-contact {
+	min-width: 12rem;
+	max-width: 20rem;
+	word-break: break-word;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .column-rw-dates {
+	min-width: 8.5rem;
+	max-width: 14rem;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .column-assigned {
+	min-width: 7rem;
+	max-width: 11rem;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .column-rw-status {
+	min-width: 10.5rem;
+	max-width: 15rem;
+	vertical-align: top;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .column-rw-status .rw-status-actions {
+	margin-top: 8px;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .column-rw-status .rw-details-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 28px;
+	padding: 4px 10px;
+	border: 1px solid #b7c8cf;
+	border-radius: 999px;
+	background: #fff;
+	color: var(--rw-primary);
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1;
+	text-decoration: none;
+	transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .column-rw-status .rw-details-link:hover,
+.restwell-admin-enquiries .rw-enquiries-table .column-rw-status .rw-details-link:focus {
+	background: #f3f8fa;
+	border-color: #8eabb5;
+	color: #123e49;
+	box-shadow: 0 1px 4px rgba(27, 77, 92, 0.12);
+	outline: none;
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .column-rw-status .rw-details-link:focus-visible {
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(27, 77, 92, 0.45);
+}
+
+.restwell-admin-enquiries .rw-enquiries-table .column-rw-received {
+	min-width: 6.5rem;
+	white-space: nowrap;
+}
+
+.restwell-admin tr.rw-row--urgent {
+	background: #fff8f8;
+}
+
+.restwell-admin .rw-text-muted-sm {
+	color: var(--rw-subtle);
+	font-size: 12px;
+}
+
+.restwell-admin .rw-text-meta {
+	font-size: 12px;
+	color: #50575e;
+}
+
+.restwell-admin .rw-text-dim {
+	color: #c3c4c7;
+}
+
+.restwell-admin .rw-staff-note-preview {
+	color: var(--rw-subtle);
+	font-size: 12px;
+}
+
+.restwell-admin .rw-follow-up-hint {
+	color: #996800;
+}
+
+.restwell-admin .rw-status-actions {
+	margin-top: var(--rw-space-3);
+}
+
+.restwell-admin input.regular-text,
+.restwell-admin input[type="text"],
+.restwell-admin input[type="email"],
+.restwell-admin input[type="tel"],
+.restwell-admin input[type="url"],
+.restwell-admin input[type="datetime-local"],
+.restwell-admin select,
+.restwell-admin textarea {
+	min-height: 36px;
+}
+
+/* ── Enquiry detail layout ──────────────────────────────────────────────── */
+
+.restwell-admin-enquiry-detail .rw-detail-title-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-bottom: var(--rw-space-2);
+}
+
+.restwell-admin-enquiry-detail .rw-back-link {
+	font-size: 13px;
+	font-weight: 400;
+	text-decoration: none;
+	color: #2271b1;
+}
+
+.restwell-admin-enquiry-detail .rw-title-sep {
+	color: #ccc;
+	font-weight: 300;
+}
+
+.restwell-admin-enquiry-detail .rw-urgent-flag {
+	color: #d63638;
+	font-weight: 600;
+}
+
+.restwell-admin-enquiry-detail .rw-detail-layout {
+	display: grid;
+	grid-template-columns: 1fr min(320px, 100%);
+	gap: var(--rw-space-6);
+	margin-top: var(--rw-space-5);
+	max-width: 1100px;
+	align-items: start;
+}
+
+.restwell-admin-enquiry-detail .rw-detail-layout__main > .postbox:first-child {
+	margin-top: 0;
+}
+
+.restwell-admin-enquiry-detail .rw-detail-section-title {
+	margin-top: var(--rw-space-5);
+	margin-bottom: var(--rw-space-3);
+}
+
+.restwell-admin-enquiry-detail .rw-detail-section-title:first-child {
+	margin-top: 0;
+}
+
+.restwell-admin-enquiry-detail .rw-readonly-table {
+	margin-top: 0;
+}
+
+.restwell-admin-enquiry-detail .rw-readonly-table th {
+	width: 160px;
+	padding: 8px 12px 8px 0;
+	font-weight: 600;
+	vertical-align: top;
+}
+
+.restwell-admin-enquiry-detail .rw-readonly-table td {
+	padding: 8px 12px;
+	vertical-align: top;
+}
+
+.restwell-admin-enquiry-detail .rw-prose-block {
+	white-space: pre-line;
+	background: #f6f7f7;
+	padding: 12px 14px;
+	border-radius: 4px;
+	margin: 0 0 var(--rw-space-4);
+}
+
+.restwell-admin-enquiry-detail .rw-prose-block:last-of-type,
+.restwell-admin-enquiry-detail .rw-prose-block--message {
+	margin-bottom: 0;
+}
+
+.restwell-admin-enquiry-detail .rw-submitted-meta {
+	color: var(--rw-subtle);
+	font-size: 12px;
+	margin-top: var(--rw-space-4);
+	margin-bottom: 0;
+}
+
+.restwell-admin-enquiry-detail .rw-sidebar-field {
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+}
+
+.restwell-admin-enquiry-detail textarea.rw-sidebar-field {
+	min-height: 120px;
+}
+
+.restwell-admin-enquiry-detail .rw-sidebar-label {
+	display: block;
+	font-weight: 600;
+	font-size: 12px;
+	margin: 6px 0 4px;
+}
+
+.restwell-admin-enquiry-detail .rw-sidebar-label--tight {
+	margin-bottom: 4px;
+	margin-top: 0;
+}
+
+.restwell-admin-enquiry-detail .rw-ts-line {
+	margin: 0 0 4px;
+	font-size: 11px;
+	color: var(--rw-subtle);
+}
+
+.restwell-admin-enquiry-detail .rw-divider-compact {
+	margin: 12px 0;
+	border: none;
+	border-top: 1px solid #dcdcde;
+}
+
+.restwell-admin-enquiry-detail .rw-description-tiny {
+	margin-top: 4px;
+	font-size: 11px;
+}
+
+.restwell-admin-enquiry-detail .rw-btn-block {
+	width: 100%;
+	text-align: center;
+	box-sizing: border-box;
+	display: block;
+	margin-bottom: var(--rw-space-2);
+}
+
+.restwell-admin-enquiry-detail .rw-activity-inside {
+	padding-bottom: 0 !important;
+}
+
+.restwell-admin-enquiry-detail .rw-activity-list {
+	margin-bottom: 12px;
+}
+
+.restwell-admin-enquiry-detail .rw-activity-row {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 12px;
+	align-items: flex-start;
+}
+
+.restwell-admin-enquiry-detail .rw-activity-avatar {
+	flex-shrink: 0;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: #3c434a;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.restwell-admin-enquiry-detail .rw-activity-body {
+	flex: 1;
+	min-width: 0;
+}
+
+.restwell-admin-enquiry-detail .rw-activity-meta {
+	font-size: 11px;
+	color: var(--rw-subtle);
+	margin-bottom: 3px;
+}
+
+.restwell-admin-enquiry-detail .rw-activity-meta strong {
+	color: #3c434a;
+}
+
+.restwell-admin-enquiry-detail .rw-activity-bubble {
+	background: #f6f7f7;
+	border-radius: 4px;
+	padding: 8px 10px;
+	font-size: 13px;
+	white-space: pre-line;
+	word-break: break-word;
+}
+
+.restwell-admin-enquiry-detail .rw-add-note-form {
+	border-top: 1px solid #dcdcde;
+	padding: 12px 18px;
+	margin: 0 -18px 0;
+}
+
+.restwell-admin-enquiry-detail .rw-add-note-form textarea {
+	width: 100%;
+	box-sizing: border-box;
+	margin-bottom: 6px;
+}
+
+.restwell-admin-enquiry-detail .rw-post-stay-form {
+	margin-top: var(--rw-space-2);
+}
+
+/* ── Guest Guide admin ─────────────────────────────────────────────────── */
+
+.restwell-admin-guest-guide h2 {
+	margin-top: var(--rw-space-6);
+	margin-bottom: var(--rw-space-3);
+}
+
+.restwell-admin-guest-guide h2:first-of-type,
+.restwell-admin-guest-guide .rw-page-title + h2 {
+	margin-top: var(--rw-space-4);
+}
+
+.restwell-admin-guest-guide .description.rw-lead {
+	margin-bottom: var(--rw-space-4);
+}
+
+.restwell-admin-guest-guide .rw-empty-copy {
+	color: var(--rw-muted);
+	margin: var(--rw-space-4) 0;
+	padding: var(--rw-space-4);
+	background: #f9fafb;
+	border-radius: var(--rw-radius-md);
+	border: 1px dashed var(--rw-border);
+	max-width: 560px;
+}
+
+/* Guest Guide: list table — avoid WP `fixed` layout (cramped columns + stacked actions) */
+.restwell-admin-guest-guide .rw-table-shell--guest-guide {
+	max-width: 1200px;
+	border: 1px solid var(--rw-border);
+	border-radius: var(--rw-radius-md);
+	background: var(--rw-surface);
+	box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06);
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.restwell-admin-guest-guide .rw-guest-guide-table {
+	width: 100%;
+	table-layout: auto;
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.restwell-admin-guest-guide .rw-guest-guide-table thead th {
+	padding: 14px 16px;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.3;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--rw-muted);
+	background: #f0f2f4;
+	border-bottom: 1px solid #c3c4c7;
+	white-space: nowrap;
+}
+
+.restwell-admin-guest-guide .rw-guest-guide-table tbody td {
+	padding: 16px;
+	font-size: 13px;
+	line-height: 1.45;
+	vertical-align: top;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.restwell-admin-guest-guide .rw-guest-guide-table tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.restwell-admin-guest-guide .rw-guest-guide-table .column-name {
+	min-width: 7.5rem;
+	max-width: 14rem;
+	font-weight: 600;
+	color: var(--rw-text);
+}
+
+.restwell-admin-guest-guide .rw-guest-guide-table .column-email {
+	min-width: 12rem;
+	max-width: 22rem;
+}
+
+.restwell-admin-guest-guide .rw-guest-guide-table .rw-cell-email {
+	display: inline-block;
+	word-break: break-word;
+}
+
+.restwell-admin-guest-guide .rw-guest-guide-table .column-scheduled {
+	min-width: 11rem;
+	white-space: nowrap;
+	color: #50575e;
+}
+
+.restwell-admin-guest-guide .rw-guest-guide-table .column-status {
+	min-width: 9.5rem;
+}
+
+.restwell-admin-guest-guide .rw-guest-guide-table .column-actions {
+	width: 1%;
+	min-width: 13.5rem;
+	padding-right: 18px;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+.restwell-admin-guest-guide .rw-action-cell {
+	vertical-align: middle !important;
+}
+
+.restwell-admin-guest-guide .rw-action-cell-inner {
+	display: inline-flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 10px;
+}
+
+.restwell-admin-guest-guide .rw-action-cell-inner form {
+	display: inline-flex;
+	margin: 0;
+	align-items: center;
+}
+
+.restwell-admin-guest-guide .rw-action-cell-inner .button-small {
+	min-height: 32px;
+	padding: 0 14px;
+	line-height: 1.2;
+}
+
+.restwell-admin-guest-guide .rw-action-cell-inner .button-link-delete {
+	padding-left: 10px;
+	padding-right: 10px;
+	min-height: 32px;
+	line-height: 1.2;
+}
+
+.restwell-admin-guest-guide .rw-status-sent {
+	color: #00a32a;
+	font-weight: 600;
+}
+
+.restwell-admin-guest-guide .rw-status-sent small {
+	display: block;
+	margin-top: 2px;
+	font-weight: 400;
+	color: var(--rw-muted);
+	font-size: 12px;
+}
+
+.restwell-admin-guest-guide .rw-status-scheduled {
+	color: var(--rw-muted);
+}
+
+.restwell-admin-guest-guide .rw-status-pending {
+	color: #d63638;
+	font-weight: 600;
+}
+
+.restwell-admin-guest-guide h3.rw-subsection-title {
+	margin-top: var(--rw-space-8);
+	margin-bottom: var(--rw-space-4);
+}
+
+.restwell-admin-guest-guide .rw-required {
+	color: #d63638;
+	font-weight: 700;
+}
+
+.restwell-admin-guest-guide hr.rw-section-rule {
+	margin: var(--rw-space-8) 0;
+	border: none;
+	border-top: 1px solid #c3c4c7;
+}
+
+/* Post editor: Guest Guide meta box (page edit screen) */
+.rw-gg-section-title {
+	margin: 1.25em 0 0.5em;
+	padding-bottom: 0.35em;
+	border-bottom: 1px solid #c3c4c7;
+	font-size: 13px;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+.rw-gg-meta-th {
+	width: 220px;
+	vertical-align: top;
+	padding-top: 1.1rem;
+}
+
+.rw-gg-meta-input {
+	width: 100%;
+	max-width: 30rem;
+}
+
+.rw-gg-meta-textarea {
+	width: 100%;
+	max-width: 40rem;
+}
+
+@media (max-width: 1100px) {
+	.restwell-admin .rw-stat-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.restwell-admin .rw-dashboard-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.restwell-admin-enquiry-detail .rw-detail-layout {
+		grid-template-columns: 1fr;
+	}
+}

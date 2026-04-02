@@ -14,25 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<?php
-	// Meta description: page meta or fallback to site tagline
-	$meta_desc = '';
-	if ( is_singular() ) {
-		$meta_desc = get_post_meta( get_queried_object_id(), 'meta_description', true );
-	}
-	if ( $meta_desc === '' ) {
-		$meta_desc = get_bloginfo( 'description' );
-	}
-	if ( $meta_desc !== '' ) {
-		echo '<meta name="description" content="' . esc_attr( $meta_desc ) . '">' . "\n";
-	}
-	// Canonical URL
-	if ( is_front_page() ) {
-		echo '<link rel="canonical" href="' . esc_url( home_url( '/' ) ) . '">' . "\n";
-	} elseif ( is_singular() ) {
-		echo '<link rel="canonical" href="' . esc_url( get_permalink() ) . '">' . "\n";
-	}
-	?>
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
@@ -61,15 +42,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'container'      => '',
 					'menu_class'     => 'site-nav-list',
 					'items_wrap'     => '<ul class="site-nav-list">%3$s</ul>',
+					'depth'          => 2,
 				)
 			);
 		} else {
-			echo '<ul class="site-nav-list">';
-			foreach ( restwell_get_fallback_nav_links() as $item ) {
-				$class = ! empty( $item['is_cta'] ) ? ' site-nav-cta' : '';
-				echo '<li><a href="' . esc_url( $item['url'] ) . '" class="' . esc_attr( trim( $class ) ) . '">' . esc_html( $item['label'] ) . '</a></li>';
-			}
-			echo '</ul>';
+			restwell_render_primary_nav_fallback();
 		}
 		?>
 		</nav>
@@ -98,6 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'container'      => '',
 					'menu_class'     => 'mobile-nav-list',
 					'items_wrap'     => '<ul class="mobile-nav-list">%3$s</ul>',
+					'depth'          => 2,
 				)
 			);
 		} else {

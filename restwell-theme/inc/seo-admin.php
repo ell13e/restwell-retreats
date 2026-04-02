@@ -467,12 +467,17 @@ function restwell_seo_admin_run_checks( WP_Post $post, string $focus_kp, string 
  * @return array<string, bool>
  */
 function restwell_seo_admin_schema_status( WP_Post $post, string $template ): array {
+	$front_id  = (int) get_option( 'page_on_front', 0 );
+	$is_front  = ( $front_id > 0 && (int) $post->ID === $front_id );
+	$breadcrumb = ! ( $post->post_type === 'page' && $front_id === (int) $post->ID );
+
 	return array(
-		'WebSite + Organization' => true,
-		'Breadcrumb'             => ( ! is_front_page() ),
-		'VacationRental'         => ( 'template-property.php' === $template ),
-		'FAQPage'                => ( 'template-faq.php' === $template ),
-		'BlogPosting'            => ( 'post' === $post->post_type ),
+		'WebSite + Organization'  => ! $is_front,
+		'WebSite + LodgingBusiness' => $is_front,
+		'Breadcrumb'              => $breadcrumb,
+		'VacationRental'          => ( 'template-property.php' === $template ),
+		'FAQPage'                 => ( 'template-faq.php' === $template ),
+		'BlogPosting'             => ( 'post' === $post->post_type ),
 	);
 }
 

@@ -134,7 +134,7 @@ get_header();
 							<?php esc_html_e( 'How it works', 'restwell-retreats' ); ?>
 						</h2>
 						<p class="text-sm text-[var(--body-secondary)] leading-relaxed">
-							<?php esc_html_e( "See how easy it is to plan your stay from first contact to arrival.", 'restwell-retreats' ); ?>
+							<?php esc_html_e( 'How booking works — from first enquiry to arrival day.', 'restwell-retreats' ); ?>
 						</p>
 					</div>
 					<a

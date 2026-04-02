@@ -20,7 +20,7 @@ $prop_hero_image_id = (int) get_post_meta( $pid, 'prop_hero_image_id', true );
 $prop_hero_src      = $prop_hero_image_id ? wp_get_attachment_image_url( $prop_hero_image_id, 'full' ) : '';
 $prop_hero_cta_text           = get_post_meta( $pid, 'prop_hero_cta_text', true ) ?: 'Enquire about dates';
 $prop_hero_cta_url            = esc_url( get_post_meta( $pid, 'prop_hero_cta_url', true ) ?: home_url( '/enquire/' ) );
-$prop_hero_cta_promise        = get_post_meta( $pid, 'prop_hero_cta_promise', true ) ?: '';
+$prop_hero_cta_promise        = get_post_meta( $pid, 'prop_hero_cta_promise', true ) ?: 'We reply within one working day.';
 $prop_hero_cta_secondary_text = get_post_meta( $pid, 'prop_hero_cta_secondary_text', true ) ?: '';
 $prop_hero_cta_secondary_url  = esc_url( get_post_meta( $pid, 'prop_hero_cta_secondary_url', true ) ?: home_url( '/how-it-works/' ) );
 
@@ -36,8 +36,8 @@ $prop_home_cards   = array(
 		'body'  => get_post_meta( $pid, 'prop_home_2_body', true ) ?: 'Relax and unwind in the private, level access garden. Enjoy comfortable outdoor seating, a paved terrace, and space for all to enjoy.',
 	),
 	array(
-		'title' => get_post_meta( $pid, 'prop_home_3_title', true ) ?: 'Coastal Views',
-		'body'  => get_post_meta( $pid, 'prop_home_3_body', true ) ?: 'Take in the stunning coastal views from the comfort of the lounge. It\'s a serene, relaxing outlook for any time of year.',
+		'title' => get_post_meta( $pid, 'prop_home_3_title', true ) ?: 'Quiet location',
+		'body'  => get_post_meta( $pid, 'prop_home_3_body', true ) ?: 'Set on a residential street away from traffic. Close enough to walk to the seafront, quiet enough to rest properly.',
 	),
 );
 
@@ -59,7 +59,7 @@ $prop_features = array(
 );
 
 $prop_overview_heading = get_post_meta( $pid, 'prop_overview_heading', true ) ?: 'Your coastal home-from-home';
-$prop_overview_body   = get_post_meta( $pid, 'prop_overview_body', true ) ?: "Our Whitstable home is more than just a place to stay — it is your base for a proper coastal break. Located in a quiet residential corner of Whitstable, this property blends modern comfort with thoughtful accessibility. The neighbourhood is peaceful and flat, making it easy to get out and about whether you are on foot or using a wheelchair.\n\nWhitstable itself is one of Kent's most charming towns. Famous for its oysters, independent shops along Harbour Street, and a thriving arts scene, it has a relaxed, authentic atmosphere that feels a world away from the everyday — without being difficult to reach.";
+$prop_overview_body   = get_post_meta( $pid, 'prop_overview_body', true ) ?: "This is a private holiday home, not a hotel room or a care facility. The whole property is yours for the duration of your stay — no shared corridors, no other guests, no institutional feel. The layout has been designed around the access needs of wheelchair users and guests with complex physical disabilities, with practical details like transfer space, equipment compatibility, and carer accommodation considered from the start.\n\nThe property sits in a quiet, flat residential area of Whitstable. The town itself is compact, independent, and manageable — known for its harbour, seafood, and coastal walks. It is about 60 miles from London, with direct train services and straightforward road access via the M2.";
 $prop_dignity_body    = $prop_dignity_body_raw !== '' ? $prop_dignity_body_raw : $prop_overview_body;
 
 $prop_features_label   = get_post_meta( $pid, 'prop_features_label', true ) ?: 'Accessibility';
@@ -79,7 +79,7 @@ $prop_comparison_right_heading = get_post_meta( $pid, 'prop_comparison_right_hea
 $comparison_left_defaults  = array(
 	'An adapted room in a shared building, with other guests and communal spaces',
 	'No care support on site — you arrange everything yourself in advance',
-	'Retrofitted accessibility: wider corridors, grab rails, a roll-in shower if you\'re lucky',
+	'Retrofitted accessibility: a grab rail by the toilet, maybe a wider door. No hoist, no profiling bed, no guarantee it works for your needs.',
 	'You find out what doesn\'t work once you\'ve already arrived',
 );
 $comparison_right_defaults = array(
@@ -107,12 +107,12 @@ $prop_bedrooms  = get_post_meta( $pid, 'prop_bedrooms', true ) ?: 'Number of bed
 $prop_bathroom  = get_post_meta( $pid, 'prop_bathroom', true ) ?: 'Bathroom type and accessibility features to be confirmed by client.';
 $prop_parking   = get_post_meta( $pid, 'prop_parking', true ) ?: 'Driveway or street parking details to be confirmed by client.';
 $prop_distances = get_post_meta( $pid, 'prop_distances', true ) ?: "Approximately 15 minutes' flat walk to the Tankerton promenade. Around 7 minutes' drive to Whitstable town centre and harbour.";
-// Display values for essentials cards (number or short label). Design: 5 Bedrooms, 3 Bathrooms, Parking, 9+ Sleeps.
+// Display values for essentials cards (number or short label).
 $prop_essentials = array(
-	'bedrooms'  => array( 'value' => get_post_meta( $pid, 'prop_bedrooms_count', true ) ?: '2', 'label' => 'Bedrooms' ),
-	'bathrooms' => array( 'value' => get_post_meta( $pid, 'prop_bathrooms_count', true ) ?: '1', 'label' => 'Bathrooms' ),
+	'bedrooms'  => array( 'value' => get_post_meta( $pid, 'prop_bedrooms_count', true ) ?: 'TBC', 'label' => 'Bedrooms' ),
+	'bathrooms' => array( 'value' => get_post_meta( $pid, 'prop_bathrooms_count', true ) ?: 'TBC', 'label' => 'Bathrooms' ),
 	'parking'   => array( 'value' => get_post_meta( $pid, 'prop_parking_label', true ) ?: 'Free', 'label' => 'Parking' ),
-	'sleeps'    => array( 'value' => get_post_meta( $pid, 'prop_sleeps_value', true ) ?: '2', 'label' => get_post_meta( $pid, 'prop_sleeps_label', true ) ?: 'Sleeps' ),
+	'sleeps'    => array( 'value' => get_post_meta( $pid, 'prop_sleeps_value', true ) ?: 'TBC', 'label' => get_post_meta( $pid, 'prop_sleeps_label', true ) ?: 'Sleeps' ),
 );
 $prop_confirm_details_url = esc_url( get_post_meta( $pid, 'prop_confirm_details_url', true ) ?: home_url( '/enquire/' ) );
 // See the space: three buttons (design).
@@ -137,7 +137,7 @@ $nearby = array(
 	),
 	array(
 		'title'    => get_post_meta( $pid, 'prop_nearby_2_title', true ) ?: 'Tankerton Slopes & Promenade',
-		'body'     => get_post_meta( $pid, 'prop_nearby_2_body', true ) ?: 'One of the best level coastal walks in Kent — a long, flat concrete promenade with stunning views across the Thames Estuary. Wheelchair and pushchair friendly, with accessible toilets at the harbour end.',
+		'body'     => get_post_meta( $pid, 'prop_nearby_2_body', true ) ?: 'A long, flat, surfaced promenade with views across the Thames Estuary. The promenade path itself is wide and level — suitable for wheelchairs and powerchairs. The grassy slopes between the road and the promenade are steep, so use the paved access paths. Free parking along Marine Parade at the top.',
 		'acc'      => get_post_meta( $pid, 'prop_nearby_2_acc', true ) ?: 'Flat tarmac path, no steps, suitable for wheelchairs. Accessible WC at harbour end.',
 		'distance' => get_post_meta( $pid, 'prop_nearby_2_distance', true ) ?: 'Approx. 15 min flat walk',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_2_filter', true ) ?: 'wheelchair-friendly',

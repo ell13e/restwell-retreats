@@ -38,8 +38,8 @@ if ( is_singular( 'post' ) ) {
 		);
 	} else {
 		$crumbs[] = array(
-			'label' => __( 'Articles', 'restwell-retreats' ),
-			'url'   => home_url( '/articles/' ),
+			'label' => __( 'Blog', 'restwell-retreats' ),
+			'url'   => home_url( '/blog/' ),
 		);
 	}
 }
@@ -62,7 +62,9 @@ $crumbs[] = array(
 							<?php echo esc_html( $crumb['label'] ); ?>
 						</a>
 					<?php else : ?>
-						<?php echo esc_html( $crumb['label'] ); ?>
+						<span class="breadcrumb__current-label" title="<?php echo esc_attr( $crumb['label'] ); ?>">
+							<?php echo esc_html( $crumb['label'] ); ?>
+						</span>
 					<?php endif; ?>
 				</li>
 			<?php endforeach; ?>
