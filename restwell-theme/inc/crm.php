@@ -1,6 +1,6 @@
 <?php
 /**
- * Restwell CRM — enquiry leads store and admin centre.
+ * Restwell CRM: enquiry leads store and admin centre.
  *
  * Registers custom DB tables for enquiry storage, notes, and guests.
  * Provides a top-level "Restwell" admin menu with Dashboard, Enquiries
@@ -244,7 +244,7 @@ function restwell_crm_save_enquiry( array $data ) {
 		}
 	}
 
-	// Normalise optional date columns — store NULL when blank.
+	// Normalise optional date columns; store NULL when blank.
 	$date_from = ! empty( $data['date_from'] ) ? $data['date_from'] : null;
 	$date_to   = ! empty( $data['date_to'] )   ? $data['date_to']   : null;
 
@@ -283,7 +283,7 @@ function restwell_crm_save_enquiry( array $data ) {
 add_action( 'admin_menu', 'restwell_crm_register_menu', 5 );
 
 function restwell_crm_register_menu() {
-	// Top-level Restwell menu — points to Dashboard.
+	// Top-level Restwell menu points to Dashboard.
 	add_menu_page(
 		__( 'Restwell', 'restwell-retreats' ),
 		__( 'Restwell', 'restwell-retreats' ),
@@ -304,7 +304,7 @@ function restwell_crm_register_menu() {
 		'restwell_crm_dashboard_page'
 	);
 
-	// Enquiries submenu — new slug.
+	// Enquiries submenu (new slug).
 	add_submenu_page(
 		'restwell-crm',
 		__( 'Enquiries', 'restwell-retreats' ),
@@ -314,7 +314,7 @@ function restwell_crm_register_menu() {
 		'restwell_crm_enquiries_page'
 	);
 
-	// Guest Guide submenu — callback defined in inc/guest-guide.php.
+	// Guest Guide submenu: callback defined in inc/guest-guide.php.
 	add_submenu_page(
 		'restwell-crm',
 		__( 'Guest Guide', 'restwell-retreats' ),
@@ -550,6 +550,26 @@ function restwell_crm_handle_save_settings() {
 		? sanitize_text_field( wp_unslash( $_POST['restwell_footer_cta_btn'] ) )
 		: '';
 	update_option( 'restwell_footer_cta_btn', $footer_btn );
+
+	$footer_intro = isset( $_POST['restwell_footer_cta_intro'] )
+		? sanitize_textarea_field( wp_unslash( $_POST['restwell_footer_cta_intro'] ) )
+		: '';
+	update_option( 'restwell_footer_cta_intro', $footer_intro );
+
+	$footer_primary_label = isset( $_POST['restwell_footer_cta_primary_label'] )
+		? sanitize_text_field( wp_unslash( $_POST['restwell_footer_cta_primary_label'] ) )
+		: '';
+	update_option( 'restwell_footer_cta_primary_label', $footer_primary_label );
+
+	$footer_primary_url = isset( $_POST['restwell_footer_cta_primary_url'] )
+		? sanitize_text_field( wp_unslash( $_POST['restwell_footer_cta_primary_url'] ) )
+		: '';
+	update_option( 'restwell_footer_cta_primary_url', $footer_primary_url );
+
+	$footer_note = isset( $_POST['restwell_footer_cta_note'] )
+		? sanitize_text_field( wp_unslash( $_POST['restwell_footer_cta_note'] ) )
+		: '';
+	update_option( 'restwell_footer_cta_note', $footer_note );
 
 	$gsc = isset( $_POST['restwell_gsc_verification'] )
 		? sanitize_text_field( wp_unslash( $_POST['restwell_gsc_verification'] ) )
@@ -896,7 +916,7 @@ function restwell_crm_dashboard_page() {
 					<h2 class="hndle">
 						<span class="rw-panel-title">
 							<span class="rw-panel-title__icon" aria-hidden="true">&#128203;</span>
-							<span><?php esc_html_e( 'Booked — guide not sent', 'restwell-retreats' ); ?></span>
+							<span><?php esc_html_e( 'Booked; guide not sent', 'restwell-retreats' ); ?></span>
 						</span>
 					</h2>
 				</div>
@@ -931,7 +951,7 @@ function restwell_crm_dashboard_page() {
 												<?php echo esc_html( $r->name ); ?>
 											</a>
 										</td>
-										<td class="rw-table-meta"><?php echo esc_html( $r->preferred_dates ?: '—' ); ?></td>
+										<td class="rw-table-meta"><?php echo esc_html( $r->preferred_dates ?: '-' ); ?></td>
 										<td>
 											<a href="<?php echo esc_url( $promote_url ); ?>" class="button button-small">
 												<?php esc_html_e( 'Add to Guide', 'restwell-retreats' ); ?>
@@ -1051,8 +1071,54 @@ function restwell_crm_dashboard_page() {
 							</tr>
 							<tr>
 								<th scope="row">
+									<label for="restwell_footer_cta_intro">
+										<?php esc_html_e( 'Footer CTA intro', 'restwell-retreats' ); ?>
+									</label>
+								</th>
+								<td>
+									<textarea
+										id="restwell_footer_cta_intro"
+										name="restwell_footer_cta_intro"
+										rows="3"
+										class="large-text"
+									><?php echo esc_textarea( (string) get_option( 'restwell_footer_cta_intro', '' ) ); ?></textarea>
+									<p class="description">
+										<?php esc_html_e( 'Short paragraph below the heading. Leave empty to use the theme default.', 'restwell-retreats' ); ?>
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
+									<label for="restwell_footer_cta_primary_label">
+										<?php esc_html_e( 'Footer CTA primary button', 'restwell-retreats' ); ?>
+									</label>
+								</th>
+								<td>
+									<input
+										type="text"
+										id="restwell_footer_cta_primary_label"
+										name="restwell_footer_cta_primary_label"
+										value="<?php echo esc_attr( (string) get_option( 'restwell_footer_cta_primary_label', '' ) ); ?>"
+										class="regular-text"
+										placeholder="<?php esc_attr_e( 'See the property', 'restwell-retreats' ); ?>"
+									/>
+									<p class="description">
+										<label for="restwell_footer_cta_primary_url"><?php esc_html_e( 'URL path or full link', 'restwell-retreats' ); ?></label><br />
+										<input
+											type="text"
+											id="restwell_footer_cta_primary_url"
+											name="restwell_footer_cta_primary_url"
+											value="<?php echo esc_attr( (string) get_option( 'restwell_footer_cta_primary_url', '' ) ); ?>"
+											class="regular-text"
+											placeholder="<?php echo esc_attr( home_url( '/the-property/' ) ); ?>"
+										/>
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
 									<label for="restwell_footer_cta_btn">
-										<?php esc_html_e( 'Footer CTA button label', 'restwell-retreats' ); ?>
+										<?php esc_html_e( 'Footer CTA secondary button', 'restwell-retreats' ); ?>
 									</label>
 								</th>
 								<td>
@@ -1062,7 +1128,27 @@ function restwell_crm_dashboard_page() {
 										name="restwell_footer_cta_btn"
 										value="<?php echo esc_attr( (string) get_option( 'restwell_footer_cta_btn', '' ) ); ?>"
 										class="regular-text"
-										placeholder="<?php esc_attr_e( 'Enquire about dates', 'restwell-retreats' ); ?>"
+										placeholder="<?php esc_attr_e( 'Check your dates', 'restwell-retreats' ); ?>"
+									/>
+									<p class="description">
+										<?php esc_html_e( 'Usually links to the Enquire page.', 'restwell-retreats' ); ?>
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
+									<label for="restwell_footer_cta_note">
+										<?php esc_html_e( 'Footer CTA reassurance line', 'restwell-retreats' ); ?>
+									</label>
+								</th>
+								<td>
+									<input
+										type="text"
+										id="restwell_footer_cta_note"
+										name="restwell_footer_cta_note"
+										value="<?php echo esc_attr( (string) get_option( 'restwell_footer_cta_note', '' ) ); ?>"
+										class="regular-text"
+										placeholder="<?php esc_attr_e( 'No booking commitment. Just a conversation.', 'restwell-retreats' ); ?>"
 									/>
 								</td>
 							</tr>
@@ -1177,7 +1263,7 @@ function restwell_crm_dashboard_page() {
 									$assignable_users    = restwell_crm_get_assignable_users();
 									?>
 									<select id="default_assignee_user_id" name="default_assignee_user_id" class="regular-text">
-										<option value="0"><?php esc_html_e( '— Unassigned —', 'restwell-retreats' ); ?></option>
+										<option value="0"><?php esc_html_e( '- Unassigned -', 'restwell-retreats' ); ?></option>
 										<?php foreach ( $assignable_users as $assignable_user ) : ?>
 											<option value="<?php echo esc_attr( (string) $assignable_user->ID ); ?>" <?php selected( $default_assignee_id, (int) $assignable_user->ID ); ?>>
 												<?php echo esc_html( $assignable_user->display_name . ' (' . $assignable_user->user_email . ')' ); ?>
@@ -1492,7 +1578,7 @@ function restwell_crm_enquiries_page() {
 				<div class="alignleft actions bulkactions">
 					<label for="rw-bulk-action" class="screen-reader-text"><?php esc_html_e( 'Select bulk action', 'restwell-retreats' ); ?></label>
 					<select name="rw_bulk_action" id="rw-bulk-action">
-						<option value=""><?php esc_html_e( '— Bulk action —', 'restwell-retreats' ); ?></option>
+						<option value=""><?php esc_html_e( '- Bulk action -', 'restwell-retreats' ); ?></option>
 						<?php foreach ( $statuses as $slug => $info ) : ?>
 							<option value="<?php echo esc_attr( $slug ); ?>">
 								<?php
@@ -1585,7 +1671,7 @@ function restwell_crm_enquiries_page() {
 									<br><span class="rw-text-muted-sm"><?php echo esc_html( $row->num_guests ); ?> guests</span>
 								<?php endif; ?>
 								<?php if ( ! $row->preferred_dates && ! $row->num_guests ) : ?>
-									<span class="rw-text-dim">—</span>
+									<span class="rw-text-dim">-</span>
 								<?php endif; ?>
 							</td>
 							<td class="column-assigned rw-text-meta">
@@ -1686,7 +1772,7 @@ function restwell_crm_enquiry_detail( int $id ) {
 			</a>
 			<span class="rw-title-sep" aria-hidden="true">|</span>
 			<?php if ( $row->is_urgent ) : ?>
-				<span class="rw-urgent-flag" title="<?php esc_attr_e( 'Urgent', 'restwell-retreats' ); ?>">&#9873; <?php esc_html_e( 'URGENT', 'restwell-retreats' ); ?> —</span>
+				<span class="rw-urgent-flag" title="<?php esc_attr_e( 'Urgent', 'restwell-retreats' ); ?>">&#9873; <?php esc_html_e( 'URGENT', 'restwell-retreats' ); ?>:</span>
 			<?php endif; ?>
 			<?php echo esc_html( $row->name ); ?>
 			<?php echo restwell_crm_status_badge( $row->status ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
@@ -1808,7 +1894,7 @@ function restwell_crm_enquiry_detail( int $id ) {
 								<?php esc_html_e( 'Assigned to', 'restwell-retreats' ); ?>
 							</label>
 							<select name="rw_assigned_to" id="rw-assigned-to" class="rw-sidebar-field">
-								<option value="0"><?php esc_html_e( '— Unassigned —', 'restwell-retreats' ); ?></option>
+								<option value="0"><?php esc_html_e( '- Unassigned -', 'restwell-retreats' ); ?></option>
 								<?php foreach ( $assignable_users as $assignable_user ) : ?>
 									<option value="<?php echo esc_attr( (string) $assignable_user->ID ); ?>" <?php selected( (int) $row->assigned_to, (int) $assignable_user->ID ); ?>>
 										<?php echo esc_html( $assignable_user->display_name . ' (' . $assignable_user->user_email . ')' ); ?>
@@ -1868,7 +1954,7 @@ function restwell_crm_enquiry_detail( int $id ) {
 							<label class="screen-reader-text" for="rw-staff-notes"><?php esc_html_e( 'Staff notes', 'restwell-retreats' ); ?></label>
 							<textarea name="rw_notes" id="rw-staff-notes" rows="5"
 							          class="rw-sidebar-field"
-							          placeholder="<?php esc_attr_e( 'Pinned summary — not visible to the enquirer.', 'restwell-retreats' ); ?>"
+							          placeholder="<?php esc_attr_e( 'Pinned summary (not visible to the enquirer).', 'restwell-retreats' ); ?>"
 							><?php echo esc_textarea( $row->staff_notes ); ?></textarea>
 						</div>
 					</div>

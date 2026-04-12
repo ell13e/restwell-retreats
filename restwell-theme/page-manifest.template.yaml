@@ -1,0 +1,39 @@
+# Copy to e.g. page-manifest-who-its-for.yaml per run, or fill inline in chat.
+# Remove comments when copying if your parser complains.
+
+page_id: "Who it's for"
+template_file: template-who-its-for.php
+wp_path: /who-its-for/
+
+primary_goal: ""
+primary_cta_label: ""
+primary_cta_url: ""
+secondary_cta_label: ""
+secondary_cta_url: ""
+
+audience: ""
+main_objection: ""
+proof_available: "" # none | describe facts/testimonials (no fabrication)
+
+# Meta keys for this template (adjust per template — see inc/page-meta-definitions.php)
+meta_prefix_or_notes: "wif_* keys; hero, audience, four personas, funding, visual, CTA, related"
+
+brief_pre_approved: false
+# If true, paste bullets under approved_brief:
+approved_brief: ""
+
+sibling_pages_for_seo:
+  - /accessibility/
+  - /enquire/
+  # Add competing URLs as you complete other pages (rolling list).
+
+include_site_wide_seo_audit: false
+
+artifact_for_visual: none # none | url | screenshot | html_snippet
+
+deliverables:
+  - copy_deck_meta_keyed
+  - seo_outline
+  - schema_decision
+  - polish_checklist
+  - visual_notes_if_artifact

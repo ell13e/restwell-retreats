@@ -31,3 +31,30 @@ function restwell_robots_txt_sitemap_line( $output, $public ) {
 	return $output;
 }
 add_filter( 'robots_txt', 'restwell_robots_txt_sitemap_line', 10, 2 );
+
+/**
+ * Append explicit Allow rules for common AI / LLM crawlers (GEO).
+ *
+ * @param string $output robots.txt content.
+ * @param bool   $public Whether the site is public.
+ * @return string
+ */
+function restwell_robots_txt_allow_ai_crawlers( $output, $public ) {
+	if ( '0' === (string) get_option( 'blog_public' ) ) {
+		return $output;
+	}
+	$output .= "\n# AI / LLM crawlers (explicit allow for public site)\n";
+	$agents   = array(
+		'GPTBot',
+		'ChatGPT-User',
+		'ClaudeBot',
+		'Claude-Web',
+		'PerplexityBot',
+		'Google-Extended',
+	);
+	foreach ( $agents as $agent ) {
+		$output .= "User-agent: {$agent}\nAllow: /\n\n";
+	}
+	return $output;
+}
+add_filter( 'robots_txt', 'restwell_robots_txt_allow_ai_crawlers', 20, 2 );

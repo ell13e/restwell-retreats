@@ -22,10 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 <header class="site-header">
 	<div class="container">
 		<!-- Logo -->
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-logo" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?> home">
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-logo" aria-label="<?php echo esc_attr( sprintf( __( '%s home', 'restwell-retreats' ), restwell_site_brand_lockup() ) ); ?>">
 			<img
 				src="<?php echo esc_url( restwell_get_logo_url( 'restwell_logo_long_id', 'long_logo.png' ) ); ?>"
-				alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
+				alt="<?php echo esc_attr( restwell_site_brand_lockup() ); ?>"
 				class="site-logo__img"
 				width="282"
 				height="44"

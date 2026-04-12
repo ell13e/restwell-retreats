@@ -40,54 +40,83 @@ function restwell_get_theme_setup_pages() {
  * Default meta values for the front page (Home).
  */
 function restwell_get_theme_setup_defaults() {
-	return array(
-		'hero_eyebrow'             => 'Accessible holiday cottage · Whitstable, Kent',
-		'hero_heading'             => 'A proper holiday. Adapted and practical.',
-		'hero_subheading'          => 'A private, fully adapted holiday home on the Kent coast. Designed for disabled guests and their families — with optional care support from a CQC-registered provider.',
-		'hero_cta_primary_label'   => 'See the property',
-		'hero_cta_primary_url'     => '/the-property/',
-		'hero_cta_secondary_label' => 'Enquire about dates',
-		'hero_cta_secondary_url'   => '/enquire/',
-		'hero_cta_promise'         => 'No booking commitment. Just a conversation.',
+	$defaults = array(
+		'hero_eyebrow'             => 'Restwell Retreats',
+		'hero_heading'             => 'Accessible Holidays in Whitstable, Kent',
+		'hero_subheading'          => 'Adapted bungalow for guests, families, and carers with whole-property booking.',
+		'hero_spec_heading'        => '',
+		'hero_cta_primary_label'   => 'Check availability',
+		'hero_cta_primary_url'     => '/enquire/',
+		'hero_cta_secondary_label' => 'View the property',
+		'hero_cta_secondary_url'   => '/the-property/',
+		'hero_cta_promise'         => '',
+
+		'home_teaser_label'         => 'Area & funding',
+		'home_teaser_area_title'    => 'Whitstable & the Kent coast',
+		'home_teaser_area_body'     => 'Single-storey bungalow on the Kent coast: harbour, promenade, and day trips with realistic access notes. We focus on step-free routes, parking, and places that match your needs—not a vague list labelled "wheelchair friendly".',
+		'home_teaser_funding_title' => 'Funding your stay',
+		'home_teaser_funding_body'  => 'Many guests use personal budgets, direct payments, NHS Continuing Healthcare, or local authority funding. Our guides explain common routes in plain English: what to ask your social worker, and what paperwork helps.',
 
 		'what_restwell_label'   => 'What is Restwell?',
-		'what_restwell_heading' => 'A holiday, not a care home.',
-		'intro_body'            => 'Restwell is a high-quality, wheelchair-accessible single-storey holiday bungalow in Whitstable, Kent — with ceiling track hoist, profiling bed, and a full wet room. This is not a care home or a clinical facility; it is a proper coastal self-catering holiday. Optional professional, CQC-regulated care is available through our partner, Continuity of Care Services, if you want it.',
+		'what_restwell_heading' => 'A proper accessible coastal holiday.',
+		'highlights_heading'    => 'Property highlights',
+		'highlight_1_title'     => 'Ceiling track hoist',
+		'highlight_1_desc'      => 'Full-room coverage for safer, more predictable transfers.',
+		'highlight_2_title'   => 'Profiling bed',
+		'highlight_2_desc'      => 'Adjustable, with a pressure-relieving mattress. Ready for your stay.',
+		'highlight_3_title'     => 'Full wet room',
+		'highlight_3_desc'      => 'Roll-in shower, grab rails, and space to turn and assist.',
+		'intro_body'            => 'Restwell is a wheelchair-accessible, single-storey self-catering bungalow in Whitstable, Kent, for guests with disabilities, their families, and carers. You book the whole property for a private coastal break. Optional professional care is available through Continuity of Care Services (CQC-regulated), on your terms.',
 
 		'who_label'        => "Who it's for",
 		'who_heading'      => 'Two people. One break.',
 		'who_guest_title'  => 'For the guest',
-		'who_guest_body'   => 'A private home with the access features you actually need — wet room, wide doorways, level thresholds, space for your equipment. Explore Whitstable at your own pace. No shared spaces, no schedules, no clinical atmosphere.',
+		'who_guest_body'   => 'A private home with the space and access features you need: wide doorways, level thresholds, room for equipment, and space to settle. Self-catering in Whitstable at your pace—the house is yours, the timetable is yours. Rest by the sea, then explore the town or stay close as you prefer.',
 		'who_carer_title'  => 'For the carer',
-		'who_carer_body'   => 'The property layout supports care routines — separate sleeping, practical bathroom access, space to assist. Optional CQC-regulated support is available through Continuity of Care Services, or bring your own carer. Either way, the environment is set up so you are not improvising.',
+		'who_carer_body'   => 'The layout supports care routines: separate sleeping, practical bathroom access, and space to assist. Optional CQC-regulated support is available through Continuity of Care Services, or bring your own carer. Either way, the environment is set up for real routines, day and night, so you are not improvising.',
 
-		'property_label'      => 'Our Whitstable home',
+		'property_label'      => 'The property',
 		'property_heading'   => 'Our Whitstable home',
-		'property_body'      => 'A fully adapted property in a quiet residential street in Whitstable. Level approach, off-street parking for adapted vehicles, and a flat route to the Tankerton promenade. The town centre — with its harbour, independent shops, and seafood restaurants — is a short drive or bus ride away.',
+		'property_body'      => 'An adapted single-storey property in Whitstable: level approach from the street, off-street parking for adapted vehicles, and a flat route toward the Tankerton promenade. Whitstable town centre—harbour, seafood restaurants, and the waterfront—is close enough for day trips without stressful route planning.',
 		'property_cta_label' => 'Explore the property',
 		'property_cta_url'   => '/the-property/',
 		'property_image_id'  => 0,
 
 		'why_label'       => 'Why Restwell?',
-		'why_heading'     => 'What makes us different',
+		'why_heading'     => 'Why choose Restwell for your accessible break?',
 		'why_item1_title' => 'Private & personal',
-		'why_item1_desc'  => 'A real home, not a ward or a hotel room. The whole house is yours.',
-		'why_item2_title' => 'Care if you need it',
-		'why_item2_desc'  => 'Optional support from Continuity of Care Services, a CQC-regulated provider. Arrange as much or as little as you need — or bring your own carer.',
+		'why_item1_desc'  => 'The whole bungalow is yours: living space, kitchen, and bedrooms, with the privacy of a self-catering stay.',
+		'why_item2_title' => 'Professional support on your terms',
+		'why_item2_desc'  => 'Continuity of Care Services (CQC-regulated): support arranged on your terms, as much or as little as you need, or bring your own carer.',
 		'why_item3_title' => 'Local knowledge',
-		'why_item3_desc'  => 'We can tell you which cafes have step-free access, where to park near the harbour, and which routes work for wheelchairs.',
+		'why_item3_desc'  => 'We can tell you which cafes have step-free access, where to park near the harbour, and which routes work for wheelchairs, so you spend more time relaxing and less time planning.',
 		'why_item4_title' => 'Honest & open',
-		'why_item4_desc'  => 'We tell you exactly what to expect — no surprises, no overselling.',
+		'why_item4_desc'  => 'We publish the access specification: exact dimensions, thresholds, and equipment, so you can plan with confidence before you travel.',
 
-		'cta_heading'          => 'Ready to plan your break?',
-		'cta_body'            => 'Whether you have dates in mind or just want to ask a question, we are here to help. No pressure, just a conversation.',
-		'cta_primary_label'   => 'See the property',
-		'cta_primary_url'     => '/the-property/',
-		'cta_secondary_label' => 'Enquire about dates',
-		'cta_secondary_url'   => '/enquire/',
+		'cta_heading'          => 'Ready to plan your accessible stay?',
+		'cta_body'            => 'Ask about hoist limits, door widths, or funding. No pressure: we reply with specifics you can use.',
+		'cta_primary_label'   => 'Send an enquiry',
+		'cta_primary_url'     => '/enquire/',
+		'cta_secondary_label' => 'See the property',
+		'cta_secondary_url'   => '/the-property/',
 		'cta_promise'         => 'No booking commitment. Just a conversation.',
 		'cta_image_id'        => 0,
 	);
+
+	if ( function_exists( 'restwell_get_homepage_faq_meta_seed_map' ) ) {
+		$defaults = array_merge( $defaults, restwell_get_homepage_faq_meta_seed_map() );
+	}
+
+	return $defaults;
+}
+
+/**
+ * Legacy single-block intro copy (before GEO split into definition + supporting paragraphs).
+ *
+ * @return string
+ */
+function restwell_get_front_page_legacy_intro_body() {
+	return 'Restwell is a wheelchair-accessible, single-storey self-catering bungalow in Whitstable, Kent, for guests with disabilities, their families, and carers. You book the whole property for a private coastal break. Optional professional care is available through Continuity of Care Services (CQC-regulated), on your terms.';
 }
 
 /**
@@ -102,8 +131,8 @@ function restwell_get_property_page_defaults() {
 
 		'prop_hero_label'               => 'The Property',
 		'prop_hero_heading'             => 'Our accessible home in Whitstable',
-		'prop_hero_subtitle'            => 'A beautiful, accessible home on the Kent coast — designed with accessibility in mind so everyone can rest easy.',
-		'prop_hero_cta_text'            => 'Enquire about dates',
+		'prop_hero_subtitle'            => 'An adapted home on the Kent coast: ceiling track hoist, profiling bed, and wet room already in place.',
+		'prop_hero_cta_text'            => 'Check your dates',
 		'prop_hero_cta_url'             => '/enquire/',
 		'prop_hero_cta_secondary_text'  => 'How it works',
 		'prop_hero_cta_secondary_url'   => '/how-it-works/',
@@ -120,7 +149,7 @@ function restwell_get_property_page_defaults() {
 
 		'prop_dignity_label'   => 'Designed for dignity',
 		'prop_dignity_heading' => 'Thoughtful at every turn.',
-		'prop_dignity_body'    => "We have thought carefully about what 'accessible' actually means in practice — not just ticked a box.\n\nThat means a wet room with a ceiling hoist, an adjustable bed, wide hallways, and no awkward lips or steps. It means a kitchen where everyone can cook together. A garden you can actually enjoy.\n\nWe want every guest to feel at home — completely, not just mostly.",
+		'prop_dignity_body'    => "We have thought carefully about what 'accessible' actually means in practice, not just ticked a box.\n\nThat means a wet room with a ceiling hoist, an adjustable bed, wide hallways, and no awkward lips or steps. It means a kitchen where everyone can cook together. A garden you can actually enjoy.\n\nWe want every guest to feel at home, completely, not just mostly.",
 
 		'prop_features_label'   => 'At a glance',
 		'prop_features_heading' => 'What\'s in the house',
@@ -145,7 +174,7 @@ function restwell_get_property_page_defaults() {
 		'prop_acc_heading'    => 'Honest accessibility information',
 		'prop_acc_intro'      => 'We provide detailed accessibility information so you can make an informed decision about whether this property meets your needs. If anything below is unclear, please get in touch and we will happily answer your questions.',
 		'prop_acc_confirmed'  => "Step-free access from parking to all rooms\nCeiling track hoist with full-room coverage\nWet room with roll-in shower, fold-down seat, and grab rails\nAdjustable profiling bed with pressure-relieving mattress\nFront door: 965 mm clear opening width; internal doors: 926 mm clear\nLevel garden with hard-standing patio\nWi-Fi throughout the property",
-		'prop_acc_tbc'        => "Precise turning circle dimensions in each room\nHoist weight limit — confirming with installer\nLocal hydrotherapy or pool access",
+		'prop_acc_tbc'        => "Precise turning circle dimensions in each room\nHoist weight limit (confirming with installer)\nLocal hydrotherapy or pool access",
 
 		'prop_comparison_label'         => 'Why not a hotel?',
 		'prop_comparison_heading'       => 'A house, not a hotel room.',
@@ -153,7 +182,7 @@ function restwell_get_property_page_defaults() {
 		'prop_comparison_left_heading'  => 'A standard \'accessible\' room',
 		'prop_comparison_right_heading' => 'Your Restwell stay',
 		'prop_comparison_left_1'        => 'One accessible room among many',
-		'prop_comparison_left_2'        => 'Restaurant only — no kitchen',
+		'prop_comparison_left_2'        => 'Restaurant only, no kitchen',
 		'prop_comparison_left_3'        => 'No care coordination',
 		'prop_comparison_left_4'        => 'Basic grab rails if you\'re lucky',
 		'prop_comparison_right_1'       => 'The whole house is yours',
@@ -163,7 +192,7 @@ function restwell_get_property_page_defaults() {
 
 		'prop_gallery_label'       => 'See the space',
 		'prop_gallery_heading'     => 'Take a look around.',
-		'prop_gallery_btn_1_label' => 'Enquire about dates',
+		'prop_gallery_btn_1_label' => 'Check your dates',
 		'prop_gallery_btn_1_url'   => '/enquire/',
 		'prop_gallery_btn_2_label' => '',
 		'prop_gallery_btn_2_url'   => '',
@@ -177,67 +206,67 @@ function restwell_get_property_page_defaults() {
 		'prop_bathrooms_count'   => 'TBC',
 		'prop_bathroom'          => 'Bathroom configuration confirmed before booking',
 		'prop_parking_label'     => 'Parking',
-		'prop_parking'           => 'Private driveway — two cars',
+		'prop_parking'           => 'Private driveway, two cars',
 		'prop_sleeps_value'      => 'TBC',
 		'prop_sleeps_label'      => 'Sleeps',
-		'prop_distances'         => "Tankerton Slopes promenade — 15 min flat walk\nWhitstable town centre — 15 min walk\nWhitstable station — 20-30 min walk",
+		'prop_distances'         => "Tankerton Slopes promenade: 15 min flat walk\nWhitstable town centre: 15 min walk\nWhitstable station: 20-30 min walk",
 		'prop_confirm_details_url' => '/enquire/',
 
 	'prop_nearby_label'       => 'What\'s nearby',
 	'prop_nearby_heading'     => 'Explore Whitstable.',
 	'prop_nearby_1_title'     => 'The Plough Pub',
 	'prop_nearby_1_body'      => "A friendly local pub on St John's Road, just a short walk from the property. Relaxed atmosphere, good food, live music nights, and welcoming to families and groups.",
-	'prop_nearby_1_acc'       => 'Wheelchair-accessible entrance and accessible restroom — confirm current details with the pub.',
+	'prop_nearby_1_acc'       => 'Wheelchair-accessible entrance and accessible restroom. Confirm current details with the pub.',
 	'prop_nearby_1_distance'  => 'Approx. 5 min walk',
 	'prop_nearby_1_filter'    => 'wheelchair-friendly quieter',
 	'prop_nearby_1_map_url'   => 'https://maps.google.com/?q=The+Plough+St+Johns+Road+Whitstable',
 	'prop_nearby_2_title'     => 'Tankerton Slopes & Promenade',
-		'prop_nearby_2_body'      => 'A long, flat, surfaced promenade with views across the Thames Estuary. The promenade path itself is wide and level — suitable for wheelchairs and powerchairs. The grassy slopes between the road and the promenade are steep, so use the paved access paths. Free parking along Marine Parade at the top.',
+		'prop_nearby_2_body'      => 'A long, flat, surfaced promenade with views across the Thames Estuary. The promenade path itself is wide and level, suitable for wheelchairs and powerchairs. The grassy slopes between the road and the promenade are steep, so use the paved access paths. Free parking along Marine Parade at the top.',
 	'prop_nearby_2_acc'       => 'Flat tarmac path, no steps, suitable for wheelchairs. Accessible WC at harbour end.',
 	'prop_nearby_2_distance'  => 'Approx. 15 min flat walk',
 	'prop_nearby_2_filter'    => 'wheelchair-friendly',
 	'prop_nearby_2_map_url'   => 'https://maps.google.com/?q=Tankerton+Slopes+Whitstable',
 	'prop_nearby_3_title'     => 'Whitstable Harbour & Harbour Street',
 	'prop_nearby_3_body'      => 'Fresh oysters, fish and chips, independent restaurants, boutiques, galleries, and cafes. A lively working harbour with a relaxed, artistic character that draws visitors year-round.',
-	'prop_nearby_3_acc'       => 'Mostly flat approach. Some cobblestone sections near the harbour. Harbour Street pavements can be narrow during peak times — quieter on weekday mornings.',
+	'prop_nearby_3_acc'       => 'Mostly flat approach. Some cobblestone sections near the harbour. Harbour Street pavements can be narrow during peak times; quieter on weekday mornings.',
 	'prop_nearby_3_distance'  => 'Approx. 20 min walk or 7 min drive',
 	'prop_nearby_3_filter'    => 'quieter',
 	'prop_nearby_3_map_url'   => 'https://maps.google.com/?q=Harbour+Street+Whitstable+Kent',
 	'prop_nearby_4_title'     => 'Whitstable Beach',
-	'prop_nearby_4_body'      => "Whitstable's iconic shingle beach is beautiful, but we want to be honest — shingle is generally not suitable for wheelchairs. The promenade above provides excellent sea views and is accessible for most wheelchair users.",
+	'prop_nearby_4_body'      => "Whitstable's iconic shingle beach is beautiful, but we want to be honest: shingle is generally not suitable for wheelchairs. The promenade above provides excellent sea views and is accessible for most wheelchair users.",
 	'prop_nearby_4_acc'       => 'Shingle beach is not recommended for wheelchairs. The level promenade path above the beach is the accessible alternative.',
 	'prop_nearby_4_distance'  => 'Approx. 15 min walk',
 	'prop_nearby_4_filter'    => 'wheelchair-friendly',
 	'prop_nearby_4_map_url'   => 'https://maps.google.com/?q=Whitstable+Beach+Kent',
 	'prop_nearby_5_title'     => 'Supermarkets',
-	'prop_nearby_5_body'      => "Sainsbury's is the closest at 4 minutes (Reeves Way, Chestfield CT5 3QS). Tesco Extra is 7 minutes (Millstrood Rd CT5 3EE). Co-op is 9 minutes (14–16 Canterbury Rd CT5 4EX). Aldi is 10 minutes (Prospect Retail Park CT5 3SD). All have disabled parking.",
-	'prop_nearby_5_acc'       => 'All four stores have step-free access and disabled parking bays.',
+	'prop_nearby_5_body'      => "Sainsbury's is the closest at 4 minutes (Reeves Way, Chestfield CT5 3QS). Tesco Extra is 7 minutes (Millstrood Rd CT5 3EE). Co-op is 9 minutes (14-16 Canterbury Rd CT5 4EX). Aldi is 10 minutes (Prospect Retail Park CT5 3SD). All have accessible parking.",
+	'prop_nearby_5_acc'       => 'All four stores have step-free access and accessible parking bays.',
 	'prop_nearby_5_distance'  => 'From 4 min drive',
 	'prop_nearby_5_filter'    => 'practical',
 	'prop_nearby_5_map_url'   => 'https://maps.google.com/?q=Sainsbury%27s+Whitstable+Chestfield',
 	'prop_nearby_6_title'     => 'Local Pharmacies',
-	'prop_nearby_6_body'      => 'Boots Pharmacy and Superdrug Pharmacy are both in Whitstable town centre and open 7 days a week. Hours may vary slightly on Sundays — check locally if urgent.',
-	'prop_nearby_6_acc'       => 'Accessible entrances — confirm current details with each pharmacy.',
+	'prop_nearby_6_body'      => 'Boots Pharmacy and Superdrug Pharmacy are both in Whitstable town centre and open 7 days a week. Hours may vary slightly on Sundays; check locally if urgent.',
+	'prop_nearby_6_acc'       => 'Accessible entrances. Confirm current details with each pharmacy.',
 	'prop_nearby_6_distance'  => 'Short drive or bus to town',
 	'prop_nearby_6_filter'    => 'practical',
 	'prop_nearby_6_map_url'   => 'https://maps.google.com/?q=Boots+Pharmacy+Whitstable',
 	'prop_nearby_7_title'     => 'Getting Around',
-	'prop_nearby_7_body'      => 'Accessible taxis: Abacus Cars LTD (01227 277745) — pre-book wheelchair-accessible vehicles, especially during school run times. Stagecoach South East: the 400 bus from The Plough runs to the beach, harbour, and Canterbury bus station. Whitstable Railway Station has direct trains to London St Pancras and Victoria; Chestfield & Swalecliffe is a quieter alternative nearby.',
+	'prop_nearby_7_body'      => 'Accessible taxis: Abacus Cars LTD (01227 277745). Pre-book wheelchair-accessible vehicles, especially during school run times. Stagecoach South East: the 400 bus from The Plough runs to the beach, harbour, and Canterbury bus station. Whitstable Railway Station has direct trains to London St Pancras and Victoria; Chestfield & Swalecliffe is a quieter alternative nearby.',
 	'prop_nearby_7_acc'       => 'Pre-book accessible vehicles with Abacus Cars. Bus stops within walking distance. Confirm station accessibility with National Rail.',
 	'prop_nearby_7_distance'  => 'Various',
 	'prop_nearby_7_filter'    => 'practical',
 	'prop_nearby_7_map_url'   => 'https://maps.google.com/?q=Whitstable+Railway+Station',
 	'prop_nearby_8_title'     => 'Medical & Emergency',
-	'prop_nearby_8_body'      => 'Nearest A&E: Kent and Canterbury Hospital, Ethelbert Rd, Canterbury CT1 3NG — approximately 7 miles, 15–20 minutes by car. Non-emergency NHS: call 111. Local GP: Whitstable Medical Practice (approx. 5 min drive). Emergencies: 999.',
+	'prop_nearby_8_body'      => 'Nearest A&E: Kent and Canterbury Hospital, Ethelbert Rd, Canterbury CT1 3NG, approximately 7 miles, 15-20 minutes by car. Non-emergency NHS: call 111. Local GP: Whitstable Medical Practice (approx. 5 min drive). Emergencies: 999.',
 	'prop_nearby_8_acc'       => 'Kent and Canterbury Hospital has accessible parking and entrances. Call ahead for GP appointments.',
-	'prop_nearby_8_distance'  => 'A&E approx. 7 miles / 15–20 min',
+	'prop_nearby_8_distance'  => 'A&E approx. 7 miles / 15-20 min',
 	'prop_nearby_8_filter'    => 'practical',
 	'prop_nearby_8_map_url'   => 'https://maps.google.com/?q=Kent+and+Canterbury+Hospital+CT1+3NG',
 	'prop_nearby_cta_label'   => 'Questions about access?',
 	'prop_nearby_cta_url'     => '/enquire/',
 
 		'prop_cta_heading' => 'Ready to see it for yourself?',
-		'prop_cta_body'    => 'Get in touch and we\'ll answer any questions you have — honestly, without pressure.',
+		'prop_cta_body'    => 'Get in touch and we\'ll answer any questions you have, honestly, without pressure.',
 		'prop_cta_btn'     => 'Enquire now',
 		'prop_cta_url'     => '/enquire/',
 		'prop_cta_promise' => '',
@@ -251,7 +280,7 @@ function restwell_get_how_it_works_page_defaults() {
 	$defaults = array(
 		'hiw_label'   => 'How it works',
 		'hiw_heading' => 'Simple from first enquiry to final day.',
-		'hiw_intro'   => 'We have made the process as straightforward as possible. No lengthy forms, no complicated assessments upfront — just a conversation to make sure we can meet your needs.',
+		'hiw_intro'   => 'We have made the process as straightforward as possible. No lengthy forms, no complicated assessments upfront: just a conversation to make sure we can meet your needs.',
 
 		'hiw_steps_label'   => 'The process',
 		'hiw_steps_heading' => 'Four steps to your stay.',
@@ -259,7 +288,7 @@ function restwell_get_how_it_works_page_defaults() {
 		'hiw_step1_title'   => 'Get in touch',
 		'hiw_step1_body'    => 'Fill in our short enquiry form or drop us an email. Tell us a little about who you are, when you\'re thinking of visiting, and any care or accessibility requirements.',
 		'hiw_step2_title'   => 'We\'ll call you back',
-		'hiw_step2_body'    => 'One of our team will call you within 24 hours. We want to understand what you need so we can confirm the property is right for you — and answer every question honestly.',
+		'hiw_step2_body'    => 'We want to understand what you need, confirm the property is right for you, and answer every question honestly. We aim to reply within one working day.',
 		'hiw_step3_title'   => 'Confirm your booking',
 		'hiw_step3_body'    => 'Once you\'re happy, we\'ll send a simple booking confirmation and take a deposit. Care arrangements, if required, are agreed at this stage with Continuity of Care Services.',
 		'hiw_step4_title'   => 'Arrive and rest easy',
@@ -267,8 +296,8 @@ function restwell_get_how_it_works_page_defaults() {
 
 
 		'hiw_care_cta_label'   => 'Optional care support',
-		'hiw_care_cta_heading' => 'You choose how much support you want.',
-		'hiw_care_cta_body'    => 'Care is entirely optional. If you want it, Continuity of Care Services — CQC-regulated and experienced — will work to your schedule. A morning check-in, personal care, or more comprehensive support.',
+		'hiw_care_cta_heading' => 'Care support works around you, not shift patterns.',
+		'hiw_care_cta_body'    => 'Care is entirely optional. If you want it, Continuity of Care Services (CQC-regulated and experienced) will work to your schedule, not theirs. Morning check-ins, personal care, or more comprehensive support: you decide.',
 		'hiw_care_cta_btn'     => 'Ask about care options',
 		'hiw_care_cta_url'     => '/enquire/',
 
@@ -277,8 +306,8 @@ function restwell_get_how_it_works_page_defaults() {
 		'hiw_included_intro'   => 'Your booking covers exclusive use of the whole property for the duration of your stay.',
 		'hiw_included_1_title' => 'Exclusive use of the whole house',
 		'hiw_included_1_desc'  => 'No shared spaces, no other guests.',
-		'hiw_included_2_title' => 'All accessibility equipment',
-		'hiw_included_2_desc'  => 'Tea, coffee, milk, and a few basics so you are not shopping the moment you arrive.',
+		'hiw_included_2_title' => 'Ceiling hoist & profiling bed',
+		'hiw_included_2_desc'  => 'Ceiling track hoist, profiling bed, and wet room with grab rails, in place and ready for your arrival.',
 		'hiw_included_3_title' => 'High-speed broadband',
 		'hiw_included_3_desc'  => 'Reliable Wi-Fi throughout.',
 		'hiw_included_4_title' => 'Linen and towels',
@@ -286,7 +315,7 @@ function restwell_get_how_it_works_page_defaults() {
 		'hiw_included_5_title' => 'Parking for two cars',
 		'hiw_included_5_desc'  => 'Private driveway.',
 		'hiw_included_6_title' => 'Welcome information pack',
-		'hiw_included_6_desc'  => 'Local tips, emergency contacts, and house guide.',
+		'hiw_included_6_desc'  => 'Local tips, emergency contacts, house guide, plus tea, coffee, and a few basics so you are not shopping the moment you arrive.',
 
 		'hiw_cta_label'           => 'Ready?',
 		'hiw_cta_heading'         => 'Start with a conversation.',
@@ -303,7 +332,7 @@ function restwell_get_how_it_works_page_defaults() {
 		'hiw_faq_1_q'     => 'Do I have to book care?',
 		'hiw_faq_1_a'     => 'No. Care support through Continuity of Care Services is entirely optional. Many guests book the house as a self-catering holiday and need no additional support.',
 		'hiw_faq_2_q'     => 'How far in advance should I book?',
-		'hiw_faq_2_a'     => 'We recommend enquiring as early as possible — peak summer weeks fill quickly. That said, we will always try to accommodate shorter-notice bookings where we can.',
+		'hiw_faq_2_a'     => 'We recommend enquiring as early as possible; peak summer weeks fill quickly. That said, we will always try to accommodate shorter-notice bookings where we can.',
 		'hiw_faq_3_q'     => 'How far is the property from the beach?',
 		'hiw_faq_3_a'     => 'The Tankerton promenade is about 15 minutes\' flat walk from the property. The town centre and harbour are about a 7-minute drive or 20-minute walk. We can provide exact routes and accessibility notes for any destination before your stay.',
 	);
@@ -322,27 +351,27 @@ function restwell_get_accessibility_page_defaults() {
 		'acc_room_label'      => 'The property',
 		'acc_room_heading'    => 'Room by room.',
 		'acc_arrival_heading' => 'Arrival & entrance',
-		'acc_arrival_body'    => "Level driveway with space for two cars\nStep-free path from car to front door\nWide front door (965 mm clear)\nLevel threshold — no step",
+		'acc_arrival_body'    => "Level driveway with space for two cars\nStep-free path from car to front door\nWide front door (965 mm clear)\nLevel threshold, no step",
 		'acc_inside_heading'  => 'Inside the property',
-		'acc_inside_body'     => "All internal doors 926 mm clear\nOpen-plan ground floor — no internal steps\nLevel flooring throughout (no carpet lips)\nCeiling track hoist covers accessible bedroom and wet room",
+		'acc_inside_body'     => "All internal doors 926 mm clear\nOpen-plan ground floor, no internal steps\nLevel flooring throughout (no carpet lips)\nCeiling track hoist covers accessible bedroom and wet room",
 		'acc_bedroom_heading' => 'Accessible bedroom',
 		'acc_bedroom_body'    => "Profiling bed with pressure-relieving mattress\nCeiling hoist with full-room track\nHeight-adjustable features\nSpace for carer on both sides of bed",
 		'acc_bathroom_heading'=> 'Wet room',
-		'acc_bathroom_body'   => "Full wet room — roll-in shower, no lip\nFold-down shower seat\nGrab rails: shower, toilet, and washbasin\nFloor-level drain\nExtractor fan",
+		'acc_bathroom_body'   => "Full wet room: roll-in shower, no lip\nFold-down shower seat\nGrab rails: shower, toilet, and washbasin\nFloor-level drain\nExtractor fan",
 		'acc_kitchen_heading' => 'Kitchen',
-		'acc_kitchen_body'    => "Open-plan kitchen — easy wheelchair access\nHeight-adjustable worktop section\nInduction hob (safer for some users)\nAccessible storage at lower levels",
+		'acc_kitchen_body'    => "Open-plan kitchen, easy wheelchair access\nHeight-adjustable worktop section\nInduction hob (safer for some users)\nAccessible storage at lower levels",
 		'acc_outdoor_heading' => 'Outdoor spaces',
-		'acc_outdoor_body'    => "Level patio immediately outside rear doors\nHard-standing surface suitable for wheelchairs\nSmall garden area — mostly flat",
+		'acc_outdoor_body'    => "Level patio immediately outside rear doors\nHard-standing surface suitable for wheelchairs\nSmall garden area, mostly flat",
 
 		'acc_dest_label'              => 'Whitstable',
 		'acc_dest_heading'            => 'The destination, honestly.',
-		'acc_dest_intro'              => 'Whitstable is a genuinely lovely town — but like most historic coastal places, it has its challenges. Here is the honest picture.',
+		'acc_dest_intro'              => 'Whitstable is a genuinely lovely town, but like most historic coastal places, it has its challenges. Here is the honest picture.',
 		'acc_dest_good_heading'       => 'The good',
-		'acc_dest_good_body'          => 'The Tankerton promenade is a long, flat, surfaced path along the seafront — one of the most wheelchair-friendly coastal routes in Kent. Free parking at Marine Parade. Accessible toilets at the harbour end. The streets around the property are flat and paved with dropped kerbs.',
+		'acc_dest_good_body'          => 'The Tankerton promenade is a long, flat, surfaced path along the seafront, one of the most wheelchair-friendly coastal routes in Kent. Free parking at Marine Parade. Accessible toilets at the harbour end. The streets around the property are flat and paved with dropped kerbs.',
 		'acc_dest_challenge_heading'  => 'The challenges',
 		'acc_dest_challenge_body'     => 'Harbour Street and the old town have narrow pavements that get crowded at weekends and in summer. Some shops and cafes have stepped entrances with no ramp. The harbour itself has some uneven surfaces near the fish market. Weekday mornings are the easiest time to visit.',
 		'acc_dest_reality_heading'    => 'The reality',
-		'acc_dest_reality_body'       => "Whitstable is more accessible than most UK coastal towns. With a little planning — and our local knowledge — we can point you to the best accessible routes, cafes, and experiences. We will share everything we know in your welcome pack.",
+		'acc_dest_reality_body'       => "Whitstable is more accessible than most UK coastal towns. With a little planning and our local knowledge, we can point you to the best accessible routes, cafes, and experiences. We will share everything we know in your welcome pack.",
 
 		'acc_cta_heading' => 'Still have questions about access?',
 		'acc_cta_body'    => 'Get in touch and we will answer honestly. If the property isn\'t right for your needs, we will tell you.',
@@ -358,16 +387,16 @@ function restwell_get_faq_page_defaults() {
 	return array(
 		'faq_label'        => 'FAQ',
 		'faq_heading'      => 'Your questions, answered honestly.',
-		'faq_intro'        => 'If you can\'t find the answer here, get in touch — we respond within 24 hours.',
+		'faq_intro'        => 'If you can\'t find the answer here, get in touch; we respond within 24 hours.',
 		'faq_list_label'   => '',
 		'faq_list_heading' => 'Frequently asked questions',
 
 		'faq_1_q'   => 'What is Restwell?',
-		'faq_1_a'   => 'Restwell is a high-quality accessible holiday let in Whitstable, Kent. It is a proper coastal holiday home — not a care home, not a clinical facility. We offer the option of professional, CQC-regulated care support through our partner, Continuity of Care Services, but it is entirely optional.',
+		'faq_1_a'   => 'Restwell is a high-quality accessible holiday let in Whitstable, Kent. It is a proper coastal holiday home, not a care home, not a clinical facility. We offer the option of professional, CQC-regulated care support through our partner, Continuity of Care Services, but it is entirely optional.',
 		'faq_1_cat' => 'about',
 
 		'faq_2_q'   => 'Who is the property suitable for?',
-		'faq_2_a'   => 'The property is designed for disabled guests, wheelchair users, and people with complex care needs — and the family and carers who travel with them. It is for anyone who finds standard holiday accommodation doesn\'t quite work.',
+		'faq_2_a'   => 'The property is designed for guests with disabilities, wheelchair users, and people with complex care needs, and the family and carers who travel with them. It is for anyone who finds standard holiday accommodation doesn\'t quite work.',
 		'faq_2_cat' => 'about',
 
 		'faq_3_q'   => 'Do I need to book care?',
@@ -375,7 +404,7 @@ function restwell_get_faq_page_defaults() {
 		'faq_3_cat' => 'care',
 
 		'faq_4_q'   => 'What care services are available?',
-		'faq_4_a'   => 'Through Continuity of Care Services (CQC-regulated), we can arrange personal care, medication management, moving and handling support, and more. The level of support is entirely up to you — from a daily check-in to comprehensive care.',
+		'faq_4_a'   => 'Through Continuity of Care Services (CQC-regulated), we can arrange personal care, medication management, moving and handling support, and more. The level of support is entirely up to you, from a daily check-in to comprehensive care.',
 		'faq_4_cat' => 'care',
 
 		'faq_5_q'   => 'How do I book?',
@@ -391,11 +420,11 @@ function restwell_get_faq_page_defaults() {
 		'faq_7_cat' => 'booking',
 
 		'faq_8_q'   => 'Is the property suitable for hoists and profiling beds?',
-		'faq_8_a'   => 'The property has space for portable hoists and equipment. For specific requirements — ceiling track hoists, particular bed configurations, or specialist equipment — please get in touch before booking so we can confirm whether we can accommodate your needs.',
+		'faq_8_a'   => 'The property already has a ceiling track hoist fitted, along with a profiling bed and a full wet room. If you have additional or specialist equipment needs, please get in touch before booking so we can confirm we can accommodate them.',
 		'faq_8_cat' => 'about',
 
 		'faq_9_q'   => 'What is Whitstable like for accessibility?',
-		'faq_9_a'   => 'Mostly good — the Tankerton Slopes promenade is excellent for wheelchairs, the town centre is largely flat, and several restaurants and cafes are accessible. The harbour area has some cobblestones and the beach is shingle. Our welcome pack gives detailed local accessibility guidance.',
+		'faq_9_a'   => 'Mostly good: the Tankerton Slopes promenade is excellent for wheelchairs, the town centre is largely flat, and several restaurants and cafes are accessible. The harbour area has some cobblestones and the beach is shingle. Our welcome pack gives detailed local accessibility guidance.',
 		'faq_9_cat' => 'local',
 
 		'faq_10_q'   => 'How far is the property from the sea?',
@@ -403,11 +432,11 @@ function restwell_get_faq_page_defaults() {
 		'faq_10_cat' => 'local',
 
 		'faq_11_q'   => 'What is your cancellation policy?',
-		'faq_11_a'   => "More than 30 days before arrival: full refund. 14–30 days before: 50% refund. Less than 14 days before: no refund.\n\nWe recognise that guests booking accessible accommodation may face unexpected medical or care-related changes. If cancellation is due to serious illness or a care emergency, we will consider a partial refund or a free date change subject to availability.\n\nDate changes requested more than 14 days before arrival are free of charge. Changes within 14 days may incur a fee. No refunds for early departure or no-shows.",
+		'faq_11_a'   => "More than 30 days before arrival: full refund. 14-30 days before: 50% refund. Less than 14 days before: no refund.\n\nWe recognise that guests booking accessible accommodation may face unexpected medical or care-related changes. If cancellation is due to serious illness or a care emergency, we will consider a partial refund or a free date change subject to availability.\n\nDate changes requested more than 14 days before arrival are free of charge. Changes within 14 days may incur a fee. No refunds for early departure or no-shows.",
 		'faq_11_cat' => 'booking',
 
 		'faq_12_q'   => 'Can I visit the property before booking?',
-		'faq_12_a'   => 'We are happy to arrange a pre-booking visit where possible. Get in touch to discuss.',
+		'faq_12_a'   => 'Pre-booking visits are welcome. Get in touch and we will arrange a convenient time.',
 		'faq_12_cat' => 'booking',
 
 		'faq_13_q'   => 'Can I use my direct payment to stay at Restwell?',
@@ -415,12 +444,12 @@ function restwell_get_faq_page_defaults() {
 		'faq_13_cat' => 'funding',
 
 		'faq_14_q'   => 'What does CQC-regulated mean?',
-		'faq_14_a'   => 'CQC stands for Care Quality Commission — the independent regulator of health and social care in England. Continuity of Care Services, our partner provider, is inspected and rated by the CQC. This means the care you receive meets nationally recognised standards for safety and quality.',
+		'faq_14_a'   => 'CQC stands for Care Quality Commission, the independent regulator of health and social care in England. Continuity of Care Services, our partner provider, is inspected and rated by the CQC. This means the care you receive meets nationally recognised standards for safety and quality.',
 		'faq_14_cat' => 'funding',
 
 		'faq_cta_label'   => '',
 		'faq_cta_heading' => 'Still have a question?',
-		'faq_cta_body'    => 'Get in touch and we will answer honestly, usually within 24 hours.',
+		'faq_cta_body'    => 'Get in touch and we will answer honestly. We respond within 24 hours.',
 		'faq_cta_btn'     => 'Enquire now',
 		'faq_cta_url'     => '/enquire/',
 	);
@@ -433,10 +462,10 @@ function restwell_get_enquire_page_defaults() {
 	return array(
 		'enq_label'   => 'Get in touch',
 		'enq_heading' => 'Let\'s talk about your stay.',
-		'enq_intro'   => 'Fill in the form and we\'ll call you back within 24 hours. No commitment, no hard sell — just a conversation.',
+		'enq_intro'   => 'Fill in the form and we\'ll call you back within 24 hours. No commitment, no hard sell: just a conversation.',
 
 		'enq_form_heading'        => 'Tell us about your stay',
-		'enq_success_heading'     => 'Thank you — we\'ll be in touch.',
+		'enq_success_heading'     => 'Thank you. We\'ll be in touch.',
 		'enq_success_body'        => 'We will call you back within 24 hours to discuss your enquiry. If you would prefer an email response, just let us know.',
 		'enq_success_urgent_body' => 'As you\'ve indicated this is time-sensitive, we will aim to respond as quickly as possible.',
 
@@ -457,25 +486,25 @@ function restwell_get_resources_page_defaults() {
 	return array(
 		'res_label'   => 'Funding & support',
 		'res_heading' => 'Help paying for your break.',
-		'res_intro'   => 'A Restwell Retreats holiday may be more affordable than you think. There are several funding routes worth exploring — we have gathered the most useful information here.',
+		'res_intro'   => 'A Restwell Retreats holiday may be more affordable than you think. There are several funding routes worth exploring; we have gathered the most useful information here.',
 
 		'res_fund_heading' => 'How to fund your stay',
-		'res_fund_body'    => "Many guests use a combination of personal savings, direct payments, and charitable grants to fund their stay.\n\nIf you receive a personal budget or direct payment from your local authority or NHS, you may be able to use this towards your stay — particularly if care support is included. We recommend speaking to your care coordinator or social worker in the first instance.\n\nWe are happy to provide documentation to support a funding application.",
+		'res_fund_body'    => "Many guests use a combination of personal savings, direct payments, and charitable grants to fund their stay.\n\nIf you receive a personal budget or direct payment from your local authority or NHS, you may be able to use this towards your stay, particularly if care support is included. We recommend speaking to your care coordinator or social worker in the first instance.\n\nWe are happy to provide documentation to support a funding application.",
 
 		'res_grants_heading' => 'Grants and charities',
-		'res_grants_body'    => "A number of charities offer grants specifically for disabled people and their carers to take a holiday. These include:\n\n- <a href=\"https://www.tourismforall.co.uk\" target=\"_blank\" rel=\"noopener\">Tourism for All</a>\n- <a href=\"https://familyfund.org.uk\" target=\"_blank\" rel=\"noopener\">Family Fund</a> (families with disabled or seriously ill children)\n- <a href=\"https://www.carers.org\" target=\"_blank\" rel=\"noopener\">Carers UK</a> — signposting to local grants\n- Local authority short breaks / respite funding\n\nEligibility varies. We recommend checking each organisation\'s current criteria.",
+		'res_grants_body'    => "A number of charities offer grants specifically for people with disabilities and their carers to take a holiday. These include:\n\n- <a href=\"https://www.tourismforall.co.uk\" target=\"_blank\" rel=\"noopener\">Tourism for All</a>\n- <a href=\"https://familyfund.org.uk\" target=\"_blank\" rel=\"noopener\">Family Fund</a> (families with children who have disabilities or serious illnesses)\n- <a href=\"https://www.carers.org\" target=\"_blank\" rel=\"noopener\">Carers UK</a> (signposting to local grants)\n- Local authority short breaks / respite funding\n\nEligibility varies. We recommend checking each organisation\'s current criteria.",
 
 		'res_chc_heading' => 'NHS Continuing Healthcare (CHC)',
-		'res_chc_body'    => "If you or the person you care for receives NHS Continuing Healthcare, it may be possible to use some of that funding towards care support during your stay.\n\nThis is not straightforward and depends on your individual package. We recommend raising it with your NHS case manager or care coordinator.\n\nContinuity of Care Services — our care partner — can provide documentation to support a CHC application for care during your stay.",
+		'res_chc_body'    => "If you or the person you care for receives NHS Continuing Healthcare, it may be possible to use some of that funding towards care support during your stay.\n\nThis is not straightforward and depends on your individual package. We recommend raising it with your NHS case manager or care coordinator.\n\nContinuity of Care Services, our care partner, can provide documentation to support a CHC application for care during your stay.",
 
 		'res_complaints_heading' => 'Complaints and appeals',
 		'res_complaints_body'    => "If a funding application is refused, you have the right to request a review. Local authorities are required to follow a formal review process.\n\nUseful resources:\n\n- <a href=\"https://www.disabilityrightsuk.org\" target=\"_blank\" rel=\"noopener\">Disability Rights UK</a>\n- <a href=\"https://www.lgo.org.uk\" target=\"_blank\" rel=\"noopener\">Local Government & Social Care Ombudsman</a>",
 
 		'res_contacts_heading' => 'Key contacts',
-		'res_contacts_body'    => "We have compiled a short list of organisations that may be helpful:\n\n- <strong>Continuity of Care Services</strong> — our care partner: <a href=\"https://www.continuitycareservices.co.uk\" target=\"_blank\" rel=\"noopener\">continuitycareservices.co.uk</a>\n- <strong>Care Quality Commission</strong> — CQC register: <a href=\"https://www.cqc.org.uk\" target=\"_blank\" rel=\"noopener\">cqc.org.uk</a>\n- <strong>Disability Rights UK</strong>: <a href=\"https://www.disabilityrightsuk.org\" target=\"_blank\" rel=\"noopener\">disabilityrightsuk.org</a>",
+		'res_contacts_body'    => "We have compiled a short list of organisations that may be helpful:\n\n- <strong>Continuity of Care Services</strong>, our care partner: <a href=\"https://www.continuitycareservices.co.uk\" target=\"_blank\" rel=\"noopener\">continuitycareservices.co.uk</a>\n- <strong>Care Quality Commission</strong>, CQC register: <a href=\"https://www.cqc.org.uk\" target=\"_blank\" rel=\"noopener\">cqc.org.uk</a>\n- <strong>Disability Rights UK</strong>: <a href=\"https://www.disabilityrightsuk.org\" target=\"_blank\" rel=\"noopener\">disabilityrightsuk.org</a>",
 
 		'res_cta_heading' => 'Not sure where to start?',
-		'res_cta_body'    => 'Get in touch and we will help you think through your options. We have helped guests navigate funding before and we are happy to point you in the right direction.',
+		'res_cta_body'    => 'Get in touch and we will help you think through the options. We have helped guests navigate funding before and will point you in the right direction.',
 		'res_cta_btn'     => 'Get in touch',
 		'res_cta_url'     => '/enquire/',
 	);
@@ -488,9 +517,9 @@ function restwell_get_guest_guide_page_defaults() {
 	return array(
 		'gg_checkin_time'    => '2:00 pm',
 		'gg_checkout_time'   => '11:00 am',
-		'gg_house_rules'     => "Please treat the property with care — it is someone's home.\nNo smoking anywhere inside the property.\nPets are welcome, including assistance dogs. Please keep pets off the furniture.\nPlease lock all doors and close all windows when you go out.\nReport any damages as soon as possible.",
-		'gg_departure_notes' => "Strip the beds and leave used linen in the laundry room.\nPlace all rubbish in the bins provided.\nReturn all keys and fobs to the key safe (location shared on arrival).\nClose all windows and lock all doors.\nLeave the property in a tidy condition — thank you!",
-		'gg_local_info'      => "Whitstable town centre is approximately 15 minutes on foot via a flat, paved route.\nTankerton promenade is about 15 minutes away on foot. The promenade itself is wide, level, and fully surfaced — suitable for wheelchairs and powerchairs. The grassy slopes above it are steep, so stick to the paved path along the seafront. Free parking is available along Marine Parade at the top.\nTesco Extra (Whitstable) is a 7-minute drive and has accessible parking, automatic doors, and a wheelchair-friendly layout.\nWheelchair and equipment hire is available locally — we can share details of trusted suppliers before your stay. Just ask.",
+		'gg_house_rules'     => "Please treat the property with care; it is someone's home.\nNo smoking anywhere inside the property.\nPets are welcome, including assistance dogs. Please keep pets off the furniture.\nPlease lock all doors and close all windows when you go out.\nReport any damages as soon as possible.",
+		'gg_departure_notes' => "Strip the beds and leave used linen in the laundry room.\nPlace all rubbish in the bins provided.\nReturn all keys and fobs to the key safe (location shared on arrival).\nClose all windows and lock all doors.\nLeave the property in a tidy condition. Thank you!",
+		'gg_local_info'      => "Whitstable town centre is approximately 15 minutes on foot via a flat, paved route.\nTankerton promenade is about 15 minutes away on foot. The promenade itself is wide, level, and fully surfaced, suitable for wheelchairs and powerchairs. The grassy slopes above it are steep, so stick to the paved path along the seafront. Free parking is available along Marine Parade at the top.\nTesco Extra (Whitstable) is a 7-minute drive and has accessible parking, automatic doors, and a wheelchair-friendly layout.\nWheelchair and equipment hire is available locally; we can share details of trusted suppliers before your stay. Just ask.",
 	);
 }
 
@@ -501,18 +530,19 @@ function restwell_get_who_its_for_page_defaults() {
 	return array(
 		'wif_label'           => 'Who it is for',
 		'wif_heading'         => 'Who Restwell is for',
-		'wif_intro'           => 'Whether you are booking for yourself, someone you support, or a client, Restwell is designed to make planning straightforward and stays comfortable. Here is how it works for different people.',
+		'wif_intro'           => 'Whether you are booking for yourself, someone you support, or a client, Restwell is designed to make planning straightforward and your stay comfortable. Here is how it works for different people.',
 		'wif_hero_image_id'   => 0,
-		'wif_family_title'    => 'For disabled individuals and families',
-		'wif_family_body'     => 'A private holiday home on the Kent coast, built around the access features that actually matter. Wet room with wheel-in shower, level access throughout, wide doorways, and space for the equipment you use at home. You bring your own support — we provide the property. No clinical atmosphere, no shared spaces, no compromises on comfort. You can check our full accessibility specification before you enquire.',
+		'wif_family_title'    => 'For guests and families',
+		'wif_family_body'     => '"Accessible" and "wheelchair friendly" are used loosely by a lot of accommodation. People book in good faith and arrive to find a step at the entrance, a bathroom that is too small to turn, or a hoist that is not actually there. Restwell works the other way: the ceiling track hoist is already fitted, the wet room has a roll-in shower with turning space, and every doorway and corridor is sized for a powerchair. The full measurements are published on our accessibility page. Check them before you enquire, not after. This is a private home, not a converted hotel room. No shared spaces, no clinical layout, and no surprises on arrival.',
 		'wif_carers_title'    => 'For carers and support workers',
-		'wif_carers_body'     => 'Bring your client or family member with confidence. The property has the core access features already in place — wet room, level thresholds, space for hoists — so you are not improvising when you arrive. There is a separate sleeping area for carers and the layout is practical for assisting with personal care. If you need to check whether the property suits a specific guest, get in touch and we will answer plainly.',
+		'wif_carers_body'     => 'The ceiling hoist is already fitted, the wet room is designed for assisted personal care, and there is a separate sleeping area for the support worker. The layout is practical, not just manageable. If your client has complex needs, check the suitability details with us before you commit. We will give you specifics, not a brochure. One thing many carers do not know: you have a legal right to a Carer\'s Assessment under the Care Act 2014. Your local council must carry one out if you ask. It can open up direct payment routes to fund a holiday or short break, so it is worth requesting if you have not had one.',
 		'wif_ot_title'        => 'For occupational therapists and case managers',
-		'wif_ot_body'         => 'We publish detailed accessibility information — dimensions, equipment, layout — so you can assess suitability against your client\'s needs before recommending a stay. If you need specifics we have not covered on the site, we will get them for you. We understand that recommending somewhere unsuitable reflects on you, so we would rather give you a straight answer than a sales pitch.',
+		'wif_ot_body'         => 'Our accessibility page publishes doorway widths, turning circle dimensions, ceiling track hoist specifications, profiling bed measurements, and wet room dimensions: the specifics that matter for a clinical recommendation. If you need something we have not published (transfer clearances, approach gradients, equipment positioning), ask and we will measure it. We understand a poor recommendation reflects on you. We would rather give you a straight answer than lose your trust, and we welcome referral conversations before any booking commitment.',
 		'wif_commissioners_title' => 'For commissioners and social care teams',
-		'wif_commissioners_body'  => 'Restwell welcomes funded stays through direct payments, personal health budgets, and CHC pathways. We can provide the supporting documentation you need for referrals and funding approvals — including property specifications, risk assessment information, and confirmation of our connection to Continuity of Care Services, a CQC-registered domiciliary and complex care provider. If you need to justify the spend, our Funding & Support page outlines common funding routes.',
+		'wif_commissioners_body'  => 'Under the Care Act 2014, short breaks at a private adapted setting can be included in a care and support plan where the property meets the person\'s assessed needs. Restwell supports direct payment stays, personal health budgets, and CHC-funded packages. We can provide the documentation a referral process typically requires: property specification, access measurements, equipment inventory, and written confirmation of our connection to Continuity of Care Services, a CQC-registered provider. Most local authority funding decisions require evidence. We provide it.',
+		'wif_visual_intro'    => 'Real photos help you judge fit before you book: layout, circulation space, and how equipment sits in the room. Pair these with our accessibility specification for verified measurements and features.',
 		'wif_funding_heading' => 'How funding can work',
-		'wif_funding_body'    => 'Many guests use direct payments, personal budgets, or CHC pathways (subject to local rules and care plans). In Kent, families often begin with a carers or care-needs assessment through Kent County Council, then confirm what can be funded. Start on our Funding & Support page, then contact us to discuss your case.',
+		'wif_funding_body'    => 'Many guests use direct payments, personal budgets, or CHC pathways. Most funded stays begin with a Care and Support Assessment, which is a right under the Care Act 2014. In Kent, that means contacting Kent County Council Adult Social Care. The three routes below explain how each pathway works.',
 		'wif_cta_heading'     => 'Need to check suitability first?',
 		'wif_cta_body'        => 'Tell us what you need and we will answer honestly, with no pressure.',
 		'wif_cta_primary_label' => 'Read accessibility features',
@@ -529,28 +559,50 @@ function restwell_get_whitstable_guide_page_defaults() {
 	return array(
 		'wg_label'         => 'Whitstable & Kent coast',
 		'wg_heading'       => 'A practical local guide for your stay.',
-		'wg_intro'         => 'From seafront walks to nearby towns, here is where guests usually go — and what to think about if accessibility matters to your plans.',
+		'wg_intro'         => 'From seafront walks to nearby towns, here is where guests usually go, and what to think about if accessibility matters to your plans.',
 		'wg_hero_image_id' => 0,
 		'wg_about_heading' => 'About Whitstable',
-		'wg_about_body'    => "Whitstable is a small coastal town known for its harbour, independent high street, and oysters. The town centre is compact and mostly flat, with a mix of cafes, pubs, galleries, and independent shops along Harbour Street and the high street.\nFor wheelchair users: most of the town centre is paved, but some older streets have uneven surfaces and narrow pavements. The harbour area is generally accessible, though parts near the fish market can be uneven or crowded at weekends. There is accessible public parking at Gorrell Tank car park (Canterbury City Council, pay and display) close to the high street.\nTankerton, just east of the town centre, has a wide, surfaced promenade that runs along the seafront — flat, smooth, and suitable for wheelchairs and powerchairs. Free parking is available along Marine Parade at the top. The grassy slopes between the road and the promenade are steep, so use the paved paths to reach the seafront. At low tide, a natural shingle spit called \"The Street\" appears and extends about 750 metres out to sea — interesting to see, but not accessible for wheelchair users as it is loose shingle.",
+		'wg_about_body'    => "Whitstable is a small coastal town known for its harbour, independent high street, and oysters. The town centre is compact and mostly flat, with a mix of cafes, pubs, galleries, and independent shops along Harbour Street and the high street.\nFor wheelchair users: most of the town centre is paved, but some older streets have uneven surfaces and narrow pavements. The harbour area is generally accessible, though parts near the fish market can be uneven or crowded at weekends. There is accessible public parking at Gorrell Tank car park (Canterbury City Council, pay and display) close to the high street.\nTankerton, just east of the town centre, has a wide, surfaced promenade that runs along the seafront: flat, smooth, and suitable for wheelchairs and powerchairs. Free parking is available along Marine Parade at the top. The grassy slopes between the road and the promenade are steep, so use the paved paths to reach the seafront. At low tide, a natural shingle spit called \"The Street\" appears and extends about 750 metres out to sea. It is interesting to see, but not accessible for wheelchair users as it is loose shingle.",
 		'wg_towns_heading' => 'Nearby towns worth visiting',
-		'wg_towns_body'    => "Canterbury (about 8 miles) — the cathedral city. Good for a day out with shops, restaurants, and the cathedral itself. The city centre is mostly pedestrianised and largely flat, though some older streets are cobbled. There are several accessible car parks including the Whitefriars shopping centre. The cathedral has wheelchair access to most areas.\nFaversham (about 7 miles) — a quieter market town with independent shops and pubs. The town centre is compact and mostly flat. Market days are Tuesday, Friday, and Saturday. A good option if you want a change of scene without a long drive.\nHerne Bay (about 4 miles) — traditional seafront with a long, flat promenade that is fully paved and accessible. There is also a pier (partially rebuilt), amusement arcades, and fish and chips. An easy option for a couple of hours by the sea.",
+		'wg_towns_body'    => "Canterbury (about 8 miles): the cathedral city. Good for a day out with shops, restaurants, and the cathedral itself. The city centre is mostly pedestrianised and largely flat, though some older streets are cobbled. There are several accessible car parks including the Whitefriars shopping centre. The cathedral has wheelchair access to most areas.\nFaversham (about 7 miles): a quieter market town with independent shops and pubs. The town centre is compact and mostly flat. Market days are Tuesday, Friday, and Saturday. A good option if you want a change of scene without a long drive.\nHerne Bay (about 4 miles): traditional seafront with a long, flat promenade that is fully paved and accessible. There is also a pier (partially rebuilt), amusement arcades, and fish and chips. An easy option for a couple of hours by the sea.",
 		'wg_getting_here_heading' => 'Getting here',
-		'wg_getting_here_body'    => "By car: Whitstable is reached via the M2 and A299 from London (about 60 miles, usually around 90 minutes depending on traffic). The property has off-street parking with enough space for adapted vehicles, including those with rear or side ramps.\nBy train: Whitstable station has direct services to London Victoria and London St Pancras (via Canterbury West or Faversham). Journey time is roughly 75–90 minutes. The station has step-free access to both platforms. From the station to the property is about a 10-minute drive — we can advise on accessible taxi options if needed.",
+		'wg_getting_here_body'    => "By car: Whitstable is reached via the M2 and A299 from London (about 60 miles, usually around 90 minutes depending on traffic). The property has off-street parking with enough space for adapted vehicles, including those with rear or side ramps.\nBy train: Whitstable station has direct services to London Victoria and London St Pancras (via Canterbury West or Faversham). Journey time is roughly 75-90 minutes. The station has step-free access to both platforms. From the station to the property is about a 10-minute drive; we can advise on accessible taxi options if needed.",
 		'wg_getting_around_heading' => 'Getting around during your stay',
-		'wg_getting_around_body'    => "Most guests find a car is the easiest way to get around, especially if you need to transport equipment. The property parking is level and spacious.\nThe Stagecoach 400 bus runs between Whitstable and Canterbury and stops nearby. This route uses low-floor buses, but availability of the ramp and wheelchair space can vary — it is worth checking with Stagecoach before relying on it for a specific journey.\nIf you use a mobility scooter or powerchair, the Tankerton promenade and Whitstable seafront are both suitable surfaces. The town centre is mixed — some pavements are narrow or uneven in older parts.\nWheelchair hire is available locally. Ask us before your stay and we can share contact details for trusted suppliers in the area.",
+		'wg_getting_around_body'    => "Most guests find a car is the easiest way to get around, especially if you need to transport equipment. The property parking is level and spacious.\nThe Stagecoach 400 bus runs between Whitstable and Canterbury and stops nearby. This route uses low-floor buses, but availability of the ramp and wheelchair space can vary; it is worth checking with Stagecoach before relying on it for a specific journey.\nIf you use a mobility scooter or powerchair, the Tankerton promenade and Whitstable seafront are both suitable surfaces. The town centre is mixed: some pavements are narrow or uneven in older parts.\nWheelchair hire is available locally. Ask us before your stay and we can share contact details for trusted suppliers in the area.",
 		'wg_spotlight_image_1_id' => 0,
 		'wg_spotlight_image_1_caption' => 'Tankerton promenade and sea-wall route',
 		'wg_spotlight_image_2_id' => 0,
 		'wg_spotlight_image_2_caption' => 'Whitstable harbour boardwalk and food huts',
 		'wg_spotlight_image_3_id' => 0,
 		'wg_spotlight_image_3_caption' => 'Town-centre route planning and practical stops',
-		'wg_cta_heading'     => 'Planning your coastal break?',
-		'wg_cta_body'        => 'If you have dates in mind, enquire and we will help you plan a stay that works.',
-		'wg_cta_primary_label' => 'See the property',
-		'wg_cta_primary_url'   => '/the-property/',
-		'wg_cta_secondary_label'=> 'Enquire about dates',
-		'wg_cta_secondary_url'  => '/enquire/',
+		'wg_access_label'            => 'Accessibility notes',
+		'wg_access_heading'          => 'Local routes with practical access context',
+		'wg_access_intro'            => 'We focus on surfaces, slopes, and typical crowding so you can plan with confidence: not generic "accessible" labels.',
+		'wg_spotlight_label'         => 'Visual guide',
+		'wg_spotlight_heading'       => 'Key local areas at a glance',
+		'wg_spotlight_intro'         => 'Photos help you picture routes and surfaces before you arrive.',
+		'wg_related_label'           => 'Related reading',
+		'wg_related_heading'         => 'Plan your stay with connected guides',
+		'wg_related_intro'           => 'If you are comparing locations and practical suitability, these pages answer the next common questions.',
+		'wg_planning_label'          => 'Planning notes',
+		'wg_planning_heading'        => 'Useful details before you head out',
+		'wg_planning_intro'          => 'A little planning helps avoid friction on the day, especially for accessibility and transport.',
+		'wg_planning_before_heading' => 'Before you travel',
+		'wg_planning_day_heading'    => 'On the day',
+		'wg_planning_before_bullets' => "Check opening times and access details for specific venues: not all cafes and pubs in Whitstable have step-free access.\nBook accessible taxis in advance, especially for weekends and bank holidays.\nIf you have questions about routes, parking, or whether a specific place is accessible, ask us before you travel; we will find out if we do not already know.",
+		'wg_planning_day_bullets'    => "Stick to promenade routes for level, predictable surfaces: the Tankerton promenade and Whitstable seafront are the most reliable.\nAllow extra time for parking near the harbour, especially on weekends and sunny days. Gorrell Tank car park usually has more availability than the harbour itself.\nKeep plans flexible around weather and tide conditions. The seafront is exposed and can be windy; bring layers.",
+		'wg_eating_label'            => 'Eating out',
+		'wg_eating_heading'          => 'Places to eat near the property',
+		'wg_eating_intro'            => '',
+		'wg_eating_body'             => "<strong>The Plough, Whitstable</strong>: a short walk from the property. Relaxed pub with a good food menu. Speak to us about accessibility on arrival as we have a direct contact there.\n<strong>Whitstable harbour</strong> has several fish and chip shops and seafood restaurants. Most are accessible at ground level, though space inside can be tight at peak times. Eating outside on the harbour wall is a good option in warmer weather.\n<strong>Tankerton Parade</strong> (along Marine Parade near the slopes) has a small cluster of independent cafes and a bakery. Generally quieter than the town centre.\nWe are happy to recommend other places based on your specific access needs; just ask before or during your stay.",
+		'wg_cta_heading'         => 'Planning your coastal break?',
+		'wg_cta_body'            => 'If you have dates in mind, get in touch and we will help you plan a stay that works for your access needs.',
+		'wg_cta_primary_label'   => 'See the property',
+		'wg_cta_primary_url'       => '/the-property/',
+		'wg_cta_secondary_label'   => 'Check your dates',
+		'wg_cta_secondary_url'     => '/enquire/',
+		'wg_cta_blog_label'        => 'Read local articles',
+		'wg_cta_blog_url'          => '/blog/',
 	);
 }
 
@@ -571,7 +623,7 @@ function restwell_get_contact_page_defaults() {
 		'contact_prof_heading'  => 'For professionals',
 		'contact_prof_body'     => 'If you are an occupational therapist, case manager, or commissioner, we are happy to provide property specifications, access measurements, and supporting information for referrals or funding applications. We prefer to give you specifics rather than marketing material.',
 		'contact_cta_heading'   => 'Prefer the full enquiry form?',
-		'contact_cta_body'      => 'Use our enquiry form to share dates and requirements in one place.',
+		'contact_cta_body'      => 'Use our enquiry form; it\'s the quickest way to share your dates, requirements, and any questions.',
 		'contact_cta_label'     => 'Go to enquiry form',
 		'contact_cta_url'       => '/enquire/',
 	);
@@ -617,7 +669,7 @@ function restwell_theme_setup_page() {
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Restwell Theme Setup', 'restwell-retreats' ); ?></h1>
 
-		<?php echo $message; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — built from escaped fragments ?>
+		<?php echo $message; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped - built from escaped fragments ?>
 
 		<div class="notice notice-warning">
 			<p><?php esc_html_e( 'This will create all pages and populate default content. Only run this once on a fresh install.', 'restwell-retreats' ); ?></p>
@@ -635,7 +687,7 @@ function restwell_theme_setup_page() {
 				<p>
 					<label>
 						<input type="checkbox" name="restwell_rerun" value="1" />
-						<?php esc_html_e( 'Re-run setup anyway', 'restwell-retreats' ); ?>
+						<?php esc_html_e( 'Re-run setup anyway (re-seeds content and overwrites SEO title, meta description, and focus keyphrase from theme defaults)', 'restwell-retreats' ); ?>
 					</label>
 				</p>
 			<?php endif; ?>
@@ -682,15 +734,24 @@ function restwell_get_logo_url( $mod_key, $fallback_filename ) {
 }
 
 /**
+ * Canonical brand lockup for the horizontal logo (matches “Restwell by …” in long_logo artwork).
+ *
+ * @return string Translatable site brand line.
+ */
+function restwell_site_brand_lockup() {
+	return __( 'Restwell by Continuity of Care Services', 'restwell-retreats' );
+}
+
+/**
  * Sideload the three theme logos into the Media Library and store attachment IDs
- * as theme mods. Idempotent — skips files already uploaded.
+ * as theme mods. Idempotent; skips files already uploaded.
  *
  * Theme mods set:
  *   restwell_logo_long_id     → long_logo.png  (horizontal, used in header/footer)
  *   restwell_logo_stacked_id  → logo.png        (stacked, available for custom use)
  *   restwell_logo_infinity_id → restwellinfinity.png  (icon only, available for custom use)
  *
- * @param array $result Result array passed by reference — keys logos_uploaded,
+ * @param array $result Result array passed by reference; keys logos_uploaded,
  *                      logos_skipped, logos_missing, logos_failed are appended.
  */
 function restwell_upload_theme_logos( array &$result ) {
@@ -705,7 +766,7 @@ function restwell_upload_theme_logos( array &$result ) {
 	);
 
 	foreach ( $logos as $mod_key => $filename ) {
-		// Already uploaded — verify the attachment still exists in the DB.
+		// Already uploaded: verify the attachment still exists in the DB.
 		$existing_id = (int) get_theme_mod( $mod_key, 0 );
 		if ( $existing_id > 0 && get_post( $existing_id ) ) {
 			$result['logos_skipped'][] = $filename;
@@ -718,7 +779,7 @@ function restwell_upload_theme_logos( array &$result ) {
 			continue;
 		}
 
-		// Copy to a temp path — media_handle_sideload moves/deletes the tmp file.
+		// Copy to a temp path; media_handle_sideload moves/deletes the tmp file.
 		$tmp = wp_tempnam( $filename );
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		if ( ! @copy( $file_path, $tmp ) ) {
@@ -749,8 +810,8 @@ function restwell_upload_theme_logos( array &$result ) {
 /**
  * Run theme setup: create pages, set front page, seed Home meta.
  *
- * @param bool $force If true, re-seed Home meta even if already seeded.
- * @return array{ 'created': string[], 'skipped': string[], 'front_page_set': bool, 'home_seeded': bool, 'logos_uploaded': string[], 'logos_skipped': string[], 'logos_missing': string[], 'logos_failed': string[] }
+ * @param bool $force If true, re-seed Home and page content where supported, refresh seeded blog posts, and overwrite SEO meta from theme defaults.
+ * @return array<string, mixed> Setup result (created, skipped, seo_meta_applied, seo_meta_forced, etc.).
  */
 function restwell_run_theme_setup( $force = false ) {
 	$result = array(
@@ -759,10 +820,12 @@ function restwell_run_theme_setup( $force = false ) {
 		'front_page_set'     => false,
 		'posts_page_set'     => false,
 		'home_seeded'        => false,
+		'home_editor_seeded' => false,
 		'pages_seeded'       => array(),
 		'pages_seed_skipped' => array(),
 		'hub_seeded'         => array(),
 		'seo_meta_applied'   => false,
+		'seo_meta_forced'    => false,
 		'blog_posts_seeded'  => array(),
 		'blog_posts_failed'  => array(),
 		'logos_uploaded'     => array(),
@@ -834,6 +897,10 @@ function restwell_run_theme_setup( $force = false ) {
 			update_post_meta( $home_id, 'restwell_fields_seeded', '1' );
 			$result['home_seeded'] = true;
 		}
+
+		if ( restwell_seed_front_page_editor_content( $home_id, $force ) ) {
+			$result['home_editor_seeded'] = true;
+		}
 	}
 
 	// Seed meta defaults for all non-Home template pages.
@@ -856,12 +923,13 @@ function restwell_run_theme_setup( $force = false ) {
 		$result['posts_page_set'] = true;
 	}
 
-	// Empty SEO meta_title / meta_description on core pages.
-	restwell_apply_seo_meta_to_pages( false );
+	// SEO defaults: fill empty fields always; overwrite when $force (re-run setup) is true.
+	restwell_apply_seo_meta_to_pages( $force );
 	$result['seo_meta_applied'] = true;
+	$result['seo_meta_forced']  = $force;
 
-	// Priority blog posts (idempotent).
-	restwell_seed_priority_blog_posts( $result );
+	// Priority blog posts (idempotent; pass $force so re-run updates content).
+	restwell_seed_priority_blog_posts( $result, $force );
 
 	// Upload logos to Media Library so templates can use stable attachment URLs.
 	restwell_upload_theme_logos( $result );
@@ -991,7 +1059,7 @@ function restwell_seed_all_pages_meta( array $created_ids, $force, array &$resul
 	);
 
 	foreach ( $page_defaults_map as $title => $defaults_fn ) {
-		// Resolve the page ID — prefer the ID from this run, then look it up.
+		// Resolve the page ID: prefer the ID from this run, then look it up.
 		$page_id = isset( $created_ids[ $title ] ) ? (int) $created_ids[ $title ] : 0;
 		if ( $page_id < 1 ) {
 			$slug = sanitize_title( $title );
@@ -1040,6 +1108,9 @@ function restwell_theme_setup_format_message( $result ) {
 	if ( $result['home_seeded'] ) {
 		$lines[] = esc_html__( 'Default content seeded on Home page.', 'restwell-retreats' );
 	}
+	if ( ! empty( $result['home_editor_seeded'] ) ) {
+		$lines[] = esc_html__( 'Home page editor body populated from defaults (editable in the classic editor).', 'restwell-retreats' );
+	}
 	if ( ! empty( $result['pages_seeded'] ) ) {
 		$lines[] = '<strong>' . esc_html__( 'Page content seeded:', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['pages_seeded'] ) );
 	}
@@ -1065,7 +1136,11 @@ function restwell_theme_setup_format_message( $result ) {
 		$lines[] = '<strong>' . esc_html__( 'Hub / blog content updated:', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['hub_seeded'] ) );
 	}
 	if ( ! empty( $result['seo_meta_applied'] ) ) {
-		$lines[] = esc_html__( 'SEO title and description defaults applied where fields were empty.', 'restwell-retreats' );
+		if ( ! empty( $result['seo_meta_forced'] ) ) {
+			$lines[] = esc_html__( 'SEO title, meta description, and focus keyphrases were refreshed from theme defaults (re-run).', 'restwell-retreats' );
+		} else {
+			$lines[] = esc_html__( 'SEO title and description defaults applied where fields were empty.', 'restwell-retreats' );
+		}
 	}
 	if ( ! empty( $result['blog_posts_seeded'] ) ) {
 		$lines[] = '<strong>' . esc_html__( 'Blog posts created:', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['blog_posts_seeded'] ) );
@@ -1080,3 +1155,33 @@ function restwell_theme_setup_format_message( $result ) {
 
 	return '<div class="notice notice-success"><p>' . implode( '<br />', $lines ) . '</p></div>';
 }
+
+/**
+ * One-time seed for homepage FAQ post meta (sites that already had restwell_fields_seeded before FAQ keys existed).
+ *
+ * Fills only keys that do not exist yet so editor changes are preserved.
+ */
+function restwell_migrate_homepage_faq_meta_v1() {
+	if ( get_option( 'restwell_home_faq_meta_migrated_v1', '' ) === '1' ) {
+		return;
+	}
+	if ( ! function_exists( 'restwell_get_homepage_faq_meta_seed_map' ) ) {
+		return;
+	}
+	$home_id = (int) get_option( 'page_on_front', 0 );
+	if ( $home_id < 1 ) {
+		return;
+	}
+
+	$map = restwell_get_homepage_faq_meta_seed_map();
+	foreach ( $map as $key => $value ) {
+		if ( metadata_exists( 'post', $home_id, $key ) ) {
+			continue;
+		}
+		update_post_meta( $home_id, $key, $value );
+	}
+
+	update_option( 'restwell_home_faq_meta_migrated_v1', '1' );
+}
+add_action( 'admin_init', 'restwell_migrate_homepage_faq_meta_v1', 5 );
+add_action( 'after_switch_theme', 'restwell_migrate_homepage_faq_meta_v1', 10 );

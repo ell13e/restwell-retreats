@@ -44,7 +44,7 @@ if ( is_singular( 'post' ) ) {
 	}
 }
 
-// Current page / post (no URL — it is the current page).
+// Current page / post (no URL - it is the current page).
 $crumbs[] = array(
 	'label' => get_the_title(),
 	'url'   => '',

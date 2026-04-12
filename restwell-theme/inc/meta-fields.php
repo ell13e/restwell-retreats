@@ -1,6 +1,6 @@
 <?php
 /**
- * Page Content Fields — meta box for page structured content (front page + template pages).
+ * Page Content Fields - meta box for page structured content (front page + template pages).
  * WordPress core only; no plugins.
  *
  * @package Restwell_Retreats
@@ -96,7 +96,7 @@ function restwell_page_content_meta_box_callback( $post ) {
 				$name  = $key;
 				echo '<div class="restwell-field">';
 
-				if ( $key === 'meta_description' || strpos( $key, '_body' ) !== false || strpos( $key, '_desc' ) !== false || strpos( $key, '_intro' ) !== false || strpos( $key, '_confirmed' ) !== false || strpos( $key, '_tbc' ) !== false ) {
+				if ( $key === 'meta_description' || $key === 'hero_spec_heading' || strpos( $key, '_body' ) !== false || strpos( $key, '_desc' ) !== false || strpos( $key, '_intro' ) !== false || strpos( $key, '_confirmed' ) !== false || strpos( $key, '_tbc' ) !== false ) {
 					echo '<label for="' . esc_attr( $id ) . '">' . esc_html( $label ) . '</label>';
 					echo '<textarea id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" rows="5">' . esc_textarea( $value ) . '</textarea>';
 				} elseif ( strpos( $key, '_image_id' ) !== false || $key === 'hero_media_id' ) {
@@ -106,7 +106,9 @@ function restwell_page_content_meta_box_callback( $post ) {
 					$is_video    = $mime_type && strpos( $mime_type, 'video/' ) === 0;
 					$preview_show = $img_value ? '' : ' style="display:none;"';
 					$remove_show  = $img_value ? '' : ' style="display:none;"';
-					$allowed     = ( $key === 'hero_media_id' ) ? ' data-allowed-types="image,video"' : ' data-allowed-types="image"';
+					// Interior page heroes: same as front-page hero — image or background video.
+					$allows_video = ( $key === 'hero_media_id' || strpos( $key, 'hero_image_id' ) !== false );
+					$allowed      = $allows_video ? ' data-allowed-types="image,video"' : ' data-allowed-types="image"';
 					$preview_src  = $img_url ? esc_url( $img_url ) : '';
 					$preview_text = $is_video ? esc_html__( 'Video selected', 'restwell-retreats' ) : '';
 					$input_id = $id . '_value';
@@ -114,14 +116,14 @@ function restwell_page_content_meta_box_callback( $post ) {
 					echo '<div class="restwell-image-upload restwell-media-upload"' . $allowed . '>';
 					echo '<input type="hidden" id="' . esc_attr( $input_id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" />';
 					echo '<div class="restwell-image-preview"' . $preview_show . '>';
-					if ( $key === 'hero_media_id' ) {
+					if ( $allows_video ) {
 						echo '<img src="' . $preview_src . '" alt="" style="' . ( $is_video ? 'display:none;' : '' ) . '" />';
 						echo '<span class="restwell-media-preview-text" style="' . ( $is_video ? '' : 'display:none;' ) . '">' . $preview_text . '</span>';
 					} else {
 						echo '<img src="' . $preview_src . '" alt="" />';
 					}
 					echo '</div>';
-					$select_btn_text = ( $key === 'hero_media_id' ) ? __( 'Select image or video', 'restwell-retreats' ) : __( 'Select Image', 'restwell-retreats' );
+					$select_btn_text = $allows_video ? __( 'Select image or video', 'restwell-retreats' ) : __( 'Select Image', 'restwell-retreats' );
 					echo '<button type="button" id="' . esc_attr( $id ) . '" class="button button-secondary restwell-select-image">' . esc_html( $select_btn_text ) . '</button>';
 					echo '<button type="button" class="button button-link restwell-remove-image"' . $remove_show . '>' . esc_html__( 'Remove', 'restwell-retreats' ) . '</button>';
 					echo '</div>';
@@ -255,7 +257,7 @@ function restwell_save_page_content_meta_box( $post_id ) {
 			$raw = wp_unslash( $_POST[ $key ] );
 			if ( strpos( $key, '_image_id' ) !== false || $key === 'hero_media_id' ) {
 				$value = absint( $raw );
-			} elseif ( $key === 'meta_description' || strpos( $key, '_body' ) !== false || strpos( $key, '_desc' ) !== false || strpos( $key, '_intro' ) !== false || strpos( $key, '_confirmed' ) !== false || strpos( $key, '_tbc' ) !== false ) {
+			} elseif ( $key === 'meta_description' || $key === 'hero_spec_heading' || strpos( $key, '_body' ) !== false || strpos( $key, '_desc' ) !== false || strpos( $key, '_intro' ) !== false || strpos( $key, '_confirmed' ) !== false || strpos( $key, '_tbc' ) !== false ) {
 				$value = sanitize_textarea_field( $raw );
 			} else {
 				$value = sanitize_text_field( $raw );

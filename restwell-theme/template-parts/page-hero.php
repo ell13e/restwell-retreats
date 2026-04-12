@@ -51,7 +51,7 @@ if ( $variant === 'compact' ) {
 <section class="<?php echo esc_attr( $section_class ); ?>" aria-labelledby="page-hero-heading">
 	<?php if ( $variant === 'with-image' && $image_src ) : ?>
 		<img src="<?php echo esc_url( $image_src ); ?>" alt="" class="absolute inset-0 w-full h-full object-cover -z-10" />
-		<div class="absolute inset-0 bg-gradient-to-t from-[var(--deep-teal)]/80 via-[var(--deep-teal)]/40 to-transparent -z-[5]" aria-hidden="true"></div>
+		<div class="page-hero__scrim absolute inset-0 -z-[5]" aria-hidden="true"></div>
 	<?php endif; ?>
 
 	<div class="relative z-10 container <?php echo $variant === 'with-image' ? 'pb-10 pt-8' : ''; ?>">

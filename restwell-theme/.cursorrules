@@ -2,7 +2,7 @@
 
 ## Project Context
 Migrating a React/TypeScript SPA to a custom WordPress theme.
-Source files are for reference only — translate to vanilla PHP/HTML/CSS/JS.
+Source files are for reference only - translate to vanilla PHP/HTML/CSS/JS.
 Do NOT introduce React, TypeScript, JSX, or any npm dependencies.
 
 ## Project Structure
@@ -31,7 +31,7 @@ Never modify anything in /client/, /server/, /shared/, or /patches/.
 - Maintain the existing HTML structure and class names from the React source where possible
 - CSS variables preferred for colours and spacing
 - BEM naming convention for any new CSS classes
-- No jQuery — vanilla JS only
+- No jQuery - vanilla JS only
 
 ## Content Management
 - Any hardcoded strings that editors might need to change should become ACF fields
@@ -39,11 +39,11 @@ Never modify anything in /client/, /server/, /shared/, or /patches/.
 - Always include fallback content if ACF field is empty
 
 ## JavaScript
-- Preserve existing Map.tsx logic — translate to vanilla JS
+- Preserve existing Map.tsx logic - translate to vanilla JS
 - Use wp_localize_script() to pass PHP data to JS (not inline scripts)
 
 ## Do Not
 - Do not add page builders or Gutenberg block dependencies
-- Do not use any WordPress starter themes as a base — build from scratch
-- Do not convert class components — these are just HTML templates now
+- Do not use any WordPress starter themes as a base - build from scratch
+- Do not convert class components - these are just HTML templates now
 - Do not install any plugins without being asked

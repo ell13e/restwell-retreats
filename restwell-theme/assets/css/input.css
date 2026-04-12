@@ -43,17 +43,20 @@
     @apply font-sans antialiased text-[#1B4D5C];
   }
 
+  /* Lora: display weight stays normal — scale & serif carry hierarchy (see --font-weight-heading) */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-normal text-[#1B4D5C];
+    @apply font-serif text-[#1B4D5C];
+    font-weight: var(--font-weight-heading);
   }
 
   .section-heading {
-    @apply font-serif font-normal;
+    @apply font-serif;
+    font-weight: var(--font-weight-heading);
   }
 }
 
 @layer components {
-  /* Feature icon (What makes us different) — icon centred inside circle */
+  /* Feature icon (What makes us different) - icon centred inside circle */
   .feature-icon-wrapper {
     @apply relative w-14 h-14 flex items-center justify-center mx-auto mb-4;
   }
@@ -118,17 +121,43 @@
     @apply max-w-prose mx-auto;
   }
 
-  /* Hero image overlay: gradient on top of photo so text stays readable */
-  .page-hero-overlay {
-    z-index: 1;
-    /* deep-teal #1B4D5C = rgb(27, 77, 92) — more opaque for text contrast */
-    background: linear-gradient(
-      to top,
-      rgba(27, 77, 92, 0.95),
-      rgba(27, 77, 92, 0.7) 40%,
-      rgba(27, 77, 92, 0.45)
-    );
+  /* Hero image scrim: heaviest bottom + left (LTR copy block), lighter toward top-right so the photo still reads. */
+  .page-hero__scrim {
     pointer-events: none;
+    z-index: 0;
+    background:
+      linear-gradient(
+        to top,
+        rgba(27, 77, 92, 0.96) 0%,
+        rgba(27, 77, 92, 0.78) 22%,
+        rgba(15, 42, 52, 0.5) 48%,
+        transparent 74%
+      ),
+      linear-gradient(
+        to right,
+        rgba(12, 36, 44, 0.94) 0%,
+        rgba(12, 36, 44, 0.52) 38%,
+        transparent 65%
+      );
+  }
+
+  @media (min-width: 1024px) {
+    .page-hero__scrim {
+      background:
+        linear-gradient(
+          to top,
+          rgba(27, 77, 92, 0.97) 0%,
+          rgba(27, 77, 92, 0.82) 26%,
+          rgba(15, 42, 52, 0.48) 52%,
+          transparent 76%
+        ),
+        linear-gradient(
+          to right,
+          rgba(12, 36, 44, 0.95) 0%,
+          rgba(12, 36, 44, 0.48) 40%,
+          transparent 68%
+        );
+    }
   }
 
   /* Explore Whitstable filter pills: active state by aria-pressed */
@@ -151,8 +180,8 @@
   :root {
     --deep-teal: #1B4D5C;
     --warm-gold: #D4A853;
-    --warm-gold-text: #815F10;       /* 5.8:1 on white, 4.9:1 on --soft-sand — passes AA on both */
-    --warm-gold-hero: #F0C97A;       /* for use on dark/teal backgrounds — 5.3:1 on --deep-teal */
+    --warm-gold-text: #815F10;       /* 5.8:1 on white, 4.9:1 on --soft-sand - passes AA on both */
+    --warm-gold-hero: #F0C97A;       /* for use on dark/teal backgrounds - 5.3:1 on --deep-teal */
     --sea-glass: #A8D5D0;
     --soft-sand: #F5EDE0;
     --driftwood: #E8DFD0;
@@ -160,22 +189,37 @@
     --body-secondary: #2d4a52;
     --font-sans: 'Inter', system-ui, sans-serif;
     --font-serif: 'Lora', Georgia, serif;
+    /*
+     * Font weights (Inter variable + Lora variable)
+     * — 400: body copy, Lora headings (hierarchy from size/serif, not faux-bold)
+     * — 500: secondary emphasis, ghost buttons, inline links in prose
+     * — 600: UI chrome — form labels, pills, buttons, uppercase eyebrows, b/strong
+     */
+    --font-weight-body: 400;
+    --font-weight-emphasis: 500;
+    --font-weight-ui: 600;
+    --font-weight-strong: 600;
+    --font-weight-heading: 400;
     --radius: 0.75rem;
-    --space-1: 0.25rem;
-    --space-2: 0.5rem;
-    --space-3: 0.75rem;
-    --space-4: 1rem;
-    --space-6: 1.5rem;
-    --space-8: 2rem;
+    --space-1:  0.25rem;
+    --space-2:  0.5rem;
+    --space-3:  0.75rem;
+    --space-4:  1rem;
+    --space-5:  1.25rem;
+    --space-6:  1.5rem;
+    --space-8:  2rem;
+    --space-10: 2.5rem;
     --space-12: 3rem;
+    --space-14: 3.5rem;
     --space-16: 4rem;
+    --space-20: 5rem;
     /* Section padding scale (use for main sections: py-16 / py-24) */
     --section-padding-y: 4rem;
     --section-padding-y-md: 6rem;
     /* Hero/intro larger padding */
     --section-padding-y-hero: 5rem;
     --section-padding-y-hero-md: 7rem;
-    /* Subtle section background — alternating with bg-white */
+    /* Subtle section background - alternating with bg-white */
     --bg-subtle: #F8FAFA;
   }
 
@@ -221,11 +265,18 @@
   body {
     font-size: 18px;
     line-height: 1.75;
+    font-weight: var(--font-weight-body);
     background: #ffffff;
+  }
+
+  strong,
+  b {
+    font-weight: var(--font-weight-strong);
   }
 
   h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
+    font-weight: var(--font-weight-heading);
   }
 
   h1 { font-size: 2.75rem; }
@@ -260,12 +311,12 @@
   :focus-visible {
     outline: 3px solid var(--deep-teal);
     outline-offset: 2px;
-    /* 2.4.11 Focus Not Obscured (WCAG 2.2 AA) — ensure the sticky site header
+    /* 2.4.11 Focus Not Obscured (WCAG 2.2 AA) - ensure the sticky site header
        (~4rem tall) never hides a focused element when the user tabs through the page. */
     scroll-margin-top: 5rem;
   }
 
-  /* Skip navigation link — visually hidden until focused */
+  /* Skip navigation link - visually hidden until focused */
   .skip-link {
     position: absolute;
     top: -100%;
@@ -275,7 +326,7 @@
     background: var(--deep-teal);
     color: #fff;
     font-size: 0.9375rem;
-    font-weight: 600;
+    font-weight: var(--font-weight-ui);
     border-radius: 0 0 0.75rem 0.75rem;
     text-decoration: none;
     transition: top 0.15s ease;
@@ -286,18 +337,23 @@
     outline-offset: 2px;
   }
 
-  /* Body text on sand/beige who-cards: ensure 4.5:1 contrast */
-  #main-content .who-card p {
+  /* Who cards: must beat #main-content .prose p { text-align: justify } when editor wraps
+     the page in .prose — use same ID + section chain. */
+  #main-content .who-section .who-card p {
     color: var(--body-secondary);
+    text-align: center;
+    hyphens: none;
+    -webkit-hyphens: none;
+    text-wrap: balance;
   }
   #main-content [class*="8B8B7A"] {
     color: var(--muted-grey);
   }
 
   /* Enquire form: field border and placeholder contrast.
-     1.4.11 Non-text Contrast (AA) — UI component boundaries need ≥ 3:1.
+     1.4.11 Non-text Contrast (AA) - UI component boundaries need ≥ 3:1.
      #9E9589 on #FFFFFF = 3.1:1 ✅  (was #D4CFC4 = 1.5:1 ✗)
-     1.4.3 Contrast — placeholder #6B7280 on white = 4.36:1 (passes as placeholder
+     1.4.3 Contrast - placeholder #6B7280 on white = 4.36:1 (passes as placeholder
      text is considered informational, not primary; browsers style it at reduced opacity). */
   .restwell-enq-form input,
   .restwell-enq-form textarea,
@@ -320,7 +376,7 @@
     color: #6B7280;
   }
 
-  /* 2.4.7 Focus Visible (AA) — restore a clear keyboard focus indicator for form
+  /* 2.4.7 Focus Visible (AA) - restore a clear keyboard focus indicator for form
      fields. The template previously included focus:outline-none which suppressed
      the global :focus-visible rule. Now that it's removed, we reinforce with an
      explicit rule using a high-contrast deep-teal outline. */
@@ -340,24 +396,45 @@
     line-height: 1.4;
   }
 
+  /* Homepage / content links: ≥44×44px tap target (WCAG 2.5.5); global :focus-visible applies.
+     No negative horizontal margin — it was eating card padding and made copy look flush on mobile. */
+  a.restwell-tap-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.5rem 0.25rem 0.5rem 0;
+    margin: 0;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+  }
+
+  /* Gold text link on sand: keep deep-teal focus ring readable (global :focus-visible) */
+  a.restwell-tap-link--gold:focus-visible {
+    outline-color: var(--deep-teal);
+  }
+
   /* -----------------------------------------------------------------------------
      4. Container
      ----------------------------------------------------------------------------- */
   .container {
     width: 100%;
     margin: 0 auto;
-    padding: 0 var(--space-4);
+    padding-left: max(var(--space-5), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--space-5), env(safe-area-inset-right, 0px));
   }
 
   @media (min-width: 640px) {
     .container {
-      padding: 0 var(--space-6);
+      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding: 0 var(--space-8);
+      padding-left: max(var(--space-8), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--space-8), env(safe-area-inset-right, 0px));
       max-width: 1200px;
     }
   }
@@ -384,6 +461,9 @@
     justify-content: space-between;
     padding-top: var(--space-3);
     padding-bottom: var(--space-3);
+    /* Stay above the full-screen mobile panel (fixed sibling) */
+    position: relative;
+    z-index: 2;
   }
 
   .site-logo {
@@ -427,27 +507,39 @@
     gap: var(--space-4);
   }
 
-  .site-nav a {
+  /* Primary nav text links: flat underline states — no pill backgrounds */
+  .site-nav a:not(.site-nav-cta) {
     font-family: var(--font-sans);
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--deep-teal);
     text-decoration: none;
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius);
-    transition: background 0.2s ease;
+    text-underline-offset: 0.22em;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0;
+    background: transparent;
+    transition:
+      color 0.2s ease,
+      opacity 0.2s ease,
+      text-decoration-color 0.2s ease;
   }
 
-  .site-nav a:hover {
-    background: rgba(168, 213, 208, 0.3);
+  .site-nav a:not(.site-nav-cta):hover {
+    background: transparent;
+    opacity: 0.88;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: currentColor;
   }
 
-  .site-nav a.active,
-  .site-nav .current-menu-item > a {
-    background: rgba(168, 213, 208, 0.25);
+  .site-nav a:not(.site-nav-cta).active,
+  .site-nav .current-menu-item > a:not(.site-nav-cta) {
+    background: transparent;
     color: var(--deep-teal);
-    font-weight: 600;
-    border-radius: 0.5rem;
+    font-weight: var(--font-weight-ui);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: currentColor;
   }
 
   /* CTA item in primary nav: primary button style */
@@ -455,7 +547,7 @@
   .site-nav .site-nav-list a.site-nav-cta {
     background: var(--deep-teal);
     color: white !important;
-    font-weight: 600;
+    font-weight: var(--font-weight-ui);
     padding: 0.5rem 1rem;
     border-radius: 1rem;
   }
@@ -481,16 +573,24 @@
     font-weight: 500;
     color: var(--deep-teal);
     text-decoration: none;
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius);
+    text-underline-offset: 0.22em;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0;
     border: none;
     background: transparent;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition:
+      color 0.2s ease,
+      opacity 0.2s ease,
+      text-decoration-color 0.2s ease;
   }
 
   .site-nav__dropdown-toggle:hover {
-    background: rgba(168, 213, 208, 0.3);
+    background: transparent;
+    opacity: 0.88;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: currentColor;
   }
 
   .site-nav__dropdown-toggle:focus {
@@ -504,8 +604,11 @@
 
   .site-nav__item--has-dropdown.is-open > .site-nav__dropdown-toggle,
   .site-nav__item--has-dropdown.is-open > a {
-    background: rgba(168, 213, 208, 0.35);
-    font-weight: 600;
+    background: transparent;
+    font-weight: var(--font-weight-ui);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: currentColor;
   }
 
   .site-nav__dropdown-chevron {
@@ -549,19 +652,28 @@
   .site-nav__submenu-link,
   .site-nav .sub-menu a {
     display: block;
-    padding: 0.6rem 1rem;
+    padding: 0.5rem 0.75rem;
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--deep-teal);
     text-decoration: none;
-    border-radius: 0.4rem;
+    text-underline-offset: 0.2em;
+    border-radius: 0;
     margin: 0 0.35rem;
-    transition: background 0.15s ease;
+    background: transparent;
+    transition:
+      color 0.15s ease,
+      opacity 0.15s ease,
+      text-decoration-color 0.15s ease;
   }
 
   .site-nav__submenu-link:hover,
   .site-nav .sub-menu a:hover {
-    background: rgba(168, 213, 208, 0.25);
+    background: transparent;
+    opacity: 0.88;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: currentColor;
   }
 
   .site-nav__submenu-link:focus,
@@ -579,8 +691,11 @@
   .site-nav__submenu-link[aria-current='page'],
   .site-nav .sub-menu a.active,
   .site-nav .sub-menu .current-menu-item > a {
-    background: rgba(168, 213, 208, 0.35);
-    font-weight: 600;
+    background: transparent;
+    font-weight: var(--font-weight-ui);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: currentColor;
   }
 
   /* -----------------------------------------------------------------------------
@@ -590,25 +705,33 @@
     display: none;
   }
 
-  .mobile-nav.is-open {
-    display: block;
-  }
-
-  /* Hamburger: 44×44px touch target, visible icon on header background */
+  /* Hamburger / close: comfortable touch target (Safari chrome feels tiny at 44px) */
   .mobile-menu-btn {
-    min-width: 44px;
-    min-height: 44px;
-    padding: 10px;
+    min-width: 48px;
+    min-height: 48px;
+    padding: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
+    border-radius: 0.75rem;
     background: transparent;
     cursor: pointer;
     color: var(--deep-teal);
+    transition: background 0.2s ease;
+  }
+  .mobile-menu-btn:hover {
+    background: rgba(168, 213, 208, 0.2);
+  }
+  .mobile-menu-btn:focus {
+    outline: none;
+  }
+  .mobile-menu-btn:focus-visible {
+    outline: 2px solid var(--deep-teal);
+    outline-offset: 2px;
   }
   .mobile-menu-btn .fa-solid {
-    font-size: 1.25rem;
+    font-size: 1.375rem;
     flex-shrink: 0;
   }
 
@@ -618,6 +741,23 @@
     }
     .mobile-menu-btn {
       display: flex;
+      /* Optical balance with logo: symmetric container padding + less trailing padding so the icon
+         isn’t visually inset further from the screen edge than the wordmark on the left. */
+      padding: 12px 4px 12px 12px;
+    }
+
+    html.restwell-menu-open,
+    body.restwell-menu-open {
+      overflow: hidden;
+    }
+
+    /* Dim page behind the sheet; header (z-index 50) stays interactive */
+    body.restwell-menu-open::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      background: rgba(12, 58, 71, 0.38);
     }
   }
 
@@ -633,24 +773,38 @@
     }
   }
 
+  /* Full-viewport sheet below header; --restwell-mobile-nav-top set in main.js when opened */
   .mobile-nav.is-open {
-    display: block;
-    position: absolute;
-    top: 100%;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    /* Below .site-header .container (z-index: 2) so logo + close stay visible */
+    z-index: 1;
     left: 0;
     right: 0;
-    background: white;
-    border-bottom: 1px solid #E8DFD0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    z-index: 49;
+    bottom: 0;
+    top: var(--restwell-mobile-nav-top, 4.5rem);
+    min-height: calc(100dvh - var(--restwell-mobile-nav-top, 4.5rem));
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    background: #fff;
+    border-top: 1px solid #e8dfd0;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
   }
 
   .mobile-nav .container {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    width: 100%;
+    max-width: 28rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 0.5rem;
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+    gap: 0;
   }
 
   /* wp_nav_menu list in mobile nav */
@@ -663,44 +817,123 @@
   .mobile-nav .mobile-nav-list {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0;
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Hairline dividers inset slightly so they don’t feel harsh at the sheet edge */
+  .mobile-nav .mobile-nav-list > li {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    border-bottom: 1px solid rgba(232, 223, 208, 0.65);
+  }
+  .mobile-nav .mobile-nav-list > li:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-nav .mobile-nav-list > li:has(> a.mobile-nav-cta) {
+    margin-top: 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(232, 223, 208, 0.8);
+    border-bottom: none;
   }
 
   .mobile-nav a {
     display: flex;
     align-items: center;
-    min-height: 44px;
-    padding: 0.75rem 1rem;
-    color: #1B4D5C;
+    justify-content: flex-start;
+    text-align: left;
+    min-height: 48px;
+    padding: 0.625rem 0.75rem;
+    color: #1b4d5c;
     text-decoration: none;
-    font-size: 0.9375rem;
+    font-size: 1rem;
     font-weight: 500;
-    border-radius: 0.5rem;
-    transition: background 0.2s;
+    line-height: 1.35;
+    border-radius: 0;
+    transition: background 0.2s ease, color 0.2s ease;
     touch-action: manipulation;
   }
 
-  .mobile-nav a:hover {
-    background: rgba(168, 213, 208, 0.3);
+  .mobile-nav a:focus {
+    outline: none;
   }
 
-  .mobile-nav a.active,
-  .mobile-nav .current-menu-item > a {
-    background: rgba(168, 213, 208, 0.3);
+  .mobile-nav a:focus-visible {
+    outline: 2px solid var(--deep-teal);
+    outline-offset: 3px;
+    border-radius: 0.25rem;
+  }
+
+  /* Hover: underline + slight fade — no pill / band backgrounds */
+  .mobile-nav a:not(.mobile-nav-cta):not(.active):hover {
+    background: transparent;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    opacity: 0.88;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  .mobile-nav a:not(.mobile-nav-cta).active,
+  .mobile-nav .current-menu-item > a:not(.mobile-nav-cta) {
+    background: transparent;
     color: var(--deep-teal);
-    font-weight: 600;
+    font-weight: var(--font-weight-ui);
+    border-left: none;
+    padding-left: 0;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.18em;
+  }
+
+  /* Ancestor trail: bold only (parent when child is current) */
+  .mobile-nav .current-menu-ancestor:not(.current-menu-item) > a {
+    background: transparent;
+    font-weight: var(--font-weight-ui);
+    border-left: none;
+    padding-left: 0;
+    text-decoration: none;
+  }
+
+  .mobile-nav .sub-menu .current-menu-item > a:not(.mobile-nav-cta) {
+    border-left: none;
+    padding-left: 0.75rem;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+  }
+
+  /* Primary CTA row must stay solid even when WP / JS marks it current */
+  .mobile-nav a.mobile-nav-cta.active,
+  .mobile-nav .current-menu-item > a.mobile-nav-cta {
+    background: var(--deep-teal);
+    color: white !important;
+    border-left: none;
+    padding-left: 1.25rem;
+    justify-content: center;
   }
 
   .mobile-nav .mobile-nav-cta {
     background: var(--deep-teal);
     color: white !important;
-    font-weight: 600;
+    font-weight: var(--font-weight-ui);
     justify-content: center;
-    margin-top: 0.5rem;
+    margin-top: 0;
+    padding: 0.75rem 1.25rem;
+    min-height: 48px;
+    border-radius: 0.75rem;
   }
   .mobile-nav .mobile-nav-cta:hover {
     background: color-mix(in srgb, var(--deep-teal) 90%, black);
     color: white !important;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
   /* WP Primary menu: show nested links stacked (no desktop dropdown) */
@@ -718,9 +951,9 @@
   }
 
   .mobile-nav .menu-item-has-children > .sub-menu a {
-    min-height: 40px;
-    padding-left: 1.25rem;
-    font-size: 0.875rem;
+    min-height: 44px;
+    padding: 0.5rem 0 0.5rem 0.75rem;
+    font-size: 0.9375rem;
     font-weight: 500;
   }
 
@@ -744,33 +977,35 @@
      8. Footer
      ----------------------------------------------------------------------------- */
   .site-footer {
-    background: linear-gradient(180deg, #1c5f6d 0%, var(--deep-teal) 40%, #114653 100%);
+    background: #0c3a47;
     color: var(--soft-sand);
     padding-bottom: var(--space-12);
     font-family: var(--font-sans);
-    border-top: 1px solid rgba(240, 201, 122, 0.2);
+    border-top: 2px solid rgba(240, 201, 122, 0.35);
   }
 
-  /* Footer logo: brighten so the dark-teal logo reads on the dark footer */
+  /* Footer logo: brighten and enlarge */
   .site-footer .site-logo__img {
     filter: brightness(0) invert(1);
     opacity: 0.9;
+    height: 52px;
+    width: auto;
   }
   .site-footer .site-logo:hover .site-logo__img {
     opacity: 1;
   }
 
-  /* Footer CTA strip: generous padding, clear hierarchy */
+  /* Footer CTA strip */
   .footer-cta {
     text-align: center;
-    padding: var(--space-14) var(--space-4);
-    border-bottom: 1px solid rgba(168, 213, 208, 0.15);
+    padding: 3.5rem 1rem;
+    border-bottom: 1px solid rgba(168, 213, 208, 0.18);
   }
   .footer-cta .container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-6);
+    gap: 1.5rem;
   }
   .footer-cta__heading {
     font-family: var(--font-serif);
@@ -778,52 +1013,120 @@
     line-height: 1.3;
     color: white;
     margin: 0;
-    font-weight: 600;
+    font-weight: var(--font-weight-heading);
   }
   @media (min-width: 768px) {
     .footer-cta__heading {
       font-size: 2rem;
     }
   }
+
+  .footer-cta__intro {
+    margin: 0;
+    max-width: 40rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .footer-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem 1rem;
+    width: 100%;
+  }
+
+  @media (min-width: 480px) {
+    .footer-cta__actions {
+      gap: 1rem 1.25rem;
+    }
+  }
+
+  .footer-cta__note {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  /* Base + variants: .site-footer a would override colours without .footer-cta parent */
   .footer-cta__btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--warm-gold-hero);  /* #F0C97A — deep-teal text = 5.2:1 ✅ */
-    color: var(--deep-teal);
-    font-weight: 600;
+    font-weight: var(--font-weight-ui);
     font-size: 1rem;
     padding: 0.875rem 1.75rem;
+    min-height: 2.75rem;
     border-radius: 1rem;
     text-decoration: none;
+    border: 2px solid transparent;
     transition:
       background 0.2s ease,
       color 0.2s ease,
-      transform 0.15s ease;           /* 0.15s matches .btn system */
+      border-color 0.2s ease,
+      transform 0.15s ease;
   }
-  /* .site-footer a (0,1,1) outranks .footer-cta__btn (0,1,0) and paints the text
-     in sea-glass, making it near-invisible on the gold background (~1:1 contrast).
-     Adding the parent class lifts specificity to (0,2,0), which wins. */
-  .footer-cta .footer-cta__btn {
+
+  .footer-cta__btn--primary {
+    background: var(--warm-gold-hero); /* #F0C97A - deep-teal text = 5.2:1 ✅ */
     color: var(--deep-teal);
   }
-  .footer-cta__btn:hover,
-  .footer-cta .footer-cta__btn:hover {
-    background: #FFF8EB;               /* warm white — deep-teal text = 7.7:1 ✅ */
+
+  .footer-cta__btn--ghost {
+    background: transparent;
+    color: white;
+    border-color: rgba(255, 255, 255, 0.55);
+  }
+
+  .footer-cta .footer-cta__btn--primary {
     color: var(--deep-teal);
   }
-  /* Lift on hover — gated behind no-preference to match .btn system behaviour */
+
+  .footer-cta .footer-cta__btn--ghost {
+    color: white;
+  }
+
+  .footer-cta__btn--primary:hover,
+  .footer-cta .footer-cta__btn--primary:hover {
+    background: #fff8eb;
+    color: var(--deep-teal);
+  }
+
+  .footer-cta__btn--ghost:hover,
+  .footer-cta .footer-cta__btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.85);
+    color: white;
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     .footer-cta__btn:hover {
       transform: translateY(-2px);
     }
   }
+
   .footer-cta__btn:focus {
     outline: none;
   }
+
   .footer-cta__btn:focus-visible {
-    outline: 3px solid #fff;           /* white on --deep-teal footer bg = 8.1:1 ✅ */
+    outline: 3px solid #fff;
     outline-offset: 3px;
+  }
+
+  .footer-cta__btn--ghost:focus-visible {
+    outline-color: var(--warm-gold-hero);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 479px) {
+    .footer-cta__actions .footer-cta__btn {
+      width: 100%;
+      max-width: 22rem;
+    }
   }
 
   .site-footer .container {
@@ -833,23 +1136,23 @@
   .footer-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-10);
-    padding: var(--space-10) 0;
+    gap: 2.5rem;
+    padding: 3rem 0;
   }
 
   @media (min-width: 768px) {
     .footer-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-10);
-      padding: var(--space-14) 0;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem 3rem;
+      padding: 3.5rem 0;
     }
   }
 
   @media (min-width: 1024px) {
     .footer-grid {
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 0.9fr);
-      gap: var(--space-8);
-      padding: var(--space-14) 0;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 0.9fr);
+      gap: 2.5rem 4rem;
+      padding: 4rem 0;
       align-items: start;
     }
   }
@@ -876,33 +1179,38 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-3);
+    gap: 0.75rem;
     border-top: 1px solid rgba(168, 213, 208, 0.2);
-    margin-top: var(--space-6);
-    padding-top: var(--space-6);
+    padding-top: 1.5rem;
   }
 
   @media (min-width: 768px) {
     .site-footer__bottom {
-      margin-top: var(--space-16);
-      padding-top: var(--space-8);
+      padding-top: 2rem;
     }
   }
 
   .site-footer__legal {
     display: flex;
     align-items: center;
-    gap: var(--space-2) var(--space-3);
+    gap: 0.25rem 0.875rem;
     flex-wrap: wrap;
   }
 
   .site-footer__legal a {
-    color: rgba(245, 237, 224, 0.9);
+    color: rgba(245, 237, 224, 0.82);
+    font-size: 0.8125rem;
+  }
+
+  .site-footer__legal a:hover {
+    color: white;
   }
 
   .site-footer__legal-sep {
-    color: rgba(245, 237, 224, 0.5);
-    font-weight: 400;
+    color: rgba(245, 237, 224, 0.3);
+    font-weight: 300;
+    font-size: 0.75rem;
+    user-select: none;
   }
 
   .site-footer__copyright {
@@ -915,67 +1223,34 @@
   .footer-brand {
     display: flex;
     flex-direction: column;
-    gap: 0.625rem;
-    max-width: 30rem;
+    gap: 1rem;
+    max-width: 26rem;
   }
 
   .footer-description {
-    color: rgba(245, 237, 224, 0.88);
-    font-size: 0.875rem;
-    line-height: 1.55;
+    color: rgba(245, 237, 224, 0.9);
+    font-size: 0.9375rem;
+    line-height: 1.6;
     margin: 0;
   }
 
   .footer-legal-name {
     color: rgba(245, 237, 224, 0.72);
-    font-size: 0.75rem;
-    line-height: 1.5;
+    font-size: 0.6875rem;
+    line-height: 1.55;
     letter-spacing: 0.01em;
-    margin: 0.125rem 0 0;
-    max-width: 38ch;
-  }
-
-  /* Explore: single-column list for clarity */
-  .footer-nav-list {
-    list-style: none;
-    padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-  }
-
-  .footer-nav-list li {
-    margin: 0;
-  }
-
-  .footer-nav-list a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.25rem;
-    padding: 0.25rem 0;
-    line-height: 1.35;
-  }
-
-  @media (min-width: 768px) {
-    .footer-nav-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: var(--space-8);
-      row-gap: 0.125rem;
-    }
+    max-width: 36ch;
   }
 
   .footer-heading {
     font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: 0.6875rem;
+    font-weight: 700;
     color: var(--sea-glass);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin: 0 0 var(--space-4);
-    padding-bottom: var(--space-2);
-    border-bottom: 1px solid rgba(168, 213, 208, 0.25);
+    letter-spacing: 0.16em;
+    margin: 0 0 1.25rem;
   }
 
   .footer-explore,
@@ -983,15 +1258,67 @@
     min-width: 0;
   }
 
+  /* Explore nav: single clean column */
+  .footer-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-nav-list li {
+    margin: 0;
+  }
+
+  .footer-nav-list a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0;
+    font-size: 0.9375rem;
+    line-height: 1.3;
+    color: rgba(245, 237, 224, 0.82);
+    border-bottom: 1px solid rgba(168, 213, 208, 0.1);
+  }
+
+  .footer-nav-list a:hover {
+    color: white;
+  }
+
+  .footer-nav-list li:last-child a {
+    border-bottom: none;
+  }
+
+  /* Show a small chevron on hover */
+  .footer-nav-list a::before {
+    content: '';
+    display: block;
+    width: 0.3125rem;
+    height: 0.3125rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(-45deg) translateY(-1px);
+    opacity: 0;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  .footer-nav-list a:hover::before {
+    opacity: 1;
+    transform: rotate(-45deg) translateX(2px) translateY(-1px);
+  }
+
+  /* Contact card */
   .footer-contact {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
-    max-width: 24rem;
-    background: rgba(17, 70, 83, 0.45);
-    border: 1px solid rgba(168, 213, 208, 0.2);
-    border-radius: 1rem;
-    padding: 1rem 1.125rem;
+    gap: 1rem;
+    background: rgba(6, 32, 40, 0.6);
+    border: 1px solid rgba(168, 213, 208, 0.15);
+    border-top: 3px solid rgba(240, 201, 122, 0.55);
+    border-radius: 0.875rem;
+    padding: 1.5rem;
   }
 
   .footer-contact__copy {
@@ -1002,7 +1329,7 @@
   }
 
   .footer-contact__link {
-    font-weight: 600;
+    font-weight: var(--font-weight-ui);
     font-size: 0.875rem;
     color: var(--warm-gold-hero);
     display: inline-flex;
@@ -1010,7 +1337,13 @@
     gap: 0.375rem;
   }
 
-  .footer-contact__link:hover {
+  /* Beat .site-footer a (0,2,1) so the CTA stays gold on teal */
+  .site-footer .footer-contact .footer-contact__link {
+    color: var(--warm-gold-hero);
+  }
+
+  .footer-contact__link:hover,
+  .site-footer .footer-contact .footer-contact__link:hover {
     color: white;
   }
 
@@ -1029,15 +1362,27 @@
   /* -----------------------------------------------------------------------------
      9. Front page sections
      ----------------------------------------------------------------------------- */
+  /* Homepage hero only (this theme uses .hero solely on front-page.php).
+     Bottom-anchored copy: matches landscape weight (town/sea below) and avoids a “floating” band
+     in the sky. Height is capped so the block doesn’t sit in endless negative space. */
   .hero {
     position: relative;
-    min-height: 100vh;
+    box-sizing: border-box;
+    min-height: clamp(30rem, 78svh, 46rem);
     display: flex;
     align-items: flex-end;
     overflow: hidden;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  @media (max-width: 1023px) {
+    .hero {
+      background-attachment: scroll;
+    }
   }
 
   .hero-content {
@@ -1046,12 +1391,78 @@
     max-width: 600px;
   }
 
-  .hero::before {
+  /* Interior / inner-page hero: scrim strong enough to read type without painting out the photo. */
+  .restwell-interior-hero.restwell-interior-hero--has-media::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35);
     z-index: 1;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        to top,
+        rgba(27, 77, 92, 0.88) 0%,
+        rgba(27, 77, 92, 0.55) 24%,
+        rgba(15, 42, 52, 0.28) 45%,
+        transparent 72%
+      ),
+      linear-gradient(
+        to right,
+        rgba(12, 36, 44, 0.78) 0%,
+        rgba(12, 36, 44, 0.38) 36%,
+        transparent 62%
+      ),
+      linear-gradient(to top right, rgb(0 0 0 / 14%) 0%, transparent 55%);
+  }
+
+  @media (min-width: 1024px) {
+    .restwell-interior-hero.restwell-interior-hero--has-media::before {
+      background:
+        linear-gradient(
+          to top,
+          rgba(27, 77, 92, 0.85) 0%,
+          rgba(27, 77, 92, 0.5) 28%,
+          rgba(15, 42, 52, 0.22) 50%,
+          transparent 74%
+        ),
+        linear-gradient(
+          to right,
+          rgba(12, 36, 44, 0.72) 0%,
+          rgba(12, 36, 44, 0.32) 38%,
+          transparent 64%
+        ),
+        linear-gradient(to top right, rgb(0 0 0 / 12%) 0%, transparent 58%);
+    }
+  }
+
+  /*
+   * Homepage hero: left-weighted teal scrim — readable copy on the left; image stays bright from ~60%.
+   */
+  .hero.home-hero.hero--has-media::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--deep-teal) 88%, transparent) 0%,
+      color-mix(in srgb, var(--deep-teal) 38%, transparent) 45%,
+      transparent 60%
+    );
+  }
+
+  /* In-page anchor for hero scroll link — scroll-margin clears sticky header overlap */
+  #restwell-main-after-hero.home-hero__scroll-anchor {
+    scroll-margin-top: 1rem;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* Shown only on small viewports (see ≤768px block) */
+  .home-hero__scroll-hint {
+    display: none;
   }
 
   .hero .absolute.inset-0.w-full.h-full.object-cover {
@@ -1069,41 +1480,560 @@
   .hero .relative.container {
     position: relative;
     z-index: 3;
-    padding-bottom: 4rem;
-    padding-top: 8rem;
-    padding-left: var(--space-4);
-    padding-right: var(--space-4);
+    padding-top: 0;
+    padding-bottom: 2.75rem;
+    padding-left: max(var(--space-5), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--space-5), env(safe-area-inset-right, 0px));
   }
 
   @media (min-width: 768px) {
     .hero .relative.container {
-      padding-bottom: 6rem;
+      padding-bottom: 3.25rem;
     }
   }
 
   @media (min-width: 640px) {
     .hero .relative.container {
-      padding-left: var(--space-6);
-      padding-right: var(--space-6);
+      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
     }
   }
 
   @media (min-width: 1024px) {
     .hero .relative.container {
-      padding-left: var(--space-8);
-      padding-right: var(--space-8);
+      padding-left: max(var(--space-8), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--space-8), env(safe-area-inset-right, 0px));
     }
   }
 
-  .hero .max-w-2xl {
+  /* Inner-page heroes only — was shrinking ALL .hero .max-w-2xl to 600px, which made the
+     homepage feel like a narrow “postage stamp” on wide viewports. */
+  .hero:not(.home-hero) .max-w-2xl {
     max-width: 600px;
   }
 
-  .hero h1 {
+  /* Homepage hero: scale copy block with viewport — avoids “collected” column on ultrawide.
+     Flex column + gap: one rhythm between headline/lede stack and CTAs (no competing mt-* + space-y). */
+  .hero.home-hero .home-hero__copy {
+    width: 100%;
+    max-width: min(42rem, 100%);
+    display: flex;
+    flex-direction: column;
+    /* Copy block → CTA stack: larger than intra-CTA gap (see .home-hero__cta-stack) — conversion cluster */
+    gap: var(--space-6);
+  }
+
+  /* ≥769px & SSR: unwrap so eyebrow → CTAs keep a single gap rhythm on .home-hero__copy */
+  .hero.home-hero .home-hero__main-cluster {
+    display: contents;
+  }
+
+  /* Eyebrow, display title, and lede share one modular step (replaces space-y + eyebrow mb-*) */
+  .hero.home-hero .home-hero__text-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 1280px) {
+    .hero.home-hero .home-hero__copy {
+      max-width: min(48rem, 100%);
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .hero.home-hero .home-hero__copy {
+      max-width: min(56rem, min(100%, 52vw));
+    }
+  }
+
+  /* Inner-page heroes: single title block. Front page uses .home-hero with its own stack spacing. */
+  .hero:not(.home-hero) h1 {
     color: #fff;
     font-size: clamp(2.5rem, 5vw, 4.5rem);
     margin-bottom: 1.5rem;
     line-height: 1.2;
+  }
+
+  .hero.home-hero .home-hero__eyebrow {
+    color: var(--warm-gold-hero);
+    font-weight: 600;
+  }
+
+  /* Hero lede: ch-based measure (comfortable short paragraph; aligns with H1 rhythm). */
+  .hero.home-hero .home-hero__lede {
+    max-width: min(48ch, 100%);
+    color: #ffffff;
+    text-shadow:
+      0 1px 2px rgb(0 0 0 / 0.35),
+      0 2px 16px rgb(0 0 0 / 0.28);
+  }
+
+  .hero.home-hero.hero--has-media .home-hero__eyebrow,
+  .hero.home-hero.hero--has-media #home-hero-heading {
+    text-shadow:
+      0 1px 2px rgb(0 0 0 / 0.35),
+      0 2px 20px rgb(0 0 0 / 0.3);
+  }
+
+  /* Front page hero: vertical rhythm + promise microcopy (not dependent on Tailwind JIT) */
+  .hero.home-hero h1#home-hero-heading {
+    margin-bottom: 0;
+    /* Let eyebrow + display lines set size; avoid global mobile `h1 { font-size: 2rem }` clash */
+    font-size: unset;
+  }
+
+  /*
+   * Display H1: ch-based max measure (scales with font; avoids over-long lines on wide viewports).
+   * ~30–40ch is a common band for hero headlines; balance wraps multi-line titles evenly where supported.
+   */
+  .hero.home-hero .home-hero__title-lines {
+    width: fit-content;
+    max-width: min(36ch, 100%);
+    letter-spacing: -0.02em;
+    font-size: clamp(2.125rem, 2.6vw + 1rem, 4rem);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  .home-hero__cta-stack {
+    display: flex;
+    flex-direction: column;
+    /* Must stay smaller than .home-hero__copy gap (space-6) so lede→primary reads as section break */
+    gap: var(--space-3);
+    align-items: stretch;
+  }
+
+  /* Narrow screens: even vertical rhythm — eyebrow/title/lede/CTAs share one scale (no huge lede→button gap). */
+  @media (max-width: 639px) {
+    .hero.home-hero .relative.container {
+      /* Wider inset than default .hero .relative.container (space-5) — mobile editorial gutter */
+      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
+      /* Slightly more foot room before the next section — softens the transition off the photo */
+      padding-bottom: 3.75rem;
+    }
+
+    /* One step with text-stack (space-5): lede→primary no longer reads oversized vs eyebrow→H1 */
+    .hero.home-hero .home-hero__copy {
+      gap: var(--space-5);
+    }
+
+    .hero.home-hero #home-hero-lede {
+      line-height: 1.7;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .home-hero__cta-stack {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      /* Intrinsic row width: stops the button pair from spanning the same measure as the H1 block */
+      width: fit-content;
+      max-width: 100%;
+    }
+  }
+
+  .home-hero__cta-stack .btn {
+    justify-content: center;
+  }
+
+  /* Explore: brand gold + dark text (primary story CTA on photo) */
+  .hero.home-hero .home-hero__cta-stack .btn.btn-gold:not(.home-hero__cta-secondary) {
+    background-color: var(--warm-gold);
+    border-color: color-mix(in srgb, var(--warm-gold) 82%, #000);
+    color: var(--warm-gold-text);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.35),
+      0 1px 2px rgb(0 0 0 / 0.12),
+      0 4px 12px rgb(0 0 0 / 0.16);
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.15s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .hero.home-hero .home-hero__cta-stack .btn.btn-gold:not(.home-hero__cta-secondary):hover {
+    background-color: color-mix(in srgb, var(--warm-gold) 92%, #000);
+    border-color: color-mix(in srgb, var(--warm-gold) 72%, #000);
+    color: var(--warm-gold-text);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.25),
+      0 2px 4px rgb(0 0 0 / 0.14),
+      0 6px 16px rgb(0 0 0 / 0.18);
+  }
+
+  .hero.home-hero .home-hero__cta-stack .btn.btn-gold:not(.home-hero__cta-secondary):active {
+    box-shadow:
+      inset 0 1px 2px rgb(0 0 0 / 0.12),
+      0 1px 2px rgb(0 0 0 / 0.1);
+  }
+
+  /* Check availability: glassmorphism — not a second “solid” primary */
+  .hero.home-hero .home-hero__cta-secondary.btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid #fff;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font-weight: var(--font-weight-ui);
+    box-shadow: none;
+  }
+
+  .hero.home-hero .home-hero__cta-secondary.btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+    color: #fff;
+  }
+
+  .hero.home-hero .home-hero__cta-secondary.btn:focus-visible {
+    outline-color: #fff;
+  }
+
+  @media (max-width: 639px) {
+    .home-hero__cta-stack .home-hero__cta-secondary {
+      width: auto;
+      align-self: flex-start;
+    }
+  }
+
+  @media (max-width: 639px) {
+    /* Primary gold CTA: intrinsic width + btn-sm-like density — full-width bar felt heavy */
+    .home-hero__cta-stack .btn:not(.home-hero__cta-secondary) {
+      width: auto;
+      align-self: flex-start;
+      max-width: 100%;
+      padding: 0.5rem 1.25rem;
+      min-height: 2.75rem;
+      font-size: 0.875rem;
+      border-radius: 0.875rem;
+    }
+  }
+
+  @keyframes home-hero-scroll-nudge {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.88;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 1;
+    }
+  }
+
+  /*
+   * ≤768px — editorial “poster” hero (inspired by luxury mobile landings): centered stack,
+   * radial + lateral scrim for WCAG-friendly contrast on busy photos, scroll affordance, full-width CTAs.
+   * ≥769px — rules below do not apply; desktop stays left-weighted.
+   */
+  @media (max-width: 768px) {
+    /*
+     * Layered scrim: center weight for headline + lede; bottom lift for CTAs; lateral teal.
+     * ::after adds top + bottom vignettes so white breakers / pale sand don’t blow out contrast.
+     */
+    .hero.home-hero.hero--has-media::before {
+      background:
+        radial-gradient(ellipse 120% 92% at 50% 32%, rgb(6 28 38 / 0.72) 0%, rgb(10 36 46 / 0.35) 42%, transparent 72%),
+        radial-gradient(ellipse 210% 95% at 50% 112%, rgb(4 22 32 / 0.58) 0%, rgb(8 28 38 / 0.2) 48%, transparent 58%),
+        linear-gradient(
+          to right,
+          color-mix(in srgb, var(--deep-teal) 82%, transparent) 0%,
+          color-mix(in srgb, var(--deep-teal) 34%, transparent) 46%,
+          transparent 64%
+        );
+    }
+
+    .hero.home-hero.hero--has-media::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(
+        180deg,
+        rgb(4 18 26 / 0.38) 0%,
+        transparent min(32vh, 40%),
+        transparent 55%,
+        rgb(2 14 22 / 0.55) 100%
+      );
+    }
+
+    .hero.home-hero {
+      /* One measure for CTAs + scroll column — matches hairline width to buttons */
+      --home-hero-col: min(20rem, 100%);
+      align-items: stretch;
+      justify-content: center;
+      /* Slightly shorter than 90svh — less “empty band” above/below the centred cluster */
+      min-height: min(82svh, 44rem);
+    }
+
+    /*
+     * Match luxury mobile pattern (e.g. Homefield): main story + CTAs share one vertically
+     * centred cluster; scroll affordance sits at the hero foot (not between lede and buttons).
+     */
+    .hero.home-hero .relative.container {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      min-height: 0;
+      padding-top: max(1.25rem, env(safe-area-inset-top, 0px));
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+    }
+
+    .hero.home-hero .home-hero__copy {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      align-items: stretch;
+      text-align: center;
+      margin-inline: auto;
+      gap: 0;
+    }
+
+    .hero.home-hero .home-hero__main-cluster {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      /* Sits slightly upper-mid — reads editorial, not a floating blob in dead centre */
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 0;
+      padding-block: clamp(0.75rem, 4vw, 1.5rem);
+      /* Wider steps between story / actions / scroll — reads less “stacked UI”, more breathing room */
+      gap: var(--space-6);
+    }
+
+    .hero.home-hero .home-hero__text-stack {
+      align-items: center;
+      text-align: center;
+      /* Eyebrow → title → lede: one generous editorial band */
+      gap: var(--space-6);
+    }
+
+    /* Slightly above 14px floor — gold label stays legible when scrim is lighter at edges */
+    .hero.home-hero .home-hero__eyebrow {
+      font-size: max(0.9375rem, 15px);
+      letter-spacing: 0.12em;
+    }
+
+    .hero.home-hero .home-hero__title-lines {
+      margin-inline: auto;
+    }
+
+    .hero.home-hero h1#home-hero-heading {
+      text-align: center;
+    }
+
+    /* Single soft halo — fewer stacked shadows = less visual noise on small screens */
+    .hero.home-hero.hero--has-media #home-hero-heading .home-hero__title-lines {
+      filter: drop-shadow(0 2px 12px rgb(0 0 0 / 0.45));
+    }
+
+    .hero.home-hero .home-hero__lede {
+      max-width: min(40ch, 100%);
+      margin-inline: auto;
+      padding-inline: 0.25rem;
+      font-size: clamp(0.9375rem, 0.35vw + 0.85rem, 1rem);
+      font-weight: 400;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.94);
+      text-shadow: 0 1px 3px rgb(0 0 0 / 0.55);
+    }
+
+    .hero.home-hero.hero--has-media .home-hero__eyebrow,
+    .hero.home-hero.hero--has-media #home-hero-heading {
+      text-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
+    }
+
+    /* Gold eyebrow: warm gold + one legibility halo (was 4 layers) */
+    .hero.home-hero.hero--has-media .home-hero__eyebrow {
+      color: var(--warm-gold);
+      text-shadow:
+        0 1px 2px rgb(0 0 0 / 0.75),
+        0 2px 14px rgb(0 0 0 / 0.4);
+    }
+
+    /*
+     * Scroll affordance: same width as CTA column; flex gap above = padding below hairline
+     * (avoids “huge gap to line, tiny gap under line”). Link is full-width flex so tracking
+     * doesn’t optically shove the label left.
+     */
+    .hero.home-hero .home-hero__scroll-hint {
+      align-self: center;
+      display: block;
+      flex-shrink: 0;
+      width: 100%;
+      max-width: var(--home-hero-col);
+      margin: 0;
+      margin-inline: auto;
+      text-align: center;
+      padding-top: var(--space-4);
+      padding-bottom: max(var(--space-4), env(safe-area-inset-bottom, 0px));
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    /* Long justified paragraphs in #main-content must not hit this — explicit centre + no hyphens */
+    #main-content .hero.home-hero .home-hero__scroll-hint {
+      text-align: center;
+      hyphens: none;
+      -webkit-hyphens: none;
+      text-wrap: balance;
+    }
+
+    .hero.home-hero .home-hero__scroll-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.375rem;
+      width: 100%;
+      min-width: 0;
+      min-height: 44px;
+      margin: 0;
+      padding: 0.5rem 0.5rem;
+      font-family: var(--font-sans), system-ui, sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.88);
+      text-shadow: 0 1px 3px rgb(0 0 0 / 0.5);
+      border-radius: 0.5rem;
+      transition:
+        color 0.3s ease,
+        background-color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+    .hero.home-hero .home-hero__scroll-link-text {
+      display: inline-block;
+      padding-inline-end: 0.08em;
+    }
+
+    .home-hero__scroll-link:hover {
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.12);
+      transform: translateY(1px);
+    }
+
+    .home-hero__scroll-link:focus {
+      outline: none;
+    }
+
+    .home-hero__scroll-link:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 3px;
+    }
+
+    .home-hero__scroll-icon {
+      font-size: 0.9375rem;
+      line-height: 1;
+      opacity: 0.85;
+    }
+
+    /*
+     * Small screens: full-width gold primary only. “View the property” hidden (scroll + rest of page).
+     * ≥769px: primary gold + secondary glass still apply.
+     */
+    .hero.home-hero .home-hero__cta-stack {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      align-self: center;
+      width: 100%;
+      max-width: var(--home-hero-col);
+      margin-inline: auto;
+      gap: var(--space-2);
+    }
+
+    .hero.home-hero .home-hero__cta-stack #hero-cta-secondary {
+      display: none;
+    }
+
+    .hero.home-hero .home-hero__cta-stack .btn.btn-gold:not(.home-hero__cta-secondary) {
+      width: 100%;
+      max-width: none;
+      min-height: 2.875rem;
+      align-self: stretch;
+      padding-top: 0.5625rem;
+      padding-bottom: 0.5625rem;
+      box-sizing: border-box;
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.3),
+        0 2px 8px rgb(0 0 0 / 0.2);
+    }
+
+  }
+
+  @media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+    .home-hero__scroll-icon {
+      will-change: transform;
+      animation: home-hero-scroll-nudge 3s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    }
+  }
+
+  @media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+    .home-hero__scroll-link:hover {
+      transform: none;
+    }
+  }
+
+  /* Promise: full width of hero copy stack — no teal “card” on small screens (felt narrow vs
+     full-width CTAs; backdrop-filter + radius could render oddly). Footnote + hairline. */
+  .home-hero__promise {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 1.25rem;
+    margin-bottom: 0;
+    padding: 0.875rem 0 0;
+    border: none;
+    border-radius: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: left;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  @media (min-width: 640px) {
+    .home-hero__promise {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .home-hero__promise {
+      margin-top: 1.75rem;
+      padding-top: 1.125rem;
+      font-size: 0.875rem;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.88);
+    }
+  }
+
+  /* Base layer colors all h2 deep-teal; front-page hero spec (h2) must stay light on photo */
+  .hero h2 {
+    color: #fff;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-weight: 500;
   }
 
   .hero .max-w-lg {
@@ -1195,13 +2125,104 @@
   }
 
   .who-section {
-    background: #fff;
+    background: var(--soft-sand);
   }
 
+  /* Homepage who-cards: layout/spacing from Tailwind in front-page.php */
   .who-card {
-    background: #F5F0E8;
-    border-radius: 0.75rem;
-    padding: 2.5rem;
+    border-radius: 1rem;
+  }
+
+  /* Who grid: override global #main-content .grid.md:grid-cols-2 { gap: 4rem } — that was creating huge dead space */
+  #main-content .who-section .who-section__grid {
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    #main-content .who-section .who-section__grid {
+      column-gap: 1.75rem;
+      row-gap: 2rem;
+    }
+  }
+
+  /* Area & funding: same grid override (stacked cards were ~4rem apart on mobile) */
+  #main-content .home-teaser-area-funding .home-teaser__grid {
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    #main-content .home-teaser-area-funding .home-teaser__grid {
+      column-gap: 2rem;
+      row-gap: 2rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    /* Match section container rhythm; no need to undercut global padding */
+    #main-content .who-section .container,
+    #main-content .home-teaser-area-funding .container {
+      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
+    }
+  }
+
+  /* Lens A: one icon treatment per section — sea-glass + deep-teal (Font Awesome must inherit) */
+  .who-section .who-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 9999px;
+    background-color: color-mix(in srgb, var(--sea-glass) 42%, white);
+    color: var(--deep-teal);
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .who-section .who-card__icon .fa-solid {
+    color: var(--deep-teal);
+  }
+
+  /* Carer card: warm chip + gold icon (guest card stays sea-glass + teal) */
+  .who-section .who-card__icon--warm {
+    background-color: color-mix(in srgb, var(--warm-gold) 24%, white);
+    color: var(--warm-gold-text);
+  }
+
+  .who-section .who-card__icon--warm .fa-solid {
+    color: var(--warm-gold-text);
+  }
+
+  /* Prominent CTA: border-bottom link, room for focus ring — avoid negative horizontal margin on narrow cards */
+  a.restwell-tap-link.who-section__cta {
+    margin: -0.35rem 0 0;
+    padding: 0.45rem 0.5rem 0.55rem 0;
+    border-radius: 0.375rem;
+  }
+
+  a.restwell-tap-link.who-section__cta:focus-visible {
+    outline-color: var(--deep-teal);
+  }
+
+  /* Eyebrow on cream: slightly deeper than default gold for AA-friendly contrast */
+  #main-content .who-section .section-label {
+    color: color-mix(in srgb, var(--warm-gold-text) 72%, var(--deep-teal) 28%);
+  }
+
+  .trust-strip {
+    background: color-mix(in srgb, var(--sea-glass) 14%, var(--bg-subtle));
+  }
+
+  .trust-strip__line {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 640px) {
+    .trust-strip__line {
+      font-size: 1.125rem;
+    }
   }
 
   .cta-section {
@@ -1213,10 +2234,24 @@
     padding: 6rem 0;
   }
 
+  /* Full-bleed hero: section padding was creating a band below the header on mobile */
+  #main-content > section.hero,
+  #main-content > section.restwell-interior-hero {
+    padding: 0;
+  }
+
+  @media (max-width: 767px) {
+    /* #main-content > section beats Tailwind py-*; 6rem was excessive on phones */
+    #main-content > section:not(.hero):not(.restwell-interior-hero) {
+      padding-top: 2.75rem;
+      padding-bottom: 2.75rem;
+    }
+  }
+
   .section-label {
     font-family: var(--font-sans);
     font-size: 0.875rem;
-    font-weight: 600;
+    font-weight: var(--font-weight-ui);
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--warm-gold-text);
@@ -1242,7 +2277,7 @@
     font-size: 0.875rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: var(--font-weight-ui);
   }
 
   #main-content .grid.md\:grid-cols-2 {
@@ -1257,7 +2292,7 @@
     }
   }
 
-  /* #D4A853 with white text = 2.20:1 ✗ — switched to deep-teal text on warm-gold-hero.
+  /* #D4A853 with white text = 2.20:1 ✗ - switched to deep-teal text on warm-gold-hero.
      #F0C97A (warm-gold-hero) with deep-teal text = 5.90:1 ✅
      Hover darkens to #DDB860 with deep-teal text = 4.91:1 ✅ */
   #main-content a.inline-flex.items-center.gap-2.bg-\[\#D4A853\] {
@@ -1265,7 +2300,7 @@
     color: var(--deep-teal);
     padding: 0.75rem 1.5rem;
     border-radius: 9999px;
-    font-weight: 600;
+    font-weight: var(--font-weight-ui);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -1356,28 +2391,28 @@
   #main-content section .container {
     width: 100%;
     margin: 0 auto;
-    padding-left: var(--space-4);
-    padding-right: var(--space-4);
+    padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
   }
 
   @media (min-width: 640px) {
     #main-content section .container {
-      padding-left: var(--space-6);
-      padding-right: var(--space-6);
+      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
     }
   }
 
   @media (min-width: 1024px) {
     #main-content section .container {
-      padding-left: var(--space-8);
-      padding-right: var(--space-8);
+      padding-left: max(var(--space-8), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--space-8), env(safe-area-inset-right, 0px));
       max-width: 1200px;
     }
   }
 
-  /* Responsive — tablet */
+  /* Responsive - tablet */
   @media (max-width: 1024px) {
-    .hero h1 { font-size: clamp(2rem, 4vw, 3.5rem); }
+    .hero:not(.home-hero) h1 { font-size: clamp(2rem, 4vw, 3.5rem); }
     .property-grid { grid-template-columns: 1fr; }
     .features-grid { grid-template-columns: repeat(2, 1fr); }
     .who-grid { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -1391,7 +2426,7 @@
     .who-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
-  /* Responsive — mobile */
+  /* Responsive - mobile */
   @media (max-width: 768px) {
     h1 { font-size: 2rem; }
     h2 { font-size: 1.5rem; }
@@ -1402,12 +2437,12 @@
     .features-section { padding: 3rem 0; }
     .who-section { padding: 3rem 0; }
     .cta-section { padding: 3rem 0; }
-    .hero { min-height: 80vh; background-attachment: scroll; }
+    .hero:not(.home-hero) { min-height: 80vh; background-attachment: scroll; }
     .hero-content { padding: 2rem 0; }
-    .hero h1 { font-size: clamp(1.75rem, 6vw, 2.5rem); }
+    .hero:not(.home-hero) h1 { font-size: clamp(1.75rem, 6vw, 2.5rem); }
     .hero-cta-group { flex-direction: column; align-items: flex-start; width: 100%; }
     .hero-cta-group a { width: 100%; text-align: center; }
-    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; padding: 2.5rem 0; }
     .features-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
     .property-grid { grid-template-columns: 1fr; }
     .who-grid { grid-template-columns: 1fr; }
@@ -1416,7 +2451,17 @@
       text-align: center;
       width: 100%;
     }
-    .container { padding: 0 1rem; }
+    /*
+     * Mobile container gutter — must match .site-header + hero + #main-content section rails.
+     * Previously `padding: 0 1rem` forced 16px and ignored safe-area; header (1rem) sat inside
+     * a different horizontal rhythm than `.hero.home-hero .relative.container` (space-6 @ ≤639px).
+     * Use the same token + safe-area as elsewhere. Do not use `padding` shorthand here — it
+     * would reset unrelated vertical padding on nested containers.
+     */
+    .container {
+      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
+    }
     .site-footer { padding-bottom: 2.5rem; }
     .site-footer__bottom {
       flex-direction: column;
@@ -1428,11 +2473,10 @@
     .site-footer__copyright { white-space: normal; }
   }
 
-  /* Responsive — small mobile */
+  /* Responsive - small mobile */
   @media (max-width: 480px) {
     .features-grid { grid-template-columns: 1fr; }
-    .who-card { padding: 1.5rem; }
-    .hero h1 { font-size: 1.75rem; }
+    .hero:not(.home-hero) h1 { font-size: 1.75rem; }
     .site-logo__img { height: 32px; }
   }
 
@@ -1504,27 +2548,27 @@
   /* -----------------------------------------------------------------------------
      11. Button system
      Single source of truth for every interactive button on the site.
-     Variants:  .btn-primary   — deep teal, for main body CTAs
-                .btn-gold      — warm gold, for hero CTAs and warm accent sections
-                .btn-ghost-light — translucent white, for use on dark/photo backgrounds
-                .btn-outline   — teal border on light backgrounds, secondary actions
-     Modifiers: .btn-sm        — smaller padding for inline / secondary uses
+     Variants:  .btn-primary   - deep teal, for main body CTAs
+                .btn-gold      - warm gold, for hero CTAs and warm accent sections
+                .btn-ghost-light - translucent white, for use on dark/photo backgrounds
+                .btn-outline   - teal border on light backgrounds, secondary actions
+     Modifiers: .btn-sm        - smaller padding for inline / secondary uses
      States:    default | hover | active (pressed) | focus-visible | disabled
      ----------------------------------------------------------------------------- */
 
-  /* — Base ------------------------------------------------------------------ */
+  /* - Base ------------------------------------------------------------------ */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 1.75rem;
-    min-height: 2.75rem;              /* 44px — WCAG 2.5.5 touch target */
+    min-height: 2.75rem;              /* 44px - WCAG 2.5.5 touch target */
     border-radius: 1rem;              /* consistent with rounded-2xl site-wide */
     border: 2px solid transparent;
     font-family: var(--font-sans);
     font-size: 0.9375rem;
-    font-weight: 600;
+    font-weight: var(--font-weight-ui);
     line-height: 1.25;
     text-decoration: none;
     white-space: nowrap;
@@ -1538,7 +2582,7 @@
       transform 0.15s ease;
   }
 
-  /* Lift on hover and press-down on active — both gated behind no-preference */
+  /* Lift on hover and press-down on active - both gated behind no-preference */
   @media (prefers-reduced-motion: no-preference) {
     .btn:not(:disabled):not([aria-disabled="true"]):hover {
       transform: translateY(-2px);
@@ -1549,7 +2593,7 @@
     }
   }
 
-  /* Focus ring — overrides the global :focus-visible with a button-specific ring */
+  /* Focus ring - overrides the global :focus-visible with a button-specific ring */
   .btn:focus {
     outline: none;
   }
@@ -1574,7 +2618,7 @@
     border-radius: 0.75rem;
   }
 
-  /* — Primary: deep teal background ---------------------------------------- */
+  /* - Primary: deep teal background ---------------------------------------- */
   .btn-primary {
     background-color: var(--deep-teal);
     color: #fff;
@@ -1586,8 +2630,8 @@
     color: #fff;
   }
 
-  /* — Gold: warm gold background ------------------------------------------- */
-  /* deep-teal text on --warm-gold (#D4A853) = 4.22:1 ✗ — use --warm-gold-hero instead.
+  /* - Gold: warm gold background ------------------------------------------- */
+  /* deep-teal text on --warm-gold (#D4A853) = 4.22:1 ✗ - use --warm-gold-hero instead.
      --warm-gold-hero (#F0C97A) with deep-teal text = 5.90:1 ✅
      Hover darkens to #DDB860 with deep-teal text = 4.91:1 ✅ */
   .btn-gold {
@@ -1601,14 +2645,14 @@
     color: var(--deep-teal);
   }
 
-  /* — Ghost-light: for use on dark/image backgrounds ----------------------- */
+  /* - Ghost-light: for use on dark/image backgrounds ----------------------- */
   .btn-ghost-light {
     background-color: rgba(255, 255, 255, 0.15);
     color: #fff;
     border-color: rgba(255, 255, 255, 0.40);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    font-weight: 500;
+    font-weight: var(--font-weight-emphasis);
   }
   .btn-ghost-light:hover {
     background-color: rgba(255, 255, 255, 0.28);
@@ -1621,7 +2665,7 @@
     outline-offset: 3px;
   }
 
-  /* — Outline: teal border on light/white backgrounds ---------------------- */
+  /* - Outline: teal border on light/white backgrounds ---------------------- */
   .btn-outline {
     background-color: transparent;
     color: var(--deep-teal);
@@ -1702,7 +2746,7 @@
 }
 
 /* -----------------------------------------------------------------------------
-   12. Hero — no-image fallback treatment
+   12. Hero - no-image fallback treatment
    When no hero photo is set, the section gets .hero-no-image.
    Adds a warm radial highlight and a faint wave-like gradient to break up
    the flat teal and give the header some visual depth.
@@ -1731,7 +2775,7 @@
 }
 
 /* -----------------------------------------------------------------------------
-   Enquiry form — urgent checkbox + label (flex row; avoid misaligned baselines)
+   Enquiry form - urgent checkbox + label (flex row; avoid misaligned baselines)
    ----------------------------------------------------------------------------- */
 .enquire-checkbox-urgent {
   margin: 0;
@@ -1751,7 +2795,7 @@
   outline-offset: 4px;
 }
 
-/* "What happens next" — align number column to heading edge and center each row */
+/* "What happens next" - align number column to heading edge and center each row */
 .enquiry-next-steps .enquiry-step-num {
   margin-top: 0;
   align-self: center;
@@ -1761,4 +2805,568 @@
 .enquiry-result .btn i {
   vertical-align: middle;
   line-height: 1;
+}
+
+/* Who It's For: image placeholder (matches front-page property slot pattern) */
+.restwell-image-placeholder {
+  background-color: var(--driftwood);
+  min-height: 12rem;
+}
+
+/* Who It's For: anchor offset = site header + sticky sub-nav (see .wif-persona-nav min-height) */
+.restwell-wif-page {
+  scroll-padding-top: clamp(7.5rem, 18vh, 11rem);
+}
+
+/* Match py-16 md:py-24 - global #main-content > section { padding: 6rem 0 } overrides Tailwind utilities */
+#main-content.restwell-wif-page > section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+@media (min-width: 768px) {
+  #main-content.restwell-wif-page > section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+/* Who It's For: section kicker uses AA gold on subtle bg (DESIGN-SYSTEM) */
+.restwell-wif-page #main-content .section-label {
+  color: var(--warm-gold-text);
+  letter-spacing: 0.14em;
+}
+
+/* Audience block: balanced heading wraps (avoids widows; progressive enhancement) */
+@supports (text-wrap: balance) {
+  .restwell-wif-page .wif-audience-section__title {
+    text-wrap: balance;
+  }
+}
+
+/* Who It's For: one sea-glass treatment from --sea-glass (replaces ad hoc #A8D5D0/40|45) */
+.restwell-wif-page .wif-icon-circle {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: color-mix(in srgb, var(--sea-glass) 42%, white);
+  color: var(--deep-teal);
+}
+
+.restwell-wif-page .wif-icon-circle--muted {
+  background-color: color-mix(in srgb, var(--sea-glass) 34%, white);
+}
+
+.restwell-wif-page .wif-icon-circle--feature {
+  background-color: color-mix(in srgb, var(--sea-glass) 46%, white);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Funding route cards: outline CTAs may wrap - keep touch target without clipping */
+.wif-funding-routes .btn-sm {
+  min-height: 2.75rem;
+  height: auto;
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+  align-items: center;
+}
+
+/* Sticky persona nav: pill chips; horizontal scroll on small viewports, wrap + centre on md+
+   top-16 (4rem) was too short: .site-header is ~57px (32px logo) or ~69px (44px logo) + padding + border,
+   so the sub-nav sat under the header band and the header border read as cutting through the pills. */
+.wif-persona-nav {
+  --wif-subnav-border: color-mix(in srgb, var(--deep-teal) 12%, var(--driftwood));
+  /* Match .site-header: padding-y + logo height + border (see .site-logo__img breakpoints) */
+  top: calc(var(--space-3) + 32px + var(--space-3) + 1px);
+}
+
+@media (min-width: 481px) {
+  .wif-persona-nav {
+    top: calc(var(--space-3) + 44px + var(--space-3) + 1px);
+  }
+}
+
+/* Edge fades + hint: show that the chip row scrolls sideways on narrow viewports */
+.wif-persona-nav__track {
+  position: relative;
+  z-index: 0;
+}
+
+.wif-persona-nav__list {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 767px) {
+  .wif-persona-nav__track--scrollable::before,
+  .wif-persona-nav__track--scrollable::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .wif-persona-nav__track--scrollable::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.98), transparent);
+    opacity: 0;
+  }
+
+  .wif-persona-nav__track--scrollable:not(.wif-persona-nav__track--at-start)::before {
+    opacity: 1;
+  }
+
+  .wif-persona-nav__track--scrollable::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.98), transparent);
+    opacity: 1;
+  }
+
+  .wif-persona-nav__track--scrollable.wif-persona-nav__track--at-end::after {
+    opacity: 0;
+  }
+}
+
+.wif-persona-nav__hint {
+  margin: 0;
+  padding: 0.375rem 1rem 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  letter-spacing: 0.03em;
+  color: var(--muted-grey);
+  text-align: center;
+}
+
+.wif-persona-nav__hint.wif-persona-nav__hint--collapsed {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .wif-persona-nav__hint {
+    display: none;
+  }
+}
+
+.wif-persona-nav__list {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem 0.65rem;
+  list-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 0.75rem;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--deep-teal) 28%, var(--driftwood)) transparent;
+}
+
+.wif-persona-nav__list > li {
+  flex-shrink: 0;
+  scroll-snap-align: center;
+}
+
+@media (min-width: 768px) {
+  .wif-persona-nav__list {
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-x: visible;
+    scroll-snap-type: none;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+  }
+}
+
+.wif-persona-nav__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-ui);
+  line-height: 1.3;
+  color: var(--muted-grey);
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  background-color: transparent;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--deep-teal) 12%, transparent);
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+@media (min-width: 768px) {
+  .wif-persona-nav__link {
+    font-size: 0.875rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+.wif-persona-nav__link:hover {
+  color: var(--deep-teal);
+  background-color: color-mix(in srgb, var(--soft-sand) 65%, white);
+}
+
+.wif-persona-nav__link:focus {
+  outline: none;
+}
+
+.wif-persona-nav__link:focus-visible {
+  outline: 3px solid var(--deep-teal);
+  outline-offset: 2px;
+}
+
+.wif-persona-nav__link.wif-persona-nav__link--active {
+  color: var(--deep-teal);
+  font-weight: 700;
+  background-color: color-mix(in srgb, var(--sea-glass) 38%, white);
+  border-color: color-mix(in srgb, var(--deep-teal) 22%, transparent);
+}
+
+.wif-persona-nav__link.wif-persona-nav__link--active:hover {
+  color: var(--deep-teal);
+  background-color: color-mix(in srgb, var(--deep-teal) 11%, white);
+}
+
+/* Persona cards: expand control in header */
+.wif-persona-expand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  margin-top: -0.25rem;
+  padding: 0.25rem;
+  color: var(--deep-teal);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--deep-teal) 22%, transparent);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.2s ease;
+}
+
+/* Full-width card title row: title + chevron (replaces icon-only control) */
+.wif-persona-expand--header {
+  min-width: 0;
+  width: 100%;
+  min-height: 2.75rem;
+  margin-top: 0;
+  padding: 0.25rem 0.25rem 0.25rem 0;
+  border: 0;
+  border-radius: 0.75rem;
+  align-items: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--deep-teal) 12%, transparent);
+}
+
+.wif-persona-expand--header .wif-persona-expand__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border: 1px solid color-mix(in srgb, var(--deep-teal) 22%, transparent);
+  border-radius: 0.625rem;
+  background: transparent;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* Header row: title reads as plain heading; chevron is the compact affordance */
+.wif-persona-expand--header:hover {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.wif-persona-expand--header:hover .wif-persona-expand__icon {
+  background-color: var(--bg-subtle);
+  border-color: color-mix(in srgb, var(--deep-teal) 40%, transparent);
+}
+
+.wif-persona-expand--header:focus-visible {
+  outline: 3px solid var(--deep-teal);
+  outline-offset: 2px;
+}
+
+.wif-persona-expand--header:focus-visible .wif-persona-expand__icon {
+  outline: none;
+}
+
+.wif-persona-expand:hover:not(.wif-persona-expand--header) {
+  background-color: var(--bg-subtle);
+  border-color: color-mix(in srgb, var(--deep-teal) 40%, transparent);
+}
+
+.wif-persona-expand:focus-visible:not(.wif-persona-expand--header) {
+  outline: 3px solid var(--deep-teal);
+  outline-offset: 2px;
+}
+
+.wif-persona-expand:not(.wif-persona-expand--header) .wif-persona-expand__icon {
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.wif-persona-expand[aria-expanded='true'] .wif-persona-expand__icon {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wif-persona-expand .wif-persona-expand__icon {
+    transition: none;
+  }
+}
+
+/* Persona accordion: stable padding (no layout shift on open/close) */
+.wif-persona-card__inner {
+  padding: 1.125rem 1.25rem 1.35rem;
+}
+
+@media (min-width: 640px) {
+  .wif-persona-card__inner {
+    padding: 1.35rem 1.75rem 1.75rem;
+  }
+}
+
+/* Mobile: more inset so long copy does not feel edge-to-edge; prose gets subtle separation */
+@media (max-width: 639px) {
+  .wif-persona-card__inner {
+    padding: 1.25rem 1.35rem 1.5rem;
+  }
+
+  .wif-persona-card__body {
+    padding-bottom: 0.25rem;
+  }
+
+  .wif-persona-card__bullets > li {
+    padding-bottom: 0.125rem;
+  }
+}
+
+/* Height animation: 0fr → 1fr (replaces display:none / hidden - smooth, no jump) */
+.wif-persona-card__panel-shell {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wif-persona-card--expanded .wif-persona-card__panel-shell {
+  grid-template-rows: 1fr;
+}
+
+.wif-persona-card__panel-overflow {
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wif-persona-card__panel-shell {
+    transition: none;
+  }
+}
+
+.wif-persona-card--expanded {
+  box-shadow:
+    0 12px 40px rgb(0 0 0 / 0.07),
+    0 1px 0 rgb(0 0 0 / 0.04);
+}
+
+/* How we work: dingbat circled numbers - ensure crisp rendering */
+.wif-process-step-num {
+  font-feature-settings: 'liga' 0;
+  letter-spacing: 0;
+}
+
+/* Hash jump: no :target outline - it stays “on” while #fragment is in the URL (wrong section on screen).
+   Active section = sticky pill nav (.wif-persona-nav__link--active) + expanded accordion state. */
+
+/* -----------------------------------------------------------------------------
+   Whitstable Guide — section chrome only (hero/CTA use default templates + .btn)
+   Scoped to .page-whitstable-guide; patterns align with tokens + existing shadows.
+   ----------------------------------------------------------------------------- */
+
+/* #main-content section .container uses 1200px; max-w-5xl must apply so every rail matches.
+   main is both #main-content and .page-whitstable-guide (not nested). */
+#main-content.page-whitstable-guide .container.max-w-5xl {
+  max-width: 64rem;
+}
+
+/*
+ * Whitstable hero on small screens: the global mobile rule
+ * `.hero:not(.home-hero) { min-height: 80vh }` sits in @layer components with
+ * higher specificity than Tailwind `min-h-[32rem]`, so the template’s intended
+ * shorter hero was ignored. Tall viewports + `items-end` then left a huge empty
+ * band above the copy (and heavy padding under the hero). Restore the template
+ * height and top-weight the block so it doesn’t “sink” in an 80vh frame.
+ */
+@media (max-width: 768px) {
+  #main-content.page-whitstable-guide .hero:not(.home-hero) {
+    min-height: 32rem;
+    align-items: flex-start;
+  }
+
+  #main-content.page-whitstable-guide .hero:not(.home-hero) .relative.container {
+    padding-top: 5rem;
+  }
+}
+
+.page-whitstable-guide .wg-section-head {
+  border-left: 3px solid color-mix(in srgb, var(--sea-glass) 65%, var(--deep-teal));
+  padding-left: 1rem;
+  margin-left: -0.125rem;
+}
+
+@media (min-width: 768px) {
+  .page-whitstable-guide .wg-section-head {
+    padding-left: 1.25rem;
+  }
+}
+
+.page-whitstable-guide .wg-band--texture {
+  background-image:
+    radial-gradient(rgba(27, 77, 92, 0.04) 1px, transparent 1px),
+    linear-gradient(var(--bg-subtle), var(--bg-subtle));
+  background-size: 22px 22px, auto;
+}
+
+.page-whitstable-guide .wg-glance {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.page-whitstable-guide .wg-glance-item__icon {
+  transition: transform 0.25s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-whitstable-guide .wg-glance-item:hover .wg-glance-item__icon {
+    transform: translateY(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-whitstable-guide .wg-glance-item__icon {
+    transition: none;
+  }
+}
+
+.page-whitstable-guide .wg-access-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-whitstable-guide .wg-access-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6rem;
+  height: 6rem;
+  background: radial-gradient(circle at 100% 0%, rgba(168, 213, 208, 0.14) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-whitstable-guide .wg-access-card:hover .wg-access-card__icon {
+    transform: translateY(-1px);
+  }
+}
+
+.page-whitstable-guide .wg-access-card__icon {
+  transition: transform 0.25s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-whitstable-guide .wg-access-card__icon {
+    transition: none;
+  }
+}
+
+.page-whitstable-guide .wg-access-card p {
+  font-family: var(--font-sans);
+}
+
+.page-whitstable-guide .wg-planning-card__icon {
+  transition: transform 0.25s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-whitstable-guide .wg-planning-card:hover .wg-planning-card__icon {
+    transform: translateY(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-whitstable-guide .wg-planning-card__icon {
+    transition: none;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Long-form narrative: justified paragraphs (main column only).
+   Short UI, heroes, and centred CTAs stay left/centred via :not / omitted selectors.
+   ----------------------------------------------------------------------------- */
+
+#main-content .prose strong,
+#main-content .prose b {
+  font-weight: var(--font-weight-strong);
+}
+
+#main-content .prose p,
+#main-content .wg-content-body > p,
+#main-content .wg-eating-body > p,
+#main-content .wif-persona-card__prose > p,
+#main-content .faq-item details > div.leading-relaxed p,
+#main-content section.intro-section .max-w-prose > p,
+#main-content .home-teaser__grid p.max-w-prose.leading-relaxed,
+#main-content div.text-lg.leading-relaxed.max-w-prose.space-y-4 p,
+#main-content p.max-w-prose.leading-relaxed.text-gray-600:not(.text-xs):not(.text-sm):not(.text-center) {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+@media (max-width: 639px) {
+  #main-content .prose p,
+  #main-content .wg-content-body > p,
+  #main-content .wg-eating-body > p,
+  #main-content .wif-persona-card__prose > p,
+  #main-content .faq-item details > div.leading-relaxed p,
+  #main-content section.intro-section .max-w-prose > p,
+  #main-content .home-teaser__grid p.max-w-prose.leading-relaxed,
+  #main-content div.text-lg.leading-relaxed.max-w-prose.space-y-4 p,
+  #main-content p.max-w-prose.leading-relaxed.text-gray-600:not(.text-xs):not(.text-sm):not(.text-center) {
+    hyphens: none;
+    -webkit-hyphens: none;
+  }
+}
+
+/* Intentionally centred blurbs (not full-width narrative). */
+#main-content p.text-center {
+  text-align: center;
+  hyphens: none;
+  -webkit-hyphens: none;
 }

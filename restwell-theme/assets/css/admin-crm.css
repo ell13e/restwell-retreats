@@ -1,5 +1,5 @@
 /**
- * Restwell CRM / Guest Guide admin — spacing, rhythm, hierarchy.
+ * Restwell CRM / Guest Guide admin - spacing, rhythm, hierarchy.
  */
 
 .restwell-admin {
@@ -81,7 +81,7 @@
 }
 
 /*
- * Enquiries list: avoid wp-admin float collision — .search-box floats right in core,
+ * Enquiries list: avoid wp-admin float collision - .search-box floats right in core,
  * which can pull the empty state (or table) up beside .subsubsub. Stack controls vertically.
  */
 .restwell-admin-enquiries .rw-enquiries-panel {
@@ -442,7 +442,7 @@
 }
 
 /*
- * Enquiries empty state — dedicated block (do not use .rw-empty-state: generic rule
+ * Enquiries empty state - dedicated block (do not use .rw-empty-state: generic rule
  * uses dashed border + max-width and wins the cascade, which looked left-aligned / lopsided).
  */
 .restwell-admin-enquiries .rw-enquiries-empty {
@@ -600,7 +600,7 @@
 	vertical-align: middle;
 }
 
-/* Enquiries list: card shell + auto layout (drop WP `fixed` — was crushing columns) */
+/* Enquiries list: card shell + auto layout (drop WP `fixed` - was crushing columns) */
 .restwell-admin-enquiries .rw-table-shell--enquiries {
 	border: 1px solid var(--rw-border);
 	border-radius: var(--rw-radius-md);
@@ -1013,7 +1013,7 @@
 	max-width: 560px;
 }
 
-/* Guest Guide: list table — avoid WP `fixed` layout (cramped columns + stacked actions) */
+/* Guest Guide: list table - avoid WP `fixed` layout (cramped columns + stacked actions) */
 .restwell-admin-guest-guide .rw-table-shell--guest-guide {
 	max-width: 1200px;
 	border: 1px solid var(--rw-border);

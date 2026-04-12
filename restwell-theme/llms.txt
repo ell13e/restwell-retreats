@@ -1,0 +1,17 @@
+# Restwell Retreats
+> Accessible holiday accommodation in Whitstable, Kent
+
+## Main pages
+- `Homepage -> https://restwellretreats.co.uk/`: Accessible self-catering bungalow
+- `The Property -> /the-property/`: Full accessibility specification
+- `Who It's For -> /who-its-for/`: Guests, families, carers, professionals
+- `How It Works -> /how-it-works/`: Booking process
+- `Accessibility -> /accessibility/`: Detailed access statement
+- `FAQ -> /faq/`: Common questions
+
+## Key facts
+- Location: Whitstable, Kent, UK
+- Type: Wheelchair-accessible single-storey bungalow
+- Features: Ceiling hoist, profiling bed, wet room
+- Booking: Whole-property private rental
+- Care: Optional CQC-regulated support via Continuity of Care Services

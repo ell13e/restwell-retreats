@@ -43,7 +43,7 @@ function restwell_handle_enquire_submit() {
 	$date_to   = isset( $_POST['enq_date_to'] )   ? sanitize_text_field( wp_unslash( $_POST['enq_date_to'] ) )   : '';
 	// Build a human-readable dates string for the email body and legacy column.
 	$dates     = $date_from && $date_to
-		? gmdate( 'j M Y', strtotime( $date_from ) ) . ' – ' . gmdate( 'j M Y', strtotime( $date_to ) )
+		? gmdate( 'j M Y', strtotime( $date_from ) ) . ' - ' . gmdate( 'j M Y', strtotime( $date_to ) )
 		: ( $date_from ? gmdate( 'j M Y', strtotime( $date_from ) ) : '' );
 	$guests    = isset( $_POST['enq_guests'] ) ? sanitize_text_field( wp_unslash( $_POST['enq_guests'] ) ) : '';
 	$care      = isset( $_POST['enq_care'] ) ? sanitize_textarea_field( wp_unslash( $_POST['enq_care'] ) ) : '';
@@ -73,7 +73,7 @@ function restwell_handle_enquire_submit() {
 		$body .= "Funding type: $funding\n";
 	}
 	if ( $urgent ) {
-		$body .= "\n*** URGENT — prioritised callback requested ***\n";
+		$body .= "\n*** URGENT - prioritised callback requested ***\n";
 	}
 	if ( $care ) {
 		$body .= "\nCare requirements:\n$care\n";
@@ -84,7 +84,7 @@ function restwell_handle_enquire_submit() {
 	$body .= "\nMessage:\n$message";
 
 	$to      = (string) get_option( 'restwell_enquiry_notify_email', 'hello@restwellretreats.co.uk' );
-	$subject = sprintf( '[Restwell Retreats] %sEnquiry from %s', $urgent ? 'URGENT — ' : '', $name );
+	$subject = sprintf( '[Restwell Retreats] %sEnquiry from %s', $urgent ? 'URGENT - ' : '', $name );
 	$headers = array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: ' . $name . ' <' . $email . '>' );
 	wp_mail( $to, $subject, $body, $headers );
 

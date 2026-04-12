@@ -14,7 +14,13 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['DM Serif Display', 'Georgia', 'serif'],
+        serif: ['Lora', 'Georgia', 'serif'],
+      },
+      /* Align with :root tokens in assets/css/input.css — body 400, emphasis 500, UI/labels 600 */
+      fontWeight: {
+        body: '400',
+        emphasis: '500',
+        label: '600',
       },
     },
   },

@@ -1,6 +1,6 @@
 <?php
 /**
- * Video Optimizer — admin tool for compressing hero video files.
+ * Video Optimizer - admin tool for compressing hero video files.
  *
  * Adds a panel to the Media Library attachment edit screen for any video file.
  * Requires FFmpeg to be available on the server (checks automatically).
@@ -33,7 +33,7 @@ function restwell_ffmpeg_path() {
 		return false;
 	}
 
-	// Common locations — check these first so we don't rely on PATH alone.
+	// Common locations - check these first so we don't rely on PATH alone.
 	$candidates = array(
 		'/usr/bin/ffmpeg',
 		'/usr/local/bin/ffmpeg',
@@ -119,7 +119,7 @@ function restwell_video_optimizer_fields( $fields, $post ) {
 		<?php if ( $ffmpeg ) : ?>
 			<p style="margin:0 0 12px; color:#555;">
 				Strips audio, scales to max 1280 px wide, and re-encodes at web quality.
-				<strong>This replaces the original file</strong> — ensure you have a local backup before proceeding.
+				<strong>This replaces the original file</strong> - ensure you have a local backup before proceeding.
 			</p>
 
 			<p style="margin: 0 0 10px;">
@@ -127,9 +127,9 @@ function restwell_video_optimizer_fields( $fields, $post ) {
 					Quality
 				</label>
 				<select id="rw-video-crf" style="width:100%; max-width:240px;">
-					<option value="24">High — larger file, best quality (CRF 24)</option>
-					<option value="28" selected>Balanced — recommended for web (CRF 28)</option>
-					<option value="32">Small — smaller file, slightly softer (CRF 32)</option>
+					<option value="24">High - larger file, best quality (CRF 24)</option>
+					<option value="28" selected>Balanced - recommended for web (CRF 28)</option>
+					<option value="32">Small - smaller file, slightly softer (CRF 32)</option>
 				</select>
 			</p>
 
@@ -138,9 +138,9 @@ function restwell_video_optimizer_fields( $fields, $post ) {
 					Max width
 				</label>
 				<select id="rw-video-scale" style="width:100%; max-width:240px;">
-					<option value="1920">1920 px — full HD (keep if source is 4K)</option>
-					<option value="1280" selected>1280 px — recommended for backgrounds</option>
-					<option value="960">960 px — smallest, fine for short clips</option>
+					<option value="1920">1920 px - full HD (keep if source is 4K)</option>
+					<option value="1280" selected>1280 px - recommended for backgrounds</option>
+					<option value="960">960 px - smallest, fine for short clips</option>
 				</select>
 			</p>
 
@@ -200,7 +200,7 @@ function restwell_video_optimizer_fields( $fields, $post ) {
 }
 
 /**
- * Inline JS for the optimizer button — only output on attachment edit screens.
+ * Inline JS for the optimizer button - only output on attachment edit screens.
  */
 function restwell_video_optimizer_admin_js() {
 	$screen = get_current_screen();
@@ -267,7 +267,7 @@ function restwell_video_optimizer_admin_js() {
 }
 
 /**
- * AJAX handler — runs FFmpeg and replaces the attachment file.
+ * AJAX handler - runs FFmpeg and replaces the attachment file.
  */
 function restwell_ajax_optimize_video() {
 	$attachment_id = isset( $_POST['attachment_id'] ) ? absint( $_POST['attachment_id'] ) : 0;
@@ -334,7 +334,7 @@ function restwell_ajax_optimize_video() {
 
 	$size_after = filesize( $tmp_file );
 
-	// Sanity check — if the result is larger, bail.
+	// Sanity check - if the result is larger, bail.
 	if ( $size_after >= $size_before ) {
 		unlink( $tmp_file );
 		wp_send_json_error( 'Optimised file would be larger than the original (' . restwell_format_bytes( $size_after ) . ' vs ' . restwell_format_bytes( $size_before ) . '). No changes made.' );

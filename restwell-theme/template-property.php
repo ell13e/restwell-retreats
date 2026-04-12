@@ -15,14 +15,13 @@ get_header();
 $pid = get_the_ID();
 $prop_hero_label    = get_post_meta( $pid, 'prop_hero_label', true ) ?: 'The Property';
 $prop_hero_heading  = get_post_meta( $pid, 'prop_hero_heading', true ) ?: 'Our accessible home in Whitstable';
-$prop_hero_subtitle = get_post_meta( $pid, 'prop_hero_subtitle', true ) ?: 'A whole home designed for real holidays on the Kent coast';
+$prop_hero_subtitle = get_post_meta( $pid, 'prop_hero_subtitle', true ) ?: 'An adapted home on the Kent coast: ceiling track hoist, profiling bed, and wet room already in place.';
 $prop_hero_image_id = (int) get_post_meta( $pid, 'prop_hero_image_id', true );
-$prop_hero_src      = $prop_hero_image_id ? wp_get_attachment_image_url( $prop_hero_image_id, 'full' ) : '';
-$prop_hero_cta_text           = get_post_meta( $pid, 'prop_hero_cta_text', true ) ?: 'Enquire about dates';
+$prop_hero_cta_text           = get_post_meta( $pid, 'prop_hero_cta_text', true ) ?: 'Check your dates';
 $prop_hero_cta_url            = esc_url( get_post_meta( $pid, 'prop_hero_cta_url', true ) ?: home_url( '/enquire/' ) );
 $prop_hero_cta_promise        = get_post_meta( $pid, 'prop_hero_cta_promise', true ) ?: 'We reply within one working day.';
-$prop_hero_cta_secondary_text = get_post_meta( $pid, 'prop_hero_cta_secondary_text', true ) ?: '';
-$prop_hero_cta_secondary_url  = esc_url( get_post_meta( $pid, 'prop_hero_cta_secondary_url', true ) ?: home_url( '/how-it-works/' ) );
+$prop_hero_cta_secondary_text = get_post_meta( $pid, 'prop_hero_cta_secondary_text', true ) ?: 'Accessibility detail';
+$prop_hero_cta_secondary_url  = esc_url( get_post_meta( $pid, 'prop_hero_cta_secondary_url', true ) ?: home_url( '/accessibility/' ) );
 
 $prop_home_heading = get_post_meta( $pid, 'prop_home_heading', true ) ?: 'Your home for the week';
 $prop_home_label   = get_post_meta( $pid, 'prop_home_label', true ) ?: '';
@@ -59,7 +58,7 @@ $prop_features = array(
 );
 
 $prop_overview_heading = get_post_meta( $pid, 'prop_overview_heading', true ) ?: 'Your coastal home-from-home';
-$prop_overview_body   = get_post_meta( $pid, 'prop_overview_body', true ) ?: "This is a private holiday home, not a hotel room or a care facility. The whole property is yours for the duration of your stay — no shared corridors, no other guests, no institutional feel. The layout has been designed around the access needs of wheelchair users and guests with complex physical disabilities, with practical details like transfer space, equipment compatibility, and carer accommodation considered from the start.\n\nThe property sits in a quiet, flat residential area of Whitstable. The town itself is compact, independent, and manageable — known for its harbour, seafood, and coastal walks. It is about 60 miles from London, with direct train services and straightforward road access via the M2.";
+$prop_overview_body   = get_post_meta( $pid, 'prop_overview_body', true ) ?: "This is a private holiday home, not a hotel room or a care facility. The whole property is yours for the duration of your stay: no shared corridors, no other guests, no institutional feel. The layout has been designed around the access needs of wheelchair users and guests with complex physical disabilities, with practical details like transfer space, equipment compatibility, and carer accommodation considered from the start.\n\nThe property sits in a quiet, flat residential area of Whitstable. The town itself is compact, independent, and manageable, known for its harbour, seafood, and coastal walks. It is about 60 miles from London, with direct train services and straightforward road access via the M2.";
 $prop_dignity_body    = $prop_dignity_body_raw !== '' ? $prop_dignity_body_raw : $prop_overview_body;
 
 $prop_features_label   = get_post_meta( $pid, 'prop_features_label', true ) ?: 'Accessibility';
@@ -67,7 +66,7 @@ $prop_features_heading = get_post_meta( $pid, 'prop_features_heading', true ) ?:
 
 $prop_acc_label   = get_post_meta( $pid, 'prop_acc_label', true ) ?: 'Accessibility';
 $prop_acc_heading = get_post_meta( $pid, 'prop_acc_heading', true ) ?: 'Accessibility you can rely on';
-$prop_acc_intro   = get_post_meta( $pid, 'prop_acc_intro', true ) ?: 'We have assessed every aspect of the property for access. Here is what we have verified — and if you have a requirement not listed, we are always happy to talk it through.';
+$prop_acc_intro   = get_post_meta( $pid, 'prop_acc_intro', true ) ?: 'We have assessed every aspect of the property for access. Here is what we have verified, and if you have a requirement not listed, we are always happy to talk it through.';
 $prop_acc_confirmed = get_post_meta( $pid, 'prop_acc_confirmed', true ) ?: "Level access throughout the ground floor\nWide doorways suitable for wheelchair access\nQuiet, flat residential street\nClose to level promenade walks";
 
 // Comparison: why not just an accessible hotel?
@@ -78,15 +77,15 @@ $prop_comparison_left_heading  = get_post_meta( $pid, 'prop_comparison_left_head
 $prop_comparison_right_heading = get_post_meta( $pid, 'prop_comparison_right_heading', true ) ?: 'Your Restwell stay';
 $comparison_left_defaults  = array(
 	'An adapted room in a shared building, with other guests and communal spaces',
-	'No care support on site — you arrange everything yourself in advance',
+	'No care support on site: you arrange everything yourself in advance',
 	'Retrofitted accessibility: a grab rail by the toilet, maybe a wider door. No hoist, no profiling bed, no guarantee it works for your needs.',
 	'You find out what doesn\'t work once you\'ve already arrived',
 );
 $comparison_right_defaults = array(
-	'The entire property — private garden, no shared spaces, no other guests',
+	'The entire property: private garden, no shared spaces, no other guests',
 	'Optional CQC-regulated care arranged around your stay, or bring your own',
-	'Designed from the ground up for complex needs — nothing retrofitted, nothing assumed',
-	'Ask us anything before you book — we\'ll tell you exactly what works for you',
+	'Designed from the ground up for complex needs: nothing retrofitted, nothing assumed',
+	'Ask us anything before you book; we\'ll tell you exactly what works for you',
 );
 $prop_comparison_left  = array();
 $prop_comparison_right = array();
@@ -128,7 +127,7 @@ $nearby = array(
 	array(
 		'title'    => get_post_meta( $pid, 'prop_nearby_1_title', true ) ?: 'The Plough Pub',
 		'body'     => get_post_meta( $pid, 'prop_nearby_1_body', true ) ?: "A friendly local pub on St John's Road, just a short walk from the property. Relaxed atmosphere, good food, live music nights, and welcoming to families and groups.",
-		'acc'      => get_post_meta( $pid, 'prop_nearby_1_acc', true ) ?: 'Wheelchair-accessible entrance and accessible restroom — confirm current details with the pub.',
+		'acc'      => get_post_meta( $pid, 'prop_nearby_1_acc', true ) ?: 'Wheelchair-accessible entrance and accessible restroom. Confirm current details with the pub.',
 		'distance' => get_post_meta( $pid, 'prop_nearby_1_distance', true ) ?: 'Approx. 5 min walk',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_1_filter', true ) ?: 'wheelchair-friendly quieter',
 		'map_url'  => get_post_meta( $pid, 'prop_nearby_1_map_url', true ) ?: 'https://maps.google.com/?q=The+Plough+St+Johns+Road+Whitstable',
@@ -137,7 +136,7 @@ $nearby = array(
 	),
 	array(
 		'title'    => get_post_meta( $pid, 'prop_nearby_2_title', true ) ?: 'Tankerton Slopes & Promenade',
-		'body'     => get_post_meta( $pid, 'prop_nearby_2_body', true ) ?: 'A long, flat, surfaced promenade with views across the Thames Estuary. The promenade path itself is wide and level — suitable for wheelchairs and powerchairs. The grassy slopes between the road and the promenade are steep, so use the paved access paths. Free parking along Marine Parade at the top.',
+		'body'     => get_post_meta( $pid, 'prop_nearby_2_body', true ) ?: 'A long, flat, surfaced promenade with views across the Thames Estuary. The promenade path itself is wide and level, suitable for wheelchairs and powerchairs. The grassy slopes between the road and the promenade are steep, so use the paved access paths. Free parking along Marine Parade at the top.',
 		'acc'      => get_post_meta( $pid, 'prop_nearby_2_acc', true ) ?: 'Flat tarmac path, no steps, suitable for wheelchairs. Accessible WC at harbour end.',
 		'distance' => get_post_meta( $pid, 'prop_nearby_2_distance', true ) ?: 'Approx. 15 min flat walk',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_2_filter', true ) ?: 'wheelchair-friendly',
@@ -148,7 +147,7 @@ $nearby = array(
 	array(
 		'title'    => get_post_meta( $pid, 'prop_nearby_3_title', true ) ?: 'Whitstable Harbour & Harbour Street',
 		'body'     => get_post_meta( $pid, 'prop_nearby_3_body', true ) ?: "Fresh oysters, fish and chips, independent restaurants, boutiques, galleries, and cafes. The harbour is a lively working port with a relaxed, artistic character that draws visitors year-round.",
-		'acc'      => get_post_meta( $pid, 'prop_nearby_3_acc', true ) ?: 'Mostly flat approach. Some cobblestone sections near the harbour itself. Harbour Street pavements can be narrow during peak times — quieter on weekday mornings.',
+		'acc'      => get_post_meta( $pid, 'prop_nearby_3_acc', true ) ?: 'Mostly flat approach. Some cobblestone sections near the harbour itself. Harbour Street pavements can be narrow during peak times; quieter on weekday mornings.',
 		'distance' => get_post_meta( $pid, 'prop_nearby_3_distance', true ) ?: 'Approx. 20 min walk or 7 min drive',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_3_filter', true ) ?: 'quieter',
 		'map_url'  => get_post_meta( $pid, 'prop_nearby_3_map_url', true ) ?: 'https://maps.google.com/?q=Harbour+Street+Whitstable+Kent',
@@ -157,7 +156,7 @@ $nearby = array(
 	),
 	array(
 		'title'    => get_post_meta( $pid, 'prop_nearby_4_title', true ) ?: 'Whitstable Beach',
-		'body'     => get_post_meta( $pid, 'prop_nearby_4_body', true ) ?: "Whitstable's iconic shingle beach is beautiful, but we want to be honest — shingle is generally not suitable for wheelchairs. The promenade above provides excellent sea views and is accessible for most wheelchair users.",
+		'body'     => get_post_meta( $pid, 'prop_nearby_4_body', true ) ?: "Whitstable's iconic shingle beach is beautiful, but we want to be honest: shingle is generally not suitable for wheelchairs. The promenade above provides excellent sea views and is accessible for most wheelchair users.",
 		'acc'      => get_post_meta( $pid, 'prop_nearby_4_acc', true ) ?: 'Shingle beach is not recommended for wheelchairs. The level promenade path above the beach is the accessible alternative.',
 		'distance' => get_post_meta( $pid, 'prop_nearby_4_distance', true ) ?: 'Approx. 15 min walk',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_4_filter', true ) ?: 'wheelchair-friendly',
@@ -167,8 +166,8 @@ $nearby = array(
 	),
 	array(
 		'title'    => get_post_meta( $pid, 'prop_nearby_5_title', true ) ?: 'Supermarkets',
-		'body'     => get_post_meta( $pid, 'prop_nearby_5_body', true ) ?: "Sainsbury's is the closest at 4 minutes (Reeves Way, Chestfield CT5 3QS). Tesco Extra is 7 minutes (Millstrood Rd CT5 3EE). Co-op is 9 minutes (14–16 Canterbury Rd CT5 4EX). Aldi is 10 minutes (Prospect Retail Park CT5 3SD). All have disabled parking.",
-		'acc'      => get_post_meta( $pid, 'prop_nearby_5_acc', true ) ?: 'All four stores have step-free access and disabled parking bays.',
+		'body'     => get_post_meta( $pid, 'prop_nearby_5_body', true ) ?: "Sainsbury's is the closest at 4 minutes (Reeves Way, Chestfield CT5 3QS). Tesco Extra is 7 minutes (Millstrood Rd CT5 3EE). Co-op is 9 minutes (14-16 Canterbury Rd CT5 4EX). Aldi is 10 minutes (Prospect Retail Park CT5 3SD). All have accessible parking.",
+		'acc'      => get_post_meta( $pid, 'prop_nearby_5_acc', true ) ?: 'All four stores have step-free access and accessible parking bays.',
 		'distance' => get_post_meta( $pid, 'prop_nearby_5_distance', true ) ?: 'From 4 min drive',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_5_filter', true ) ?: 'practical',
 		'map_url'  => get_post_meta( $pid, 'prop_nearby_5_map_url', true ) ?: 'https://maps.google.com/?q=Sainsbury%27s+Whitstable+Chestfield',
@@ -177,8 +176,8 @@ $nearby = array(
 	),
 	array(
 		'title'    => get_post_meta( $pid, 'prop_nearby_6_title', true ) ?: 'Local Pharmacies',
-		'body'     => get_post_meta( $pid, 'prop_nearby_6_body', true ) ?: 'Boots Pharmacy and Superdrug Pharmacy are both in Whitstable town centre and open 7 days a week. Hours may vary slightly on Sundays — check locally if urgent.',
-		'acc'      => get_post_meta( $pid, 'prop_nearby_6_acc', true ) ?: 'Accessible entrances — confirm current details with each pharmacy.',
+		'body'     => get_post_meta( $pid, 'prop_nearby_6_body', true ) ?: 'Boots Pharmacy and Superdrug Pharmacy are both in Whitstable town centre and open 7 days a week. Hours may vary slightly on Sundays; check locally if urgent.',
+		'acc'      => get_post_meta( $pid, 'prop_nearby_6_acc', true ) ?: 'Accessible entrances. Confirm current details with each pharmacy.',
 		'distance' => get_post_meta( $pid, 'prop_nearby_6_distance', true ) ?: 'Short drive or bus to town',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_6_filter', true ) ?: 'practical',
 		'map_url'  => get_post_meta( $pid, 'prop_nearby_6_map_url', true ) ?: 'https://maps.google.com/?q=Boots+Pharmacy+Whitstable',
@@ -187,7 +186,7 @@ $nearby = array(
 	),
 	array(
 		'title'    => get_post_meta( $pid, 'prop_nearby_7_title', true ) ?: 'Getting Around',
-		'body'     => get_post_meta( $pid, 'prop_nearby_7_body', true ) ?: 'Accessible taxis: Abacus Cars LTD (01227 277745) — pre-book wheelchair-accessible vehicles, especially during school run times. Stagecoach South East: the 400 bus from The Plough runs to the beach, harbour, and Canterbury bus station. Whitstable Railway Station has direct trains to London St Pancras and Victoria; Chestfield & Swalecliffe is a quieter alternative nearby.',
+		'body'     => get_post_meta( $pid, 'prop_nearby_7_body', true ) ?: 'Accessible taxis: Abacus Cars LTD (01227 277745). Pre-book wheelchair-accessible vehicles, especially during school run times. Stagecoach South East: the 400 bus from The Plough runs to the beach, harbour, and Canterbury bus station. Whitstable Railway Station has direct trains to London St Pancras and Victoria; Chestfield & Swalecliffe is a quieter alternative nearby.',
 		'acc'      => get_post_meta( $pid, 'prop_nearby_7_acc', true ) ?: 'Pre-book accessible vehicles with Abacus Cars. Bus stops within walking distance. Confirm station accessibility with National Rail.',
 		'distance' => get_post_meta( $pid, 'prop_nearby_7_distance', true ) ?: 'Various',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_7_filter', true ) ?: 'practical',
@@ -197,9 +196,9 @@ $nearby = array(
 	),
 	array(
 		'title'    => get_post_meta( $pid, 'prop_nearby_8_title', true ) ?: 'Medical & Emergency',
-		'body'     => get_post_meta( $pid, 'prop_nearby_8_body', true ) ?: 'Nearest A&E: Kent and Canterbury Hospital, Ethelbert Rd, Canterbury CT1 3NG — approximately 7 miles, 15–20 minutes by car. Non-emergency NHS: call 111. Local GP: Whitstable Medical Practice (approx. 5 min drive). Emergencies: 999.',
+		'body'     => get_post_meta( $pid, 'prop_nearby_8_body', true ) ?: 'Nearest A&E: Kent and Canterbury Hospital, Ethelbert Rd, Canterbury CT1 3NG, approximately 7 miles, 15-20 minutes by car. Non-emergency NHS: call 111. Local GP: Whitstable Medical Practice (approx. 5 min drive). Emergencies: 999.',
 		'acc'      => get_post_meta( $pid, 'prop_nearby_8_acc', true ) ?: 'Kent and Canterbury Hospital has accessible parking and entrances. Call ahead for GP appointments.',
-		'distance' => get_post_meta( $pid, 'prop_nearby_8_distance', true ) ?: 'A&E approx. 7 miles / 15–20 min',
+		'distance' => get_post_meta( $pid, 'prop_nearby_8_distance', true ) ?: 'A&E approx. 7 miles / 15-20 min',
 		'filter'   => get_post_meta( $pid, 'prop_nearby_8_filter', true ) ?: 'practical',
 		'map_url'  => get_post_meta( $pid, 'prop_nearby_8_map_url', true ) ?: 'https://maps.google.com/?q=Kent+and+Canterbury+Hospital+CT1+3NG',
 		'icon'     => 'fa-kit-medical',
@@ -211,50 +210,37 @@ $prop_nearby_cta_url   = get_post_meta( $pid, 'prop_nearby_cta_url', true ) ?: '
 
 $prop_cta_heading = get_post_meta( $pid, 'prop_cta_heading', true ) ?: 'Like what you see?';
 $prop_cta_body    = get_post_meta( $pid, 'prop_cta_body', true ) ?: 'Get in touch to check availability or any other questions.';
-$prop_cta_btn     = get_post_meta( $pid, 'prop_cta_btn', true ) ?: 'Enquire about dates';
+$prop_cta_btn     = get_post_meta( $pid, 'prop_cta_btn', true ) ?: 'Check your dates';
 $prop_cta_url     = get_post_meta( $pid, 'prop_cta_url', true ) ?: home_url( '/enquire/' );
 $prop_cta_url     = esc_url( $prop_cta_url );
 $prop_cta_promise = get_post_meta( $pid, 'prop_cta_promise', true ) ?: '';
 ?>
-<?php
-$prop_hero_image_src = $prop_hero_image_id ? wp_get_attachment_image_url( $prop_hero_image_id, 'large' ) : '';
-?>
 <main class="flex-1" id="main-content">
 <?php get_template_part( 'template-parts/breadcrumb' ); ?>
-	<section class="hero relative flex items-end overflow-hidden min-h-[32rem] <?php echo $prop_hero_src ? '' : 'bg-[var(--deep-teal)]'; ?>" aria-labelledby="page-hero-heading">
-		<?php if ( $prop_hero_src ) : ?>
-			<img src="<?php echo esc_url( $prop_hero_src ); ?>" alt="<?php echo esc_attr( $prop_hero_heading ); ?>" class="absolute inset-0 w-full h-full object-cover -z-10" />
-		<?php endif; ?>
-		<div class="absolute inset-0 bg-black/30 -z-[5]" aria-hidden="true"></div>
-		<div class="absolute inset-0 bg-gradient-to-t from-[var(--deep-teal)]/85 via-[var(--deep-teal)]/45 to-transparent -z-[5]" aria-hidden="true"></div>
-		<div class="relative z-10 container pb-16 md:pb-24 pt-32">
-			<div class="max-w-2xl">
-			<?php if ( $prop_hero_label !== '' ) : ?>
-				<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-4 font-sans"><?php echo esc_html( $prop_hero_label ); ?></p>
-			<?php endif; ?>
-				<h1 id="page-hero-heading" class="text-white text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight font-serif"><?php echo esc_html( $prop_hero_heading ); ?></h1>
-				<?php if ( $prop_hero_subtitle !== '' ) : ?>
-					<p class="text-[#F5EDE0] text-lg md:text-xl mb-8 leading-relaxed max-w-prose drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"><?php echo esc_html( $prop_hero_subtitle ); ?></p>
-				<?php endif; ?>
-				<div class="flex flex-wrap gap-4">
-					<?php if ( $prop_hero_cta_text !== '' ) : ?>
-						<a href="<?php echo esc_url( $prop_hero_cta_url ); ?>" class="btn btn-gold">
-							<?php echo esc_html( $prop_hero_cta_text ); ?>
-							<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-						</a>
-					<?php endif; ?>
-					<?php if ( $prop_hero_cta_secondary_text !== '' ) : ?>
-						<a href="<?php echo esc_url( $prop_hero_cta_secondary_url ); ?>" class="btn btn-ghost-light">
-							<?php echo esc_html( $prop_hero_cta_secondary_text ); ?>
-						</a>
-					<?php endif; ?>
-				</div>
-				<?php if ( $prop_hero_cta_promise !== '' ) : ?>
-					<p class="text-white/90 text-sm mt-4"><?php echo esc_html( $prop_hero_cta_promise ); ?></p>
-				<?php endif; ?>
-			</div>
-		</div>
-	</section>
+	<?php
+	set_query_var(
+		'args',
+		array(
+			'heading_id'    => 'page-hero-heading',
+			'label'         => $prop_hero_label,
+			'heading'       => $prop_hero_heading,
+			'intro'         => $prop_hero_subtitle,
+			'media_id'      => $prop_hero_image_id,
+			'image_alt'     => $prop_hero_heading,
+			'content_max'   => 'max-w-2xl',
+			'cta_primary'   => $prop_hero_cta_text !== '' ? array(
+				'label' => $prop_hero_cta_text,
+				'url'   => $prop_hero_cta_url,
+			) : array(),
+			'cta_secondary' => $prop_hero_cta_secondary_text !== '' ? array(
+				'label' => $prop_hero_cta_secondary_text,
+				'url'   => $prop_hero_cta_secondary_url,
+			) : array(),
+			'cta_promise'   => $prop_hero_cta_promise,
+		)
+	);
+	get_template_part( 'template-parts/interior-hero' );
+	?>
 
 	<!-- Your home for the week (3 feature cards) -->
 	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]">
@@ -352,7 +338,7 @@ $prop_hero_image_src = $prop_hero_image_id ? wp_get_attachment_image_url( $prop_
 				<div class="bg-[var(--bg-subtle)] rounded-2xl p-7 flex flex-col gap-5 border border-gray-100">
 					<div>
 						<h3 class="text-lg font-semibold font-serif text-[var(--deep-teal)] mb-2"><?php echo esc_html__( 'Have a specific requirement?', 'restwell-retreats' ); ?></h3>
-						<p class="text-gray-600 text-sm leading-relaxed"><?php echo esc_html__( 'Every guest is different. Whether you need to know about hoist access, particular bathroom equipment, bed configuration, or sensory environment — we are happy to talk it through before you commit to anything.', 'restwell-retreats' ); ?></p>
+						<p class="text-gray-600 text-sm leading-relaxed"><?php echo esc_html__( 'Every guest is different. Whether you need to know about hoist access, particular bathroom equipment, bed configuration, or sensory environment, we are happy to talk it through before you commit to anything.', 'restwell-retreats' ); ?></p>
 					</div>
 					<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary self-start">
 						<?php echo esc_html__( 'Ask us directly', 'restwell-retreats' ); ?>
@@ -377,11 +363,11 @@ $prop_hero_image_src = $prop_hero_image_id ? wp_get_attachment_image_url( $prop_
 			</div>
 			<div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
 				<div class="rounded-2xl p-7 bg-[var(--bg-subtle)] border border-gray-200/60">
-					<h3 class="text-base font-semibold text-gray-500 uppercase tracking-wide mb-6">
+					<p class="text-base font-semibold text-gray-500 uppercase tracking-wide mb-6" aria-hidden="true">
 						<?php echo esc_html( $prop_comparison_left_heading ); ?>
-					</h3>
-					<ul class="space-y-4" role="list">
-						<?php foreach ( $prop_comparison_left as $item ) : ?>
+					</p>
+				<ul class="space-y-4" role="list" aria-label="<?php echo esc_attr( $prop_comparison_left_heading ); ?>">
+					<?php foreach ( $prop_comparison_left as $item ) : ?>
 							<li class="flex items-start gap-3">
 								<span class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center" aria-hidden="true">
 									<i class="fa-solid fa-xmark text-gray-400 text-xs"></i>
@@ -392,11 +378,11 @@ $prop_hero_image_src = $prop_hero_image_id ? wp_get_attachment_image_url( $prop_
 					</ul>
 				</div>
 				<div class="rounded-2xl p-7 bg-[var(--deep-teal)]">
-					<h3 class="text-base font-semibold text-[var(--warm-gold-hero)] uppercase tracking-wide mb-6">
+					<p class="text-base font-semibold text-[var(--warm-gold-hero)] uppercase tracking-wide mb-6" aria-hidden="true">
 						<?php echo esc_html( $prop_comparison_right_heading ); ?>
-					</h3>
-					<ul class="space-y-4" role="list">
-						<?php foreach ( $prop_comparison_right as $item ) : ?>
+					</p>
+				<ul class="space-y-4" role="list" aria-label="<?php echo esc_attr( $prop_comparison_right_heading ); ?>">
+					<?php foreach ( $prop_comparison_right as $item ) : ?>
 							<li class="flex items-start gap-3">
 								<span class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-white/15 flex items-center justify-center" aria-hidden="true">
 									<i class="fa-solid fa-check text-[var(--warm-gold-hero)] text-xs"></i>
@@ -555,7 +541,7 @@ $prop_hero_image_src = $prop_hero_image_id ? wp_get_attachment_image_url( $prop_
 						<?php endif; ?>
 					</div>
 
-					<!-- 2. Title — now left-aligned with body text below -->
+					<!-- 2. Title: now left-aligned with body text below -->
 					<h3 class="text-base font-semibold font-serif text-[var(--deep-teal)] leading-snug mb-3">
 						<?php if ( ! empty( $place['map_url'] ) ) : ?>
 							<a href="<?php echo esc_url( $place['map_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="group inline-flex items-baseline gap-1.5 text-[var(--deep-teal)] no-underline hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] rounded-sm">

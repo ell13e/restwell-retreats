@@ -15,8 +15,7 @@ get_header();
 $pid = get_the_ID();
 
 // Hero
-$res_hero_image_id  = (int) get_post_meta( $pid, 'res_hero_image_id', true );
-$res_hero_image_src = $res_hero_image_id ? wp_get_attachment_image_url( $res_hero_image_id, 'full' ) : '';
+$res_hero_image_id = (int) get_post_meta( $pid, 'res_hero_image_id', true );
 $res_label          = get_post_meta( $pid, 'res_label', true ) ?: 'Funding & support';
 $res_heading        = get_post_meta( $pid, 'res_heading', true ) ?: 'We\'ll help you find a way';
 $res_intro          = get_post_meta( $pid, 'res_intro', true ) ?: 'A straightforward guide to funding your stay and finding the right support in Kent.';
@@ -35,34 +34,34 @@ $res_contacts_body      = get_post_meta( $pid, 'res_contacts_body', true ) ?: ''
 
 // CTA
 $res_cta_heading = get_post_meta( $pid, 'res_cta_heading', true ) ?: 'Still have questions?';
-$res_cta_body    = get_post_meta( $pid, 'res_cta_body', true ) ?: 'We can point you in the right direction or talk through your options.';
+$res_cta_body    = get_post_meta( $pid, 'res_cta_body', true ) ?: 'Get in touch and we will help you think through the options. We have helped guests navigate funding before and will point you in the right direction.';
 $res_cta_btn     = get_post_meta( $pid, 'res_cta_btn', true ) ?: 'Get in touch';
 $res_cta_url     = esc_url( get_post_meta( $pid, 'res_cta_url', true ) ?: home_url( '/enquire/' ) );
 
 // Default content when meta is empty.
 if ( $res_fund_body === '' ) {
 	$res_fund_body = '<ul class="space-y-3">'
-		. '<li><strong>Carers Assessment</strong> — Kent County Council: <a href="tel:03000416161">03000 41 61 61</a> or <a href="https://kent.connecttosupport.org" target="_blank" rel="noopener noreferrer">Kent Connect to Support<span class="sr-only"> (opens in new tab)</span></a> (self-referral, reviewed in 2 working days).</li>'
-		. '<li><strong>Care Needs Assessment</strong> — KCC Adult Social Care: <a href="tel:03000418181">03000 41 81 81</a> or online form (free, means-tested).</li>'
-		. '<li><strong>Paying for Care</strong> — <a href="https://www.kent.gov.uk/social-care-and-health/adult-social-care/paying-for-care" target="_blank" rel="noopener noreferrer">kent.gov.uk — Paying for care<span class="sr-only"> (opens in new tab)</span></a>.</li>'
-		. '<li><strong>Direct Payments</strong> — <a href="https://www.kent.gov.uk/social-care-and-health/adult-social-care/arranging-your-own-care/direct-payments-self-directed-support" target="_blank" rel="noopener noreferrer">kent.gov.uk — Direct payments<span class="sr-only"> (opens in new tab)</span></a> (use funding for PAs or respite).</li>'
+		. '<li><strong>Carers Assessment</strong>: Kent County Council: <a href="tel:03000416161">03000 41 61 61</a> or <a href="https://kent.connecttosupport.org" target="_blank" rel="noopener noreferrer">Kent Connect to Support<span class="sr-only"> (opens in new tab)</span></a> (self-referral, reviewed in 2 working days).</li>'
+		. '<li><strong>Care Needs Assessment</strong>: KCC Adult Social Care: <a href="tel:03000418181">03000 41 81 81</a> or online form (free, means-tested).</li>'
+		. '<li><strong>Paying for Care</strong>: <a href="https://www.kent.gov.uk/social-care-and-health/adult-social-care/paying-for-care" target="_blank" rel="noopener noreferrer">kent.gov.uk: Paying for care<span class="sr-only"> (opens in new tab)</span></a>.</li>'
+		. '<li><strong>Direct Payments</strong>: <a href="https://www.kent.gov.uk/social-care-and-health/adult-social-care/arranging-your-own-care/direct-payments-self-directed-support" target="_blank" rel="noopener noreferrer">kent.gov.uk: Direct payments<span class="sr-only"> (opens in new tab)</span></a> (use funding for PAs or respite).</li>'
 		. '</ul>';
 }
 if ( $res_grants_body === '' ) {
 	$res_grants_body = '<p class="mb-4">Local and national organisations that may help with grants or low-cost respite:</p>'
 		. '<ul class="space-y-3">'
-		. '<li><strong>Carers Trust</strong> — National <a href="tel:03007729600">0300 772 9600</a>, <a href="https://carers.org" target="_blank" rel="noopener noreferrer">carers.org<span class="sr-only"> (opens in new tab)</span></a>. Local hubs: Care for the Carers (East Kent) <a href="tel:01323738390">01323 738390</a>; Carers\' Support East Kent <a href="tel:01304619919">01304 619919</a>; Crossroads Care East Kent <a href="tel:01227781150">01227 781150</a>; Crossroads Care West Kent <a href="tel:01622814400">01622 814400</a>.</li>'
-		. '<li><strong>Turn2us</strong> — Grant finder by postcode: <a href="https://www.turn2us.org.uk" target="_blank" rel="noopener noreferrer">turn2us.org.uk<span class="sr-only"> (opens in new tab)</span></a>.</li>'
-		. '<li><strong>Respite Association</strong> — Grants and volunteer host links.</li>'
-		. '<li><strong>Age UK Kent</strong> — Volunteer befriending and short breaks.</li>'
+		. '<li><strong>Carers Trust</strong>: National <a href="tel:03007729600">0300 772 9600</a>, <a href="https://carers.org" target="_blank" rel="noopener noreferrer">carers.org<span class="sr-only"> (opens in new tab)</span></a>. Local hubs: Care for the Carers (East Kent) <a href="tel:01323738390">01323 738390</a>; Carers\' Support East Kent <a href="tel:01304619919">01304 619919</a>; Crossroads Care East Kent <a href="tel:01227781150">01227 781150</a>; Crossroads Care West Kent <a href="tel:01622814400">01622 814400</a>.</li>'
+		. '<li><strong>Turn2us</strong>: Grant finder by postcode: <a href="https://www.turn2us.org.uk" target="_blank" rel="noopener noreferrer">turn2us.org.uk<span class="sr-only"> (opens in new tab)</span></a>.</li>'
+		. '<li><strong>Respite Association</strong>: Grants and volunteer host links.</li>'
+		. '<li><strong>Age UK Kent</strong>: Volunteer befriending and short breaks.</li>'
 		. '</ul>';
 }
 if ( $res_chc_body === '' ) {
 	$res_chc_body = '<p>Fully funded (non-means-tested) NHS package for adults with a primary health need. Arranged by Kent &amp; Medway ICB. Fast-track available for unstable/terminal cases. Contact: <a href="mailto:chc@kmicb.nhs.uk">chc@kmicb.nhs.uk</a>. For appeal support: <a href="https://www.scope.org.uk/advice-and-support/appeal-an-nhs-continuing-healthcare-chc-decision/" target="_blank" rel="noopener noreferrer">Scope<span class="sr-only"> (opens in new tab)</span></a>, <a href="https://www.beaconchc.co.uk" target="_blank" rel="noopener noreferrer">Beacon CHC<span class="sr-only"> (opens in new tab)</span></a>.</p>';
 }
 if ( $res_complaints_body === '' ) {
-	$res_complaints_body = '<p><strong>KCC</strong> — Complain to Kent County Council; response within 20 working days. Escalate to <a href="https://www.ombudsman.org.uk" target="_blank" rel="noopener noreferrer">Local Government Ombudsman<span class="sr-only"> (opens in new tab)</span></a> (free).</p>'
-		. '<p class="mt-3"><strong>NHS CHC</strong> — Contact Kent &amp; Medway ICB (<a href="mailto:chc@kmicb.nhs.uk">chc@kmicb.nhs.uk</a>). Then <a href="https://www.ombudsman.org.uk" target="_blank" rel="noopener noreferrer">Parliamentary &amp; Health Service Ombudsman (PHSO)<span class="sr-only"> (opens in new tab)</span></a>.</p>';
+	$res_complaints_body = '<p><strong>KCC</strong>: Complain to Kent County Council; response within 20 working days. Escalate to <a href="https://www.ombudsman.org.uk" target="_blank" rel="noopener noreferrer">Local Government Ombudsman<span class="sr-only"> (opens in new tab)</span></a> (free).</p>'
+		. '<p class="mt-3"><strong>NHS CHC</strong>: Contact Kent &amp; Medway ICB (<a href="mailto:chc@kmicb.nhs.uk">chc@kmicb.nhs.uk</a>). Then <a href="https://www.ombudsman.org.uk" target="_blank" rel="noopener noreferrer">Parliamentary &amp; Health Service Ombudsman (PHSO)<span class="sr-only"> (opens in new tab)</span></a>.</p>';
 }
 if ( $res_contacts_body === '' ) {
 	$res_contacts_body = '<div class="overflow-x-auto -mx-1">'
@@ -92,27 +91,22 @@ $sections = array(
 <main class="flex-1" id="main-content">
 <?php get_template_part( 'template-parts/breadcrumb' ); ?>
 
-	<!-- Hero -->
-	<section class="hero relative flex items-end overflow-hidden min-h-[32rem] <?php echo $res_hero_image_src ? '' : 'bg-[var(--deep-teal)]'; ?>" aria-labelledby="page-hero-heading">
-		<?php if ( $res_hero_image_src ) : ?>
-			<img src="<?php echo esc_url( $res_hero_image_src ); ?>" alt="" class="absolute inset-0 w-full h-full object-cover -z-10" loading="eager" />
-		<?php endif; ?>
-		<div class="absolute inset-0 bg-black/30 -z-[5]" aria-hidden="true"></div>
-		<div class="absolute inset-0 bg-gradient-to-t from-[var(--deep-teal)]/85 via-[var(--deep-teal)]/45 to-transparent -z-[5]" aria-hidden="true"></div>
-		<div class="relative z-10 container pb-16 md:pb-24 pt-32">
-			<div class="max-w-2xl">
-				<?php if ( $res_label !== '' ) : ?>
-					<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-4 font-sans"><?php echo esc_html( $res_label ); ?></p>
-				<?php endif; ?>
-				<h1 id="page-hero-heading" class="text-white text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight font-serif"><?php echo esc_html( $res_heading ); ?></h1>
-				<?php if ( $res_intro !== '' ) : ?>
-					<p class="text-[#F5EDE0] text-lg md:text-xl leading-relaxed max-w-prose drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"><?php echo esc_html( $res_intro ); ?></p>
-				<?php endif; ?>
-			</div>
-		</div>
-	</section>
+	<?php
+	set_query_var(
+		'args',
+		array(
+			'heading_id'  => 'page-hero-heading',
+			'label'       => $res_label,
+			'heading'     => $res_heading,
+			'intro'       => $res_intro,
+			'media_id'    => $res_hero_image_id,
+			'content_max' => 'max-w-2xl',
+		)
+	);
+	get_template_part( 'template-parts/interior-hero' );
+	?>
 
-	<!-- Mobile jump navigation (hidden on desktop — sidebar handles that) -->
+	<!-- Mobile jump navigation (hidden on desktop; sidebar handles that) -->
 	<div class="md:hidden bg-white border-b border-gray-100 py-4 overflow-x-auto" aria-label="Jump to section">
 		<div class="container">
 			<p class="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--muted-grey)] mb-2">On this page</p>
@@ -169,6 +163,34 @@ $sections = array(
 				</div>
 
 			</div>
+		</div>
+	</section>
+
+	<!-- Related guides -->
+	<section class="py-12 md:py-16 bg-white border-t border-gray-100" aria-labelledby="res-related-heading">
+		<div class="container max-w-3xl">
+			<h2 id="res-related-heading" class="text-2xl font-serif text-[var(--deep-teal)] mb-6"><?php esc_html_e( 'Related guides', 'restwell-retreats' ); ?></h2>
+			<p class="text-gray-600 mb-6 leading-relaxed"><?php esc_html_e( 'These articles cover the practical detail behind the funding routes above.', 'restwell-retreats' ); ?></p>
+			<ul class="space-y-3">
+				<li>
+					<a href="<?php echo esc_url( home_url( '/direct-payment-holiday-accommodation/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
+						<?php esc_html_e( 'How to use your direct payment for a holiday', 'restwell-retreats' ); ?>
+					</a>
+					<span class="text-gray-500">: <?php esc_html_e( 'what direct payments cover on holiday, how to make the case, and what to watch out for.', 'restwell-retreats' ); ?></span>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( home_url( '/carers-holiday-respite-funding/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
+						<?php esc_html_e( 'Carers taking holidays: respite rights, funding, and planning', 'restwell-retreats' ); ?>
+					</a>
+					<span class="text-gray-500">: <?php esc_html_e( 'carers assessments, replacement care, and funding options for a break.', 'restwell-retreats' ); ?></span>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( home_url( '/how-to-choose-accessible-self-catering-holiday/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
+						<?php esc_html_e( 'How to choose an accessible self-catering holiday property', 'restwell-retreats' ); ?>
+					</a>
+					<span class="text-gray-500">: <?php esc_html_e( 'a checklist of questions to ask before you book.', 'restwell-retreats' ); ?></span>
+				</li>
+			</ul>
 		</div>
 	</section>
 

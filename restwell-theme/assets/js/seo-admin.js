@@ -1,5 +1,5 @@
 /**
- * Restwell SEO Admin — meta box JavaScript
+ * Restwell SEO Admin - meta box JavaScript
  *
  * Handles:
  *  - Character counters (title + description)  with traffic-light colouring
@@ -189,7 +189,8 @@
   /* ── Live analysis (client-side re-run as the editor types) ─────────── */
   function initLiveAnalysis() {
     var checksEl = byId('rw-seo-checks');
-    if (!checksEl) return;
+    var rootEl   = byId('rw-seo-root');
+    if (!checksEl || !rootEl) return;
 
     var titleInput = byId('rw_meta_title');
     var descInput  = byId('rw_meta_description');
@@ -197,23 +198,52 @@
 
     if (!titleInput || !descInput || !kpInput) return;
 
-    var postTitle   = titleInput.getAttribute('placeholder') || '';
-    var contentText = checksEl.getAttribute('data-content') || '';
+    var postTitle = titleInput.getAttribute('placeholder') || '';
+
+    function getData(name) {
+      return rootEl.getAttribute(name) || '';
+    }
+
+    /**
+     * Match PHP restwell_seo_admin_normalize_for_keyphrase_match: lowercase, collapse spaces, straighten apostrophes.
+     * @param {string} s
+     * @returns {string}
+     */
+    function normForKp(s) {
+      if (!s) return '';
+      return s
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .replace(/[\u2018\u2019\u2032]/g, "'");
+    }
 
     function runChecks() {
-      var kp    = kpInput.value.trim().toLowerCase();
-      var title = (titleInput.value || postTitle).toLowerCase();
-      var desc  = descInput.value.toLowerCase();
+      var defKp    = getData('data-seo-default-kp');
+      var defTitle = getData('data-seo-default-title');
+      var defDesc  = getData('data-seo-default-desc');
+
+      // Same effective values as server-side checks when fields are left empty.
+      var kpRaw =
+        kpInput.value.trim() || defKp;
+      var titleRaw =
+        titleInput.value.trim() || defTitle || postTitle;
+      var descRaw =
+        descInput.value.trim() || defDesc;
+
+      var kpN = normForKp(kpRaw);
+      var titleN = normForKp(titleRaw);
+      var descN = normForKp(descRaw);
 
       var updates = {
-        kp_title: kp === '' ? 'warn' : (title.indexOf(kp) >= 0 ? 'ok' : 'bad'),
-        kp_desc:  kp === '' ? 'warn' : (desc.indexOf(kp)  >= 0 ? 'ok' : 'bad'),
+        kp_title: !kpN ? 'warn' : (titleN.indexOf(kpN) >= 0 ? 'ok' : 'bad'),
+        kp_desc:  !kpN ? 'warn' : (descN.indexOf(kpN) >= 0 ? 'ok' : 'bad'),
         title_len: (function() {
-          var l = (titleInput.value || postTitle).length;
+          var l = (titleInput.value.trim() || defTitle || postTitle).length;
           return l >= 50 && l <= 60 ? 'ok' : (l >= 40 ? 'warn' : 'bad');
         })(),
         desc_len: (function() {
-          var l = descInput.value.length;
+          var l = (descInput.value.trim() || defDesc).length;
           return l >= 120 && l <= 160 ? 'ok' : (l >= 100 ? 'warn' : 'bad');
         })(),
       };
@@ -229,24 +259,25 @@
         if (iconEl) iconEl.textContent = icons[updates[id]];
       });
 
-      // Update title-len label with live count.
+      // Update title-len label with live count (saved or effective default).
       var tlEl = checksEl.querySelector('[data-check="title_len"] .rw-seo__check-label');
       if (tlEl) {
-        var tl = (titleInput.value || postTitle).length;
-        tlEl.textContent = 'SEO title length: ' + tl + ' characters (ideal: 50–60)';
+        var tl = (titleInput.value.trim() || defTitle || postTitle).length;
+        tlEl.textContent = 'SEO title length: ' + tl + ' characters (ideal: 50-60)';
       }
 
       // Update desc-len label with live count.
       var dlEl = checksEl.querySelector('[data-check="desc_len"] .rw-seo__check-label');
       if (dlEl) {
-        var dl = descInput.value.length;
-        dlEl.textContent = 'Meta description length: ' + dl + ' characters (ideal: 120–160)';
+        var dl = (descInput.value.trim() || defDesc).length;
+        dlEl.textContent = 'Meta description length: ' + dl + ' characters (ideal: 120-160)';
       }
     }
 
     titleInput.addEventListener('input', runChecks);
     descInput.addEventListener('input',  runChecks);
     kpInput.addEventListener('input',    runChecks);
+    runChecks();
   }
 
   /* ── Init ─────────────────────────────────────────────────────────────── */

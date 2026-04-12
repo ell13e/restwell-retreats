@@ -1,6 +1,6 @@
 <?php
 /**
- * Template part: How it works – four-step process.
+ * Template part: How it works - four-step process.
  *
  * @package Restwell_Retreats
  * @param array $args {
@@ -37,7 +37,7 @@ if ( empty( $steps ) ) {
 		<p class="text-gray-600 text-lg leading-relaxed text-center max-w-prose mx-auto mb-10 md:mb-12"><?php echo esc_html( $steps_intro ); ?></p>
 		<?php endif; ?>
 
-		<!-- Step cards — 4-column from md so the sequential flow reads left-to-right -->
+		<!-- Step cards - 4-column from md so the sequential flow reads left-to-right -->
 		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
 			<?php foreach ( $steps as $idx => $step ) :
 				if ( empty( $step['title'] ) ) {

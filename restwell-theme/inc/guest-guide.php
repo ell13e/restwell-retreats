@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Using `template_redirect` (fires after query resolution, before template
  * output) allows us to check the page template slug before starting the
- * session — avoiding unnecessary sessions on every page of the site.
+ * session, avoiding unnecessary sessions on every page of the site.
  * Priority 1 keeps it ahead of any other template_redirect callbacks.
  */
 function restwell_guest_guide_start_session() {
@@ -170,7 +170,7 @@ function restwell_guest_guide_confirm_read( string $email ): void {
 	$site   = wp_strip_all_tags( (string) get_bloginfo( 'name' ) );
 	wp_mail(
 		$notify,
-		/* translators: %s — guest display name */
+		/* translators: %s: guest display name */
 		sprintf( __( '[%s] Guest confirmed reading the arrival guide', 'restwell-retreats' ), $site ),
 		sprintf(
 			/* translators: 1: guest name, 2: guest email */
@@ -467,7 +467,7 @@ function restwell_guest_guide_settings_page() {
 				if ( ! empty( $guest['send_date'] ) ) {
 					$formatted_date = esc_html( date_i18n( 'j M Y, g:i a', strtotime( $guest['send_date'] ) ) );
 				} else {
-					$formatted_date = '—';
+					$formatted_date = '-';
 				}
 
 				if ( ! empty( $guest['sent_at'] ) ) {
@@ -487,7 +487,7 @@ function restwell_guest_guide_settings_page() {
 				}
 				?>
 				<tr>
-					<td class="column-name"><?php echo esc_html( $guest['name'] ?: '—' ); ?></td>
+					<td class="column-name"><?php echo esc_html( $guest['name'] ?: '-' ); ?></td>
 					<td class="column-email"><span class="rw-cell-email"><?php echo esc_html( $guest['email'] ); ?></span></td>
 					<td class="column-scheduled"><?php echo esc_html( $formatted_date ); ?></td>
 					<td class="column-status"><?php echo wp_kses( $status_label, array( 'span' => array( 'class' => array() ), 'br' => array(), 'small' => array() ) ); ?></td>
@@ -527,7 +527,7 @@ function restwell_guest_guide_settings_page() {
 			echo $prefill_name
 				? sprintf(
 					/* translators: %s: enquirer name */
-					esc_html__( 'Add a guest — pre-filled from enquiry: %s', 'restwell-retreats' ),
+					esc_html__( 'Add a guest (pre-filled from enquiry: %s)', 'restwell-retreats' ),
 					'<strong>' . esc_html( $prefill_name ) . '</strong>'
 				  )
 				: esc_html__( 'Add a guest', 'restwell-retreats' );
@@ -548,7 +548,7 @@ function restwell_guest_guide_settings_page() {
 						<input type="text" id="gg_name" name="gg_name" class="regular-text"
 						       value="<?php echo esc_attr( $prefill_name ); ?>"
 						       placeholder="<?php esc_attr_e( 'Jane Smith', 'restwell-retreats' ); ?>" />
-						<p class="description"><?php esc_html_e( 'Optional — used in the invitation email greeting.', 'restwell-retreats' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Optional; used in the invitation email greeting.', 'restwell-retreats' ); ?></p>
 					</td>
 				</tr>
 				<tr>
@@ -805,7 +805,7 @@ function restwell_guest_guide_field_definitions() {
 			'gg_nhs_number'          => array( 'label' => __( 'NHS (non-emergency)', 'restwell-retreats' ),      'type' => 'text' ),
 			'gg_police_number'       => array( 'label' => __( 'Police (non-emergency)', 'restwell-retreats' ),   'type' => 'text' ),
 			'gg_nearest_ae'          => array( 'label' => __( 'Nearest A&E', 'restwell-retreats' ),              'type' => 'text' ),
-			'gg_nearest_ae_map_url'  => array( 'label' => __( 'Nearest A&E — Google Maps URL', 'restwell-retreats' ), 'type' => 'text' ),
+			'gg_nearest_ae_map_url'  => array( 'label' => __( 'Nearest A&E: Google Maps URL', 'restwell-retreats' ), 'type' => 'text' ),
 			'gg_maintenance_contact' => array( 'label' => __( 'Property maintenance', 'restwell-retreats' ),     'type' => 'text' ),
 			'gg_maintenance_oos'     => array( 'label' => __( 'Out-of-hours maintenance', 'restwell-retreats' ), 'type' => 'text' ),
 			'gg_gas_oos'             => array( 'label' => __( 'Gas emergency', 'restwell-retreats' ),            'type' => 'text' ),

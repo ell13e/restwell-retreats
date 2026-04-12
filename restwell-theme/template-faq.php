@@ -14,20 +14,19 @@ get_header();
 $pid = get_the_ID();
 
 // Hero
-$faq_hero_image_id  = (int) get_post_meta( $pid, 'faq_hero_image_id', true );
-$faq_hero_image_src = $faq_hero_image_id ? wp_get_attachment_image_url( $faq_hero_image_id, 'full' ) : '';
+$faq_hero_image_id = (int) get_post_meta( $pid, 'faq_hero_image_id', true );
 $faq_label          = get_post_meta( $pid, 'faq_label', true ) ?: 'Frequently asked questions';
 $faq_heading        = get_post_meta( $pid, 'faq_heading', true ) ?: 'Questions we get asked';
-$faq_intro          = get_post_meta( $pid, 'faq_intro', true ) ?: 'We have tried to cover the most common questions below. If yours isn\'t here, get in touch — we are always happy to talk things through.';
+$faq_intro          = get_post_meta( $pid, 'faq_intro', true ) ?: 'We have tried to cover the most common questions below. If yours isn\'t here, get in touch; we are always happy to talk things through.';
 
-// FAQ list section — heading only shown if explicitly set and different from hero heading.
+// FAQ list section: heading only shown if explicitly set and different from hero heading.
 $faq_list_label   = get_post_meta( $pid, 'faq_list_label', true ) ?: 'Browse by topic';
 $faq_list_heading = get_post_meta( $pid, 'faq_list_heading', true ) ?: '';
 
 // CTA section
 $faq_cta_label   = get_post_meta( $pid, 'faq_cta_label', true ) ?: '';
 $faq_cta_heading = get_post_meta( $pid, 'faq_cta_heading', true ) ?: 'Still have a question?';
-$faq_cta_body    = get_post_meta( $pid, 'faq_cta_body', true ) ?: 'We are here to help. No question is too small or too specific.';
+$faq_cta_body    = get_post_meta( $pid, 'faq_cta_body', true ) ?: 'Get in touch and we will answer honestly. We respond within 24 hours.';
 $faq_cta_btn     = get_post_meta( $pid, 'faq_cta_btn', true ) ?: 'Ask us';
 $faq_cta_url     = esc_url( get_post_meta( $pid, 'faq_cta_url', true ) ?: home_url( '/enquire/' ) );
 
@@ -104,7 +103,7 @@ if ( empty( $faq_pairs ) ) {
 	$faq_pairs = array(
 		array(
 			'q'   => 'Is this a care home?',
-			'a'   => 'No. Restwell is a private holiday let — a real house that you have entirely to yourself. It is not a care home, a residential facility, or a clinical environment. Care is an optional extra that you can choose to add through our partner, Continuity of Care Services.',
+			'a'   => 'No. Restwell is a private holiday let: a real house that you have entirely to yourself. It is not a care home, a residential facility, or a clinical environment. Care is an optional extra that you can choose to add through our partner, Continuity of Care Services.',
 			'cat' => 'about',
 		),
 		array(
@@ -119,7 +118,7 @@ if ( empty( $faq_pairs ) ) {
 		),
 		array(
 			'q'   => 'How far in advance can I book?',
-			'a'   => 'We accept bookings as early as you need — some guests plan months ahead, particularly for summer. Get in touch with your preferred dates and we will confirm availability.',
+			'a'   => 'We accept bookings as early as you need; some guests plan months ahead, particularly for summer. Get in touch with your preferred dates and we will confirm availability.',
 			'cat' => 'booking',
 		),
 		array(
@@ -134,7 +133,7 @@ if ( empty( $faq_pairs ) ) {
 		),
 		array(
 			'q'   => 'Is the beach accessible?',
-			'a'   => 'Whitstable\'s beach is shingle, which is generally not wheelchair-friendly. However, the Tankerton Slopes promenade — a long, flat concrete walkway above the beach — is excellent for wheelchair users and offers stunning sea views.',
+			'a'   => 'Whitstable\'s beach is shingle, which is generally not wheelchair-friendly. However, the Tankerton Slopes promenade (a long, flat concrete walkway above the beach) is excellent for wheelchair users and offers stunning sea views.',
 			'cat' => 'local',
 		),
 		array(
@@ -149,7 +148,7 @@ if ( empty( $faq_pairs ) ) {
 		),
 		array(
 			'q'   => 'Is the property suitable for hoists and profiling beds?',
-			'a'   => 'The property has space for portable hoists and equipment. For specific requirements — ceiling track hoists, particular bed configurations, or specialist equipment — please get in touch before booking so we can confirm whether we can accommodate your needs.',
+			'a'   => 'The property already has a ceiling track hoist fitted, along with a profiling bed and a full wet room. If you have additional or specialist equipment needs, please get in touch before booking so we can confirm we can accommodate them.',
 			'cat' => 'about',
 		),
 		array(
@@ -159,7 +158,7 @@ if ( empty( $faq_pairs ) ) {
 		),
 		array(
 			'q'   => 'What does CQC-regulated mean?',
-			'a'   => 'CQC stands for Care Quality Commission — the independent regulator of health and social care in England. Continuity of Care Services, our partner provider, is inspected and rated by the CQC. This means the care you receive meets nationally recognised standards for safety and quality.',
+			'a'   => 'CQC stands for Care Quality Commission, the independent regulator of health and social care in England. Continuity of Care Services, our partner provider, is inspected and rated by the CQC. This means the care you receive meets nationally recognised standards for safety and quality.',
 			'cat' => 'care',
 		),
 	);
@@ -178,25 +177,20 @@ $categories = array(
 <main class="flex-1" id="main-content">
 <?php get_template_part( 'template-parts/breadcrumb' ); ?>
 
-	<!-- Hero -->
-	<section class="hero relative flex items-end overflow-hidden min-h-[32rem] <?php echo $faq_hero_image_src ? '' : 'bg-[var(--deep-teal)]'; ?>" aria-labelledby="page-hero-heading">
-		<?php if ( $faq_hero_image_src ) : ?>
-			<img src="<?php echo esc_url( $faq_hero_image_src ); ?>" alt="" class="absolute inset-0 w-full h-full object-cover -z-10" loading="eager" />
-		<?php endif; ?>
-		<div class="absolute inset-0 bg-black/30 -z-[5]" aria-hidden="true"></div>
-		<div class="absolute inset-0 bg-gradient-to-t from-[var(--deep-teal)]/85 via-[var(--deep-teal)]/45 to-transparent -z-[5]" aria-hidden="true"></div>
-		<div class="relative z-10 container pb-16 md:pb-24 pt-32">
-			<div class="max-w-2xl">
-				<?php if ( $faq_label !== '' ) : ?>
-					<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-4 font-sans"><?php echo esc_html( $faq_label ); ?></p>
-				<?php endif; ?>
-				<h1 id="page-hero-heading" class="text-white text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight font-serif"><?php echo esc_html( $faq_heading ); ?></h1>
-				<?php if ( $faq_intro !== '' ) : ?>
-					<p class="text-[#F5EDE0] text-lg md:text-xl leading-relaxed max-w-prose drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"><?php echo esc_html( $faq_intro ); ?></p>
-				<?php endif; ?>
-			</div>
-		</div>
-	</section>
+	<?php
+	set_query_var(
+		'args',
+		array(
+			'heading_id'  => 'page-hero-heading',
+			'label'       => $faq_label,
+			'heading'     => $faq_heading,
+			'intro'       => $faq_intro,
+			'media_id'    => $faq_hero_image_id,
+			'content_max' => 'max-w-2xl',
+		)
+	);
+	get_template_part( 'template-parts/interior-hero' );
+	?>
 
 	<!-- FAQ list with category filters -->
 	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]" aria-labelledby="faq-list-heading">
@@ -254,6 +248,33 @@ $categories = array(
 		</div>
 	</section>
 
+	<!-- Related guides -->
+	<section class="py-12 md:py-16 bg-white border-t border-gray-100" aria-labelledby="faq-related-heading">
+		<div class="container max-w-3xl">
+			<h2 id="faq-related-heading" class="text-2xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Further reading', 'restwell-retreats' ); ?></h2>
+			<ul class="space-y-3 text-gray-700">
+				<li>
+					<a href="<?php echo esc_url( home_url( '/direct-payment-holiday-accommodation/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
+						<?php esc_html_e( 'How to use your direct payment for a holiday', 'restwell-retreats' ); ?>
+					</a>
+					<span class="text-gray-500">: <?php esc_html_e( 'funding your care support during a stay.', 'restwell-retreats' ); ?></span>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( home_url( '/accessible-beaches-kent-coast/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
+						<?php esc_html_e( 'Accessible beaches and coastal walks in Kent', 'restwell-retreats' ); ?>
+					</a>
+					<span class="text-gray-500">: <?php esc_html_e( 'what to expect at the beaches closest to the property.', 'restwell-retreats' ); ?></span>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( home_url( '/carers-holiday-respite-funding/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
+						<?php esc_html_e( 'Carers taking holidays: respite rights and funding', 'restwell-retreats' ); ?>
+					</a>
+					<span class="text-gray-500">: <?php esc_html_e( 'how to arrange and fund a break for a carer.', 'restwell-retreats' ); ?></span>
+				</li>
+			</ul>
+		</div>
+	</section>
+
 	<!-- CTA -->
 	<section class="py-16 md:py-20 bg-[var(--deep-teal)]" aria-labelledby="faq-cta-heading">
 		<div class="container max-w-4xl">
@@ -271,7 +292,7 @@ $categories = array(
 
 						<?php if ( $faq_question_sent ) : ?>
 							<p class="text-sm font-medium text-[var(--deep-teal)] bg-[var(--sea-glass)]/35 border border-[var(--sea-glass)] rounded-xl px-4 py-3 mb-4">
-								<?php esc_html_e( 'Thanks — your question has been sent. We usually reply within 24 hours.', 'restwell-retreats' ); ?>
+								<?php esc_html_e( 'Thanks. Your question has been sent. We usually reply within 24 hours.', 'restwell-retreats' ); ?>
 							</p>
 						<?php endif; ?>
 

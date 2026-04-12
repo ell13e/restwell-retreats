@@ -13,8 +13,7 @@ get_header();
 
 $pid = get_the_ID();
 
-$hero_image_id  = (int) get_post_meta( $pid, 'contact_hero_image_id', true );
-$hero_image_src = $hero_image_id ? wp_get_attachment_image_url( $hero_image_id, 'full' ) : '';
+$hero_image_id = (int) get_post_meta( $pid, 'contact_hero_image_id', true );
 $label          = (string) get_post_meta( $pid, 'contact_label', true ) ?: 'Contact';
 $heading        = (string) get_post_meta( $pid, 'contact_heading', true ) ?: 'Get in touch.';
 $intro          = (string) get_post_meta( $pid, 'contact_intro', true ) ?: 'Ask a question, check dates, or talk through accessibility requirements before you book.';
@@ -30,26 +29,28 @@ $prof_heading = (string) get_post_meta( $pid, 'contact_prof_heading', true ) ?: 
 $prof_body    = (string) get_post_meta( $pid, 'contact_prof_body', true ) ?: 'If you are an occupational therapist, case manager, or commissioner, we are happy to provide property specifications, access measurements, and supporting information for referrals or funding applications. We prefer to give you specifics rather than marketing material.';
 
 $cta_heading = (string) get_post_meta( $pid, 'contact_cta_heading', true ) ?: 'Prefer the full enquiry form?';
-$cta_body    = (string) get_post_meta( $pid, 'contact_cta_body', true ) ?: 'Use our enquiry form to share dates and requirements in one place.';
+$cta_body    = (string) get_post_meta( $pid, 'contact_cta_body', true ) ?: "Use our enquiry form; it's the quickest way to share your dates, requirements, and any questions.";
 $cta_label   = (string) get_post_meta( $pid, 'contact_cta_label', true ) ?: 'Go to enquiry form';
 $cta_url     = (string) get_post_meta( $pid, 'contact_cta_url', true ) ?: '/enquire/';
 ?>
 <main class="flex-1" id="main-content">
 	<?php get_template_part( 'template-parts/breadcrumb' ); ?>
 
-	<section class="relative min-h-[30rem] md:min-h-[38rem] flex items-end overflow-hidden <?php echo $hero_image_src ? '' : 'bg-[var(--deep-teal)]'; ?>" aria-labelledby="contact-hero-heading">
-		<?php if ( $hero_image_src ) : ?>
-			<div class="absolute inset-0 bg-cover bg-center" style="background-image:url('<?php echo esc_url( $hero_image_src ); ?>');" aria-hidden="true"></div>
-		<?php endif; ?>
-		<div class="absolute inset-0 bg-[var(--deep-teal)]/75" aria-hidden="true"></div>
-		<div class="relative container pb-14 md:pb-20">
-			<div class="max-w-3xl">
-				<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-4"><?php echo esc_html( $label ); ?></p>
-				<h1 id="contact-hero-heading" class="text-white text-4xl md:text-5xl font-serif leading-tight mb-5"><?php echo esc_html( $heading ); ?></h1>
-				<p class="text-[#F5EDE0] text-lg leading-relaxed max-w-prose"><?php echo esc_html( $intro ); ?></p>
-			</div>
-		</div>
-	</section>
+	<?php
+	set_query_var(
+		'args',
+		array(
+			'heading_id'       => 'contact-hero-heading',
+			'label'              => $label,
+			'heading'            => $heading,
+			'intro'              => $intro,
+			'media_id'           => $hero_image_id,
+			'image_alt'          => $heading,
+			'min_height_class'   => 'min-h-[30rem] md:min-h-[38rem]',
+		)
+	);
+	get_template_part( 'template-parts/interior-hero' );
+	?>
 
 	<section class="py-16 md:py-24 bg-white">
 		<div class="container max-w-5xl">

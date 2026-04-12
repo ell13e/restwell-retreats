@@ -9,13 +9,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Disable Gutenberg block editor — use classic editor
+require_once get_template_directory() . '/inc/blog-categories.php';
+
+// Disable Gutenberg block editor - use classic editor
 add_filter( 'use_block_editor_for_post', '__return_false' );
 add_filter( 'use_widgets_block_editor', '__return_false' );
 
 require_once get_template_directory() . '/inc/enqueue.php';
 require_once get_template_directory() . '/inc/meta-fields.php';
 require_once get_template_directory() . '/inc/theme-setup.php';
+require_once get_template_directory() . '/inc/front-page-editor.php';
 require_once get_template_directory() . '/inc/emails.php';
 require_once get_template_directory() . '/inc/crm.php';
 require_once get_template_directory() . '/inc/enquire-handler.php';
@@ -24,6 +27,7 @@ require_once get_template_directory() . '/inc/seo-admin.php';
 require_once get_template_directory() . '/inc/guest-guide.php';
 require_once get_template_directory() . '/inc/video-optimizer.php';
 require_once get_template_directory() . '/inc/sitemap-robots.php';
+require_once get_template_directory() . '/inc/llms-txt.php';
 require_once get_template_directory() . '/inc/seo-dashboard.php';
 
 /**
@@ -90,6 +94,32 @@ function restwell_primary_nav_submenu_css_class( $classes, $args, $depth ) {
 	return $classes;
 }
 add_filter( 'nav_menu_submenu_css_class', 'restwell_primary_nav_submenu_css_class', 10, 3 );
+
+/**
+ * Add CTA classes to the Enquire menu item so styles match fallback nav (desktop + mobile sheet).
+ *
+ * @param array    $atts  HTML attributes for the anchor.
+ * @param WP_Post  $item  Menu item.
+ * @param stdClass $args  Menu arguments.
+ * @return array
+ */
+function restwell_primary_nav_menu_link_attributes( $atts, $item, $args ) {
+	if ( ! isset( $args->theme_location ) || 'primary' !== $args->theme_location ) {
+		return $atts;
+	}
+	$enquire_url = restwell_nav_resolve_page_url( 'enquire' );
+	$item_url    = isset( $item->url ) ? $item->url : '';
+	if ( $item_url === '' || $enquire_url === '' ) {
+		return $atts;
+	}
+	if ( untrailingslashit( $item_url ) !== untrailingslashit( $enquire_url ) ) {
+		return $atts;
+	}
+	$existing       = isset( $atts['class'] ) ? $atts['class'] : '';
+	$atts['class'] = trim( $existing . ' site-nav-cta mobile-nav-cta' );
+	return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'restwell_primary_nav_menu_link_attributes', 10, 3 );
 
 /**
  * Resolve a page slug to its permalink (home when slug is empty).
@@ -285,23 +315,53 @@ function restwell_show_excerpt_meta_box() {
 add_action( 'add_meta_boxes_post', 'restwell_show_excerpt_meta_box' );
 
 /**
- * Return the name of the primary (first assigned) category for the current post.
- * Returns an empty string if no category is assigned.
+ * Keep Categories and Tags high in the post sidebar so editors see them above the fold.
+ * Classic editor + a large SEO meta box in "normal" often pushes the sidebar below the scroll.
  *
+ * @return void
+ */
+function restwell_promote_post_taxonomy_meta_boxes() {
+	remove_meta_box( 'categorydiv', 'post', 'side' );
+	remove_meta_box( 'tagsdiv-post_tag', 'post', 'side' );
+
+	add_meta_box(
+		'categorydiv',
+		__( 'Categories' ),
+		'post_categories_meta_box',
+		'post',
+		'side',
+		'high'
+	);
+	add_meta_box(
+		'tagsdiv-post_tag',
+		__( 'Tags' ),
+		'post_tags_meta_box',
+		'post',
+		'side',
+		'high'
+	);
+}
+add_action( 'add_meta_boxes_post', 'restwell_promote_post_taxonomy_meta_boxes', 20 );
+
+/**
+ * Return the name of the primary category for display (archive, single hero, schema).
+ * Returns an empty string if none is set or only the default "Uncategorized" is assigned.
+ *
+ * @param int|null $post_id Optional post ID; defaults to current post in the loop.
  * @return string
  */
-function restwell_get_primary_category() {
-	$cats = get_the_category();
+function restwell_get_primary_category( $post_id = null ) {
+	$post_id = $post_id ? absint( $post_id ) : 0;
+	$cats    = $post_id ? get_the_category( $post_id ) : get_the_category();
 	if ( empty( $cats ) ) {
 		return '';
 	}
-	// Prefer a category that isn't the WordPress default "Uncategorized".
 	foreach ( $cats as $cat ) {
 		if ( $cat->slug !== 'uncategorized' ) {
 			return $cat->name;
 		}
 	}
-	return $cats[0]->name;
+	return '';
 }
 
 /**
@@ -314,4 +374,139 @@ function restwell_get_primary_category() {
 function restwell_estimate_read_time( $content ) {
 	$word_count = str_word_count( wp_strip_all_tags( $content ) );
 	return max( 1, (int) ceil( $word_count / 200 ) );
+}
+
+/**
+ * Parse newline-separated bullet list from post meta with fallback defaults.
+ *
+ * @param int    $post_id Post ID.
+ * @param string $meta_key Meta key.
+ * @param array  $default_bullets Default bullets.
+ * @return array<int, string>
+ */
+function restwell_wif_bullet_list( $post_id, $meta_key, array $default_bullets ) {
+	$raw = get_post_meta( $post_id, $meta_key, true );
+	if ( ! is_string( $raw ) || '' === trim( $raw ) ) {
+		return $default_bullets;
+	}
+	$lines = array_filter( array_map( 'trim', explode( "\n", str_replace( "\r\n", "\n", $raw ) ) ) );
+	return ! empty( $lines ) ? array_values( $lines ) : $default_bullets;
+}
+
+/**
+ * Who It's For: main intro paragraph, with optional fallback to legacy detail_body meta.
+ *
+ * @param int    $post_id     Post ID.
+ * @param string $primary_key Main body field.
+ * @param string $legacy_key  Former detail_body field (used only when primary is empty).
+ * @param string $default     Default copy when both are empty.
+ */
+function restwell_wif_persona_intro_body( $post_id, $primary_key, $legacy_key, $default ) {
+	$primary = get_post_meta( $post_id, $primary_key, true );
+	if ( is_string( $primary ) && '' !== trim( $primary ) ) {
+		return $primary;
+	}
+	$legacy = get_post_meta( $post_id, $legacy_key, true );
+	if ( is_string( $legacy ) && '' !== trim( $legacy ) ) {
+		return $legacy;
+	}
+	return $default;
+}
+
+/**
+ * Split English prose into sentences (period / ? / ! followed by space and new sentence).
+ *
+ * @param string $text Paragraph text.
+ * @return array<int, string>
+ */
+function restwell_wif_split_sentences( $text ) {
+	$text = trim( $text );
+	if ( '' === $text ) {
+		return array();
+	}
+	// Split after . ? ! when followed by whitespace and a typical sentence start.
+	$parts = preg_split( '/(?<=[.!?])\s+(?=[A-Z"\'])/u', $text, -1, PREG_SPLIT_NO_EMPTY );
+	if ( ! is_array( $parts ) || count( $parts ) <= 1 ) {
+		return array( $text );
+	}
+	return array_values( array_map( 'trim', $parts ) );
+}
+
+/**
+ * Group sentences into short paragraphs for mobile readability (2 sentences each).
+ *
+ * @param array<int, string> $sentences Sentence strings.
+ * @param int                $per_block Max sentences per block.
+ * @return array<int, string>
+ */
+function restwell_wif_group_sentences_into_blocks( array $sentences, $per_block = 2 ) {
+	if ( empty( $sentences ) ) {
+		return array();
+	}
+	$per_block = max( 1, (int) $per_block );
+	$out       = array();
+	$buffer    = array();
+	foreach ( $sentences as $s ) {
+		$buffer[] = $s;
+		if ( count( $buffer ) >= $per_block ) {
+			$out[]    = implode( ' ', $buffer );
+			$buffer = array();
+		}
+	}
+	if ( ! empty( $buffer ) ) {
+		$out[] = implode( ' ', $buffer );
+	}
+	return $out;
+}
+
+/**
+ * If a block is still one long string, break it into smaller paragraphs for scanning.
+ *
+ * @param string $block Single paragraph.
+ * @param int    $max_chars Reflow when longer than this (UTF-8 safe via mbstring if available).
+ * @return array<int, string>
+ */
+function restwell_wif_reflow_dense_paragraph( $block, $max_chars = 280 ) {
+	$block = trim( $block );
+	if ( '' === $block ) {
+		return array();
+	}
+	$len = function_exists( 'mb_strlen' ) ? mb_strlen( $block ) : strlen( $block );
+	if ( $len <= $max_chars ) {
+		return array( $block );
+	}
+	$sentences = restwell_wif_split_sentences( $block );
+	if ( count( $sentences ) <= 1 ) {
+		return array( $block );
+	}
+	return restwell_wif_group_sentences_into_blocks( $sentences, 2 );
+}
+
+/**
+ * Split persona body copy into paragraphs (blank line in editor / meta), then reflow very long blocks.
+ *
+ * @param string $text Raw body text.
+ * @return array<int, string>
+ */
+function restwell_wif_split_body_paragraphs( $text ) {
+	if ( ! is_string( $text ) || '' === trim( $text ) ) {
+		return array();
+	}
+	$normalized = str_replace( array( "\r\n", "\r" ), "\n", $text );
+	$parts      = preg_split( '/\n\s*\n/', $normalized );
+	if ( ! is_array( $parts ) ) {
+		$parts = array( $text );
+	}
+	$parts = array_map( 'trim', $parts );
+	$parts = array_filter( $parts );
+	$parts = array_values( $parts );
+
+	$out = array();
+	foreach ( $parts as $part ) {
+		$chunked = restwell_wif_reflow_dense_paragraph( $part );
+		foreach ( $chunked as $c ) {
+			$out[] = $c;
+		}
+	}
+	return $out;
 }

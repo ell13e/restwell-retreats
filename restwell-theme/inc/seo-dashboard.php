@@ -18,7 +18,7 @@ function restwell_seo_register_dashboard_widget() {
 	}
 	wp_add_dashboard_widget(
 		'restwell_seo_review',
-		__( 'Restwell — SEO review (monthly)', 'restwell-retreats' ),
+		__( 'Restwell - SEO review (monthly)', 'restwell-retreats' ),
 		'restwell_seo_dashboard_widget_render'
 	);
 }
@@ -53,7 +53,7 @@ function restwell_seo_dashboard_widget_render() {
 }
 
 /**
- * Admin notice: off-site SEO tasks (directories, GBP) — shown on CRM settings screen once.
+ * Admin notice: off-site SEO tasks (directories, GBP) - shown on CRM settings screen once.
  */
 function restwell_seo_local_tasks_notice() {
 	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;

@@ -9,16 +9,54 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 $enquire_url          = home_url( '/enquire/' );
+$property_url         = home_url( '/the-property/' );
 $access_statement_url = function_exists( 'restwell_get_access_statement_url' ) ? restwell_get_access_statement_url() : '';
 $legal_entity_name    = (string) get_option( 'restwell_footer_legal_name', __( 'Homely Housing Investments Ltd t/a Restwell Retreats', 'restwell-retreats' ) );
+
+$footer_cta_heading = trim( (string) get_option( 'restwell_footer_cta_heading', '' ) );
+if ( $footer_cta_heading === '' ) {
+	$footer_cta_heading = __( 'Ready to plan your break?', 'restwell-retreats' );
+}
+
+$footer_cta_intro = trim( (string) get_option( 'restwell_footer_cta_intro', '' ) );
+if ( $footer_cta_intro === '' ) {
+	$footer_cta_intro = __( 'Tell us what you need - dates, accessibility, or a look around the property - and we will help you plan with confidence.', 'restwell-retreats' );
+}
+
+$footer_cta_primary_label = trim( (string) get_option( 'restwell_footer_cta_primary_label', '' ) );
+if ( $footer_cta_primary_label === '' ) {
+	$footer_cta_primary_label = __( 'See the property', 'restwell-retreats' );
+}
+$footer_cta_primary_raw = trim( (string) get_option( 'restwell_footer_cta_primary_url', '' ) );
+if ( $footer_cta_primary_raw === '' ) {
+	$footer_cta_primary_url = $property_url;
+} elseif ( preg_match( '#^https?://#i', $footer_cta_primary_raw ) ) {
+	$footer_cta_primary_url = esc_url( $footer_cta_primary_raw );
+} else {
+	$footer_cta_primary_url = esc_url( home_url( '/' . ltrim( $footer_cta_primary_raw, '/' ) ) );
+}
+$footer_cta_secondary_label = trim( (string) get_option( 'restwell_footer_cta_btn', '' ) );
+if ( $footer_cta_secondary_label === '' ) {
+	$footer_cta_secondary_label = __( 'Check your dates', 'restwell-retreats' );
+}
+
+$footer_cta_note = trim( (string) get_option( 'restwell_footer_cta_note', '' ) );
+if ( $footer_cta_note === '' ) {
+	$footer_cta_note = __( 'No booking commitment. Just a conversation.', 'restwell-retreats' );
+}
 ?>
 <footer class="site-footer" role="contentinfo">
 	<?php global $restwell_hide_footer_cta; ?>
 	<?php if ( empty( $restwell_hide_footer_cta ) ) : ?>
 	<div class="footer-cta">
 		<div class="container">
-			<h2 class="footer-cta__heading"><?php echo esc_html( (string) get_option( 'restwell_footer_cta_heading', 'Ready to book your stay?' ) ); ?></h2>
-			<a href="<?php echo esc_url( $enquire_url ); ?>" class="footer-cta__btn"><?php echo esc_html( (string) get_option( 'restwell_footer_cta_btn', 'Enquire Now' ) ); ?></a>
+			<h2 class="footer-cta__heading"><?php echo esc_html( $footer_cta_heading ); ?></h2>
+			<p class="footer-cta__intro"><?php echo esc_html( $footer_cta_intro ); ?></p>
+			<div class="footer-cta__actions">
+				<a href="<?php echo esc_url( $footer_cta_primary_url ); ?>" class="footer-cta__btn footer-cta__btn--primary"><?php echo esc_html( $footer_cta_primary_label ); ?></a>
+				<a href="<?php echo esc_url( $enquire_url ); ?>" class="footer-cta__btn footer-cta__btn--ghost"><?php echo esc_html( $footer_cta_secondary_label ); ?></a>
+			</div>
+			<p class="footer-cta__note"><?php echo esc_html( $footer_cta_note ); ?></p>
 		</div>
 	</div>
 	<?php endif; ?>
@@ -26,10 +64,10 @@ $legal_entity_name    = (string) get_option( 'restwell_footer_legal_name', __( '
 		<div class="footer-grid">
 			<!-- Brand -->
 			<div class="footer-brand">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-logo" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?> home">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-logo" aria-label="<?php echo esc_attr( sprintf( __( '%s home', 'restwell-retreats' ), restwell_site_brand_lockup() ) ); ?>">
 					<img
 						src="<?php echo esc_url( restwell_get_logo_url( 'restwell_logo_long_id', 'long_logo.png' ) ); ?>"
-						alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
+						alt="<?php echo esc_attr( restwell_site_brand_lockup() ); ?>"
 						class="site-logo__img"
 						width="282"
 						height="44"
@@ -62,13 +100,13 @@ $legal_entity_name    = (string) get_option( 'restwell_footer_legal_name', __( '
 		<div class="site-footer__bottom">
 			<nav class="site-footer__legal" aria-label="<?php esc_attr_e( 'Legal', 'restwell-retreats' ); ?>">
 				<?php if ( $access_statement_url !== '' ) : ?>
-					<a href="<?php echo esc_url( $access_statement_url ); ?>" rel="noopener" target="_blank"><?php esc_html_e( 'Access statement (PDF)', 'restwell-retreats' ); ?></a>
-					<span class="site-footer__legal-sep" aria-hidden="true">·</span>
+					<a href="<?php echo esc_url( $access_statement_url ); ?>" rel="noopener noreferrer" target="_blank"><?php esc_html_e( 'Access statement (PDF)', 'restwell-retreats' ); ?><span class="sr-only"> <?php esc_html_e( '(opens in new tab)', 'restwell-retreats' ); ?></span></a>
+					<span class="site-footer__legal-sep" aria-hidden="true">/</span>
 				<?php endif; ?>
 				<a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>"><?php esc_html_e( 'FAQ', 'restwell-retreats' ); ?></a>
-				<span class="site-footer__legal-sep" aria-hidden="true">·</span>
+				<span class="site-footer__legal-sep" aria-hidden="true">/</span>
 				<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'restwell-retreats' ); ?></a>
-				<span class="site-footer__legal-sep" aria-hidden="true">·</span>
+				<span class="site-footer__legal-sep" aria-hidden="true">/</span>
 				<a href="<?php echo esc_url( home_url( '/terms-and-conditions/' ) ); ?>"><?php esc_html_e( 'Terms &amp; Conditions', 'restwell-retreats' ); ?></a>
 			</nav>
 			<p class="site-footer__copyright">&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( $legal_entity_name ); ?>. <?php esc_html_e( 'All rights reserved.', 'restwell-retreats' ); ?></p>

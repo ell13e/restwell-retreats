@@ -5,9 +5,9 @@
  * Email-gated arrival information delivered via a 6-digit OTP.
  *
  * Flow:
- *  1. Email form       — guest enters their email address.
- *  2. OTP form         — if approved, a one-time code is emailed and entered here.
- *  3. Guide content    — session-gated, full arrival information.
+ *  1. Email form       - guest enters their email address.
+ *  2. OTP form         - if approved, a one-time code is emailed and entered here.
+ *  3. Guide content    - session-gated, full arrival information.
  *
  * @package Restwell_Retreats
  */
@@ -162,29 +162,21 @@ get_header();
 <main class="flex-1" id="main-content">
 <?php get_template_part( 'template-parts/breadcrumb' ); ?>
 
-	<!-- Hero -->
-	<section
-		class="hero relative flex items-end overflow-hidden min-h-[28rem] bg-[var(--deep-teal)]"
-		aria-labelledby="gg-hero-heading"
-	>
-		<div
-			class="absolute inset-0 bg-gradient-to-t from-[var(--deep-teal)]/90 via-[var(--deep-teal)]/50 to-transparent -z-[5]"
-			aria-hidden="true"
-		></div>
-		<div class="relative z-10 container pb-16 md:pb-20 pt-28">
-			<div class="max-w-2xl">
-				<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-4 font-sans">
-					<?php esc_html_e( 'Guest information', 'restwell-retreats' ); ?>
-				</p>
-				<h1 id="gg-hero-heading" class="text-white text-4xl md:text-5xl mb-6 leading-tight font-serif">
-					<?php esc_html_e( 'Your arrival guide', 'restwell-retreats' ); ?>
-				</h1>
-				<p class="text-[#F5EDE0] text-lg leading-relaxed max-w-prose drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
-					<?php esc_html_e( 'Everything you need for a comfortable stay, available to verified guests only.', 'restwell-retreats' ); ?>
-				</p>
-			</div>
-		</div>
-	</section>
+	<?php
+	set_query_var(
+		'args',
+		array(
+			'heading_id'       => 'gg-hero-heading',
+			'label'            => __( 'Guest information', 'restwell-retreats' ),
+			'heading'          => __( 'Your arrival guide', 'restwell-retreats' ),
+			'intro'            => __( 'Everything you need for a comfortable stay, available to verified guests only.', 'restwell-retreats' ),
+			'media_id'         => 0,
+			'content_max'      => 'max-w-2xl',
+			'min_height_class' => 'min-h-[28rem] md:min-h-[36rem]',
+		)
+	);
+	get_template_part( 'template-parts/interior-hero' );
+	?>
 
 	<?php if ( $admin_bypass ) : ?>
 		<div class="bg-[#A8D5D0]/25 border-y border-[#A8D5D0]/50">
@@ -258,7 +250,7 @@ get_header();
 					<?php
 					echo wp_kses_post(
 						sprintf(
-							/* translators: %s — partially masked email address */
+							/* translators: %s - partially masked email address */
 							__( 'We have sent a 6-digit code to %s. It will expire in 30 minutes.', 'restwell-retreats' ),
 							'<strong>' . esc_html( restwell_mask_guide_email( $pending_email ) ) . '</strong>'
 						)
@@ -321,10 +313,10 @@ get_header();
 				<div class="mb-8 md:mb-10">
 					<p class="section-label mb-3"><?php esc_html_e( 'Stay guide', 'restwell-retreats' ); ?></p>
 					<h2 class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Your stay information.', 'restwell-retreats' ); ?></h2>
-					<p class="text-gray-600 leading-relaxed max-w-3xl"><?php esc_html_e( 'Check-in details, property access, local area notes, and emergency contacts — all in one place. You can print this page or come back to it during your stay.', 'restwell-retreats' ); ?></p>
+					<p class="text-gray-600 leading-relaxed max-w-3xl"><?php esc_html_e( 'Check-in details, property access, local area notes, and emergency contacts - all in one place. You can print this page or come back to it during your stay.', 'restwell-retreats' ); ?></p>
 				</div>
 
-				<!-- Welcome card — full width -->
+				<!-- Welcome card - full width -->
 				<?php if ( '' !== $gg_welcome ) : ?>
 				<div class="bg-[var(--deep-teal)] rounded-2xl p-8 md:p-10 text-[#F5EDE0] mb-10">
 					<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-3 font-sans">
@@ -384,7 +376,7 @@ get_header();
 									<span id="gg-keysafe-value"
 									      style="filter:blur(6px);transition:filter .25s;"
 									      class="select-none"
-									      aria-label="<?php esc_attr_e( 'Hidden key safe code — tap to reveal', 'restwell-retreats' ); ?>">
+									      aria-label="<?php esc_attr_e( 'Hidden key safe code - tap to reveal', 'restwell-retreats' ); ?>">
 										<?php echo esc_html( $gg_keysafe ); ?>
 									</span>
 									<button type="button"
@@ -533,7 +525,7 @@ get_header();
 
 			</div><!-- /grid -->
 
-			<!-- Host contact card — full width -->
+			<!-- Host contact card - full width -->
 				<?php if ( $gg_host ) : ?>
 				<p class="section-label mb-3"><?php esc_html_e( 'Support contacts', 'restwell-retreats' ); ?></p>
 				<div class="bg-white rounded-2xl p-7 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 mb-8">
@@ -568,7 +560,7 @@ get_header();
 					</p>
 					<?php if ( isset( $_GET['gg_confirmed'] ) ) : ?>
 						<p class="text-sm font-medium text-green-700">
-							<?php esc_html_e( "Thank you — we've recorded that you've read the guide.", 'restwell-retreats' ); ?>
+							<?php esc_html_e( "Thank you - we've recorded that you've read the guide.", 'restwell-retreats' ); ?>
 						</p>
 					<?php else : ?>
 					<form method="post" action="<?php echo esc_url( get_permalink() ); ?>">

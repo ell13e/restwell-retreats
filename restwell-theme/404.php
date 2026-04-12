@@ -1,10 +1,10 @@
 <?php
 /**
- * 404 — Page not found template.
+ * 404 - Page not found template.
  *
  * Shown whenever WordPress cannot match a URL to a page, post, or archive.
  * Sends the correct HTTP 404 status (WordPress handles this automatically
- * for 404.php). The footer "Ready to book?" CTA is suppressed — it is not
+ * for 404.php). The footer "Ready to book?" CTA is suppressed - it is not
  * the right moment for a hard sell.
  *
  * @package Restwell_Retreats
@@ -22,46 +22,27 @@ get_header();
 
 <main id="main-content">
 
-	<!-- ─── Hero ─────────────────────────────────────────────────────────────── -->
-	<section
-		class="relative overflow-hidden bg-[var(--deep-teal)] py-20 md:py-32"
-		aria-labelledby="error-404-heading"
-	>
-		<!-- Decorative numeral: large, faint, behind content. Hidden from AT. -->
-		<span
-			aria-hidden="true"
-			class="pointer-events-none select-none absolute inset-0 flex items-center justify-center font-serif leading-none text-[18rem] md:text-[24rem] text-white/[0.04]"
-		>404</span>
-
-		<div class="relative z-10 container">
-			<div class="max-w-2xl mx-auto text-center">
-
-				<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.15em] mb-4 font-sans">
-					<?php esc_html_e( 'Page not found', 'restwell-retreats' ); ?>
-				</p>
-
-				<h1
-					id="error-404-heading"
-					class="text-4xl md:text-5xl font-serif text-white leading-tight mb-5"
-				>
-					<?php esc_html_e( "We couldn't find that page.", 'restwell-retreats' ); ?>
-				</h1>
-
-				<p class="text-lg text-white/80 leading-relaxed max-w-prose mx-auto mb-8">
-					<?php esc_html_e( "It may have moved, or the address was mistyped. Here are a few places to start from.", 'restwell-retreats' ); ?>
-				</p>
-
-				<a
-					href="<?php echo esc_url( home_url( '/' ) ); ?>"
-					class="btn btn-gold btn-sm"
-				>
-					<?php esc_html_e( 'Back to home', 'restwell-retreats' ); ?>
-					<i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
-				</a>
-
-			</div>
-		</div>
-	</section>
+	<?php
+	$decor_404 = '<span aria-hidden="true" class="pointer-events-none select-none absolute inset-0 z-[5] flex items-center justify-center font-serif leading-none text-[18rem] md:text-[24rem] text-white/[0.04]">404</span>';
+	set_query_var(
+		'args',
+		array(
+			'heading_id'         => 'error-404-heading',
+			'label'              => __( 'Page not found', 'restwell-retreats' ),
+			'heading'            => __( "We couldn't find that page.", 'restwell-retreats' ),
+			'intro'              => __( 'It may have moved, or the address was mistyped. Here are a few places to start from.', 'restwell-retreats' ),
+			'media_id'           => 0,
+			'content_max'        => 'max-w-2xl mx-auto text-center',
+			'min_height_class'   => 'min-h-[24rem] md:min-h-[32rem]',
+			'section_decor_html' => $decor_404,
+			'cta_primary'        => array(
+				'label' => __( 'Back to home', 'restwell-retreats' ),
+				'url'   => home_url( '/' ),
+			),
+		)
+	);
+	get_template_part( 'template-parts/interior-hero' );
+	?>
 
 	<!-- ─── Helpful links ─────────────────────────────────────────────────────── -->
 	<section
@@ -84,8 +65,8 @@ get_header();
 						<p class="text-sm text-[var(--body-secondary)] leading-relaxed">
 							<?php
 						printf(
-							/* translators: %s — property address */
-							esc_html__( 'See %s — our accessible Whitstable home.', 'restwell-retreats' ),
+							/* translators: %s - property address */
+							esc_html__( 'See %s - our accessible Whitstable home.', 'restwell-retreats' ),
 							esc_html( (string) get_option( 'restwell_property_address', '101 Russell Drive' ) )
 						);
 						?>
@@ -134,7 +115,7 @@ get_header();
 							<?php esc_html_e( 'How it works', 'restwell-retreats' ); ?>
 						</h2>
 						<p class="text-sm text-[var(--body-secondary)] leading-relaxed">
-							<?php esc_html_e( 'How booking works — from first enquiry to arrival day.', 'restwell-retreats' ); ?>
+							<?php esc_html_e( 'How booking works - from first enquiry to arrival day.', 'restwell-retreats' ); ?>
 						</p>
 					</div>
 					<a

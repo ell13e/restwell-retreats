@@ -15,11 +15,10 @@ get_header();
 $pid = get_the_ID();
 
 // Hero
-$enq_hero_image_id  = (int) get_post_meta( $pid, 'enq_hero_image_id', true );
-$enq_hero_image_src = $enq_hero_image_id ? wp_get_attachment_image_url( $enq_hero_image_id, 'full' ) : '';
+$enq_hero_image_id = (int) get_post_meta( $pid, 'enq_hero_image_id', true );
 $enq_label          = get_post_meta( $pid, 'enq_label', true ) ?: 'Get in touch';
 $enq_heading        = get_post_meta( $pid, 'enq_heading', true ) ?: 'Start a conversation.';
-$enq_intro          = get_post_meta( $pid, 'enq_intro', true ) ?: 'Whether you have specific dates in mind or just want to ask about a bathroom measurement, we are here to help. This isn\'t a booking commitment — it is just the start of a conversation. No pressure, no hard sell.';
+$enq_intro          = get_post_meta( $pid, 'enq_intro', true ) ?: 'Whether you want to book an accessible holiday cottage in Kent or simply ask about a bathroom measurement, we are here to help. This is not a booking commitment — it is the start of a conversation. No pressure, no hard sell.';
 
 // Form copy
 $enq_form_heading        = get_post_meta( $pid, 'enq_form_heading', true ) ?: 'Request a call about your stay';
@@ -45,7 +44,7 @@ $sidebar_card_base    = 'bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0
 $sidebar_card_heading = 'text-lg font-serif text-[var(--deep-teal)] mb-3';
 
 // Common input classes
-// focus:outline-none is intentionally removed — the global :focus-visible rule
+// focus:outline-none is intentionally removed - the global :focus-visible rule
 // provides a 3px deep-teal outline for keyboard users (2.4.7 Focus Visible, WCAG AA).
 // focus-visible:outline-none would suppress it for mouse clicks only, but Tailwind
 // v3 generates a :focus selector here, so we let the CSS layer handle focus-visible.
@@ -55,25 +54,20 @@ $label_class = 'block text-sm font-semibold text-[#1B4D5C] mb-1.5';
 <main class="flex-1" id="main-content">
 <?php get_template_part( 'template-parts/breadcrumb' ); ?>
 
-	<!-- Hero -->
-	<section class="hero relative flex items-end overflow-hidden min-h-[32rem] <?php echo $enq_hero_image_src ? '' : 'bg-[var(--deep-teal)]'; ?>" aria-labelledby="page-hero-heading">
-		<?php if ( $enq_hero_image_src ) : ?>
-			<img src="<?php echo esc_url( $enq_hero_image_src ); ?>" alt="" class="absolute inset-0 w-full h-full object-cover -z-10" loading="eager" />
-		<?php endif; ?>
-		<div class="absolute inset-0 bg-black/30 -z-[5]" aria-hidden="true"></div>
-		<div class="absolute inset-0 bg-gradient-to-t from-[var(--deep-teal)]/85 via-[var(--deep-teal)]/45 to-transparent -z-[5]" aria-hidden="true"></div>
-		<div class="relative z-10 container pb-16 md:pb-24 pt-32">
-			<div class="max-w-2xl">
-				<?php if ( $enq_label !== '' ) : ?>
-					<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-4 font-sans"><?php echo esc_html( $enq_label ); ?></p>
-				<?php endif; ?>
-				<h1 id="page-hero-heading" class="text-white text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight font-serif"><?php echo esc_html( $enq_heading ); ?></h1>
-				<?php if ( $enq_intro !== '' ) : ?>
-					<p class="text-[#F5EDE0] text-lg md:text-xl leading-relaxed max-w-prose drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"><?php echo esc_html( $enq_intro ); ?></p>
-				<?php endif; ?>
-			</div>
-		</div>
-	</section>
+	<?php
+	set_query_var(
+		'args',
+		array(
+			'heading_id'  => 'page-hero-heading',
+			'label'       => $enq_label,
+			'heading'     => $enq_heading,
+			'intro'       => $enq_intro,
+			'media_id'    => $enq_hero_image_id,
+			'content_max' => 'max-w-2xl',
+		)
+	);
+	get_template_part( 'template-parts/interior-hero' );
+	?>
 
 	<!-- Form + sidebar -->
 	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]" aria-labelledby="enq-form-heading">
@@ -248,7 +242,7 @@ $label_class = 'block text-sm font-semibold text-[#1B4D5C] mb-1.5';
 									<input type="checkbox" id="enq_urgent" name="enq_urgent" value="1"
 									       class="enquire-checkbox-urgent h-[1.125rem] w-[1.125rem] shrink-0 rounded border-2 border-[#C4B8A8] bg-white focus:outline-none focus:ring-2 focus:ring-[#A8D5D0] focus:ring-offset-2" />
 									<label for="enq_urgent" class="text-sm font-medium leading-snug text-[#1B4D5C] cursor-pointer select-none">
-										This is urgent — please prioritise my enquiry
+										This is urgent - please prioritise my enquiry
 									</label>
 								</div>
 								<div class="flex gap-3 pt-2">

@@ -14,16 +14,15 @@ get_header();
 $pid = get_the_ID();
 
 // Hero
-$acc_hero_image_id  = (int) get_post_meta( $pid, 'acc_hero_image_id', true );
-$acc_hero_image_src = $acc_hero_image_id ? wp_get_attachment_image_url( $acc_hero_image_id, 'full' ) : '';
+$acc_hero_image_id = (int) get_post_meta( $pid, 'acc_hero_image_id', true );
 $acc_label          = get_post_meta( $pid, 'acc_label', true ) ?: 'Accessibility';
 $acc_heading        = get_post_meta( $pid, 'acc_heading', true ) ?: 'Honest detail, so you can decide';
-$acc_intro          = get_post_meta( $pid, 'acc_intro', true ) ?: 'This page gives you the practical detail you need to decide whether our property works for you. We list what we have verified; for anything specific, we are happy to talk it through.';
+$acc_intro          = get_post_meta( $pid, 'acc_intro', true ) ?: 'If you are comparing wheelchair accessible holiday cottages in Kent, this page lists the practical detail you need: equipment, dimensions, and what we have verified. For anything specific, we are happy to talk it through.';
 
-// Room by room — only confirmed content in defaults; unknowns handled by inquiry card.
+// Room by room: only confirmed content in defaults; unknowns handled by inquiry card.
 $acc_room_label       = get_post_meta( $pid, 'acc_room_label', true ) ?: 'The property';
 $acc_room_heading     = get_post_meta( $pid, 'acc_room_heading', true ) ?: 'Room by room';
-$acc_room_intro       = get_post_meta( $pid, 'acc_room_intro', true ) ?: 'Here is what we have verified about each part of the property. Anything not listed has not been confirmed — ask us and we will find out.';
+$acc_room_intro       = get_post_meta( $pid, 'acc_room_intro', true ) ?: 'Here is what we have verified about each part of the property. Anything not listed has not been confirmed; ask us and we will find out.';
 $acc_arrival_heading  = get_post_meta( $pid, 'acc_arrival_heading', true ) ?: 'Arrival & entrance';
 $acc_arrival_body     = get_post_meta( $pid, 'acc_arrival_body', true ) ?: "Level threshold with a wide front door\nQuiet, flat residential street with no steep approach";
 $acc_inside_heading   = get_post_meta( $pid, 'acc_inside_heading', true ) ?: 'Inside the property';
@@ -40,9 +39,9 @@ $acc_outdoor_body     = get_post_meta( $pid, 'acc_outdoor_body', true ) ?: '';
 // Destination
 $acc_dest_label             = get_post_meta( $pid, 'acc_dest_label', true ) ?: 'The destination';
 $acc_dest_heading           = get_post_meta( $pid, 'acc_dest_heading', true ) ?: 'Whitstable: what to expect';
-$acc_dest_intro             = get_post_meta( $pid, 'acc_dest_intro', true ) ?: 'An honest picture of the area — what is accessible, where there are challenges, and what matters most for your visit.';
+$acc_dest_intro             = get_post_meta( $pid, 'acc_dest_intro', true ) ?: 'An honest picture of the area: what is accessible, where there are challenges, and what matters most for your visit.';
 $acc_dest_good_heading      = get_post_meta( $pid, 'acc_dest_good_heading', true ) ?: 'The good';
-$acc_dest_good_body         = get_post_meta( $pid, 'acc_dest_good_body', true ) ?: 'The Tankerton promenade is a long, flat, surfaced path along the seafront — one of the most wheelchair-friendly coastal routes in Kent. Free parking at Marine Parade. Accessible toilets at the harbour end. The streets around the property are flat and paved with dropped kerbs.';
+$acc_dest_good_body         = get_post_meta( $pid, 'acc_dest_good_body', true ) ?: 'The Tankerton promenade is a long, flat, surfaced path along the seafront, one of the most wheelchair-friendly coastal routes in Kent. Free parking at Marine Parade. Accessible toilets at the harbour end. The streets around the property are flat and paved with dropped kerbs.';
 $acc_dest_challenge_heading = get_post_meta( $pid, 'acc_dest_challenge_heading', true ) ?: 'The challenge';
 $acc_dest_challenge_body    = get_post_meta( $pid, 'acc_dest_challenge_body', true ) ?: 'Harbour Street and the old town have narrow pavements that get crowded at weekends and in summer. Some shops and cafes have stepped entrances with no ramp. The harbour itself has some uneven surfaces near the fish market. Weekday mornings are the easiest time to visit.';
 $acc_dest_reality_heading   = get_post_meta( $pid, 'acc_dest_reality_heading', true ) ?: 'The reality';
@@ -50,7 +49,7 @@ $acc_dest_reality_body      = get_post_meta( $pid, 'acc_dest_reality_body', true
 
 // CTA
 $acc_cta_heading = get_post_meta( $pid, 'acc_cta_heading', true ) ?: 'Still have questions?';
-$acc_cta_body    = get_post_meta( $pid, 'acc_cta_body', true ) ?: 'We understand that accessibility details matter — and that everyone\'s needs are different. If you have specific questions about the property, the local area, or anything else, please get in touch.';
+$acc_cta_body    = get_post_meta( $pid, 'acc_cta_body', true ) ?: 'We understand that accessibility details matter, and that everyone\'s needs are different. If you have specific questions about the property, the local area, or anything else, please get in touch.';
 $acc_cta_btn     = get_post_meta( $pid, 'acc_cta_btn', true ) ?: 'Ask us anything';
 $acc_cta_url     = esc_url( get_post_meta( $pid, 'acc_cta_url', true ) ?: home_url( '/enquire/' ) );
 
@@ -69,25 +68,20 @@ $rooms = array(
 <main class="flex-1" id="main-content">
 <?php get_template_part( 'template-parts/breadcrumb' ); ?>
 
-	<!-- Hero -->
-	<section class="hero relative flex items-end overflow-hidden min-h-[36rem] md:min-h-[48rem] <?php echo $acc_hero_image_src ? '' : 'bg-[var(--deep-teal)]'; ?>" aria-labelledby="page-hero-heading">
-		<?php if ( $acc_hero_image_src ) : ?>
-			<img src="<?php echo esc_url( $acc_hero_image_src ); ?>" alt="" class="absolute inset-0 w-full h-full object-cover -z-10" loading="eager" />
-		<?php endif; ?>
-		<div class="absolute inset-0 bg-black/30 -z-[5]" aria-hidden="true"></div>
-		<div class="absolute inset-0 bg-gradient-to-t from-[var(--deep-teal)]/85 via-[var(--deep-teal)]/45 to-transparent -z-[5]" aria-hidden="true"></div>
-		<div class="relative z-10 container pb-16 md:pb-24 pt-32">
-			<div class="max-w-2xl">
-				<?php if ( $acc_label !== '' ) : ?>
-					<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-4 font-sans"><?php echo esc_html( $acc_label ); ?></p>
-				<?php endif; ?>
-				<h1 id="page-hero-heading" class="text-white text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight font-serif"><?php echo esc_html( $acc_heading ); ?></h1>
-				<?php if ( $acc_intro !== '' ) : ?>
-					<p class="text-[#F5EDE0] text-lg md:text-xl leading-relaxed max-w-prose drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"><?php echo esc_html( $acc_intro ); ?></p>
-				<?php endif; ?>
-			</div>
-		</div>
-	</section>
+	<?php
+	set_query_var(
+		'args',
+		array(
+			'heading_id'  => 'page-hero-heading',
+			'label'       => $acc_label,
+			'heading'     => $acc_heading,
+			'intro'       => $acc_intro,
+			'media_id'    => $acc_hero_image_id,
+			'content_max' => 'max-w-2xl',
+		)
+	);
+	get_template_part( 'template-parts/interior-hero' );
+	?>
 
 	<!-- Room by room -->
 	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]" aria-labelledby="acc-room-heading">
@@ -142,7 +136,7 @@ $rooms = array(
 				<div class="bg-[var(--bg-subtle)] rounded-2xl p-7 border border-gray-100 flex flex-col gap-5">
 					<div>
 						<h3 class="text-lg font-serif text-[var(--deep-teal)] mb-2">Need precise measurements?</h3>
-						<p class="text-gray-600 leading-relaxed text-sm">Door widths, turning circles, bed heights, grab rail positions — we can provide exact figures for any room in the property.</p>
+						<p class="text-gray-600 leading-relaxed text-sm">Door widths, turning circles, bed heights, grab rail positions: we can provide exact figures for any room in the property.</p>
 					</div>
 					<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary self-start">
 						Request measurements <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
@@ -209,8 +203,8 @@ $rooms = array(
 	<!-- Access statement download -->
 	<section class="py-16 md:py-24 bg-white border-t border-[#E8DFD0]/80" aria-labelledby="acc-statement-heading">
 		<div class="container max-w-3xl text-center">
-			<h2 id="acc-statement-heading" class="text-2xl md:text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Download our access statement', 'restwell-retreats' ); ?></h2>
-			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'A PDF summary of access routes, door widths, equipment, and the local area — useful for OTs, commissioners, and planning your stay.', 'restwell-retreats' ); ?></p>
+			<h3 id="acc-statement-heading" class="text-2xl md:text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Download our access statement', 'restwell-retreats' ); ?></h3>
+			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'A PDF summary of access routes, door widths, equipment, and the local area, useful for OTs, commissioners, and planning your stay.', 'restwell-retreats' ); ?></p>
 			<a href="<?php echo esc_url( $access_statement_url ); ?>" class="btn btn-primary inline-flex items-center gap-2" rel="noopener" target="_blank">
 				<i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
 				<?php esc_html_e( 'Open access statement (PDF)', 'restwell-retreats' ); ?>

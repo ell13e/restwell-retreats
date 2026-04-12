@@ -14,21 +14,20 @@ get_header();
 $pid = get_the_ID();
 
 // Hero
-$hiw_hero_image_id  = (int) get_post_meta( $pid, 'hiw_hero_image_id', true );
-$hiw_hero_image_src = $hiw_hero_image_id ? wp_get_attachment_image_url( $hiw_hero_image_id, 'full' ) : '';
+$hiw_hero_image_id = (int) get_post_meta( $pid, 'hiw_hero_image_id', true );
 $hiw_label          = get_post_meta( $pid, 'hiw_label', true ) ?: '';
 $hiw_heading        = get_post_meta( $pid, 'hiw_heading', true ) ?: 'How it works';
-$hiw_intro          = get_post_meta( $pid, 'hiw_intro', true ) ?: 'Tell us what you need and we\'ll take it from there.';
-$hiw_hero_cta_text           = get_post_meta( $pid, 'hiw_hero_cta_text', true ) ?: 'Enquire about dates';
+$hiw_intro          = get_post_meta( $pid, 'hiw_intro', true ) ?: 'From first enquiry to arrival: how your accessible stay in Kent works at Restwell — tell us what you need and we will take it from there.';
+$hiw_hero_cta_text           = get_post_meta( $pid, 'hiw_hero_cta_text', true ) ?: 'Check your dates';
 $hiw_hero_cta_url            = esc_url( get_post_meta( $pid, 'hiw_hero_cta_url', true ) ?: home_url( '/enquire/' ) );
 $hiw_hero_cta_promise        = get_post_meta( $pid, 'hiw_hero_cta_promise', true ) ?: '';
 $hiw_hero_cta_secondary_text = get_post_meta( $pid, 'hiw_hero_cta_secondary_text', true ) ?: '';
 $hiw_hero_cta_secondary_url  = esc_url( get_post_meta( $pid, 'hiw_hero_cta_secondary_url', true ) ?: home_url( '/enquire/' ) );
 
-// Steps (4) – section label, heading + step copy
+// Steps (4) - section label, heading + step copy
 $hiw_steps_label   = get_post_meta( $pid, 'hiw_steps_label', true ) ?: 'FOUR-STEP PROCESS';
 $hiw_steps_heading = get_post_meta( $pid, 'hiw_steps_heading', true ) ?: 'Straightforward from start to finish';
-$hiw_steps_intro   = get_post_meta( $pid, 'hiw_steps_intro', true ) ?: 'Share your dates and what you need — we\'ll handle the rest.';
+$hiw_steps_intro   = get_post_meta( $pid, 'hiw_steps_intro', true ) ?: 'Share your dates and what you need; we\'ll handle the rest.';
 $steps = array();
 for ( $i = 1; $i <= 4; $i++ ) {
 	$title = get_post_meta( $pid, "hiw_step{$i}_title", true );
@@ -43,7 +42,7 @@ for ( $i = 1; $i <= 4; $i++ ) {
 	}
 	if ( $i === 3 && ! $title ) {
 		$title = 'Arrange support (if needed)';
-		$body  = $body ?: "If you want care support during your stay, we can connect you with Continuity of Care Services — a CQC-regulated provider based in Kent. You can also bring your own carer or PA. This step is entirely optional.";
+		$body  = $body ?: "If you want care support during your stay, we can connect you with Continuity of Care Services, a CQC-regulated provider based in Kent. You can also bring your own carer or PA. This step is entirely optional.";
 	}
 	if ( $i === 4 && ! $title ) {
 		$title = 'Arrive and enjoy';
@@ -57,12 +56,12 @@ for ( $i = 1; $i <= 4; $i++ ) {
 
 // Care CTA band
 $hiw_care_cta_label   = get_post_meta( $pid, 'hiw_care_cta_label', true ) ?: 'CARE SUPPORT';
-$hiw_care_cta_heading = get_post_meta( $pid, 'hiw_care_cta_heading', true ) ?: 'Care support is always your choice';
-$hiw_care_cta_body    = get_post_meta( $pid, 'hiw_care_cta_body', true ) ?: 'Restwell works with Continuity of Care Services – a CQC-regulated provider. Whether you need daily check-ins or full support, it\'s arranged around you.';
+$hiw_care_cta_heading = get_post_meta( $pid, 'hiw_care_cta_heading', true ) ?: 'Care support works around you, not shift patterns.';
+$hiw_care_cta_body    = get_post_meta( $pid, 'hiw_care_cta_body', true ) ?: 'Care is entirely optional. If you want it, Continuity of Care Services (CQC-regulated and experienced) will work to your schedule, not theirs. Morning check-ins, personal care, or more comprehensive support: you decide.';
 $hiw_care_cta_btn     = get_post_meta( $pid, 'hiw_care_cta_btn', true ) ?: 'Learn about care support';
 $hiw_care_cta_url     = esc_url( get_post_meta( $pid, 'hiw_care_cta_url', true ) ?: home_url( '/accessibility/' ) );
 
-// What's included (card grid – inspiration: Bed linen & towels, Welcome pack, Full kitchen, Private garden, Fast Wi-Fi, Accessible parking)
+// What's included (card grid - inspiration: Bed linen & towels, Welcome pack, Full kitchen, Private garden, Fast Wi-Fi, Accessible parking)
 $hiw_included_label   = get_post_meta( $pid, 'hiw_included_label', true ) ?: 'WHAT\'S INCLUDED';
 $hiw_included_heading = get_post_meta( $pid, 'hiw_included_heading', true ) ?: "What's included in every stay";
 $hiw_included_intro   = get_post_meta( $pid, 'hiw_included_intro', true ) ?: 'No hidden extras. These come with every booking as standard.';
@@ -87,7 +86,7 @@ for ( $i = 1; $i <= 6; $i++ ) {
 $hiw_cta_label            = get_post_meta( $pid, 'hiw_cta_label', true ) ?: '';
 $hiw_cta_heading          = get_post_meta( $pid, 'hiw_cta_heading', true ) ?: 'Ready to plan your break?';
 $hiw_cta_body             = get_post_meta( $pid, 'hiw_cta_body', true ) ?: 'Get in touch and we\'ll answer any questions, check availability, and take it from there.';
-$hiw_cta_primary_label     = get_post_meta( $pid, 'hiw_cta_primary_label', true ) ?: 'Enquire about dates';
+$hiw_cta_primary_label     = get_post_meta( $pid, 'hiw_cta_primary_label', true ) ?: 'Enquire now';
 $hiw_cta_primary_url      = esc_url( get_post_meta( $pid, 'hiw_cta_primary_url', true ) ?: home_url( '/enquire/' ) );
 $hiw_cta_promise          = get_post_meta( $pid, 'hiw_cta_promise', true ) ?: 'No obligation. Ask us anything.';
 $hiw_cta_secondary_label  = get_post_meta( $pid, 'hiw_cta_secondary_label', true ) ?: 'See the property';
@@ -96,7 +95,7 @@ $hiw_cta_secondary_url    = esc_url( get_post_meta( $pid, 'hiw_cta_secondary_url
 // Common questions (FAQ)
 $hiw_faq_label   = get_post_meta( $pid, 'hiw_faq_label', true ) ?: 'HAVE QUESTIONS?';
 $hiw_faq_heading = get_post_meta( $pid, 'hiw_faq_heading', true ) ?: 'Common questions';
-$hiw_faq_intro   = get_post_meta( $pid, 'hiw_faq_intro', true ) ?: 'Answers to the things people ask us most. Anything else — just get in touch.';
+$hiw_faq_intro   = get_post_meta( $pid, 'hiw_faq_intro', true ) ?: 'Answers to the things people ask us most. Anything else: just get in touch.';
 $faq_pairs = array();
 for ( $i = 1; $i <= 3; $i++ ) {
 	$q = get_post_meta( $pid, "hiw_faq_{$i}_q", true );
@@ -120,42 +119,29 @@ for ( $i = 1; $i <= 3; $i++ ) {
 ?>
 <main class="flex-1" id="main-content">
 <?php get_template_part( 'template-parts/breadcrumb' ); ?>
-	<section class="hero relative flex items-end overflow-hidden min-h-[32rem] <?php echo $hiw_hero_image_src ? '' : 'bg-[var(--deep-teal)]'; ?>" aria-labelledby="page-hero-heading">
-		<?php if ( $hiw_hero_image_src ) : ?>
-			<img src="<?php echo esc_url( $hiw_hero_image_src ); ?>" alt="" class="absolute inset-0 w-full h-full object-cover -z-10" />
-		<?php endif; ?>
-		<div class="absolute inset-0 bg-black/30 -z-[5]" aria-hidden="true"></div>
-		<div class="absolute inset-0 bg-gradient-to-t from-[var(--deep-teal)]/85 via-[var(--deep-teal)]/45 to-transparent -z-[5]" aria-hidden="true"></div>
-		<div class="relative z-10 container pb-16 md:pb-24 pt-32">
-			<div class="max-w-2xl">
-			<?php if ( $hiw_label !== '' ) : ?>
-				<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-4 font-sans"><?php echo esc_html( $hiw_label ); ?></p>
-			<?php endif; ?>
-				<h1 id="page-hero-heading" class="text-white text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight font-serif"><?php echo esc_html( $hiw_heading ); ?></h1>
-				<?php if ( $hiw_intro !== '' ) : ?>
-					<p class="text-[#F5EDE0] text-lg md:text-xl mb-8 leading-relaxed max-w-prose drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"><?php echo esc_html( $hiw_intro ); ?></p>
-				<?php endif; ?>
-				<?php if ( $hiw_hero_cta_text !== '' || $hiw_hero_cta_secondary_text !== '' ) : ?>
-				<div class="flex flex-wrap gap-4">
-					<?php if ( $hiw_hero_cta_text !== '' ) : ?>
-						<a href="<?php echo esc_url( $hiw_hero_cta_url ); ?>" class="btn btn-gold">
-							<?php echo esc_html( $hiw_hero_cta_text ); ?>
-							<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-						</a>
-					<?php endif; ?>
-					<?php if ( $hiw_hero_cta_secondary_text !== '' ) : ?>
-						<a href="<?php echo esc_url( $hiw_hero_cta_secondary_url ); ?>" class="btn btn-ghost-light">
-							<?php echo esc_html( $hiw_hero_cta_secondary_text ); ?>
-						</a>
-					<?php endif; ?>
-				</div>
-				<?php if ( $hiw_hero_cta_promise !== '' ) : ?>
-					<p class="text-white/90 text-sm mt-4"><?php echo esc_html( $hiw_hero_cta_promise ); ?></p>
-				<?php endif; ?>
-				<?php endif; ?>
-			</div>
-		</div>
-	</section>
+	<?php
+	set_query_var(
+		'args',
+		array(
+			'heading_id'    => 'page-hero-heading',
+			'label'         => $hiw_label,
+			'heading'       => $hiw_heading,
+			'intro'         => $hiw_intro,
+			'media_id'      => $hiw_hero_image_id,
+			'content_max'   => 'max-w-2xl',
+			'cta_primary'   => $hiw_hero_cta_text !== '' ? array(
+				'label' => $hiw_hero_cta_text,
+				'url'   => $hiw_hero_cta_url,
+			) : array(),
+			'cta_secondary' => $hiw_hero_cta_secondary_text !== '' ? array(
+				'label' => $hiw_hero_cta_secondary_text,
+				'url'   => $hiw_hero_cta_secondary_url,
+			) : array(),
+			'cta_promise'   => $hiw_hero_cta_promise,
+		)
+	);
+	get_template_part( 'template-parts/interior-hero' );
+	?>
 
 	<!-- Four-step process -->
 	<?php
@@ -266,7 +252,7 @@ for ( $i = 1; $i <= 3; $i++ ) {
 		</div>
 	</section>
 
-	<!-- Common questions (FAQ) — same accordion pattern as template-faq.php -->
+	<!-- Common questions (FAQ): same accordion pattern as template-faq.php -->
 	<?php if ( ! empty( $faq_pairs ) ) : ?>
 	<section class="py-16 md:py-24 bg-white" aria-labelledby="hiw-faq-heading">
 		<div class="container max-w-3xl">
@@ -289,6 +275,33 @@ for ( $i = 1; $i <= 3; $i++ ) {
 		</div>
 	</section>
 	<?php endif; ?>
+
+	<!-- Related guides -->
+	<section class="py-12 md:py-16 bg-[var(--bg-subtle)] border-t border-gray-100" aria-labelledby="hiw-related-heading">
+		<div class="container max-w-3xl">
+			<h2 id="hiw-related-heading" class="text-2xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Useful guides for planning your stay', 'restwell-retreats' ); ?></h2>
+			<ul class="space-y-3 text-gray-700">
+				<li>
+					<a href="<?php echo esc_url( home_url( '/direct-payment-holiday-accommodation/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
+						<?php esc_html_e( 'How to use your direct payment for a holiday', 'restwell-retreats' ); ?>
+					</a>
+					<span class="text-gray-500">: <?php esc_html_e( 'whether your care funding can cover support during a holiday stay.', 'restwell-retreats' ); ?></span>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( home_url( '/how-to-choose-accessible-self-catering-holiday/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
+						<?php esc_html_e( 'How to choose an accessible self-catering holiday property', 'restwell-retreats' ); ?>
+					</a>
+					<span class="text-gray-500">: <?php esc_html_e( 'a checklist of questions to ask before you commit to any property.', 'restwell-retreats' ); ?></span>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( home_url( '/who-its-for/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
+						<?php esc_html_e( 'Who Restwell is for', 'restwell-retreats' ); ?>
+					</a>
+					<span class="text-gray-500">: <?php esc_html_e( 'guests, carers, families, and professional referrers.', 'restwell-retreats' ); ?></span>
+				</li>
+			</ul>
+		</div>
+	</section>
 </main>
 <?php
 global $restwell_hide_footer_cta;

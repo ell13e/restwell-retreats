@@ -20,6 +20,14 @@ $archive_title  = $posts_page_id ? get_the_title( $posts_page_id ) : __( 'Guides
 $archive_intro  = $posts_page_id ? get_the_excerpt( $posts_page_id ) : __( 'Practical guides to accessible travel on the Kent coast, local area information, and updates from Restwell.', 'restwell-retreats' );
 $archive_label  = __( 'From the blog', 'restwell-retreats' );
 
+$archive_hero_media = 0;
+if ( $posts_page_id ) {
+	$archive_hero_media = absint( get_post_meta( $posts_page_id, 'page_hero_image_id', true ) );
+	if ( ! $archive_hero_media ) {
+		$archive_hero_media = (int) get_post_thumbnail_id( $posts_page_id );
+	}
+}
+
 // Separate the first post (featured) from the rest.
 $first_post      = null;
 $remaining_posts = array();
@@ -61,16 +69,24 @@ if ( have_posts() ) {
 ?>
 <main class="flex-1" id="main-content">
 
-	<!-- Hero -->
-	<section class="bg-[var(--deep-teal)] py-16 md:py-24" aria-labelledby="archive-hero-heading">
-		<div class="container max-w-3xl text-center">
-			<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-4 font-sans"><?php echo esc_html( $archive_label ); ?></p>
-			<h1 id="archive-hero-heading" class="text-white text-4xl md:text-5xl font-serif leading-tight mb-5"><?php echo esc_html( $archive_title ); ?></h1>
-			<?php if ( $archive_intro !== '' ) : ?>
-				<p class="text-white/85 text-lg leading-relaxed max-w-prose mx-auto"><?php echo esc_html( $archive_intro ); ?></p>
-			<?php endif; ?>
-		</div>
-	</section>
+	<?php get_template_part( 'template-parts/breadcrumb' ); ?>
+
+	<?php
+	set_query_var(
+		'args',
+		array(
+			'heading_id'       => 'archive-hero-heading',
+			'label'            => $archive_label,
+			'heading'          => $archive_title,
+			'intro'            => $archive_intro,
+			'media_id'         => $archive_hero_media,
+			'image_alt'        => $archive_title,
+			'content_max'      => 'max-w-3xl mx-auto text-center',
+			'container_class'  => 'container w-full',
+		)
+	);
+	get_template_part( 'template-parts/interior-hero' );
+	?>
 
 	<!-- Articles -->
 	<div class="bg-[var(--bg-subtle)] py-16 md:py-24">
@@ -196,9 +212,9 @@ if ( have_posts() ) {
 		<div class="container max-w-2xl text-center">
 			<p class="section-label mb-3"><?php esc_html_e( 'Planning a stay?', 'restwell-retreats' ); ?></p>
 			<h2 id="archive-cta-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Come and see Whitstable for yourself.', 'restwell-retreats' ); ?></h2>
-			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'Restwell is a fully adapted holiday home in Whitstable, Kent — designed for disabled guests, their families, and carers.', 'restwell-retreats' ); ?></p>
+			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'Restwell is an adapted holiday home in Whitstable, Kent - designed for guests with disabilities, their families, and carers.', 'restwell-retreats' ); ?></p>
 			<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary">
-				<?php esc_html_e( 'Enquire about dates', 'restwell-retreats' ); ?>
+				<?php esc_html_e( 'Check your dates', 'restwell-retreats' ); ?>
 				<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
 			</a>
 		</div>
