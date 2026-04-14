@@ -348,7 +348,6 @@
   }
 
   /* Cursor pointer for all interactive elements */
-  .intro-section__highlight-card,
   .who-card,
   .why-feature-card,
   details summary,
@@ -376,7 +375,6 @@
     button:active,
     .btn:active,
     [role="button"]:active,
-    .intro-section__highlight-card:active,
     .who-card:active,
     .why-feature-card:active {
       transform: scale(0.98);
@@ -2135,18 +2133,18 @@
   }
 
   .intro-section .intro-section__highlights li,
-  .intro-section .intro-section__highlight-card {
+  .intro-section .intro-section__bento-card {
     text-align: start;
   }
 
   /* Defeat any theme / block styles that centre or end-align card stacks. */
-  #main-content .intro-section li.intro-section__highlight-card {
+  #main-content .intro-section li.intro-section__bento-card {
     align-items: flex-start;
     justify-content: flex-start;
   }
 
-  #main-content .intro-section li.intro-section__highlight-card h4,
-  #main-content .intro-section li.intro-section__highlight-card .intro-section__highlight-desc {
+  #main-content .intro-section li.intro-section__bento-card h4,
+  #main-content .intro-section li.intro-section__bento-card .intro-section__bento-desc {
     text-align: start;
     width: 100%;
     max-width: 100%;
@@ -2158,31 +2156,7 @@
     margin-right: auto;
   }
 
-  /* Icon well: fixed size + larger FA glyphs (avoids tiny icons inside tall cards). */
-  .intro-section .intro-section__highlight-icon {
-    width: 3.75rem;
-    height: 3.75rem;
-    margin-inline: 0;
-  }
-
-  .intro-section .intro-section__highlight-icon .fa-solid {
-    font-size: 1.5rem;
-    line-height: 1;
-  }
-
-  @media (min-width: 768px) {
-    .intro-section .intro-section__highlight-icon {
-      width: 4rem;
-      height: 4rem;
-    }
-
-    .intro-section .intro-section__highlight-icon .fa-solid {
-      font-size: 1.625rem;
-    }
-  }
-
   @media (prefers-reduced-motion: no-preference) {
-    .intro-section .intro-section__highlight-card,
     .who-card,
     .why-feature-card {
       transition:
@@ -2191,7 +2165,6 @@
         transform 0.2s ease;
     }
 
-    .intro-section .intro-section__highlight-card:hover,
     .who-card:hover,
     .why-feature-card:hover {
       box-shadow: 0 12px 40px rgb(0 0 0 / 0.07);
@@ -2199,12 +2172,56 @@
       transform: translateY(-2px);
     }
 
-    .intro-section .intro-section__highlight-card:focus-within,
     .who-card:focus-within,
     .why-feature-card:focus-within {
       box-shadow: 0 12px 40px rgb(0 0 0 / 0.07);
       border-color: color-mix(in srgb, var(--deep-teal) 28%, transparent);
       transform: translateY(-2px);
+    }
+  }
+
+  /* Homepage coastal highlights: scroll-triggered stagger (see assets/js/main.js). */
+  .rw-reveal {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity 0.55s ease-out,
+      transform 0.55s ease-out;
+  }
+
+  .rw-reveal.rw-reveal--stagger-2 {
+    transition-delay: 90ms;
+  }
+
+  .rw-reveal.rw-reveal--stagger-3 {
+    transition-delay: 180ms;
+  }
+
+  .rw-reveal.rw-reveal--visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Coastal highlights (editorial): slightly longer stagger + ease for luxury pacing */
+  .intro-section__highlights--editorial .rw-reveal {
+    transition:
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .intro-section__highlights--editorial .rw-reveal.rw-reveal--stagger-2 {
+    transition-delay: 110ms;
+  }
+
+  .intro-section__highlights--editorial .rw-reveal.rw-reveal--stagger-3 {
+    transition-delay: 220ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rw-reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
     }
   }
 

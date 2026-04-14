@@ -11,6 +11,8 @@ module.exports = {
         'warm-gold': '#D4A853',
         'soft-sand': '#F5EDE0',
         'sea-glass': '#A8D5D0',
+        /** Warm brown — editorial accents, coastal highlights (matches CSS brand usage). */
+        brand: '#604c3c',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

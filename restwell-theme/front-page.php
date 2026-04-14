@@ -160,6 +160,9 @@ $rw_fp_card_surface_solid = 'rounded-2xl border border-gray-100 bg-white shadow-
 /** Comparison feature checklist (wider for 3-column grid) */
 $rw_fp_inner_comparison = 'max-w-5xl mx-auto';
 
+/** Coastal highlights grid: editorial cards + Phosphor Light icons (see intro section). */
+$rw_fp_coastal_card = 'intro-section__bento-card intro-section__bento-card--coastal rw-reveal flex flex-col items-start text-left bg-white rounded-3xl border border-slate-100 p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-brand/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-500 ease-out motion-reduce:transition-none';
+
 $rw_fp_resolve_href = static function ( $url ) {
 	$url = trim( (string) $url );
 	if ( $url === '' ) {
@@ -189,7 +192,7 @@ foreach ( $restwell_fp_seed as $key => $default ) {
 
 $highlights_heading_meta   = get_post_meta( $pid, 'highlights_heading', true );
 $show_highlights_heading   = ! ( metadata_exists( 'post', $pid, 'highlights_heading' ) && $highlights_heading_meta === '' );
-$highlights_heading        = $highlights_heading_meta !== '' ? $highlights_heading_meta : 'Property highlights';
+$highlights_heading        = $highlights_heading_meta !== '' ? $highlights_heading_meta : 'A proper coastal break';
 $intro_raw                   = isset( $m['intro_body'] ) ? (string) $m['intro_body'] : '';
 $intro_trim                  = trim( $intro_raw );
 $legacy_intro                = function_exists( 'restwell_get_front_page_legacy_intro_body' ) ? restwell_get_front_page_legacy_intro_body() : '';
@@ -455,7 +458,7 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 	</section>
 	<?php endif; ?>
 
-	<!-- Intro: band title centred (wireframe); highlight cards + prose stay a comfortable reading column -->
+	<!-- Intro: band title; “A proper coastal break” Bento-lite highlight grid + prose -->
 	<section class="intro-section intro-section--home <?php echo esc_attr( $rw_fp_section_y_emphasis . ' ' . $rw_fp_intro_bg ); ?>">
 		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
 			<div class="intro-section__column text-left">
@@ -463,33 +466,35 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 					<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $what_label ) ); ?>
 					<h2 class="text-3xl md:text-4xl section-heading m-0 text-balance"><?php echo esc_html( $what_heading ); ?></h2>
 				</header>
-				<div class="intro-section__highlights-wrap text-center w-full mt-6 md:mt-8 pt-6 md:pt-8 border-t border-[var(--deep-teal)]/10">
+				<div class="intro-section__highlights-wrap intro-section__highlights-wrap--bento intro-section__highlights-wrap--editorial w-full mt-8 md:mt-10 p-6 sm:p-8 md:p-10 bg-slate-50/50 rounded-[2rem]">
+					<div class="max-w-7xl mx-auto">
 				<?php if ( $show_highlights_heading ) : ?>
-				<h3 id="intro-highlights-heading" class="intro-section__highlights-heading w-full text-2xl md:text-3xl font-serif font-semibold text-[var(--deep-teal)] tracking-tight m-0 mb-4 md:mb-5 leading-tight text-center mx-auto max-w-4xl"><span class="intro-section__highlights-kicker" aria-hidden="true"></span><?php echo esc_html( $highlights_heading ); ?></h3>
+				<h3 id="intro-highlights-heading" class="intro-section__highlights-heading w-full font-serif text-4xl sm:text-5xl font-medium tracking-tight text-slate-900 m-0 mb-16 leading-tight text-center mx-auto max-w-4xl"><span class="intro-section__highlights-kicker" aria-hidden="true"></span><?php echo esc_html( $highlights_heading ); ?></h3>
 				<?php endif; ?>
-				<ul class="intro-section__highlights grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-stretch list-none p-0 m-0 w-full" role="list"<?php echo $show_highlights_heading ? ' aria-labelledby="intro-highlights-heading"' : ''; ?>>
-					<li class="intro-section__highlight-card flex flex-col items-center text-center <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
-						<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--sea-glass)]/35 text-[var(--deep-teal)] mb-5 shrink-0" aria-hidden="true">
-							<i class="fa-solid fa-arrows-up-down text-3xl md:text-4xl" aria-hidden="true"></i>
+				<ul class="intro-section__highlights intro-section__highlights--bento intro-section__highlights--editorial grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 items-stretch list-none p-0 m-0 w-full" role="list"<?php echo $show_highlights_heading ? ' aria-labelledby="intro-highlights-heading"' : ''; ?>>
+					<li class="<?php echo esc_attr( $rw_fp_coastal_card ); ?>">
+						<div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-brand/5 text-brand mb-6" aria-hidden="true">
+							<?php get_template_part( 'template-parts/icon-phosphor-light', null, array( 'name' => 'house_line' ) ); ?>
 						</div>
-						<h4 class="text-lg md:text-xl font-serif font-semibold text-[var(--deep-teal)] mb-3 text-balance m-0 leading-snug"><?php echo esc_html( $h1t ); ?></h4>
-						<p class="intro-section__highlight-desc text-base text-[#3a5a63] leading-relaxed m-0 max-w-prose"><?php echo esc_html( $h1d ); ?></p>
+						<h4 class="font-serif text-2xl font-medium text-slate-900 mb-3 m-0 leading-snug text-balance"><?php echo esc_html( $h1t ); ?></h4>
+						<p class="intro-section__bento-desc font-sans text-[16px] text-slate-600 leading-relaxed m-0"><?php echo esc_html( $h1d ); ?></p>
 					</li>
-					<li class="intro-section__highlight-card flex flex-col items-center text-center <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
-						<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--sea-glass)]/35 text-[var(--deep-teal)] mb-5 shrink-0" aria-hidden="true">
-							<i class="fa-solid fa-bed text-3xl md:text-4xl" aria-hidden="true"></i>
+					<li class="<?php echo esc_attr( $rw_fp_coastal_card . ' rw-reveal--stagger-2' ); ?>">
+						<div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-brand/5 text-brand mb-6" aria-hidden="true">
+							<?php get_template_part( 'template-parts/icon-phosphor-light', null, array( 'name' => 'trend_up' ) ); ?>
 						</div>
-						<h4 class="text-lg md:text-xl font-serif font-semibold text-[var(--deep-teal)] mb-3 text-balance m-0 leading-snug"><?php echo esc_html( $h2t ); ?></h4>
-						<p class="intro-section__highlight-desc text-base text-[#3a5a63] leading-relaxed m-0 max-w-prose"><?php echo esc_html( $h2d ); ?></p>
+						<h4 class="font-serif text-2xl font-medium text-slate-900 mb-3 m-0 leading-snug text-balance"><?php echo esc_html( $h2t ); ?></h4>
+						<p class="intro-section__bento-desc font-sans text-[16px] text-slate-600 leading-relaxed m-0"><?php echo esc_html( $h2d ); ?></p>
 					</li>
-					<li class="intro-section__highlight-card flex flex-col items-center text-center <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
-						<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--sea-glass)]/35 text-[var(--deep-teal)] mb-5 shrink-0" aria-hidden="true">
-							<i class="fa-solid fa-shower text-3xl md:text-4xl" aria-hidden="true"></i>
+					<li class="<?php echo esc_attr( $rw_fp_coastal_card . ' rw-reveal--stagger-3' ); ?>">
+						<div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-brand/5 text-brand mb-6" aria-hidden="true">
+							<?php get_template_part( 'template-parts/icon-phosphor-light', null, array( 'name' => 'chat_circle_text' ) ); ?>
 						</div>
-						<h4 class="text-lg md:text-xl font-serif font-semibold text-[var(--deep-teal)] mb-3 text-balance m-0 leading-snug"><?php echo esc_html( $h3t ); ?></h4>
-						<p class="intro-section__highlight-desc text-base text-[#3a5a63] leading-relaxed m-0 max-w-prose"><?php echo esc_html( $h3d ); ?></p>
+						<h4 class="font-serif text-2xl font-medium text-slate-900 mb-3 m-0 leading-snug text-balance"><?php echo esc_html( $h3t ); ?></h4>
+						<p class="intro-section__bento-desc font-sans text-[16px] text-slate-600 leading-relaxed m-0"><?php echo esc_html( $h3d ); ?></p>
 					</li>
 				</ul>
+					</div>
 				</div>
 				<div class="intro-section__prose intro-section__prose--home w-full max-w-5xl ml-0 mr-auto mt-6 md:mt-8 pt-5 md:pt-6 border-t border-[var(--deep-teal)]/10">
 					<?php

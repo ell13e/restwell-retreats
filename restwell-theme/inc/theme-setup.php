@@ -59,7 +59,7 @@ function restwell_get_theme_setup_defaults() {
 
 		'what_restwell_label'   => 'What is Restwell?',
 		'what_restwell_heading' => 'A proper accessible coastal holiday.',
-		'highlights_heading'    => 'Property highlights',
+		'highlights_heading'    => 'A proper coastal break',
 		'highlight_1_title'     => 'Ceiling track hoist',
 		'highlight_1_desc'      => 'Full-room coverage for safer, more predictable transfers.',
 		'highlight_2_title'   => 'Profiling bed',
