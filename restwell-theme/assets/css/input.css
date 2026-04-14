@@ -3519,14 +3519,6 @@
   text-wrap: pretty;
 }
 
-/* Homepage FAQ accordion: +/- icons for <details> open state */
-#main-content .home-faq-section details.home-faq__item:not([open]) summary .home-faq__icon--minus {
-  display: none;
-}
-#main-content .home-faq-section details.home-faq__item[open] summary .home-faq__icon--plus {
-  display: none;
-}
-
 /* Why Restwell feature grid: centred copy (same global prose conflict as who-cards) */
 #main-content .features-section .feature-item p.feature-item__body {
   text-align: center;

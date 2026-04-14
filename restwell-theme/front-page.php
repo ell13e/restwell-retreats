@@ -155,8 +155,8 @@ $rw_fp_stack_gap      = 'gap-6 md:gap-8';
 $rw_fp_stack_gap_lg   = 'gap-6 md:gap-10';
 $rw_fp_cta_mt         = 'mt-8 md:mt-10';
 $rw_fp_card_pad       = 'p-6 md:p-8';
-/** Solid white cards on soft-sand (wireframe “two property cards” band). */
-$rw_fp_card_surface_solid = 'rounded-2xl border border-[var(--deep-teal)]/10 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)]';
+/** Solid white cards: persistent boundaries + hover lift (teaser, highlights, who, property copy, shared pattern). */
+$rw_fp_card_surface_solid = 'rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md';
 /** Comparison feature checklist (wider for 3-column grid) */
 $rw_fp_inner_comparison = 'max-w-5xl mx-auto';
 
@@ -246,6 +246,45 @@ $rw_fp_cta_promise_display = isset( $m['cta_promise'] ) ? trim( (string) $m['cta
 if ( $rw_fp_cta_promise_display === '' ) {
 	$rw_fp_cta_promise_display = __( 'No booking commitment. Replies usually within one working day.', 'restwell-retreats' );
 }
+
+/*
+ * Zebra section backgrounds: alternate white and theme soft-sand for each *rendered* major band (skips hidden sections).
+ */
+$rw_fp_bg_white = 'bg-white';
+$rw_fp_bg_sand  = 'bg-[var(--soft-sand)]';
+$rw_fp_major_bands = array();
+if ( $show_home_teaser ) {
+	$rw_fp_major_bands[] = 'teaser';
+}
+$rw_fp_major_bands[] = 'intro';
+$rw_fp_major_bands[] = 'who';
+$rw_fp_major_bands[] = 'property';
+if ( $show_testimonials ) {
+	$rw_fp_major_bands[] = 'testimonials';
+}
+$rw_fp_major_bands[] = 'features';
+if ( $show_home_comparison ) {
+	$rw_fp_major_bands[] = 'comparison';
+}
+if ( $show_home_faq && ! empty( $home_faq_pairs ) ) {
+	$rw_fp_major_bands[] = 'faq';
+}
+if ( $show_trust ) {
+	$rw_fp_major_bands[] = 'trust';
+}
+$rw_fp_band_bg = array();
+foreach ( $rw_fp_major_bands as $rw_fp_bi => $rw_fp_band_id ) {
+	$rw_fp_band_bg[ $rw_fp_band_id ] = ( 0 === ( $rw_fp_bi % 2 ) ) ? $rw_fp_bg_white : $rw_fp_bg_sand;
+}
+$rw_fp_teaser_bg       = isset( $rw_fp_band_bg['teaser'] ) ? $rw_fp_band_bg['teaser'] : '';
+$rw_fp_intro_bg        = $rw_fp_band_bg['intro'] ?? $rw_fp_bg_white;
+$rw_fp_who_bg          = $rw_fp_band_bg['who'] ?? $rw_fp_bg_sand;
+$rw_fp_property_bg     = $rw_fp_band_bg['property'] ?? $rw_fp_bg_white;
+$rw_fp_testimonials_bg = isset( $rw_fp_band_bg['testimonials'] ) ? $rw_fp_band_bg['testimonials'] : '';
+$rw_fp_features_bg     = $rw_fp_band_bg['features'] ?? $rw_fp_bg_sand;
+$rw_fp_comparison_bg   = isset( $rw_fp_band_bg['comparison'] ) ? $rw_fp_band_bg['comparison'] : '';
+$rw_fp_faq_bg          = isset( $rw_fp_band_bg['faq'] ) ? $rw_fp_band_bg['faq'] : '';
+$rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trust'] : '';
 ?>
 <main class="flex-1" id="main-content">
 	<!--
@@ -366,7 +405,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 
 	<?php if ( $show_home_teaser ) : ?>
 	<section
-		class="home-teaser-area-funding <?php echo esc_attr( $rw_fp_section_y ); ?> bg-[var(--soft-sand)] border-y border-[var(--deep-teal)]/10"
+		class="home-teaser-area-funding <?php echo esc_attr( $rw_fp_section_y . ' ' . $rw_fp_teaser_bg ); ?> border-y border-[var(--deep-teal)]/10"
 		aria-label="<?php echo esc_attr( $home_teaser_label ); ?>"
 	>
 		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
@@ -374,7 +413,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 					<h2 class="sr-only"><?php echo esc_html( $home_teaser_label ); ?></h2>
 					<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $home_teaser_label ) ); ?>
 				</header>
-				<div class="home-teaser__grid who-section__grid grid md:grid-cols-2 items-stretch <?php echo esc_attr( $rw_fp_stack_gap ); ?>">
+				<div class="home-teaser__grid who-section__grid grid grid-cols-1 md:grid-cols-2 items-stretch <?php echo esc_attr( $rw_fp_stack_gap ); ?>">
 					<div class="flex flex-col space-y-4 <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
 						<h3 id="home-teaser-area-heading" class="text-xl md:text-2xl font-serif text-[var(--deep-teal)] leading-tight m-0 text-balance"><?php echo esc_html( $home_teaser_area_title ); ?></h3>
 						<p class="text-[#3a5a63] leading-relaxed m-0 max-w-prose text-base"><?php echo esc_html( $home_teaser_area_body ); ?></p>
@@ -417,7 +456,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 	<?php endif; ?>
 
 	<!-- Intro: band title centred (wireframe); highlight cards + prose stay a comfortable reading column -->
-	<section class="intro-section intro-section--home <?php echo esc_attr( $rw_fp_section_y_emphasis ); ?> bg-white">
+	<section class="intro-section intro-section--home <?php echo esc_attr( $rw_fp_section_y_emphasis . ' ' . $rw_fp_intro_bg ); ?>">
 		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
 			<div class="intro-section__column text-left">
 				<header class="intro-section__hero-copy text-center space-y-3 <?php echo esc_attr( $rw_fp_head_tight ); ?> max-w-4xl mx-auto">
@@ -428,22 +467,22 @@ if ( $rw_fp_cta_promise_display === '' ) {
 				<?php if ( $show_highlights_heading ) : ?>
 				<h3 id="intro-highlights-heading" class="intro-section__highlights-heading w-full text-2xl md:text-3xl font-serif font-semibold text-[var(--deep-teal)] tracking-tight m-0 mb-4 md:mb-5 leading-tight text-center mx-auto max-w-4xl"><span class="intro-section__highlights-kicker" aria-hidden="true"></span><?php echo esc_html( $highlights_heading ); ?></h3>
 				<?php endif; ?>
-				<ul class="intro-section__highlights grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch list-none p-0 m-0 w-full" role="list"<?php echo $show_highlights_heading ? ' aria-labelledby="intro-highlights-heading"' : ''; ?>>
-					<li class="intro-section__highlight-card flex flex-col items-center text-center bg-white rounded-xl shadow-md p-6 md:p-8 border border-[var(--deep-teal)]/10 transition-shadow duration-300 hover:shadow-lg">
+				<ul class="intro-section__highlights grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-stretch list-none p-0 m-0 w-full" role="list"<?php echo $show_highlights_heading ? ' aria-labelledby="intro-highlights-heading"' : ''; ?>>
+					<li class="intro-section__highlight-card flex flex-col items-center text-center <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
 						<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--sea-glass)]/35 text-[var(--deep-teal)] mb-5 shrink-0" aria-hidden="true">
 							<i class="fa-solid fa-arrows-up-down text-3xl md:text-4xl" aria-hidden="true"></i>
 						</div>
 						<h4 class="text-lg md:text-xl font-serif font-semibold text-[var(--deep-teal)] mb-3 text-balance m-0 leading-snug"><?php echo esc_html( $h1t ); ?></h4>
 						<p class="intro-section__highlight-desc text-base text-[#3a5a63] leading-relaxed m-0 max-w-prose"><?php echo esc_html( $h1d ); ?></p>
 					</li>
-					<li class="intro-section__highlight-card flex flex-col items-center text-center bg-white rounded-xl shadow-md p-6 md:p-8 border border-[var(--deep-teal)]/10 transition-shadow duration-300 hover:shadow-lg">
+					<li class="intro-section__highlight-card flex flex-col items-center text-center <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
 						<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--sea-glass)]/35 text-[var(--deep-teal)] mb-5 shrink-0" aria-hidden="true">
 							<i class="fa-solid fa-bed text-3xl md:text-4xl" aria-hidden="true"></i>
 						</div>
 						<h4 class="text-lg md:text-xl font-serif font-semibold text-[var(--deep-teal)] mb-3 text-balance m-0 leading-snug"><?php echo esc_html( $h2t ); ?></h4>
 						<p class="intro-section__highlight-desc text-base text-[#3a5a63] leading-relaxed m-0 max-w-prose"><?php echo esc_html( $h2d ); ?></p>
 					</li>
-					<li class="intro-section__highlight-card flex flex-col items-center text-center bg-white rounded-xl shadow-md p-6 md:p-8 border border-[var(--deep-teal)]/10 transition-shadow duration-300 hover:shadow-lg">
+					<li class="intro-section__highlight-card flex flex-col items-center text-center <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
 						<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--sea-glass)]/35 text-[var(--deep-teal)] mb-5 shrink-0" aria-hidden="true">
 							<i class="fa-solid fa-shower text-3xl md:text-4xl" aria-hidden="true"></i>
 						</div>
@@ -544,7 +583,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 	</section>
 
 	<!-- Who it's for -->
-	<section class="who-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-[var(--soft-sand)]">
+	<section class="who-section <?php echo esc_attr( $rw_fp_section_y . ' ' . $rw_fp_who_bg ); ?>">
 		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
 			<div class="text-center max-w-3xl mx-auto <?php echo esc_attr( $rw_fp_head_block ); ?>">
 				<?php
@@ -556,7 +595,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 				<h2 class="text-3xl md:text-4xl section-heading m-0 text-balance"><?php echo esc_html( $m['who_heading'] ?? '' ); ?></h2>
 			</div>
 			<div class="who-section__grid grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-stretch">
-				<article class="who-card flex flex-col items-center text-center md:items-start md:text-left bg-white/90 border border-[var(--deep-teal)]/10 rounded-2xl shadow-md <?php echo esc_attr( $rw_fp_card_pad ); ?> md:min-h-[18rem] ring-1 ring-[var(--sea-glass)]/25">
+				<article class="who-card flex flex-col items-center text-center md:items-start md:text-left md:min-h-[18rem] <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
 					<div class="who-card__stack flex w-full flex-col items-center md:items-start gap-4">
 						<p class="m-0 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--deep-teal)]/85"><?php esc_html_e( 'Independence', 'restwell-retreats' ); ?></p>
 						<div class="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--sea-glass)]/30 text-[var(--deep-teal)]" aria-hidden="true">
@@ -566,7 +605,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 						<p class="who-card__body text-[#3a5a63] leading-relaxed m-0 w-full text-pretty"><?php echo esc_html( $m['who_guest_body'] ?? '' ); ?></p>
 					</div>
 				</article>
-				<article class="who-card flex flex-col items-center text-center md:items-start md:text-left bg-[var(--warm-gold)]/10 border border-[var(--deep-teal)]/10 rounded-2xl shadow-md <?php echo esc_attr( $rw_fp_card_pad ); ?> md:min-h-[18rem]">
+				<article class="who-card flex flex-col items-center text-center md:items-start md:text-left md:min-h-[18rem] <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
 					<div class="who-card__stack flex w-full flex-col items-center md:items-start gap-4">
 						<p class="m-0 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--deep-teal)]/85"><?php esc_html_e( 'Peace of mind', 'restwell-retreats' ); ?></p>
 						<div class="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--soft-sand)] text-[var(--deep-teal)]" aria-hidden="true">
@@ -589,7 +628,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 	</section>
 
 	<!-- Property snapshot -->
-	<section class="property-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-white">
+	<section class="property-section <?php echo esc_attr( $rw_fp_section_y . ' ' . $rw_fp_property_bg ); ?>">
 		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
 			<div class="property-grid grid grid-cols-1 md:grid-cols-2 <?php echo esc_attr( $rw_fp_stack_gap_lg ); ?> items-start md:items-center">
 				<div class="property-grid__image rounded-2xl overflow-hidden shadow-lg order-2 md:order-1">
@@ -615,9 +654,10 @@ if ( $rw_fp_cta_promise_display === '' ) {
 						</div>
 					<?php endif; ?>
 				</div>
-				<div class="property-grid__text space-y-6 order-1 md:order-2">
+				<div class="property-grid__text order-1 md:order-2">
+					<div class="<?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?> space-y-6">
 					<span class="section-label block mb-4"><?php echo esc_html( $m['property_label'] ?? '' ); ?></span>
-					<h2 class="text-3xl"><?php echo esc_html( $property_heading ); ?></h2>
+					<h2 class="text-3xl m-0"><?php echo esc_html( $property_heading ); ?></h2>
 					<?php if ( $property_body_canonical !== '' && $property_body_trimmed === $property_body_canonical ) : ?>
 						<p class="text-[#3a5a63] leading-relaxed m-0"><?php esc_html_e( 'An adapted single-storey property in Whitstable: level approach from the street, off-street parking for adapted vehicles, and a flat route toward the Tankerton promenade.', 'restwell-retreats' ); ?></p>
 						<ul class="mt-4 list-none p-0 m-0 space-y-3 text-[#3a5a63] leading-relaxed" role="list">
@@ -631,7 +671,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 							</li>
 						</ul>
 					<?php else : ?>
-						<p class="text-[#3a5a63] leading-relaxed"><?php echo esc_html( $property_body ); ?></p>
+						<p class="text-[#3a5a63] leading-relaxed m-0"><?php echo esc_html( $property_body ); ?></p>
 					<?php endif; ?>
 
 					<?php if ( ! empty( $fp_quick ) ) : ?>
@@ -648,6 +688,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 						<?php echo esc_html( $m['property_cta_label'] ?? '' ); ?>
 						<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
 					</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -655,7 +696,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 
 	<?php if ( $show_testimonials ) : ?>
 	<!-- Testimonials: after property spotlight, before “why Restwell” (wireframe flow). -->
-	<section class="testimonials-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-[var(--soft-sand)] border-t border-[var(--deep-teal)]/10" aria-labelledby="home-testimonials-heading">
+	<section class="testimonials-section <?php echo esc_attr( $rw_fp_section_y . ' ' . $rw_fp_testimonials_bg ); ?> border-t border-[var(--deep-teal)]/10" aria-labelledby="home-testimonials-heading">
 		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
 			<div class="text-center max-w-3xl mx-auto <?php echo esc_attr( $rw_fp_head_block ); ?>">
 				<?php if ( $testimonial_label !== '' ) : ?>
@@ -666,7 +707,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 			<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 <?php echo esc_attr( $rw_fp_stack_gap_lg ); ?> list-none p-0 m-0" role="list">
 				<?php foreach ( $testimonials as $t ) : ?>
 				<li>
-					<article class="h-full bg-white rounded-2xl border border-[var(--deep-teal)]/10 shadow-md flex flex-col <?php echo esc_attr( $rw_fp_card_pad ); ?> transition-shadow duration-300 hover:shadow-lg">
+					<article class="h-full flex flex-col <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
 						<blockquote class="m-0 flex flex-col flex-1">
 							<p class="restwell-prose-readable text-[#3a5a63] leading-relaxed flex-1 mb-4 text-pretty"><?php echo esc_html( $t['quote'] ); ?></p>
 							<footer class="text-[var(--deep-teal)] font-medium">
@@ -685,14 +726,14 @@ if ( $rw_fp_cta_promise_display === '' ) {
 	<?php endif; ?>
 
 	<!-- Why Restwell -->
-	<section class="features-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-white border-t border-[var(--deep-teal)]/10" aria-labelledby="home-why-restwell-heading">
+	<section class="features-section <?php echo esc_attr( $rw_fp_section_y . ' ' . $rw_fp_features_bg ); ?> border-t border-[var(--deep-teal)]/10" aria-labelledby="home-why-restwell-heading">
 		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
 			<div class="text-center <?php echo esc_attr( $rw_fp_head_block ); ?>">
 				<span class="section-label block mb-3"><?php echo esc_html( $m['why_label'] ?? '' ); ?></span>
 				<h2 id="home-why-restwell-heading" class="text-3xl md:text-4xl section-heading"><?php echo esc_html( $m['why_heading'] ?? '' ); ?></h2>
 			</div>
-			<ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 list-none p-0 m-0" role="list">
-				<li class="feature-item group text-center space-y-4 bg-[var(--soft-sand)]/50 rounded-2xl border border-[var(--deep-teal)]/10 p-6 md:p-8 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+			<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 list-none p-0 m-0" role="list">
+				<li class="feature-item group text-center space-y-4 <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
 					<div class="feature-icon-wrapper mx-auto">
 						<div class="feature-icon-blob"></div>
 						<i class="fa-solid fa-house feature-icon-svg text-[var(--deep-teal)] text-2xl" aria-hidden="true"></i>
@@ -700,7 +741,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 					<h3 class="text-xl font-serif text-[var(--deep-teal)] text-center m-0"><?php echo esc_html( $m['why_item1_title'] ?? '' ); ?></h3>
 					<p class="feature-item__body text-[15px] text-[#3a5a63] leading-relaxed text-center m-0"><?php echo esc_html( $m['why_item1_desc'] ?? '' ); ?></p>
 				</li>
-				<li class="feature-item group text-center space-y-4 bg-[var(--soft-sand)]/50 rounded-2xl border border-[var(--deep-teal)]/10 p-6 md:p-8 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+				<li class="feature-item group text-center space-y-4 <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
 					<div class="feature-icon-wrapper mx-auto">
 						<div class="feature-icon-blob"></div>
 						<i class="fa-solid fa-shield-halved feature-icon-svg text-[var(--deep-teal)] text-2xl" aria-hidden="true"></i>
@@ -708,7 +749,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 					<h3 class="text-xl font-serif text-[var(--deep-teal)] text-center m-0"><?php echo esc_html( $m['why_item2_title'] ?? '' ); ?></h3>
 					<p class="feature-item__body text-[15px] text-[#3a5a63] leading-relaxed text-center m-0"><?php echo esc_html( $m['why_item2_desc'] ?? '' ); ?></p>
 				</li>
-				<li class="feature-item group text-center space-y-4 bg-[var(--soft-sand)]/50 rounded-2xl border border-[var(--deep-teal)]/10 p-6 md:p-8 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+				<li class="feature-item group text-center space-y-4 <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
 					<div class="feature-icon-wrapper mx-auto">
 						<div class="feature-icon-blob"></div>
 						<i class="fa-solid fa-location-dot feature-icon-svg text-[var(--deep-teal)] text-2xl" aria-hidden="true"></i>
@@ -716,7 +757,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 					<h3 class="text-xl font-serif text-[var(--deep-teal)] text-center m-0"><?php echo esc_html( $m['why_item3_title'] ?? '' ); ?></h3>
 					<p class="feature-item__body text-[15px] text-[#3a5a63] leading-relaxed text-center m-0"><?php echo esc_html( $m['why_item3_desc'] ?? '' ); ?></p>
 				</li>
-				<li class="feature-item group text-center space-y-4 bg-[var(--soft-sand)]/50 rounded-2xl border border-[var(--deep-teal)]/10 p-6 md:p-8 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+				<li class="feature-item group text-center space-y-4 <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
 					<div class="feature-icon-wrapper mx-auto">
 						<div class="feature-icon-blob"></div>
 						<i class="fa-solid fa-heart feature-icon-svg text-[var(--deep-teal)] text-2xl" aria-hidden="true"></i>
@@ -776,79 +817,71 @@ if ( $rw_fp_cta_promise_display === '' ) {
 	</section>
 
 	<?php if ( $show_home_comparison ) : ?>
-	<section class="home-comparison-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-[var(--soft-sand)] border-t border-[var(--deep-teal)]/10" aria-labelledby="home-comparison-heading" aria-describedby="home-comparison-summary">
+	<section class="home-comparison-section <?php echo esc_attr( $rw_fp_section_y . ' ' . $rw_fp_comparison_bg ); ?> border-t border-[var(--deep-teal)]/10" aria-labelledby="home-comparison-heading" aria-describedby="home-comparison-summary">
 		<div class="container <?php echo esc_attr( $rw_fp_inner_comparison ); ?>">
 			<header class="text-center <?php echo esc_attr( $rw_fp_head_block ); ?> max-w-3xl mx-auto">
 				<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $home_comparison_label ) ); ?>
 				<h2 id="home-comparison-heading" class="text-3xl md:text-4xl section-heading m-0 text-balance"><?php echo esc_html( $home_comparison_heading_resolved ); ?></h2>
 				<?php if ( $home_comparison_intro !== '' ) : ?>
-				<p class="text-[#3a5a63] leading-relaxed mt-4 max-w-2xl m-0 mx-auto text-left"><?php echo esc_html( $home_comparison_intro ); ?></p>
+				<p class="text-[#3a5a63] leading-relaxed mt-4 max-w-2xl m-0 mx-auto text-center text-pretty"><?php echo esc_html( $home_comparison_intro ); ?></p>
 				<?php endif; ?>
 			</header>
-			<p id="home-comparison-summary" class="sr-only"><?php echo esc_html( $home_comparison_heading_resolved ); ?> — <?php esc_html_e( 'three-column feature checklist comparing Restwell with a typical hotel or care setting.', 'restwell-retreats' ); ?></p>
-			<div class="overflow-x-auto rounded-2xl border border-[var(--deep-teal)]/10 shadow-md bg-white">
-				<div class="min-w-[min(100%,680px)] md:min-w-0">
-					<div class="hidden md:grid md:grid-cols-3 bg-[var(--soft-sand)]/75 text-left text-sm md:text-base font-semibold text-[var(--deep-teal)] border-b border-[var(--deep-teal)]/10">
-						<div class="p-4 md:border-r border-[var(--deep-teal)]/10"><?php esc_html_e( 'Feature', 'restwell-retreats' ); ?></div>
-						<div class="p-4 md:border-r border-[var(--deep-teal)]/10 bg-[var(--warm-gold)]/15"><?php esc_html_e( 'Restwell', 'restwell-retreats' ); ?></div>
-						<div class="p-4"><?php esc_html_e( 'Hotel / care setting', 'restwell-retreats' ); ?></div>
-					</div>
-					<ul class="m-0 list-none p-0" role="list">
-						<?php foreach ( $home_comparison_rows as $hcr_idx => $hcr_row ) : ?>
-						<li class="border-t border-[var(--deep-teal)]/10 <?php echo 0 === ( $hcr_idx % 2 ) ? 'bg-white' : 'bg-[var(--soft-sand)]/30'; ?>">
-							<div class="grid grid-cols-1 md:grid-cols-3 gap-0">
-								<div class="p-4 md:border-r border-[var(--deep-teal)]/10 font-medium text-[var(--deep-teal)] text-base leading-snug">
-									<span class="mb-2 block text-xs font-semibold uppercase tracking-wide text-[var(--deep-teal)]/70 md:sr-only"><?php esc_html_e( 'Feature', 'restwell-retreats' ); ?></span>
-									<?php echo esc_html( $hcr_row['feature'] ); ?>
-								</div>
-								<div class="flex gap-3 p-4 md:border-r border-[var(--deep-teal)]/10 bg-[var(--warm-gold)]/12 text-[#3a5a63]">
-									<span class="mt-0.5 shrink-0 text-green-600" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
-									<span class="leading-relaxed">
-										<span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-[var(--deep-teal)] md:sr-only"><?php esc_html_e( 'Restwell', 'restwell-retreats' ); ?></span>
-										<?php echo esc_html( $hcr_row['restwell'] ); ?>
-									</span>
-								</div>
-								<div class="flex gap-3 border-t border-[var(--deep-teal)]/10 p-4 text-[#3a5a63] md:border-t-0">
-									<span class="mt-0.5 shrink-0 text-slate-400" aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
-									<span class="leading-relaxed">
-										<span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-[var(--deep-teal)] md:sr-only"><?php esc_html_e( 'Hotel / care setting', 'restwell-retreats' ); ?></span>
-										<?php echo esc_html( $hcr_row['other'] ); ?>
-									</span>
-								</div>
+			<p id="home-comparison-summary" class="sr-only"><?php echo esc_html( $home_comparison_heading_resolved ); ?> — <?php esc_html_e( 'visual feature checklist comparing Restwell with a typical hotel or care setting.', 'restwell-retreats' ); ?></p>
+			<ul class="home-comparison-checklist m-0 grid grid-cols-1 gap-4 md:gap-5 list-none p-0" role="list">
+				<?php foreach ( $home_comparison_rows as $hcr_row ) : ?>
+				<li class="m-0">
+					<div class="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+						<p class="m-0 px-6 py-4 md:px-8 md:py-5 text-base font-semibold leading-snug text-[var(--deep-teal)] border-b border-gray-100">
+							<?php echo esc_html( $hcr_row['feature'] ); ?>
+						</p>
+						<div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+							<div class="flex gap-3 px-6 py-4 md:px-8 md:py-5 bg-[var(--soft-sand)]/80 text-[#3a5a63] leading-relaxed">
+								<span class="mt-0.5 shrink-0" aria-hidden="true"><i class="fa-solid fa-check text-green-600"></i></span>
+								<span>
+									<span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-[var(--deep-teal)]"><?php esc_html_e( 'Restwell', 'restwell-retreats' ); ?></span>
+									<?php echo esc_html( $hcr_row['restwell'] ); ?>
+								</span>
 							</div>
-						</li>
-						<?php endforeach; ?>
-					</ul>
-				</div>
-			</div>
+							<div class="flex gap-3 px-6 py-4 md:px-8 md:py-5 bg-white text-[#3a5a63] leading-relaxed">
+								<span class="mt-0.5 shrink-0" aria-hidden="true"><i class="fa-solid fa-xmark text-red-400"></i></span>
+								<span>
+									<span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-[var(--deep-teal)]"><?php esc_html_e( 'Hotel / care setting', 'restwell-retreats' ); ?></span>
+									<?php echo esc_html( $hcr_row['other'] ); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+				</li>
+				<?php endforeach; ?>
+			</ul>
 		</div>
 	</section>
 	<?php endif; ?>
 
 	<?php if ( $show_home_faq && ! empty( $home_faq_pairs ) ) : ?>
 	<!-- Homepage FAQ (matches FAQPage JSON-LD in inc/seo.php) -->
-	<section class="home-faq-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-white border-t border-[var(--deep-teal)]/10" aria-labelledby="home-faq-heading">
+	<section class="home-faq-section <?php echo esc_attr( $rw_fp_section_y . ' ' . $rw_fp_faq_bg ); ?> border-t border-[var(--deep-teal)]/10" aria-labelledby="home-faq-heading">
 		<div class="container <?php echo esc_attr( $rw_fp_inner_narrow ); ?> text-left">
 			<div class="text-center max-w-3xl mx-auto">
 				<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $home_faq_label ) ); ?>
 				<h2 id="home-faq-heading" class="text-3xl md:text-4xl section-heading <?php echo esc_attr( $rw_fp_head_tight ); ?> text-balance"><?php echo esc_html( $home_faq_heading ); ?></h2>
 			</div>
-			<div class="home-faq-list m-0 mt-8 md:mt-10 space-y-3">
+			<div class="home-faq-list m-0 mt-8 md:mt-10 max-w-3xl mx-auto">
 				<?php foreach ( $home_faq_pairs as $faq ) : ?>
 					<?php
 					if ( empty( $faq['q'] ) || empty( $faq['a'] ) ) {
 						continue;
 					}
 					?>
-				<details class="home-faq__item rounded-xl border border-[var(--deep-teal)]/10 bg-white shadow-sm transition-shadow duration-300 open:shadow-md open:border-[var(--deep-teal)]/20">
-					<summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-4 pr-3 text-left text-lg font-serif font-semibold text-[var(--deep-teal)] marker:content-none [&::-webkit-details-marker]:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--deep-teal)]">
-						<span class="min-w-0 flex-1"><?php echo esc_html( $faq['q'] ); ?></span>
+				<details class="group home-faq__item mb-4 rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 open:shadow-md open:border-[var(--deep-teal)]/15 last:mb-0">
+					<summary class="cursor-pointer list-none flex justify-between items-center gap-4 px-6 py-4 md:px-8 md:py-5 text-left font-semibold text-[var(--deep-teal)] text-base md:text-lg font-serif marker:content-none [&::-webkit-details-marker]:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--deep-teal)]">
+						<span class="min-w-0 flex-1 pr-2"><?php echo esc_html( $faq['q'] ); ?></span>
 						<span class="home-faq__toggle-icon inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--soft-sand)] text-[var(--deep-teal)]" aria-hidden="true">
-							<i class="fa-solid fa-plus text-sm home-faq__icon home-faq__icon--plus"></i>
-							<i class="fa-solid fa-minus text-sm home-faq__icon home-faq__icon--minus"></i>
+							<i class="fa-solid fa-plus text-sm group-open:hidden"></i>
+							<i class="fa-solid fa-minus text-sm hidden group-open:inline"></i>
 						</span>
 					</summary>
-					<div class="home-faq__answer border-t border-[var(--deep-teal)]/10 px-4 pb-4 pt-3 text-[#3a5a63] leading-[1.65]"><?php echo esc_html( $faq['a'] ); ?></div>
+					<div class="home-faq__answer border-t border-gray-100 px-6 pb-5 pt-4 md:px-8 text-[#3a5a63] leading-[1.65]"><?php echo esc_html( $faq['a'] ); ?></div>
 				</details>
 				<?php endforeach; ?>
 			</div>
@@ -872,7 +905,7 @@ if ( $rw_fp_cta_promise_display === '' ) {
 
 	<?php if ( $show_trust ) : ?>
 	<!-- Trust / accreditations -->
-	<section class="trust-strip bg-[var(--bg-subtle)] border-t border-b border-[var(--deep-teal)]/8 <?php echo esc_attr( $rw_fp_section_y ); ?>" aria-label="<?php echo esc_attr( __( 'Trust and accreditation', 'restwell-retreats' ) ); ?>">
+	<section class="trust-strip <?php echo esc_attr( $rw_fp_trust_bg ); ?> border-t border-b border-[var(--deep-teal)]/8 <?php echo esc_attr( $rw_fp_section_y ); ?>" aria-label="<?php echo esc_attr( __( 'Trust and accreditation', 'restwell-retreats' ) ); ?>">
 		<div class="container <?php echo esc_attr( $rw_fp_inner_narrow ); ?> text-left">
 			<?php if ( $trust_label !== '' ) : ?>
 				<p class="section-label mb-3"><?php echo esc_html( $trust_label ); ?></p>
