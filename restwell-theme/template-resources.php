@@ -100,7 +100,6 @@ $sections = array(
 			'heading'     => $res_heading,
 			'intro'       => $res_intro,
 			'media_id'    => $res_hero_image_id,
-			'content_max' => 'max-w-2xl',
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );

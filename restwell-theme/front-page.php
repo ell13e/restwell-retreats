@@ -1,13 +1,9 @@
 <?php
 /**
- * Front Page template.
- * Uses Page Content Fields meta (get_post_meta) and featured/attachment images.
- * WordPress core only.
+ * Homepage template (static front page).
  *
- * Default fallback copy follows DESIGN-SYSTEM.md (Beautiful Prose). Factual claims (Whitstable,
- * Kent, equipment, Continuity of Care Services) align with inc/theme-setup.php and the
- * Accessibility specification content, not ad hoc invention. Hero lede is a short line;
- * optional hero_spec_heading (Page Content Fields) renders in the strip under the hero when set.
+ * Meta-driven layout: get_post_meta() with defaults from restwell_get_theme_setup_defaults() where needed,
+ * same pattern as template-how-it-works.php / template-who-its-for.php.
  *
  * @package Restwell_Retreats
  */
@@ -19,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 
 $pid = get_the_ID();
+$restwell_fp_seed        = function_exists( 'restwell_get_theme_setup_defaults' ) ? restwell_get_theme_setup_defaults() : array();
 $hero_eyebrow            = get_post_meta( $pid, 'hero_eyebrow', true ) ?: 'Restwell Retreats';
 $hero_heading            = get_post_meta( $pid, 'hero_heading', true ) ?: 'Accessible Holidays in Whitstable, Kent';
 $hero_heading_lines      = preg_split( '/\r\n|\r|\n/', $hero_heading );
@@ -33,10 +30,21 @@ $hero_spec_heading       = (string) get_post_meta( $pid, 'hero_spec_heading', tr
 $hero_lede               = trim( $hero_subheading . ( $hero_spec_heading !== '' ? ' ' . $hero_spec_heading : '' ) );
 $hero_lede_paragraph     = $hero_subheading;
 $show_hero_spec_strip    = trim( (string) $hero_spec_heading ) !== '';
-$hero_cta_primary_label  = get_post_meta( $pid, 'hero_cta_primary_label', true ) ?: 'Check availability';
-$hero_cta_primary_url    = get_post_meta( $pid, 'hero_cta_primary_url', true ) ?: '/enquire/';
-$hero_cta_secondary_label= get_post_meta( $pid, 'hero_cta_secondary_label', true ) ?: 'View the property';
-$hero_cta_secondary_url  = get_post_meta( $pid, 'hero_cta_secondary_url', true ) ?: '/the-property/';
+$hero_cta_primary_label  = get_post_meta( $pid, 'hero_cta_primary_label', true ) ?: 'View the property';
+$hero_cta_primary_url    = get_post_meta( $pid, 'hero_cta_primary_url', true ) ?: '/the-property/';
+$hero_cta_secondary_label= get_post_meta( $pid, 'hero_cta_secondary_label', true ) ?: 'Send an enquiry';
+$hero_cta_secondary_url  = get_post_meta( $pid, 'hero_cta_secondary_url', true ) ?: '/enquire/';
+// Optional line under hero CTAs: unset meta → default; saved empty string → hidden; non-empty → override.
+$hero_cta_reassurance_default = __( 'Usually reply within one working day · No obligation', 'restwell-retreats' );
+$hero_cta_reassurance_display  = $hero_cta_reassurance_default;
+if ( metadata_exists( 'post', $pid, 'hero_cta_reassurance' ) ) {
+	$hero_cta_reassurance_raw = get_post_meta( $pid, 'hero_cta_reassurance', true );
+	if ( trim( (string) $hero_cta_reassurance_raw ) === '' ) {
+		$hero_cta_reassurance_display = '';
+	} else {
+		$hero_cta_reassurance_display = trim( (string) $hero_cta_reassurance_raw );
+	}
+}
 $hero_media_alt          = $hero_heading_flat;
 if ( $hero_lede !== '' ) {
 	$combined_alt = $hero_heading_flat . ': ' . $hero_lede;
@@ -50,60 +58,53 @@ if ( trim( (string) $hero_lede_paragraph ) !== '' ) {
 	$home_hero_describedby[] = 'home-hero-lede';
 }
 
-$what_label   = get_post_meta( $pid, 'what_restwell_label', true ) ?: 'What is Restwell?';
-$what_heading = get_post_meta( $pid, 'what_restwell_heading', true ) ?: 'A proper accessible coastal holiday.';
-$highlights_heading_meta   = get_post_meta( $pid, 'highlights_heading', true );
-$show_highlights_heading   = ! ( metadata_exists( 'post', $pid, 'highlights_heading' ) && $highlights_heading_meta === '' );
-$highlights_heading        = $highlights_heading_meta !== '' ? $highlights_heading_meta : 'Property highlights';
-$highlight_1_title  = get_post_meta( $pid, 'highlight_1_title', true ) ?: 'Ceiling track hoist';
-$highlight_1_desc   = get_post_meta( $pid, 'highlight_1_desc', true ) ?: 'Full-room coverage for safer, more predictable transfers.';
-$highlight_2_title  = get_post_meta( $pid, 'highlight_2_title', true ) ?: 'Profiling bed';
-$highlight_2_desc   = get_post_meta( $pid, 'highlight_2_desc', true ) ?: 'Adjustable, with a pressure-relieving mattress. Ready for your stay.';
-$highlight_3_title  = get_post_meta( $pid, 'highlight_3_title', true ) ?: 'Full wet room';
-$highlight_3_desc   = get_post_meta( $pid, 'highlight_3_desc', true ) ?: 'Roll-in shower, grab rails, and space to turn and assist.';
-$intro_body = get_post_meta( $pid, 'intro_body', true );
-
 $home_teaser_label_meta = get_post_meta( $pid, 'home_teaser_label', true );
 $show_home_teaser       = ! ( metadata_exists( 'post', $pid, 'home_teaser_label' ) && $home_teaser_label_meta === '' );
 $home_teaser_label      = $home_teaser_label_meta !== '' ? $home_teaser_label_meta : 'Area & funding';
 $home_teaser_area_title    = get_post_meta( $pid, 'home_teaser_area_title', true ) ?: 'Whitstable & the Kent coast';
-$home_teaser_area_body     = get_post_meta( $pid, 'home_teaser_area_body', true ) ?: 'Single-storey bungalow on the Kent coast: harbour, promenade, and day trips with realistic access notes. We focus on step-free routes, parking, and places that match your needs—not a vague list labelled "wheelchair friendly".';
+$home_teaser_area_body     = get_post_meta( $pid, 'home_teaser_area_body', true ) ?: 'Single-storey bungalow on the Kent coast: harbour, promenade, and day trips with realistic access notes. We focus on step-free routes, parking, and venues where access is described clearly, so you can match the route to a wheelchair, scooter, or walking frame.';
 $home_teaser_funding_title = get_post_meta( $pid, 'home_teaser_funding_title', true ) ?: 'Funding your stay';
 $home_teaser_funding_body  = get_post_meta( $pid, 'home_teaser_funding_body', true ) ?: 'Many guests use personal budgets, direct payments, NHS Continuing Healthcare, or local authority funding. Our guides explain common routes in plain English: what to ask your social worker, and what paperwork helps.';
 
-$who_label   = get_post_meta( $pid, 'who_label', true ) ?: 'Who it\'s for';
-$who_heading = get_post_meta( $pid, 'who_heading', true ) ?: 'Two people. One break.';
-$who_guest_title = get_post_meta( $pid, 'who_guest_title', true ) ?: 'For the guest';
-$who_guest_body  = get_post_meta( $pid, 'who_guest_body', true ) ?: 'A private home with the space and access features you need: wide doorways, level thresholds, room for equipment, and space to settle. Self-catering in Whitstable at your pace—the house is yours, the timetable is yours. Rest by the sea, then explore the town or stay close as you prefer.';
-$who_carer_title = get_post_meta( $pid, 'who_carer_title', true ) ?: 'For the carer';
-$who_carer_body  = get_post_meta( $pid, 'who_carer_body', true ) ?: 'The layout supports care routines: separate sleeping, practical bathroom access, and space to assist. Optional CQC-regulated support is available through Continuity of Care Services, or bring your own carer. Either way, the environment is set up for real routines, day and night, so you are not improvising.';
-
-$property_label    = get_post_meta( $pid, 'property_label', true ) ?: 'The property';
-$property_heading  = get_post_meta( $pid, 'property_heading', true ) ?: 'Our Whitstable home';
-$property_body     = get_post_meta( $pid, 'property_body', true ) ?: 'An adapted single-storey property in Whitstable: level approach from the street, off-street parking for adapted vehicles, and a flat route toward the Tankerton promenade. Whitstable town centre—harbour, seafood restaurants, and the waterfront—is close enough for day trips without stressful route planning.';
-$property_cta_label = get_post_meta( $pid, 'property_cta_label', true ) ?: 'Explore the property';
-$property_cta_url  = get_post_meta( $pid, 'property_cta_url', true ) ?: '/the-property/';
-$property_image_id = (int) get_post_meta( $pid, 'property_image_id', true );
-
-$why_label   = get_post_meta( $pid, 'why_label', true ) ?: 'Why Restwell?';
-$why_heading = get_post_meta( $pid, 'why_heading', true ) ?: 'Why choose Restwell for your accessible break?';
-$why1_title  = get_post_meta( $pid, 'why_item1_title', true ) ?: 'Private & personal';
-$why1_desc   = get_post_meta( $pid, 'why_item1_desc', true ) ?: 'The whole bungalow is yours: living space, kitchen, and bedrooms, with the privacy of a self-catering stay.';
-$why2_title  = get_post_meta( $pid, 'why_item2_title', true ) ?: 'Professional support on your terms';
-$why2_desc   = get_post_meta( $pid, 'why_item2_desc', true ) ?: 'Continuity of Care Services (CQC-regulated): support arranged on your terms, as much or as little as you need, or bring your own carer.';
-$why3_title  = get_post_meta( $pid, 'why_item3_title', true ) ?: 'Local knowledge';
-$why3_desc   = get_post_meta( $pid, 'why_item3_desc', true ) ?: 'We can tell you which cafes have step-free access, where to park near the harbour, and which routes work for wheelchairs, so you spend more time relaxing and less time planning.';
-$why4_title  = get_post_meta( $pid, 'why_item4_title', true ) ?: 'Honest & open';
-$why4_desc   = get_post_meta( $pid, 'why_item4_desc', true ) ?: 'We publish the access specification: exact dimensions, thresholds, and equipment, so you can plan with confidence before you travel.';
-
-$cta_heading   = get_post_meta( $pid, 'cta_heading', true ) ?: 'Ready to plan your accessible stay?';
-$cta_body      = get_post_meta( $pid, 'cta_body', true ) ?: 'Ask about hoist limits, door widths, or funding. No pressure: we reply with specifics you can use.';
-$cta_primary_label   = get_post_meta( $pid, 'cta_primary_label', true ) ?: 'Send an enquiry';
-$cta_primary_url     = get_post_meta( $pid, 'cta_primary_url', true ) ?: '/enquire/';
-$cta_secondary_label = get_post_meta( $pid, 'cta_secondary_label', true ) ?: 'See the property';
-$cta_secondary_url   = get_post_meta( $pid, 'cta_secondary_url', true ) ?: '/the-property/';
-$cta_promise         = get_post_meta( $pid, 'cta_promise', true ) ?: 'No booking commitment. Just a conversation.';
-$cta_image_id = (int) get_post_meta( $pid, 'cta_image_id', true );
+// Homepage comparison (Phase 10): clear "heading" in Page Content Fields and save to hide.
+$home_comparison_heading_meta = get_post_meta( $pid, 'home_comparison_heading', true );
+if ( ! metadata_exists( 'post', $pid, 'home_comparison_heading' ) ) {
+	$home_comparison_heading_resolved = isset( $restwell_fp_seed['home_comparison_heading'] )
+		? (string) $restwell_fp_seed['home_comparison_heading']
+		: __( 'Restwell vs. a typical hotel stay', 'restwell-retreats' );
+} else {
+	$home_comparison_heading_resolved = trim( (string) $home_comparison_heading_meta );
+}
+$show_home_comparison = $home_comparison_heading_resolved !== '';
+$home_comparison_label = trim( (string) get_post_meta( $pid, 'home_comparison_label', true ) );
+if ( $home_comparison_label === '' ) {
+	$home_comparison_label = isset( $restwell_fp_seed['home_comparison_label'] )
+		? (string) $restwell_fp_seed['home_comparison_label']
+		: __( 'Compare options', 'restwell-retreats' );
+}
+$home_comparison_intro = get_post_meta( $pid, 'home_comparison_intro', true );
+if ( ! metadata_exists( 'post', $pid, 'home_comparison_intro' ) ) {
+	$home_comparison_intro = isset( $restwell_fp_seed['home_comparison_intro'] ) ? (string) $restwell_fp_seed['home_comparison_intro'] : '';
+} else {
+	$home_comparison_intro = trim( (string) $home_comparison_intro );
+}
+$home_comparison_rows = array();
+for ( $rw_i = 1; $rw_i <= 4; $rw_i++ ) {
+	$fk = 'home_comparison_row' . $rw_i . '_feature';
+	$rk = 'home_comparison_row' . $rw_i . '_restwell';
+	$ok = 'home_comparison_row' . $rw_i . '_other';
+	$df = isset( $restwell_fp_seed[ $fk ] ) ? (string) $restwell_fp_seed[ $fk ] : '';
+	$dr = isset( $restwell_fp_seed[ $rk ] ) ? (string) $restwell_fp_seed[ $rk ] : '';
+	$do = isset( $restwell_fp_seed[ $ok ] ) ? (string) $restwell_fp_seed[ $ok ] : '';
+	$fv = trim( (string) get_post_meta( $pid, $fk, true ) );
+	$rv = trim( (string) get_post_meta( $pid, $rk, true ) );
+	$ov = trim( (string) get_post_meta( $pid, $ok, true ) );
+	$home_comparison_rows[] = array(
+		'feature'  => $fv !== '' ? $fv : $df,
+		'restwell' => $rv !== '' ? $rv : $dr,
+		'other'    => $ov !== '' ? $ov : $do,
+	);
+}
 
 $home_faq_label_meta   = get_post_meta( $pid, 'home_faq_label', true );
 $home_faq_heading_meta = get_post_meta( $pid, 'home_faq_heading', true );
@@ -137,32 +138,148 @@ $show_testimonials = ! empty( $testimonials );
 $hero_media_id = absint( get_post_meta( $pid, 'hero_media_id', true ) );
 $hero_media_mime = $hero_media_id ? get_post_mime_type( $hero_media_id ) : '';
 $hero_is_video  = $hero_media_mime && strpos( $hero_media_mime, 'video/' ) === 0;
-$hero_media_url = $hero_media_id ? ( $hero_is_video ? wp_get_attachment_url( $hero_media_id ) : wp_get_attachment_image_url( $hero_media_id, 'full' ) ) : '';
+$hero_img_size   = function_exists( 'restwell_pick_attachment_size' ) ? restwell_pick_attachment_size( $hero_media_id, 'restwell-hero' ) : 'full';
+$hero_media_url  = $hero_media_id ? ( $hero_is_video ? wp_get_attachment_url( $hero_media_id ) : wp_get_attachment_image_url( $hero_media_id, $hero_img_size ) ) : '';
 
-$post_obj          = get_post( $pid );
-$use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->post_content ) !== '';
+/*
+ * Homepage layout tokens (aligned with template-how-it-works.php: py-16 md:py-24, container + max-width).
+ */
+$rw_fp_section_y           = 'py-16 md:py-24';
+/** Hero-scale blocks: matches DESIGN-SYSTEM.md (intro + primary CTA band). */
+$rw_fp_section_y_emphasis = 'py-20 md:py-28';
+$rw_fp_inner          = 'max-w-5xl mx-auto';
+$rw_fp_inner_narrow   = 'max-w-3xl mx-auto';
+$rw_fp_head_block     = 'mb-8 md:mb-10';
+$rw_fp_head_tight     = 'mb-6 md:mb-8';
+$rw_fp_stack_gap      = 'gap-6 md:gap-8';
+$rw_fp_stack_gap_lg   = 'gap-6 md:gap-10';
+$rw_fp_cta_mt         = 'mt-8 md:mt-10';
+$rw_fp_card_pad       = 'p-6 md:p-8';
+/** Homepage intro highlight cards: compact padding, left-aligned stack (see .intro-section__highlight-card). */
+$rw_fp_intro_highlight_pad = 'p-6 md:p-5';
+$rw_fp_card_surface   = 'rounded-2xl border border-[var(--deep-teal)]/10 bg-white/70 shadow-[0_8px_30px_rgb(0,0,0,0.04)]';
+/** Solid white cards on soft-sand (wireframe “two property cards” band). */
+$rw_fp_card_surface_solid = 'rounded-2xl border border-[var(--deep-teal)]/10 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)]';
+/** Narrower reading column for comparison table copy */
+$rw_fp_inner_comparison = 'max-w-4xl mx-auto';
+
+$rw_fp_resolve_href = static function ( $url ) {
+	$url = trim( (string) $url );
+	if ( $url === '' ) {
+		return home_url( '/' );
+	}
+	if ( preg_match( '#^https?://#i', $url ) ) {
+		return $url;
+	}
+	return home_url( $url );
+};
+
+// Merged front-page meta (theme defaults when a key is empty).
+$m = array();
+foreach ( $restwell_fp_seed as $key => $default ) {
+	$v = get_post_meta( $pid, $key, true );
+	if ( 'property_image_id' === $key || 'cta_image_id' === $key ) {
+		$vid         = (int) $v;
+		$m[ $key ] = $vid > 0 ? $vid : (int) $default;
+		continue;
+	}
+	if ( $v === '' || null === $v ) {
+		$m[ $key ] = $default;
+	} else {
+		$m[ $key ] = $v;
+	}
+}
+
+$highlights_heading_meta   = get_post_meta( $pid, 'highlights_heading', true );
+$show_highlights_heading   = ! ( metadata_exists( 'post', $pid, 'highlights_heading' ) && $highlights_heading_meta === '' );
+$highlights_heading        = $highlights_heading_meta !== '' ? $highlights_heading_meta : 'Property highlights';
+$intro_raw                   = isset( $m['intro_body'] ) ? (string) $m['intro_body'] : '';
+$intro_trim                  = trim( $intro_raw );
+$legacy_intro                = function_exists( 'restwell_get_front_page_legacy_intro_body' ) ? restwell_get_front_page_legacy_intro_body() : '';
+$use_geo_stack               = ( $intro_trim === '' || $intro_trim === $legacy_intro );
+$what_label                  = isset( $m['what_restwell_label'] ) ? (string) $m['what_restwell_label'] : '';
+$what_heading                  = isset( $m['what_restwell_heading'] ) ? (string) $m['what_restwell_heading'] : '';
+$h1t                         = isset( $m['highlight_1_title'] ) ? (string) $m['highlight_1_title'] : '';
+$h1d                         = isset( $m['highlight_1_desc'] ) ? (string) $m['highlight_1_desc'] : '';
+$h2t                         = isset( $m['highlight_2_title'] ) ? (string) $m['highlight_2_title'] : '';
+$h2d                         = isset( $m['highlight_2_desc'] ) ? (string) $m['highlight_2_desc'] : '';
+$h3t                         = isset( $m['highlight_3_title'] ) ? (string) $m['highlight_3_title'] : '';
+$h3d                         = isset( $m['highlight_3_desc'] ) ? (string) $m['highlight_3_desc'] : '';
+$post_obj                    = get_post( $pid );
+
+$property_image_id         = (int) ( $m['property_image_id'] ?? 0 );
+$property_heading          = isset( $m['property_heading'] ) ? (string) $m['property_heading'] : '';
+$property_body             = isset( $m['property_body'] ) ? (string) $m['property_body'] : '';
+$property_body_canonical   = isset( $restwell_fp_seed['property_body'] ) ? trim( (string) $restwell_fp_seed['property_body'] ) : '';
+$property_body_trimmed     = trim( $property_body );
+
+$fp_acc       = get_page_by_path( 'accessibility', OBJECT, 'page' );
+$fp_who       = get_page_by_path( 'who-its-for', OBJECT, 'page' );
+$fp_guide     = get_page_by_path( 'whitstable-area-guide', OBJECT, 'page' );
+$fp_hiw       = get_page_by_path( 'how-it-works', OBJECT, 'page' );
+$fp_resources = get_page_by_path( 'resources', OBJECT, 'page' );
+$fp_faq       = get_page_by_path( 'faq', OBJECT, 'page' );
+$link_class   = 'text-[#1B4D5C] font-medium underline underline-offset-2 hover:no-underline';
+$fp_quick     = array();
+if ( $fp_acc ) {
+	$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_acc ) ) . '" class="' . esc_attr( $link_class ) . '">' . esc_html__( 'Specification & measurements', 'restwell-retreats' ) . '</a>';
+}
+if ( $fp_who ) {
+	$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_who ) ) . '" class="' . esc_attr( $link_class ) . '">' . esc_html__( 'Who it\'s for', 'restwell-retreats' ) . '</a>';
+}
+if ( $fp_guide ) {
+	$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_guide ) ) . '" class="' . esc_attr( $link_class ) . '">' . esc_html__( 'Town, harbour & coast', 'restwell-retreats' ) . '</a>';
+}
+if ( $fp_hiw ) {
+	$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_hiw ) ) . '" class="' . esc_attr( $link_class ) . '">' . esc_html__( 'How booking works', 'restwell-retreats' ) . '</a>';
+}
+if ( $fp_resources ) {
+	$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_resources ) ) . '" class="' . esc_attr( $link_class ) . '">' . esc_html__( 'Funding routes & guides', 'restwell-retreats' ) . '</a>';
+}
+if ( $fp_faq ) {
+	$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_faq ) ) . '" class="' . esc_attr( $link_class ) . '">' . esc_html__( 'FAQ', 'restwell-retreats' ) . '</a>';
+}
+
+$cta_image_id = (int) ( $m['cta_image_id'] ?? 0 );
+
+$hero_cta_primary_href   = $rw_fp_resolve_href( $hero_cta_primary_url );
+$hero_cta_secondary_href = $rw_fp_resolve_href( $hero_cta_secondary_url );
+
+$rw_fp_cta_promise_display = isset( $m['cta_promise'] ) ? trim( (string) $m['cta_promise'] ) : '';
+if ( $rw_fp_cta_promise_display === '' ) {
+	$rw_fp_cta_promise_display = __( 'No booking commitment. Replies usually within one working day.', 'restwell-retreats' );
+}
 ?>
 <main class="flex-1" id="main-content">
+	<!--
+		Homepage order (wireframe): hero → spec strip → discovery cards (area & funding)
+		→ story + property highlights + prose → who (guest/carer) → property spotlight
+		→ testimonials → why Restwell → bottom CTA → comparison → FAQ → trust.
+	-->
 	<!-- Hero Section -->
-	<section class="hero home-hero relative flex overflow-hidden <?php echo ( $hero_media_id && $hero_media_url ) ? 'hero--has-media' : ''; ?> <?php echo $hero_media_id ? '' : 'bg-[var(--deep-teal)]'; ?>" aria-labelledby="home-hero-heading"<?php echo ! empty( $home_hero_describedby ) ? ' aria-describedby="' . esc_attr( implode( ' ', $home_hero_describedby ) ) . '"' : ''; ?>>
+	<section class="hero home-hero relative flex overflow-hidden <?php echo ( $hero_media_id && $hero_media_url ) ? 'hero--has-media' : ''; ?> <?php echo ( $hero_media_id && $hero_is_video ) ? 'hero--has-video' : ''; ?> <?php echo $hero_media_id ? '' : 'bg-[var(--deep-teal)]'; ?>" aria-labelledby="home-hero-heading"<?php echo ! empty( $home_hero_describedby ) ? ' aria-describedby="' . esc_attr( implode( ' ', $home_hero_describedby ) ) . '"' : ''; ?>>
 		<?php if ( $hero_media_id && $hero_media_url ) : ?>
 			<?php if ( $hero_is_video ) : ?>
+				<div class="home-hero__media home-hero__media--video absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
 				<video
-					class="absolute inset-0 w-full h-full object-cover -z-10"
+					class="home-hero__video absolute inset-0 h-full w-full min-h-full min-w-full object-cover"
 					autoplay
 					muted
 					loop
 					playsinline
 					preload="metadata"
+					disablepictureinpicture
+					disableremoteplayback
 					aria-hidden="true"
 				>
 					<source src="<?php echo esc_url( $hero_media_url ); ?>" type="<?php echo esc_attr( $hero_media_mime ); ?>">
 				</video>
+				</div>
 			<?php else : ?>
 				<?php
 				echo wp_get_attachment_image(
 					$hero_media_id,
-					'full',
+					$hero_img_size,
 					false,
 					array(
 						'class'         => 'absolute inset-0 w-full h-full object-cover -z-10',
@@ -170,6 +287,7 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 						'loading'       => 'eager',
 						'fetchpriority' => 'high',
 						'decoding'      => 'async',
+						'sizes'         => '100vw',
 					)
 				);
 				?>
@@ -184,7 +302,7 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 							<?php echo esc_html( $hero_eyebrow ); ?>
 						</span>
 						<?php endif; ?>
-						<h1 id="home-hero-heading" class="m-0 text-white">
+						<h1 id="home-hero-heading" class="home-hero__heading m-0 text-white">
 							<span class="home-hero__title-lines block space-y-2 font-serif">
 								<?php foreach ( $hero_heading_lines as $hero_heading_line ) : ?>
 								<span class="block"><?php echo esc_html( $hero_heading_line ); ?></span>
@@ -192,7 +310,7 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 							</span>
 						</h1>
 						<?php if ( trim( (string) $hero_lede_paragraph ) !== '' ) : ?>
-						<p id="home-hero-lede" class="home-hero__lede text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.3)] font-sans text-base sm:text-lg md:text-xl font-normal leading-relaxed tracking-normal sm:tracking-tight text-balance m-0">
+						<p id="home-hero-lede" class="home-hero__lede max-w-prose text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.3)] font-sans text-base sm:text-lg md:text-xl font-normal leading-relaxed tracking-normal sm:tracking-tight text-balance m-0">
 							<?php echo esc_html( $hero_lede_paragraph ); ?>
 						</p>
 						<?php endif; ?>
@@ -200,7 +318,7 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 					<div class="home-hero__cta-stack">
 						<a
 							id="hero-cta-primary"
-							href="<?php echo esc_url( $hero_cta_primary_url ); ?>"
+							href="<?php echo esc_url( $hero_cta_primary_href ); ?>"
 							class="btn btn-gold cursor-pointer"
 							data-cta="hero-primary"
 						>
@@ -209,13 +327,18 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 						</a>
 						<a
 							id="hero-cta-secondary"
-							href="<?php echo esc_url( $hero_cta_secondary_url ); ?>"
+							href="<?php echo esc_url( $hero_cta_secondary_href ); ?>"
 							class="home-hero__cta-secondary btn cursor-pointer"
 							data-cta="hero-secondary"
 						>
 							<?php echo esc_html( $hero_cta_secondary_label ); ?>
 						</a>
 					</div>
+					<?php if ( $hero_cta_reassurance_display !== '' ) : ?>
+					<p id="home-hero-reassurance" class="home-hero__reassurance m-0 mt-3 text-center text-white/90 text-sm font-sans max-w-md mx-auto leading-snug [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]">
+						<?php echo esc_html( $hero_cta_reassurance_display ); ?>
+					</p>
+					<?php endif; ?>
 					<p class="home-hero__scroll-hint m-0 text-center">
 						<a href="#restwell-main-after-hero" class="home-hero__scroll-link">
 							<span class="home-hero__scroll-link-text"><?php esc_html_e( 'Scroll to explore', 'restwell-retreats' ); ?></span>
@@ -230,14 +353,14 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 
 	<?php if ( $show_hero_spec_strip ) : ?>
 	<section
-		class="home-hero-equipment-strip bg-[var(--soft-sand)] border-b border-[var(--deep-teal)]/10"
+		class="home-hero-equipment-strip py-0 bg-[var(--soft-sand)] border-b border-[var(--deep-teal)]/10"
 		aria-labelledby="home-hero-spec-strip-heading"
 	>
 		<div class="container py-4 md:py-5">
 			<h2 id="home-hero-spec-strip-heading" class="sr-only">
 				<?php esc_html_e( 'On-site equipment and booking detail', 'restwell-retreats' ); ?>
 			</h2>
-			<p class="home-hero-equipment-strip__text m-0 text-center text-[var(--deep-teal)] font-sans text-sm sm:text-base leading-relaxed max-w-4xl mx-auto">
+			<p class="home-hero-equipment-strip__text m-0 text-[var(--deep-teal)] font-sans text-sm sm:text-base leading-relaxed max-w-4xl mx-auto">
 				<?php echo esc_html( $hero_spec_heading ); ?>
 			</p>
 		</div>
@@ -246,26 +369,26 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 
 	<?php if ( $show_home_teaser ) : ?>
 	<section
-		class="home-teaser-area-funding bg-[var(--soft-sand)] border-y border-[var(--deep-teal)]/10"
+		class="home-teaser-area-funding <?php echo esc_attr( $rw_fp_section_y ); ?> bg-[var(--soft-sand)] border-y border-[var(--deep-teal)]/10"
 		aria-label="<?php echo esc_attr( $home_teaser_label ); ?>"
 	>
-		<div class="container">
-			<div class="max-w-5xl mx-auto">
-				<header class="text-center mb-6 md:mb-12">
+		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
+				<header class="text-left <?php echo esc_attr( $rw_fp_head_block ); ?>">
+					<h2 class="sr-only"><?php echo esc_html( $home_teaser_label ); ?></h2>
 					<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $home_teaser_label ) ); ?>
 				</header>
-				<div class="home-teaser__grid grid md:grid-cols-2 items-stretch">
-					<div class="flex flex-col rounded-2xl border border-[var(--deep-teal)]/10 bg-white/70 p-6 sm:p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-4 md:space-y-4">
-						<h2 id="home-teaser-area-heading" class="text-xl md:text-2xl font-serif text-[var(--deep-teal)] leading-tight m-0"><?php echo esc_html( $home_teaser_area_title ); ?></h2>
+				<div class="home-teaser__grid who-section__grid grid md:grid-cols-2 items-stretch <?php echo esc_attr( $rw_fp_stack_gap ); ?>">
+					<div class="flex flex-col space-y-4 <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
+						<h3 id="home-teaser-area-heading" class="text-xl md:text-2xl font-serif text-[var(--deep-teal)] leading-tight m-0 text-balance"><?php echo esc_html( $home_teaser_area_title ); ?></h3>
 						<p class="text-[#3a5a63] leading-relaxed m-0 max-w-prose text-base"><?php echo esc_html( $home_teaser_area_body ); ?></p>
 						<?php
 						$fp_teaser_guide = get_page_by_path( 'whitstable-area-guide', OBJECT, 'page' );
 						if ( $fp_teaser_guide ) :
 							?>
-						<p class="m-0 pt-1">
+						<p class="m-0 pt-3">
 							<a
 								href="<?php echo esc_url( get_permalink( $fp_teaser_guide ) ); ?>"
-								class="restwell-tap-link inline-flex items-center gap-2 text-[var(--deep-teal)] font-semibold underline-offset-2 hover:underline hover:text-[var(--warm-gold-text)] transition-colors duration-300 no-underline cursor-pointer"
+								class="restwell-tap-link inline-flex items-center gap-2 text-[var(--deep-teal)] font-semibold underline-offset-2 hover:underline hover:text-[var(--warm-gold-text)] transition-colors duration-300 no-underline cursor-pointer min-h-[44px]"
 							>
 								<?php esc_html_e( 'Whitstable & Kent guide', 'restwell-retreats' ); ?>
 								<i class="fa-solid fa-chevron-right text-sm" aria-hidden="true"></i>
@@ -273,17 +396,17 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 						</p>
 						<?php endif; ?>
 					</div>
-					<div class="flex flex-col rounded-2xl border border-[var(--deep-teal)]/10 bg-white/70 p-6 sm:p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-4 md:space-y-4">
-						<h2 id="home-teaser-funding-heading" class="text-xl md:text-2xl font-serif text-[var(--deep-teal)] leading-tight m-0"><?php echo esc_html( $home_teaser_funding_title ); ?></h2>
+					<div class="flex flex-col space-y-4 <?php echo esc_attr( $rw_fp_card_surface_solid . ' ' . $rw_fp_card_pad ); ?>">
+						<h3 id="home-teaser-funding-heading" class="text-xl md:text-2xl font-serif text-[var(--deep-teal)] leading-tight m-0 text-balance"><?php echo esc_html( $home_teaser_funding_title ); ?></h3>
 						<p class="text-[#3a5a63] leading-relaxed m-0 max-w-prose text-base"><?php echo esc_html( $home_teaser_funding_body ); ?></p>
 						<?php
 						$fp_teaser_res = get_page_by_path( 'resources', OBJECT, 'page' );
 						if ( $fp_teaser_res ) :
 							?>
-						<p class="m-0 pt-1">
+						<p class="m-0 pt-3">
 							<a
 								href="<?php echo esc_url( get_permalink( $fp_teaser_res ) ); ?>"
-								class="restwell-tap-link inline-flex items-center gap-2 text-[var(--deep-teal)] font-semibold underline-offset-2 hover:underline hover:text-[var(--warm-gold-text)] transition-colors duration-300 no-underline cursor-pointer"
+								class="restwell-tap-link inline-flex items-center gap-2 text-[var(--deep-teal)] font-semibold underline-offset-2 hover:underline hover:text-[var(--warm-gold-text)] transition-colors duration-300 no-underline cursor-pointer min-h-[44px]"
 							>
 								<?php esc_html_e( 'Funding & support', 'restwell-retreats' ); ?>
 								<i class="fa-solid fa-chevron-right text-sm" aria-hidden="true"></i>
@@ -292,139 +415,194 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 						<?php endif; ?>
 					</div>
 				</div>
-			</div>
 		</div>
 	</section>
 	<?php endif; ?>
 
-	<?php if ( $use_editor_main ) : ?>
-	<div class="front-page__editor-content">
-		<?php echo apply_filters( 'restwell_front_page_body_html', $post_obj->post_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-	</div>
-	<?php else : ?>
-
-	<!-- What is Restwell Retreats? -->
-	<section class="intro-section py-20 md:py-28 bg-white">
-		<div class="container">
-			<div class="max-w-4xl mx-auto text-left">
-				<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $what_label ) ); ?>
-				<h2 class="text-3xl md:text-4xl mb-6 md:mb-8 section-heading"><?php echo esc_html( $what_heading ); ?></h2>
+	<!-- Intro: band title centred (wireframe); highlight cards + prose stay a comfortable reading column -->
+	<section class="intro-section intro-section--home <?php echo esc_attr( $rw_fp_section_y_emphasis ); ?> bg-white">
+		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
+			<div class="intro-section__column text-left">
+				<header class="intro-section__hero-copy text-center space-y-3 <?php echo esc_attr( $rw_fp_head_tight ); ?> max-w-4xl mx-auto">
+					<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $what_label ) ); ?>
+					<h2 class="text-3xl md:text-4xl section-heading m-0 text-balance"><?php echo esc_html( $what_heading ); ?></h2>
+				</header>
+				<div class="intro-section__highlights-wrap text-center w-full mt-6 md:mt-8 pt-6 md:pt-8 border-t border-[var(--deep-teal)]/10">
 				<?php if ( $show_highlights_heading ) : ?>
-				<p class="text-lg font-semibold text-[var(--deep-teal)] mb-4 font-sans"><?php echo esc_html( $highlights_heading ); ?></p>
+				<h3 id="intro-highlights-heading" class="intro-section__highlights-heading w-full text-2xl md:text-3xl font-serif font-semibold text-[var(--deep-teal)] tracking-tight m-0 mb-4 md:mb-5 leading-tight text-center mx-auto max-w-4xl"><span class="intro-section__highlights-kicker" aria-hidden="true"></span><?php echo esc_html( $highlights_heading ); ?></h3>
 				<?php endif; ?>
-				<ul class="grid sm:grid-cols-3 gap-5 md:gap-6 mb-10 md:mb-12 list-none p-0 m-0" role="list">
-					<li class="rounded-2xl border border-[var(--deep-teal)]/10 bg-[var(--soft-sand)]/40 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-						<div class="w-12 h-12 rounded-full bg-sea-glass/40 flex items-center justify-center text-deep-teal text-lg mb-4" aria-hidden="true">
-							<i class="fa-solid fa-arrows-up-down"></i>
+				<ul class="intro-section__highlights grid sm:grid-cols-3 gap-3 md:gap-4 items-start list-none p-0 m-0 w-full" role="list"<?php echo $show_highlights_heading ? ' aria-labelledby="intro-highlights-heading"' : ''; ?>>
+					<li class="intro-section__highlight-card flex flex-col items-start text-left <?php echo esc_attr( $rw_fp_card_surface . ' ' . $rw_fp_intro_highlight_pad ); ?>">
+						<div class="intro-section__highlight-icon rounded-full bg-[var(--sea-glass)]/30 flex items-center justify-center text-[var(--deep-teal)] mb-3 shrink-0" aria-hidden="true">
+							<i class="fa-solid fa-arrows-up-down" aria-hidden="true"></i>
 						</div>
-						<h3 class="text-lg font-serif text-deep-teal mb-2"><?php echo esc_html( $highlight_1_title ); ?></h3>
-						<p class="text-sm text-[#3a5a63] leading-relaxed m-0"><?php echo esc_html( $highlight_1_desc ); ?></p>
+						<h4 class="text-base md:text-lg font-serif font-semibold text-[var(--deep-teal)] mb-2 text-balance m-0 leading-snug"><?php echo esc_html( $h1t ); ?></h4>
+						<p class="intro-section__highlight-desc text-base text-[#3a5a63] leading-relaxed m-0"><?php echo esc_html( $h1d ); ?></p>
 					</li>
-					<li class="rounded-2xl border border-[var(--deep-teal)]/10 bg-[var(--soft-sand)]/40 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-						<div class="w-12 h-12 rounded-full bg-sea-glass/40 flex items-center justify-center text-deep-teal text-lg mb-4" aria-hidden="true">
-							<i class="fa-solid fa-bed"></i>
+					<li class="intro-section__highlight-card flex flex-col items-start text-left <?php echo esc_attr( $rw_fp_card_surface . ' ' . $rw_fp_intro_highlight_pad ); ?>">
+						<div class="intro-section__highlight-icon rounded-full bg-[var(--sea-glass)]/30 flex items-center justify-center text-[var(--deep-teal)] mb-3 shrink-0" aria-hidden="true">
+							<i class="fa-solid fa-bed" aria-hidden="true"></i>
 						</div>
-						<h3 class="text-lg font-serif text-deep-teal mb-2"><?php echo esc_html( $highlight_2_title ); ?></h3>
-						<p class="text-sm text-[#3a5a63] leading-relaxed m-0"><?php echo esc_html( $highlight_2_desc ); ?></p>
+						<h4 class="text-base md:text-lg font-serif font-semibold text-[var(--deep-teal)] mb-2 text-balance m-0 leading-snug"><?php echo esc_html( $h2t ); ?></h4>
+						<p class="intro-section__highlight-desc text-base text-[#3a5a63] leading-relaxed m-0"><?php echo esc_html( $h2d ); ?></p>
 					</li>
-					<li class="rounded-2xl border border-[var(--deep-teal)]/10 bg-[var(--soft-sand)]/40 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-						<div class="w-12 h-12 rounded-full bg-sea-glass/40 flex items-center justify-center text-deep-teal text-lg mb-4" aria-hidden="true">
-							<i class="fa-solid fa-shower"></i>
+					<li class="intro-section__highlight-card flex flex-col items-start text-left <?php echo esc_attr( $rw_fp_card_surface . ' ' . $rw_fp_intro_highlight_pad ); ?>">
+						<div class="intro-section__highlight-icon rounded-full bg-[var(--sea-glass)]/30 flex items-center justify-center text-[var(--deep-teal)] mb-3 shrink-0" aria-hidden="true">
+							<i class="fa-solid fa-shower" aria-hidden="true"></i>
 						</div>
-						<h3 class="text-lg font-serif text-deep-teal mb-2"><?php echo esc_html( $highlight_3_title ); ?></h3>
-						<p class="text-sm text-[#3a5a63] leading-relaxed m-0"><?php echo esc_html( $highlight_3_desc ); ?></p>
+						<h4 class="text-base md:text-lg font-serif font-semibold text-[var(--deep-teal)] mb-2 text-balance m-0 leading-snug"><?php echo esc_html( $h3t ); ?></h4>
+						<p class="intro-section__highlight-desc text-base text-[#3a5a63] leading-relaxed m-0"><?php echo esc_html( $h3d ); ?></p>
 					</li>
 				</ul>
-				<div class="max-w-prose space-y-4">
-				<?php
-				$legacy_intro = function_exists( 'restwell_get_front_page_legacy_intro_body' ) ? restwell_get_front_page_legacy_intro_body() : '';
-				$intro_trim   = trim( (string) $intro_body );
-				$use_geo_stack = ( $intro_trim === '' || $intro_trim === $legacy_intro );
-				if ( ! $use_geo_stack ) {
-					echo '<div class="intro-section__body text-lg text-[#3a5a63] leading-relaxed space-y-4">' . wp_kses_post( $intro_body ) . '</div>';
-				} else {
-					$intro_definition = __( 'Restwell Retreats is a wheelchair-accessible, single-storey holiday bungalow in Whitstable, Kent, designed for guests with disabilities, their families, and carers. The property features a ceiling track hoist, profiling bed, and roll-in wet room, with whole-property booking for privacy and optional CQC-regulated care support.', 'restwell-retreats' );
-					$intro_p2         = __( 'You book the whole property for a private coastal break. Care is optional: Continuity of Care Services (CQC-regulated) can support your stay on your terms, or bring your own carer.', 'restwell-retreats' );
-					$intro_p3         = __( 'We publish door widths, thresholds, and equipment in our accessibility specification so you can judge fit before you travel. Whitstable town, the coast, and day trips stay within reach without last-minute route stress.', 'restwell-retreats' );
-					echo '<p class="text-lg text-[#3a5a63] leading-relaxed m-0">' . esc_html( $intro_definition ) . '</p>';
-					echo '<p class="text-lg text-[#3a5a63] leading-relaxed m-0">' . esc_html( $intro_p2 ) . '</p>';
-					echo '<p class="text-lg text-[#3a5a63] leading-relaxed m-0">' . esc_html( $intro_p3 ) . '</p>';
-				}
-				if ( $post_obj instanceof WP_Post ) {
-					$mod_ts = get_post_modified_time( 'U', true, $post_obj );
-					if ( $mod_ts ) {
-						echo '<p class="text-sm text-[#3a5a63]/80 m-0 pt-1"><time datetime="' . esc_attr( gmdate( 'c', (int) $mod_ts ) ) . '">' . esc_html(
-							sprintf(
-								/* translators: %s: formatted local date */
-								__( 'Last updated: %s', 'restwell-retreats' ),
-								wp_date( get_option( 'date_format' ), (int) $mod_ts )
-							)
-						) . '</time></p>';
+				</div>
+				<div class="intro-section__prose intro-section__prose--home w-full max-w-5xl ml-0 mr-auto mt-6 md:mt-8 pt-5 md:pt-6 border-t border-[var(--deep-teal)]/10">
+					<?php
+					if ( ! $use_geo_stack ) {
+						echo '<div class="intro-section__body max-w-prose text-lg text-[#3a5a63] leading-[1.7] space-y-5 text-pretty">' . wp_kses_post( $intro_raw ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					} else {
+						$rw_intro_link_class = 'text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline cursor-pointer';
+						$rw_intro_kses       = array(
+							'a' => array(
+								'href'  => true,
+								'class' => true,
+							),
+						);
+						$rw_area_url = function_exists( 'restwell_nav_resolve_page_url' ) ? restwell_nav_resolve_page_url( 'whitstable-area-guide' ) : home_url( '/whitstable-area-guide/' );
+						$rw_prop_url = function_exists( 'restwell_nav_resolve_page_url' ) ? restwell_nav_resolve_page_url( 'the-property' ) : home_url( '/the-property/' );
+						$rw_hiw_url  = function_exists( 'restwell_nav_resolve_page_url' ) ? restwell_nav_resolve_page_url( 'how-it-works' ) : home_url( '/how-it-works/' );
+						$rw_acc_url  = function_exists( 'restwell_nav_resolve_page_url' ) ? restwell_nav_resolve_page_url( 'accessibility' ) : home_url( '/accessibility/' );
+
+						echo '<div class="intro-section__prose-columns flex flex-col gap-5 md:grid md:grid-cols-2 md:gap-x-10 md:gap-y-0">';
+						echo '<div class="space-y-5 md:space-y-6">';
+						echo '<p class="text-lg text-[#3a5a63] leading-[1.7] m-0 text-pretty">';
+						printf(
+							wp_kses(
+								/* translators: %1$s: area guide URL, %2$s: link class */
+								__( 'Restwell Retreats is a wheelchair-accessible, single-storey holiday bungalow in <a href="%1$s" class="%2$s">Whitstable, Kent</a>, designed for guests with disabilities, their families, and carers. The property features a ceiling track hoist, profiling bed, and roll-in wet room, with whole-property booking for privacy and optional CQC-regulated care support.', 'restwell-retreats' ),
+								$rw_intro_kses
+							),
+							esc_url( $rw_area_url ),
+							esc_attr( $rw_intro_link_class )
+						);
+						echo '</p>';
+
+						echo '<p class="text-lg text-[#3a5a63] leading-[1.7] m-0 text-pretty">';
+						printf(
+							wp_kses(
+								/* translators: %1$s: property URL, %2$s: how-it-works URL, %3$s: link class */
+								__( 'You book the <a href="%1$s" class="%3$s">whole property</a> for a private coastal break. Care is optional: see <a href="%2$s" class="%3$s">how booking and support work</a> for Continuity of Care Services (CQC-regulated) options, or bring your own carer.', 'restwell-retreats' ),
+								$rw_intro_kses
+							),
+							esc_url( $rw_prop_url ),
+							esc_url( $rw_hiw_url ),
+							esc_attr( $rw_intro_link_class )
+						);
+						echo '</p>';
+						echo '</div>';
+
+						echo '<div class="space-y-5 md:space-y-6">';
+						echo '<p class="text-lg text-[#3a5a63] leading-[1.7] m-0 text-pretty">';
+						printf(
+							wp_kses(
+								/* translators: %1$s: accessibility URL, %2$s: area guide URL, %3$s: link class */
+								__( 'We publish door widths, thresholds, and equipment in our <a href="%1$s" class="%3$s">accessibility specification</a> so you can judge fit before you travel. <a href="%2$s" class="%3$s">Whitstable town, the coast, and day trips</a> stay within reach without last-minute route stress.', 'restwell-retreats' ),
+								$rw_intro_kses
+							),
+							esc_url( $rw_acc_url ),
+							esc_url( $rw_area_url ),
+							esc_attr( $rw_intro_link_class )
+						);
+						echo '</p>';
+						if ( $post_obj instanceof WP_Post ) {
+							$mod_ts = get_post_modified_time( 'U', true, $post_obj );
+							if ( $mod_ts ) {
+								echo '<p class="text-sm text-[#3a5a63] m-0 pt-1 md:pt-0"><time datetime="' . esc_attr( gmdate( 'c', (int) $mod_ts ) ) . '">' . esc_html(
+									sprintf(
+										/* translators: %s: formatted local date */
+										__( 'Last updated: %s', 'restwell-retreats' ),
+										wp_date( get_option( 'date_format' ), (int) $mod_ts )
+									)
+								) . '</time></p>';
+							}
+						}
+						echo '</div>';
+						echo '</div>';
 					}
-				}
-				?>
+					if ( ! $use_geo_stack && $post_obj instanceof WP_Post ) {
+						$mod_ts = get_post_modified_time( 'U', true, $post_obj );
+						if ( $mod_ts ) {
+							echo '<p class="text-sm text-[#3a5a63] m-0 pt-3"><time datetime="' . esc_attr( gmdate( 'c', (int) $mod_ts ) ) . '">' . esc_html(
+								sprintf(
+									/* translators: %s: formatted local date */
+									__( 'Last updated: %s', 'restwell-retreats' ),
+									wp_date( get_option( 'date_format' ), (int) $mod_ts )
+								)
+							) . '</time></p>';
+						}
+					}
+					?>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Who It's For: dual audience cards (centered stack per card; grid gap overrides #main-content .grid.md:grid-cols-2) -->
-	<section class="who-section py-16 md:py-24 bg-[var(--soft-sand)]" aria-labelledby="who-section-heading">
-		<div class="container max-w-6xl">
-			<div class="text-center mb-6 md:mb-10 max-w-2xl mx-auto space-y-3 pt-1">
-				<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $who_label ) ); ?>
-				<h2 id="who-section-heading" class="text-3xl md:text-[2.125rem] section-heading m-0 text-balance leading-tight"><?php echo esc_html( $who_heading ); ?></h2>
-			</div>
-			<div class="who-section__grid grid md:grid-cols-2 max-w-5xl mx-auto items-stretch">
-				<div class="who-card flex flex-col items-center justify-center text-center h-full border border-[var(--deep-teal)]/12 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-6 sm:p-6 md:p-8 transition-shadow duration-300 hover:shadow-[0_12px_36px_rgb(0,0,0,0.08)]">
-					<div class="who-card__stack flex w-full max-w-sm flex-col items-center justify-center gap-3 sm:gap-4">
-						<div class="who-card__icon shrink-0" aria-hidden="true">
-							<i class="fa-solid fa-house"></i>
-						</div>
-						<h3 class="text-lg md:text-xl font-serif text-[var(--deep-teal)] m-0 leading-snug tracking-tight text-balance"><?php echo esc_html( $who_guest_title ); ?></h3>
-						<p class="who-card__body text-center leading-relaxed m-0 text-base w-full"><?php echo esc_html( $who_guest_body ); ?></p>
-					</div>
-				</div>
-				<div class="who-card flex flex-col items-center justify-center text-center h-full border border-[var(--deep-teal)]/12 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-6 sm:p-6 md:p-8 transition-shadow duration-300 hover:shadow-[0_12px_36px_rgb(0,0,0,0.08)]">
-					<div class="who-card__stack flex w-full max-w-sm flex-col items-center justify-center gap-3 sm:gap-4">
-						<div class="who-card__icon who-card__icon--warm shrink-0" aria-hidden="true">
-							<i class="fa-solid fa-heart"></i>
-						</div>
-						<h3 class="text-lg md:text-xl font-serif text-[var(--deep-teal)] m-0 leading-snug tracking-tight text-balance"><?php echo esc_html( $who_carer_title ); ?></h3>
-						<p class="who-card__body text-center leading-relaxed m-0 text-base w-full"><?php echo esc_html( $who_carer_body ); ?></p>
-					</div>
-				</div>
-			</div>
-			<?php
-			$fp_who_link = get_page_by_path( 'who-its-for', OBJECT, 'page' );
-			if ( $fp_who_link ) :
+	<!-- Who it's for -->
+	<section class="who-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-[var(--soft-sand)]">
+		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
+			<div class="text-center max-w-3xl mx-auto <?php echo esc_attr( $rw_fp_head_block ); ?>">
+				<?php
+				$who_label_out = isset( $m['who_label'] ) ? trim( (string) $m['who_label'] ) : '';
+				if ( $who_label_out !== '' ) {
+					get_template_part( 'template-parts/section-label', null, array( 'label' => $who_label_out ) );
+				}
 				?>
-			<p class="text-center mt-10 md:mt-12">
-				<a
-					href="<?php echo esc_url( get_permalink( $fp_who_link ) ); ?>"
-					class="restwell-tap-link who-section__cta inline-flex items-center justify-center gap-2 text-lg font-semibold font-sans text-[var(--deep-teal)] no-underline border-b-2 border-[var(--deep-teal)]/25 pb-0.5 hover:border-[var(--warm-gold-text)] hover:text-[var(--warm-gold-text)] cursor-pointer transition-colors duration-300"
-				>
-					<?php esc_html_e( 'Find out if Restwell is right for you', 'restwell-retreats' ); ?>
-					<span aria-hidden="true" class="inline-block">→</span>
+				<h2 class="text-3xl md:text-4xl section-heading m-0 text-balance"><?php echo esc_html( $m['who_heading'] ?? '' ); ?></h2>
+			</div>
+			<div class="who-section__grid grid md:grid-cols-2 <?php echo esc_attr( $rw_fp_stack_gap ); ?>">
+				<div class="who-card flex flex-col items-start justify-start text-left bg-[#F5EDE0] rounded-2xl <?php echo esc_attr( $rw_fp_card_pad ); ?> md:min-h-[18rem]">
+					<div class="who-card__stack flex w-full flex-col items-start justify-start gap-3 sm:gap-4">
+						<div class="who-card__icon" aria-hidden="true">
+							<i class="fa-solid fa-house" aria-hidden="true"></i>
+						</div>
+						<h3 class="text-xl font-serif text-[var(--deep-teal)] m-0 text-balance"><?php echo esc_html( $m['who_guest_title'] ?? '' ); ?></h3>
+						<p class="who-card__body text-[#3a5a63] leading-relaxed m-0 w-full text-pretty"><?php echo esc_html( $m['who_guest_body'] ?? '' ); ?></p>
+					</div>
+				</div>
+				<div class="who-card flex flex-col items-start justify-start text-left bg-[#F5EDE0] rounded-2xl <?php echo esc_attr( $rw_fp_card_pad ); ?> md:min-h-[18rem]">
+					<div class="who-card__stack flex w-full flex-col items-start justify-start gap-3 sm:gap-4">
+						<div class="who-card__icon who-card__icon--warm" aria-hidden="true">
+							<i class="fa-solid fa-heart" aria-hidden="true"></i>
+						</div>
+						<h3 class="text-xl font-serif text-[var(--deep-teal)] m-0 text-balance"><?php echo esc_html( $m['who_carer_title'] ?? '' ); ?></h3>
+						<p class="who-card__body text-[#3a5a63] leading-relaxed m-0 w-full text-pretty"><?php echo esc_html( $m['who_carer_body'] ?? '' ); ?></p>
+					</div>
+				</div>
+			</div>
+			<?php if ( $fp_who ) : ?>
+			<p class="text-center text-sm text-[#3a5a63] <?php echo esc_attr( $rw_fp_cta_mt ); ?> m-0">
+				<a href="<?php echo esc_url( get_permalink( $fp_who ) ); ?>"
+					class="who-section__cta restwell-tap-link text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline cursor-pointer min-h-[44px] inline-flex items-center justify-center py-2 px-3">
+					<?php esc_html_e( 'Find out if Restwell is right for you →', 'restwell-retreats' ); ?>
 				</a>
 			</p>
 			<?php endif; ?>
 		</div>
 	</section>
 
-	<!-- Property Snapshot -->
-	<section class="property-section py-16 md:py-24 bg-white">
-		<div class="container">
-			<div class="property-grid grid gap-8 items-center">
-				<div class="property-grid__image rounded-2xl overflow-hidden shadow-lg h-[350px] md:h-[450px]">
+	<!-- Property snapshot -->
+	<section class="property-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-white">
+		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
+			<div class="property-grid <?php echo esc_attr( $rw_fp_stack_gap_lg ); ?> items-center">
+				<div class="property-grid__image rounded-2xl overflow-hidden shadow-lg">
 					<?php if ( $property_image_id ) : ?>
 						<?php
+						$property_img_size = function_exists( 'restwell_pick_attachment_size' ) ? restwell_pick_attachment_size( $property_image_id, 'restwell-hero', 'large' ) : 'large';
 						echo wp_get_attachment_image(
 							$property_image_id,
-							'large',
+							$property_img_size,
 							false,
 							array(
-								'class'    => 'w-full h-full object-cover',
+								'class'    => 'w-full h-[350px] md:h-[450px] object-cover',
 								'alt'      => $property_heading,
 								'loading'  => 'lazy',
 								'decoding' => 'async',
@@ -433,54 +611,36 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 						);
 						?>
 					<?php else : ?>
-						<!-- PROPERTY IMAGE NEEDED -->
-						<div class="property-placeholder w-full h-[350px] bg-[var(--driftwood)] flex items-center justify-center text-[#8B8B7A] rounded-2xl">
+						<div class="property-placeholder w-full h-[350px] bg-[#E8DFD0] flex items-center justify-center text-[#8B8B7A] rounded-2xl">
 							<span><?php esc_html_e( 'Add property image', 'restwell-retreats' ); ?></span>
 						</div>
 					<?php endif; ?>
 				</div>
 				<div class="property-grid__text space-y-6">
-					<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $property_label ) ); ?>
-					<h2 class="text-3xl section-heading"><?php echo esc_html( $property_heading ); ?></h2>
-					<p class="text-[#3a5a63] leading-relaxed"><?php echo esc_html( $property_body ); ?></p>
-					<?php
-					$fp_acc       = get_page_by_path( 'accessibility', OBJECT, 'page' );
-					$fp_who       = get_page_by_path( 'who-its-for', OBJECT, 'page' );
-					$fp_guide     = get_page_by_path( 'whitstable-area-guide', OBJECT, 'page' );
-					$fp_hiw       = get_page_by_path( 'how-it-works', OBJECT, 'page' );
-					$fp_resources = get_page_by_path( 'resources', OBJECT, 'page' );
-					$fp_faq       = get_page_by_path( 'faq', OBJECT, 'page' );
-					$fp_quick     = array();
-					if ( $fp_acc ) {
-						$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_acc ) ) . '" class="text-deep-teal font-medium underline underline-offset-2 hover:no-underline cursor-pointer">' . esc_html__( 'Accessibility specification', 'restwell-retreats' ) . '</a>';
-					}
-					if ( $fp_who ) {
-						$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_who ) ) . '" class="text-deep-teal font-medium underline underline-offset-2 hover:no-underline cursor-pointer">' . esc_html__( 'Who it\'s for', 'restwell-retreats' ) . '</a>';
-					}
-					if ( $fp_guide ) {
-						$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_guide ) ) . '" class="text-deep-teal font-medium underline underline-offset-2 hover:no-underline cursor-pointer">' . esc_html__( 'Whitstable & Kent guide', 'restwell-retreats' ) . '</a>';
-					}
-					if ( $fp_hiw ) {
-						$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_hiw ) ) . '" class="text-deep-teal font-medium underline underline-offset-2 hover:no-underline cursor-pointer">' . esc_html__( 'How booking works', 'restwell-retreats' ) . '</a>';
-					}
-					if ( $fp_resources ) {
-						$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_resources ) ) . '" class="text-deep-teal font-medium underline underline-offset-2 hover:no-underline cursor-pointer">' . esc_html__( 'Funding & support', 'restwell-retreats' ) . '</a>';
-					}
-					if ( $fp_faq ) {
-						$fp_quick[] = '<a href="' . esc_url( get_permalink( $fp_faq ) ) . '" class="text-deep-teal font-medium underline underline-offset-2 hover:no-underline cursor-pointer">' . esc_html__( 'FAQ', 'restwell-retreats' ) . '</a>';
-					}
-					if ( ! empty( $fp_quick ) ) :
-						?>
-					<p class="text-sm text-[#3a5a63]/90 leading-relaxed pt-2">
-						<?php echo wp_kses_post( implode( '<span class="text-[var(--muted-grey)]" aria-hidden="true"> · </span>', $fp_quick ) ); ?>
+					<span class="section-label block mb-4"><?php echo esc_html( $m['property_label'] ?? '' ); ?></span>
+					<h2 class="text-3xl"><?php echo esc_html( $property_heading ); ?></h2>
+					<?php if ( $property_body_canonical !== '' && $property_body_trimmed === $property_body_canonical ) : ?>
+						<p class="text-[#3a5a63] leading-relaxed m-0"><?php esc_html_e( 'An adapted single-storey property in Whitstable: level approach from the street, off-street parking for adapted vehicles, and a flat route toward the Tankerton promenade.', 'restwell-retreats' ); ?></p>
+						<ul class="mt-4 list-disc pl-5 space-y-2 text-[#3a5a63] leading-relaxed m-0">
+							<li><?php esc_html_e( 'Flat route toward the Tankerton promenade and practical access from parking to the door.', 'restwell-retreats' ); ?></li>
+							<li><?php esc_html_e( 'Whitstable town centre (harbour, seafood restaurants, and the waterfront) is close enough for day trips without stressful route planning.', 'restwell-retreats' ); ?></li>
+						</ul>
+					<?php else : ?>
+						<p class="text-[#3a5a63] leading-relaxed"><?php echo esc_html( $property_body ); ?></p>
+					<?php endif; ?>
+
+					<?php if ( ! empty( $fp_quick ) ) : ?>
+					<p class="property-section__quick-links text-sm text-[#3a5a63] leading-relaxed pt-3 flex flex-wrap gap-x-2 gap-y-2 [&_a]:inline-flex [&_a]:min-h-[44px] [&_a]:items-center [&_a]:py-2 [&_a]:px-1">
+						<?php echo wp_kses_post( implode( '<span class="text-[var(--muted-grey)] select-none" aria-hidden="true"> · </span>', $fp_quick ) ); ?>
 					</p>
 					<?php endif; ?>
+
 					<a
-						href="<?php echo esc_url( $property_cta_url ); ?>"
-						class="inline-flex items-center gap-2 text-deep-teal font-semibold hover:text-[var(--warm-gold-text)] hover:underline transition-colors duration-300 no-underline cursor-pointer"
+						href="<?php echo esc_url( $rw_fp_resolve_href( isset( $m['property_cta_url'] ) ? (string) $m['property_cta_url'] : '' ) ); ?>"
+						class="inline-flex items-center gap-2 min-h-[44px] text-[#1B4D5C] font-semibold hover:text-[#815F10] hover:underline transition-colors duration-300 no-underline cursor-pointer"
 						data-cta="property-explore"
 					>
-						<?php echo esc_html( $property_cta_label ); ?>
+						<?php echo esc_html( $m['property_cta_label'] ?? '' ); ?>
 						<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
 					</a>
 				</div>
@@ -488,71 +648,177 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 		</div>
 	</section>
 
-	<!-- Why Restwell? Mini -->
-	<section class="features-section py-16 md:py-24 bg-[var(--bg-subtle)]">
-		<div class="container">
-			<div class="text-center mb-12">
-				<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $why_label ) ); ?>
-				<h2 class="text-3xl md:text-4xl section-heading"><?php echo esc_html( $why_heading ); ?></h2>
+	<?php if ( $show_testimonials ) : ?>
+	<!-- Testimonials: after property spotlight, before “why Restwell” (wireframe flow). -->
+	<section class="testimonials-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-[var(--bg-subtle)] border-t border-[var(--deep-teal)]/10">
+		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
+			<div class="text-center max-w-3xl mx-auto <?php echo esc_attr( $rw_fp_head_block ); ?>">
+				<?php if ( $testimonial_label !== '' ) : ?>
+					<p class="section-label mb-3"><?php echo esc_html( $testimonial_label ); ?></p>
+				<?php endif; ?>
+				<h2 class="text-3xl md:text-4xl section-heading m-0 text-balance"><?php echo esc_html( $testimonial_heading ); ?></h2>
 			</div>
-			<div class="features-grid grid sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto mt-8">
-				<div class="feature-item group text-center space-y-4 p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white/70">
-					<div class="feature-icon-wrapper">
-						<div class="feature-icon-blob"></div>
-						<i class="fa-solid fa-house feature-icon-svg text-deep-teal text-2xl" aria-hidden="true"></i>
-					</div>
-					<h3 class="text-xl font-serif text-deep-teal"><?php echo esc_html( $why1_title ); ?></h3>
-					<p class="text-[15px] text-[#3a5a63] leading-relaxed"><?php echo esc_html( $why1_desc ); ?></p>
-				</div>
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 <?php echo esc_attr( $rw_fp_stack_gap_lg ); ?>">
+				<?php foreach ( $testimonials as $t ) : ?>
+					<blockquote class="bg-white rounded-2xl border border-[var(--deep-teal)]/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col <?php echo esc_attr( $rw_fp_card_pad ); ?>">
+						<p class="restwell-prose-readable text-[#3a5a63] leading-relaxed flex-1 mb-4 text-pretty"><?php echo esc_html( $t['quote'] ); ?></p>
+						<footer class="text-[var(--deep-teal)] font-medium">
+							<?php echo esc_html( $t['name'] ); ?>
+							<?php if ( $t['role'] !== '' ) : ?>
+								<span class="block text-sm font-normal text-[#3a5a63]"><?php echo esc_html( $t['role'] ); ?></span>
+							<?php endif; ?>
+						</footer>
+					</blockquote>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+	<?php endif; ?>
 
-				<div class="feature-item group text-center space-y-4 p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white/70">
+	<!-- Why Restwell -->
+	<section class="features-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-[var(--soft-sand)] border-t border-[var(--deep-teal)]/10">
+		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
+			<div class="text-center <?php echo esc_attr( $rw_fp_head_block ); ?>">
+				<span class="section-label block mb-3"><?php echo esc_html( $m['why_label'] ?? '' ); ?></span>
+				<h2 class="text-3xl md:text-4xl section-heading"><?php echo esc_html( $m['why_heading'] ?? '' ); ?></h2>
+			</div>
+			<div class="features-grid">
+				<div class="feature-item group text-center space-y-4">
 					<div class="feature-icon-wrapper">
 						<div class="feature-icon-blob"></div>
-						<i class="fa-solid fa-shield-halved feature-icon-svg text-deep-teal text-2xl" aria-hidden="true"></i>
+						<i class="fa-solid fa-house feature-icon-svg text-[#1B4D5C] text-2xl" aria-hidden="true"></i>
 					</div>
-					<h3 class="text-xl font-serif text-deep-teal"><?php echo esc_html( $why2_title ); ?></h3>
-					<p class="text-[15px] text-[#3a5a63] leading-relaxed"><?php echo esc_html( $why2_desc ); ?></p>
+					<h3 class="text-xl font-serif text-[#1B4D5C] text-center"><?php echo esc_html( $m['why_item1_title'] ?? '' ); ?></h3>
+					<p class="feature-item__body text-[15px] text-[#3a5a63] leading-relaxed text-center"><?php echo esc_html( $m['why_item1_desc'] ?? '' ); ?></p>
 				</div>
-
-				<div class="feature-item group text-center space-y-4 p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white/70">
+				<div class="feature-item group text-center space-y-4">
 					<div class="feature-icon-wrapper">
 						<div class="feature-icon-blob"></div>
-						<i class="fa-solid fa-location-dot feature-icon-svg text-deep-teal text-2xl" aria-hidden="true"></i>
+						<i class="fa-solid fa-shield-halved feature-icon-svg text-[#1B4D5C] text-2xl" aria-hidden="true"></i>
 					</div>
-					<h3 class="text-xl font-serif text-deep-teal"><?php echo esc_html( $why3_title ); ?></h3>
-					<p class="text-[15px] text-[#3a5a63] leading-relaxed"><?php echo esc_html( $why3_desc ); ?></p>
+					<h3 class="text-xl font-serif text-[#1B4D5C] text-center"><?php echo esc_html( $m['why_item2_title'] ?? '' ); ?></h3>
+					<p class="feature-item__body text-[15px] text-[#3a5a63] leading-relaxed text-center"><?php echo esc_html( $m['why_item2_desc'] ?? '' ); ?></p>
 				</div>
-
-				<div class="feature-item group text-center space-y-4 p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white/70">
+				<div class="feature-item group text-center space-y-4">
 					<div class="feature-icon-wrapper">
 						<div class="feature-icon-blob"></div>
-						<i class="fa-solid fa-heart feature-icon-svg text-deep-teal text-2xl" aria-hidden="true"></i>
+						<i class="fa-solid fa-location-dot feature-icon-svg text-[#1B4D5C] text-2xl" aria-hidden="true"></i>
 					</div>
-					<h3 class="text-xl font-serif text-deep-teal"><?php echo esc_html( $why4_title ); ?></h3>
-					<p class="text-[15px] text-[#3a5a63] leading-relaxed"><?php echo esc_html( $why4_desc ); ?></p>
+					<h3 class="text-xl font-serif text-[#1B4D5C] text-center"><?php echo esc_html( $m['why_item3_title'] ?? '' ); ?></h3>
+					<p class="feature-item__body text-[15px] text-[#3a5a63] leading-relaxed text-center"><?php echo esc_html( $m['why_item3_desc'] ?? '' ); ?></p>
+				</div>
+				<div class="feature-item group text-center space-y-4">
+					<div class="feature-icon-wrapper">
+						<div class="feature-icon-blob"></div>
+						<i class="fa-solid fa-heart feature-icon-svg text-[#1B4D5C] text-2xl" aria-hidden="true"></i>
+					</div>
+					<h3 class="text-xl font-serif text-[#1B4D5C] text-center"><?php echo esc_html( $m['why_item4_title'] ?? '' ); ?></h3>
+					<p class="feature-item__body text-[15px] text-[#3a5a63] leading-relaxed text-center"><?php echo esc_html( $m['why_item4_desc'] ?? '' ); ?></p>
 				</div>
 			</div>
 		</div>
 	</section>
 
+	<!-- Bottom CTA -->
+	<section class="relative <?php echo esc_attr( $rw_fp_section_y_emphasis ); ?> overflow-hidden">
+		<?php if ( $cta_image_id ) : ?>
+			<?php
+			echo wp_get_attachment_image(
+				$cta_image_id,
+				'full',
+				false,
+				array(
+					'class'       => 'absolute inset-0 w-full h-full object-cover -z-10',
+					'alt'         => '',
+					'loading'     => 'lazy',
+					'decoding'    => 'async',
+					'sizes'       => '100vw',
+					'aria-hidden' => 'true',
+				)
+			);
+			?>
+		<?php endif; ?>
+		<div class="absolute inset-0 bg-[#1B4D5C]/75" aria-hidden="true"></div>
+		<div class="relative container text-center <?php echo esc_attr( $rw_fp_inner_narrow ); ?>">
+			<h2 class="text-white text-3xl md:text-4xl <?php echo esc_attr( $rw_fp_head_tight ); ?>"><?php echo esc_html( $m['cta_heading'] ?? '' ); ?></h2>
+			<p class="text-[#F5EDE0] text-lg <?php echo esc_attr( $rw_fp_head_block ); ?> max-w-lg mx-auto m-0">
+				<?php echo esc_html( $m['cta_body'] ?? '' ); ?>
+			</p>
+			<?php get_template_part( 'template-parts/cta-accessibility-prompt', null, array( 'variant' => 'dark' ) ); ?>
+			<div class="flex flex-col sm:flex-row justify-center <?php echo esc_attr( $rw_fp_stack_gap ); ?>">
+				<a
+					id="bottom-cta-enquire"
+					href="<?php echo esc_url( $rw_fp_resolve_href( isset( $m['cta_primary_url'] ) ? (string) $m['cta_primary_url'] : '' ) ); ?>"
+					class="btn btn-gold w-full sm:w-auto"
+					data-cta="cta-enquire"
+				>
+					<?php echo esc_html( $m['cta_primary_label'] ?? '' ); ?>
+				</a>
+				<a
+					href="<?php echo esc_url( $rw_fp_resolve_href( isset( $m['cta_secondary_url'] ) ? (string) $m['cta_secondary_url'] : '' ) ); ?>"
+					class="btn btn-ghost-light w-full sm:w-auto"
+					data-cta="cta-property"
+				>
+					<?php echo esc_html( $m['cta_secondary_label'] ?? '' ); ?>
+				</a>
+			</div>
+			<p class="text-white/90 text-sm <?php echo esc_attr( $rw_fp_cta_mt ); ?> m-0"><?php echo esc_html( $rw_fp_cta_promise_display ); ?></p>
+		</div>
+	</section>
+
+	<?php if ( $show_home_comparison ) : ?>
+	<section class="home-comparison-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-white border-t border-[var(--deep-teal)]/10" aria-labelledby="home-comparison-heading">
+		<div class="container <?php echo esc_attr( $rw_fp_inner_comparison ); ?>">
+			<header class="text-center <?php echo esc_attr( $rw_fp_head_block ); ?> max-w-3xl mx-auto">
+				<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $home_comparison_label ) ); ?>
+				<h2 id="home-comparison-heading" class="text-3xl md:text-4xl section-heading m-0 text-balance"><?php echo esc_html( $home_comparison_heading_resolved ); ?></h2>
+				<?php if ( $home_comparison_intro !== '' ) : ?>
+				<p class="text-[#3a5a63] leading-relaxed mt-4 max-w-2xl m-0 mx-auto text-left"><?php echo esc_html( $home_comparison_intro ); ?></p>
+				<?php endif; ?>
+			</header>
+			<div class="overflow-x-auto rounded-2xl border border-[var(--deep-teal)]/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+				<table class="w-full min-w-[min(100%,520px)] border-collapse text-left text-sm md:text-base">
+					<caption class="sr-only"><?php echo esc_html( $home_comparison_heading_resolved ); ?></caption>
+					<thead>
+						<tr class="bg-[var(--soft-sand)]/60">
+							<th scope="col" class="p-4 font-semibold text-[var(--deep-teal)] font-sans"><?php esc_html_e( 'Feature', 'restwell-retreats' ); ?></th>
+							<th scope="col" class="p-4 font-semibold text-[var(--deep-teal)] font-sans bg-[var(--warm-gold)]/8"><?php esc_html_e( 'Restwell', 'restwell-retreats' ); ?></th>
+							<th scope="col" class="p-4 font-semibold text-[var(--deep-teal)] font-sans"><?php esc_html_e( 'Hotel / care setting', 'restwell-retreats' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $home_comparison_rows as $hcr_idx => $hcr_row ) : ?>
+						<tr class="border-t border-[var(--deep-teal)]/10 <?php echo 0 === ( $hcr_idx % 2 ) ? 'bg-white' : 'bg-[var(--soft-sand)]/25'; ?>">
+							<th scope="row" class="p-4 font-medium text-[var(--deep-teal)] align-top"><?php echo esc_html( $hcr_row['feature'] ); ?></th>
+							<td class="p-4 text-[#3a5a63] align-top bg-[var(--warm-gold)]/8"><?php echo esc_html( $hcr_row['restwell'] ); ?></td>
+							<td class="p-4 text-[#3a5a63] align-top"><?php echo esc_html( $hcr_row['other'] ); ?></td>
+						</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
 	<?php endif; ?>
 
 	<?php if ( $show_home_faq && ! empty( $home_faq_pairs ) ) : ?>
-	<!-- Homepage FAQ (matches FAQPage JSON-LD in inc/seo.php); outside editor/static branch so it shows when main body is from the editor too -->
-	<section class="home-faq-section py-16 md:py-24 bg-white border-t border-[var(--deep-teal)]/10" aria-labelledby="home-faq-heading">
-		<div class="container max-w-3xl">
-			<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $home_faq_label ) ); ?>
-			<h2 id="home-faq-heading" class="text-3xl md:text-4xl section-heading mb-8 md:mb-10"><?php echo esc_html( $home_faq_heading ); ?></h2>
-			<dl class="home-faq-list space-y-6 m-0">
+	<!-- Homepage FAQ (matches FAQPage JSON-LD in inc/seo.php) -->
+	<section class="home-faq-section <?php echo esc_attr( $rw_fp_section_y ); ?> bg-[var(--soft-sand)] border-t border-[var(--deep-teal)]/10" aria-labelledby="home-faq-heading">
+		<div class="container <?php echo esc_attr( $rw_fp_inner_narrow ); ?> text-left">
+			<div class="text-center max-w-3xl mx-auto">
+				<?php get_template_part( 'template-parts/section-label', null, array( 'label' => $home_faq_label ) ); ?>
+				<h2 id="home-faq-heading" class="text-3xl md:text-4xl section-heading <?php echo esc_attr( $rw_fp_head_tight ); ?> text-balance"><?php echo esc_html( $home_faq_heading ); ?></h2>
+			</div>
+			<dl class="home-faq-list m-0 mt-8 md:mt-10 border-t border-[var(--deep-teal)]/10 divide-y divide-[var(--deep-teal)]/10">
 				<?php foreach ( $home_faq_pairs as $faq ) : ?>
 					<?php
 					if ( empty( $faq['q'] ) || empty( $faq['a'] ) ) {
 						continue;
 					}
 					?>
-				<div class="home-faq__item border-b border-[var(--deep-teal)]/10 pb-6 last:border-0 last:pb-0">
-					<dt class="text-lg font-serif text-[var(--deep-teal)] m-0 mb-2"><?php echo esc_html( $faq['q'] ); ?></dt>
-					<dd class="text-[#3a5a63] leading-relaxed m-0"><?php echo esc_html( $faq['a'] ); ?></dd>
+				<div class="home-faq__item py-5 md:py-6">
+					<dt class="text-lg font-serif font-semibold text-[var(--deep-teal)] m-0"><?php echo esc_html( $faq['q'] ); ?></dt>
+					<dd class="text-[#3a5a63] leading-[1.65] m-0 mt-2.5"><?php echo esc_html( $faq['a'] ); ?></dd>
 				</div>
 				<?php endforeach; ?>
 			</dl>
@@ -560,10 +826,10 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 			$home_faq_more = get_page_by_path( 'faq', OBJECT, 'page' );
 			if ( $home_faq_more ) :
 				?>
-			<p class="mt-10 text-center m-0">
+			<p class="<?php echo esc_attr( $rw_fp_cta_mt ); ?> m-0">
 				<a
 					href="<?php echo esc_url( get_permalink( $home_faq_more ) ); ?>"
-					class="restwell-tap-link inline-flex items-center justify-center gap-2 text-[var(--deep-teal)] font-semibold underline-offset-2 hover:underline hover:text-[var(--warm-gold-text)] transition-colors duration-300 no-underline cursor-pointer"
+					class="restwell-tap-link inline-flex items-center gap-2 text-[var(--deep-teal)] font-semibold underline-offset-4 hover:underline hover:text-[var(--warm-gold-text)] transition-colors duration-300 no-underline cursor-pointer"
 				>
 					<?php esc_html_e( 'More on the full FAQ page', 'restwell-retreats' ); ?>
 					<i class="fa-solid fa-chevron-right text-sm" aria-hidden="true"></i>
@@ -576,102 +842,39 @@ $use_editor_main   = $post_obj instanceof WP_Post && trim( (string) $post_obj->p
 
 	<?php if ( $show_trust ) : ?>
 	<!-- Trust / accreditations -->
-	<section class="trust-strip border-t border-b border-[var(--deep-teal)]/8 py-12 md:py-16" aria-label="<?php echo esc_attr( __( 'Trust and accreditation', 'restwell-retreats' ) ); ?>">
-		<div class="container text-center px-4 sm:px-6">
+	<section class="trust-strip bg-[var(--bg-subtle)] border-t border-b border-[var(--deep-teal)]/8 <?php echo esc_attr( $rw_fp_section_y ); ?>" aria-label="<?php echo esc_attr( __( 'Trust and accreditation', 'restwell-retreats' ) ); ?>">
+		<div class="container <?php echo esc_attr( $rw_fp_inner_narrow ); ?> text-left">
 			<?php if ( $trust_label !== '' ) : ?>
 				<p class="section-label mb-3"><?php echo esc_html( $trust_label ); ?></p>
 			<?php endif; ?>
 			<?php if ( $trust_heading !== '' ) : ?>
-				<h2 class="text-2xl font-serif text-[var(--deep-teal)] mb-6"><?php echo esc_html( $trust_heading ); ?></h2>
+				<h2 class="text-2xl font-serif text-[var(--deep-teal)] <?php echo esc_attr( $rw_fp_head_tight ); ?>"><?php echo esc_html( $trust_heading ); ?></h2>
 			<?php endif; ?>
-			<div class="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 flex-wrap max-w-3xl mx-auto">
-				<?php if ( $trust_badge_src ) : ?>
-					<img src="<?php echo esc_url( $trust_badge_src ); ?>" alt="<?php echo esc_attr__( 'CQC regulated care provider accreditation', 'restwell-retreats' ); ?>" class="h-16 w-auto object-contain" loading="lazy" decoding="async" />
+			<div class="flex flex-col sm:flex-row items-start justify-start gap-6 sm:gap-10 flex-wrap">
+				<?php if ( $trust_badge_image_id ) : ?>
+					<?php
+					echo wp_get_attachment_image(
+						$trust_badge_image_id,
+						'medium',
+						false,
+						array(
+							'class'    => 'h-16 w-auto object-contain',
+							'alt'      => __( 'CQC regulated care provider accreditation', 'restwell-retreats' ),
+							'loading'  => 'lazy',
+							'decoding' => 'async',
+							'sizes'    => '200px',
+						)
+					);
+					?>
 				<?php endif; ?>
 				<?php if ( $trust_line !== '' ) : ?>
-					<p class="trust-strip__line text-[var(--deep-teal)] font-medium leading-relaxed tracking-tight max-w-[52ch] mx-auto"><?php echo esc_html( $trust_line ); ?></p>
+					<p class="trust-strip__line text-[var(--deep-teal)] font-medium leading-relaxed tracking-tight max-w-[52ch]"><?php echo esc_html( $trust_line ); ?></p>
 				<?php endif; ?>
 			</div>
 		</div>
 	</section>
 	<?php endif; ?>
 
-	<?php if ( $show_testimonials ) : ?>
-	<!-- Testimonials -->
-	<section class="py-16 md:py-24 bg-[var(--soft-sand)]">
-		<div class="container">
-			<?php if ( $testimonial_label !== '' ) : ?>
-				<p class="section-label text-center mb-3"><?php echo esc_html( $testimonial_label ); ?></p>
-			<?php endif; ?>
-			<h2 class="text-3xl md:text-4xl section-heading text-center mb-12"><?php echo esc_html( $testimonial_heading ); ?></h2>
-			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-				<?php foreach ( $testimonials as $t ) : ?>
-					<blockquote class="bg-[var(--bg-subtle)] rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 md:p-8 flex flex-col">
-						<p class="text-[#3a5a63] leading-relaxed flex-1 mb-4"><?php echo esc_html( $t['quote'] ); ?></p>
-						<footer class="text-[var(--deep-teal)] font-medium">
-							<?php echo esc_html( $t['name'] ); ?>
-							<?php if ( $t['role'] !== '' ) : ?>
-								<span class="block text-sm font-normal text-[#3a5a63]/85"><?php echo esc_html( $t['role'] ); ?></span>
-							<?php endif; ?>
-						</footer>
-					</blockquote>
-				<?php endforeach; ?>
-			</div>
-		</div>
-	</section>
-	<?php endif; ?>
-
-	<?php if ( ! $use_editor_main ) : ?>
-	<!-- CTA Section (omitted when main body comes from the page editor: CTA is in post_content) -->
-	<section class="relative py-20 md:py-28 overflow-hidden">
-		<?php if ( $cta_image_id ) : ?>
-			<?php
-			echo wp_get_attachment_image(
-				$cta_image_id,
-				'full',
-				false,
-				array(
-					'class'    => 'absolute inset-0 w-full h-full object-cover',
-					'alt'      => '',
-					'loading'  => 'lazy',
-					'decoding' => 'async',
-					'role'     => 'presentation',
-				)
-			);
-			?>
-		<?php else : ?>
-			<!-- IMAGE NEEDED: CTA background (set cta_image_id in Page Content Fields) -->
-		<?php endif; ?>
-		<div class="absolute inset-0 bg-deep-teal/75" aria-hidden="true"></div>
-		<div class="relative container text-center">
-			<h2 class="text-white text-3xl md:text-4xl mb-4 font-serif section-heading"><?php echo esc_html( $cta_heading ); ?></h2>
-			<p class="text-soft-sand text-lg mb-8 max-w-lg mx-auto opacity-90 leading-relaxed">
-				<?php echo esc_html( $cta_body ); ?>
-			</p>
-			<?php get_template_part( 'template-parts/cta-accessibility-prompt', null, array( 'variant' => 'dark' ) ); ?>
-			<div class="flex flex-col sm:flex-row justify-center gap-4 max-w-sm mx-auto mt-8 mb-6 sm:mt-0 sm:mb-0 sm:max-w-none sm:mx-0">
-				<a
-					id="bottom-cta-enquire"
-					href="<?php echo esc_url( $cta_primary_url ); ?>"
-					class="btn btn-gold w-full sm:w-auto cursor-pointer"
-					data-cta="cta-enquire"
-				>
-					<?php echo esc_html( $cta_primary_label ); ?>
-				</a>
-				<a
-					href="<?php echo esc_url( $cta_secondary_url ); ?>"
-					class="btn btn-ghost-light w-full sm:w-auto cursor-pointer"
-					data-cta="cta-property"
-				>
-					<?php echo esc_html( $cta_secondary_label ); ?>
-				</a>
-			</div>
-			<?php if ( $cta_promise !== '' ) : ?>
-				<p class="text-white/90 text-sm mt-4"><?php echo esc_html( $cta_promise ); ?></p>
-			<?php endif; ?>
-		</div>
-	</section>
-	<?php endif; ?>
 </main>
 <?php
 global $restwell_hide_footer_cta;

@@ -21,8 +21,19 @@ $excerpt      = get_the_excerpt();
 $date         = get_the_date();
 $date_iso     = get_the_date( 'c' );
 $modified_iso = get_the_modified_date( 'c' );
-$category     = restwell_get_primary_category();
 $read_time    = restwell_estimate_read_time( $content );
+
+$primary_cat_term = null;
+$cats_all       = get_the_category( $post_id );
+if ( ! empty( $cats_all ) ) {
+	foreach ( $cats_all as $cat_obj ) {
+		if ( 'uncategorized' !== $cat_obj->slug ) {
+			$primary_cat_term = $cat_obj;
+			break;
+		}
+	}
+}
+$cat_id = $primary_cat_term ? (int) $primary_cat_term->term_id : 0;
 
 $img_id  = get_post_thumbnail_id();
 $img_alt = $img_id ? trim( wp_strip_all_tags( (string) get_post_meta( $img_id, '_wp_attachment_image_alt', true ) ) ) : '';
@@ -37,43 +48,34 @@ $archive_label = $posts_page_id ? get_the_title( $posts_page_id ) : __( 'News & 
 
 // Related posts: same category, exclude current.
 $related_posts = array();
-if ( $category ) {
-	$cats = get_the_category( $post_id );
-	$cat_id = 0;
-	if ( ! empty( $cats ) ) {
-		foreach ( $cats as $cat_obj ) {
-			if ( 'uncategorized' !== $cat_obj->slug ) {
-				$cat_id = (int) $cat_obj->term_id;
-				break;
-			}
+if ( $cat_id ) {
+	$related_query = new WP_Query( array(
+		'category__in'             => array( $cat_id ),
+		'post__not_in'             => array( $post_id ),
+		'posts_per_page'           => 2,
+		'orderby'                  => 'date',
+		'order'                    => 'DESC',
+		'no_found_rows'            => true,
+		'update_post_meta_cache'   => true,
+	) );
+	if ( $related_query->have_posts() ) {
+		while ( $related_query->have_posts() ) {
+			$related_query->the_post();
+			$related_posts[] = array(
+				'title'     => get_the_title(),
+				'permalink' => get_permalink(),
+				'date'      => get_the_date(),
+				'img_src'   => get_the_post_thumbnail_url( null, 'medium_large' ),
+				'read_time' => restwell_estimate_read_time( (string) get_post_field( 'post_content', get_the_ID() ) ),
+			);
 		}
-		if ( ! $cat_id ) {
-			$cat_id = (int) $cats[0]->term_id;
-		}
-	}
-	if ( $cat_id ) {
-		$related_query = new WP_Query( array(
-			'category__in'   => array( $cat_id ),
-			'post__not_in'   => array( $post_id ),
-			'posts_per_page' => 2,
-			'orderby'        => 'date',
-			'order'          => 'DESC',
-		) );
-		if ( $related_query->have_posts() ) {
-			while ( $related_query->have_posts() ) {
-				$related_query->the_post();
-				$related_posts[] = array(
-					'title'     => get_the_title(),
-					'permalink' => get_permalink(),
-					'date'      => get_the_date(),
-					'img_src'   => get_the_post_thumbnail_url( null, 'medium_large' ),
-					'read_time' => restwell_estimate_read_time( (string) get_post_field( 'post_content', get_the_ID() ) ),
-				);
-			}
-			wp_reset_postdata();
-		}
+		wp_reset_postdata();
 	}
 }
+
+$published_ts = (int) get_post_time( 'U', true, $post_id );
+$modified_ts  = (int) get_post_modified_time( 'U', true, $post_id );
+$show_updated = $modified_ts > $published_ts + DAY_IN_SECONDS;
 ?>
 <main class="flex-1" id="main-content">
 
@@ -81,18 +83,29 @@ if ( $category ) {
 	<?php get_template_part( 'template-parts/breadcrumb' ); ?>
 
 	<?php
-	$prepend_inner_html = '';
-	if ( $category || $read_time ) {
-		$prepend_inner_html .= '<div class="flex flex-wrap items-center gap-3 mb-5">';
-		if ( $category ) {
-			$prepend_inner_html .= '<span class="inline-block bg-white/15 text-white text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full">' . esc_html( $category ) . '</span>';
-		}
-		if ( $read_time ) {
-			$prepend_inner_html .= '<span class="text-white/70 text-xs font-medium">' . esc_html( $read_time ) . ' ' . esc_html__( 'min read', 'restwell-retreats' ) . '</span>';
-		}
-		$prepend_inner_html .= '</div>';
+	// Hero meta row: section index link, optional category, read time (same hero shell as pages; blog-specific rhythm).
+	$prepend_inner_html  = '<div class="home-hero__article-meta flex flex-wrap items-center gap-x-3 gap-y-2 justify-center sm:justify-start" role="group" aria-label="' . esc_attr__( 'Article context', 'restwell-retreats' ) . '">';
+	$prepend_inner_html .= '<a href="' . esc_url( $archive_url ) . '" class="home-hero__article-back text-white/85 text-xs font-semibold uppercase tracking-[0.12em] no-underline hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 rounded">' . esc_html( $archive_label ) . '</a>';
+	if ( $primary_cat_term ) {
+		$prepend_inner_html .= '<span class="text-white/35 select-none" aria-hidden="true">·</span>';
+		$prepend_inner_html .= '<a href="' . esc_url( get_category_link( $primary_cat_term ) ) . '" class="home-hero__article-category inline-block bg-white/15 text-white text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full no-underline hover:bg-white/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60">' . esc_html( $primary_cat_term->name ) . '</a>';
 	}
-	$append_after_h1_html = '<time class="text-white/70 text-sm block mb-6" datetime="' . esc_attr( $date_iso ) . '">' . esc_html( $date ) . '</time>';
+	if ( $read_time ) {
+		$prepend_inner_html .= '<span class="text-white/35 select-none" aria-hidden="true">·</span>';
+		$prepend_inner_html .= '<span class="text-white/70 text-xs font-medium"><span class="sr-only">' . esc_html__( 'Reading time', 'restwell-retreats' ) . ' </span>' . esc_html( sprintf( __( '%d min read', 'restwell-retreats' ), $read_time ) ) . '</span>';
+	}
+	$prepend_inner_html .= '</div>';
+
+	$append_after_h1_html  = '<p class="home-hero__byline m-0 font-sans text-sm sm:text-[0.9375rem] leading-snug text-white/80 [text-shadow:0_1px_3px_rgba(0,0,0,0.35)]">';
+	if ( $show_updated ) {
+		$append_after_h1_html .= '<span class="text-white/65">' . esc_html__( 'Published', 'restwell-retreats' ) . ' </span>';
+	}
+	$append_after_h1_html .= '<time datetime="' . esc_attr( $date_iso ) . '">' . esc_html( $date ) . '</time>';
+	if ( $show_updated ) {
+		$append_after_h1_html .= ' <span class="text-white/40" aria-hidden="true">·</span> ';
+		$append_after_h1_html .= '<span class="text-white/75">' . esc_html__( 'Updated', 'restwell-retreats' ) . ' <time datetime="' . esc_attr( $modified_iso ) . '">' . esc_html( get_the_modified_date() ) . '</time></span>';
+	}
+	$append_after_h1_html .= '</p>';
 	set_query_var(
 		'args',
 		array(
@@ -104,7 +117,6 @@ if ( $category ) {
 			'image_alt'            => $img_alt !== '' ? $img_alt : $title,
 			'prepend_inner_html'   => $prepend_inner_html,
 			'append_after_h1_html' => $append_after_h1_html,
-			'content_max'          => 'max-w-3xl',
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );

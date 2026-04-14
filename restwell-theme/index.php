@@ -75,14 +75,12 @@ if ( have_posts() ) {
 	set_query_var(
 		'args',
 		array(
-			'heading_id'       => 'archive-hero-heading',
-			'label'            => $archive_label,
-			'heading'          => $archive_title,
-			'intro'            => $archive_intro,
-			'media_id'         => $archive_hero_media,
-			'image_alt'        => $archive_title,
-			'content_max'      => 'max-w-3xl mx-auto text-center',
-			'container_class'  => 'container w-full',
+			'heading_id' => 'archive-hero-heading',
+			'label'      => $archive_label,
+			'heading'    => $archive_title,
+			'intro'      => $archive_intro,
+			'media_id'   => $archive_hero_media,
+			'image_alt'  => $archive_title,
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );

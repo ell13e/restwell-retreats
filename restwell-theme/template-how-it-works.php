@@ -17,7 +17,7 @@ $pid = get_the_ID();
 $hiw_hero_image_id = (int) get_post_meta( $pid, 'hiw_hero_image_id', true );
 $hiw_label          = get_post_meta( $pid, 'hiw_label', true ) ?: '';
 $hiw_heading        = get_post_meta( $pid, 'hiw_heading', true ) ?: 'How it works';
-$hiw_intro          = get_post_meta( $pid, 'hiw_intro', true ) ?: 'From first enquiry to arrival: how your accessible stay in Kent works at Restwell — tell us what you need and we will take it from there.';
+$hiw_intro          = get_post_meta( $pid, 'hiw_intro', true ) ?: 'From first enquiry to arrival: how your accessible stay in Kent works at Restwell. Tell us what you need and we will take it from there.';
 $hiw_hero_cta_text           = get_post_meta( $pid, 'hiw_hero_cta_text', true ) ?: 'Check your dates';
 $hiw_hero_cta_url            = esc_url( get_post_meta( $pid, 'hiw_hero_cta_url', true ) ?: home_url( '/enquire/' ) );
 $hiw_hero_cta_promise        = get_post_meta( $pid, 'hiw_hero_cta_promise', true ) ?: '';
@@ -128,7 +128,6 @@ for ( $i = 1; $i <= 3; $i++ ) {
 			'heading'       => $hiw_heading,
 			'intro'         => $hiw_intro,
 			'media_id'      => $hiw_hero_image_id,
-			'content_max'   => 'max-w-2xl',
 			'cta_primary'   => $hiw_hero_cta_text !== '' ? array(
 				'label' => $hiw_hero_cta_text,
 				'url'   => $hiw_hero_cta_url,

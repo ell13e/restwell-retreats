@@ -63,6 +63,33 @@ function restwell_defer_main_script( $tag, $handle, $src ) {
 add_filter( 'script_loader_tag', 'restwell_defer_main_script', 10, 3 );
 
 /**
+ * Load Font Awesome CSS without blocking first paint (preload → stylesheet).
+ *
+ * @param string $tag    The link tag HTML.
+ * @param string $handle Style handle.
+ * @return string
+ */
+function restwell_preload_font_awesome_css( $tag, $handle ) {
+	if ( 'font-awesome' !== $handle ) {
+		return $tag;
+	}
+	global $wp_styles;
+	if ( ! isset( $wp_styles->registered['font-awesome'] ) ) {
+		return $tag;
+	}
+	$obj = $wp_styles->registered['font-awesome'];
+	$href = isset( $obj->src ) ? $obj->src : '';
+	if ( $href === '' ) {
+		return $tag;
+	}
+	$href = $obj->ver ? add_query_arg( 'ver', $obj->ver, $href ) : $href;
+	$href = esc_url( $href );
+	return '<link rel="preload" as="style" href="' . $href . '" onload="this.onload=null;this.rel=\'stylesheet\'" />' .
+		'<noscript><link rel="stylesheet" href="' . $href . '" /></noscript>';
+}
+add_filter( 'style_loader_tag', 'restwell_preload_font_awesome_css', 10, 2 );
+
+/**
  * Enqueue polished admin styles for Restwell CRM screens.
  *
  * @param string $hook_suffix Current admin page hook suffix.

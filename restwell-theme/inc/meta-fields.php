@@ -96,7 +96,7 @@ function restwell_page_content_meta_box_callback( $post ) {
 				$name  = $key;
 				echo '<div class="restwell-field">';
 
-				if ( $key === 'meta_description' || $key === 'hero_spec_heading' || strpos( $key, '_body' ) !== false || strpos( $key, '_desc' ) !== false || strpos( $key, '_intro' ) !== false || strpos( $key, '_confirmed' ) !== false || strpos( $key, '_tbc' ) !== false ) {
+				if ( $key === 'meta_description' || $key === 'hero_spec_heading' || $key === 'hero_cta_reassurance' || strpos( $key, '_body' ) !== false || strpos( $key, '_desc' ) !== false || strpos( $key, '_intro' ) !== false || strpos( $key, '_confirmed' ) !== false || strpos( $key, '_tbc' ) !== false ) {
 					echo '<label for="' . esc_attr( $id ) . '">' . esc_html( $label ) . '</label>';
 					echo '<textarea id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" rows="5">' . esc_textarea( $value ) . '</textarea>';
 				} elseif ( strpos( $key, '_image_id' ) !== false || $key === 'hero_media_id' ) {
@@ -257,7 +257,7 @@ function restwell_save_page_content_meta_box( $post_id ) {
 			$raw = wp_unslash( $_POST[ $key ] );
 			if ( strpos( $key, '_image_id' ) !== false || $key === 'hero_media_id' ) {
 				$value = absint( $raw );
-			} elseif ( $key === 'meta_description' || $key === 'hero_spec_heading' || strpos( $key, '_body' ) !== false || strpos( $key, '_desc' ) !== false || strpos( $key, '_intro' ) !== false || strpos( $key, '_confirmed' ) !== false || strpos( $key, '_tbc' ) !== false ) {
+			} elseif ( $key === 'meta_description' || $key === 'hero_spec_heading' || $key === 'hero_cta_reassurance' || strpos( $key, '_body' ) !== false || strpos( $key, '_desc' ) !== false || strpos( $key, '_intro' ) !== false || strpos( $key, '_confirmed' ) !== false || strpos( $key, '_tbc' ) !== false ) {
 				$value = sanitize_textarea_field( $raw );
 			} else {
 				$value = sanitize_text_field( $raw );

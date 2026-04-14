@@ -18,7 +18,7 @@ $pid = get_the_ID();
 $enq_hero_image_id = (int) get_post_meta( $pid, 'enq_hero_image_id', true );
 $enq_label          = get_post_meta( $pid, 'enq_label', true ) ?: 'Get in touch';
 $enq_heading        = get_post_meta( $pid, 'enq_heading', true ) ?: 'Start a conversation.';
-$enq_intro          = get_post_meta( $pid, 'enq_intro', true ) ?: 'Whether you want to book an accessible holiday cottage in Kent or simply ask about a bathroom measurement, we are here to help. This is not a booking commitment — it is the start of a conversation. No pressure, no hard sell.';
+$enq_intro          = get_post_meta( $pid, 'enq_intro', true ) ?: 'Whether you want to book an accessible holiday cottage in Kent or simply ask about a bathroom measurement, we are here to help. This is not a booking commitment: it is the start of a conversation. No pressure, no hard sell.';
 
 // Form copy
 $enq_form_heading        = get_post_meta( $pid, 'enq_form_heading', true ) ?: 'Request a call about your stay';
@@ -35,8 +35,10 @@ $enq_response_body        = get_post_meta( $pid, 'enq_response_body', true ) ?: 
 $enq_no_pressure_heading  = get_post_meta( $pid, 'enq_no_pressure_heading', true ) ?: 'No pressure';
 $enq_no_pressure_body     = get_post_meta( $pid, 'enq_no_pressure_body', true ) ?: 'Sending an enquiry is not a booking commitment. It is simply the start of a conversation. We are happy to answer questions, talk through specific needs, or just have a chat about whether Restwell is right for you.';
 
-$sent        = isset( $_GET['sent'] ) && $_GET['sent'] === '1';
-$urgent      = $sent && isset( $_GET['urgent'] ) && $_GET['urgent'] === '1';
+$sent_raw    = isset( $_GET['sent'] ) ? sanitize_text_field( wp_unslash( $_GET['sent'] ) ) : '';
+$sent        = '1' === $sent_raw;
+$urgent_raw  = isset( $_GET['urgent'] ) ? sanitize_text_field( wp_unslash( $_GET['urgent'] ) ) : '';
+$urgent      = $sent && '1' === $urgent_raw;
 $current_url = get_permalink( $pid );
 $resources_url = home_url( '/resources/' );
 
@@ -63,7 +65,6 @@ $label_class = 'block text-sm font-semibold text-[#1B4D5C] mb-1.5';
 			'heading'     => $enq_heading,
 			'intro'       => $enq_intro,
 			'media_id'    => $enq_hero_image_id,
-			'content_max' => 'max-w-2xl',
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );

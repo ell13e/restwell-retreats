@@ -305,7 +305,8 @@ gtag('config', '<?php echo esc_js( $mid ); ?>');
 </script>
 	<?php
 }
-add_action( 'wp_head', 'restwell_output_ga4', 99 );
+// Footer placement defers GA until after visible content; external gtag script remains async.
+add_action( 'wp_footer', 'restwell_output_ga4', 20 );
 
 /**
  * Bing Webmaster Tools verification meta tag.
@@ -697,7 +698,7 @@ function restwell_get_homepage_faq_pairs( $page_id = 0 ) {
 	$defaults  = array(
 		array(
 			'q' => __( 'What is Restwell Retreats?', 'restwell-retreats' ),
-			'a' => __( 'Restwell Retreats is a private wheelchair-accessible self-catering holiday bungalow in Whitstable, Kent. You book the whole property for a coastal break. Optional CQC-regulated care is available through Continuity of Care Services.', 'restwell-retreats' ),
+			'a' => __( 'Restwell Retreats is a private wheelchair-accessible self-catering holiday bungalow in Whitstable, Kent. You book the whole property for a coastal break. Optional CQC-regulated care is available through Continuity of Care Services. Not sure if we are the right fit? Read Who it is for and the accessibility specification, or tell us what you need in your enquiry.', 'restwell-retreats' ),
 		),
 		array(
 			'q' => __( 'Is the property wheelchair accessible?', 'restwell-retreats' ),
@@ -709,7 +710,7 @@ function restwell_get_homepage_faq_pairs( $page_id = 0 ) {
 		),
 		array(
 			'q' => __( 'How do I book?', 'restwell-retreats' ),
-			'a' => __( 'Start with our enquiry form or contact us by phone or email. We confirm availability, talk through your needs, then agree dates. No pressure until you are ready.', 'restwell-retreats' ),
+			'a' => __( 'Start with our enquiry form or contact us by phone or email. We confirm availability, talk through your needs, then agree dates. No pressure until you are ready. Cancellation terms depend on how close your stay is; we confirm the current policy when you book. See Terms & Conditions on this site for wording.', 'restwell-retreats' ),
 		),
 		array(
 			'q' => __( 'What accessibility features are included?', 'restwell-retreats' ),

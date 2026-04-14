@@ -39,6 +39,11 @@
 @tailwind utilities;
 
 @layer base {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+  
   body {
     @apply font-sans antialiased text-[#1B4D5C];
   }
@@ -74,6 +79,11 @@
     width: auto;
     height: auto;
     font-size: 1.5rem;
+  }
+
+  /* Homepage "Why Restwell" grid: vertical rhythm from parent space-y only (avoid mb-4 + space-y doubling). */
+  #main-content .features-section .feature-icon-wrapper {
+    margin-bottom: 0;
   }
 
   /* Page hero: size and text position */
@@ -337,14 +347,61 @@
     outline-offset: 2px;
   }
 
-  /* Who cards: must beat #main-content .prose p { text-align: justify } when editor wraps
-     the page in .prose — use same ID + section chain. */
+  /* Cursor pointer for all interactive elements */
+  .intro-section__highlight-card,
+  .who-card,
+  .why-feature-card,
+  details summary,
+  button,
+  a[href],
+  [role="button"],
+  .restwell-tap-link {
+    cursor: pointer;
+  }
+
+  /* Minimum touch targets for mobile (44x44px) */
+  @media (max-width: 767px) {
+    a[href],
+    button,
+    [role="button"],
+    details summary {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  /* Haptic feedback for key interactions */
+  @media (prefers-reduced-motion: no-preference) {
+    button:active,
+    .btn:active,
+    [role="button"]:active,
+    .intro-section__highlight-card:active,
+    .who-card:active,
+    .why-feature-card:active {
+      transform: scale(0.98);
+    }
+  }
+
+  /* Mobile font size optimization: minimum 16px for readability */
+  @media (max-width: 767px) {
+    .text-sm:not(.text-xs) {
+      font-size: 1rem; /* 16px */
+    }
+    
+    .text-xs {
+      font-size: 0.875rem; /* 14px - only for labels/captions */
+    }
+    
+    /* Ensure body text is readable */
+    body {
+      font-size: 1rem; /* 16px */
+    }
+  }
+
+  /* Who cards: colour only (body alignment: #main-content readable prose rules) */
   #main-content .who-section .who-card p {
     color: var(--body-secondary);
-    text-align: center;
-    hyphens: none;
-    -webkit-hyphens: none;
-    text-wrap: balance;
   }
   #main-content [class*="8B8B7A"] {
     color: var(--muted-grey);
@@ -1362,7 +1419,7 @@
   /* -----------------------------------------------------------------------------
      9. Front page sections
      ----------------------------------------------------------------------------- */
-  /* Homepage hero only (this theme uses .hero solely on front-page.php).
+  /* Site hero (front page + interior templates via template-parts/interior-hero.php).
      Bottom-anchored copy: matches landscape weight (town/sea below) and avoids a “floating” band
      in the sky. Height is capped so the block doesn’t sit in endless negative space. */
   .hero {
@@ -1389,50 +1446,6 @@
     padding-bottom: 4rem;
     padding-top: 0;
     max-width: 600px;
-  }
-
-  /* Interior / inner-page hero: scrim strong enough to read type without painting out the photo. */
-  .restwell-interior-hero.restwell-interior-hero--has-media::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background:
-      linear-gradient(
-        to top,
-        rgba(27, 77, 92, 0.88) 0%,
-        rgba(27, 77, 92, 0.55) 24%,
-        rgba(15, 42, 52, 0.28) 45%,
-        transparent 72%
-      ),
-      linear-gradient(
-        to right,
-        rgba(12, 36, 44, 0.78) 0%,
-        rgba(12, 36, 44, 0.38) 36%,
-        transparent 62%
-      ),
-      linear-gradient(to top right, rgb(0 0 0 / 14%) 0%, transparent 55%);
-  }
-
-  @media (min-width: 1024px) {
-    .restwell-interior-hero.restwell-interior-hero--has-media::before {
-      background:
-        linear-gradient(
-          to top,
-          rgba(27, 77, 92, 0.85) 0%,
-          rgba(27, 77, 92, 0.5) 28%,
-          rgba(15, 42, 52, 0.22) 50%,
-          transparent 74%
-        ),
-        linear-gradient(
-          to right,
-          rgba(12, 36, 44, 0.72) 0%,
-          rgba(12, 36, 44, 0.32) 38%,
-          transparent 64%
-        ),
-        linear-gradient(to top right, rgb(0 0 0 / 12%) 0%, transparent 58%);
-    }
   }
 
   /*
@@ -1506,13 +1519,7 @@
     }
   }
 
-  /* Inner-page heroes only — was shrinking ALL .hero .max-w-2xl to 600px, which made the
-     homepage feel like a narrow “postage stamp” on wide viewports. */
-  .hero:not(.home-hero) .max-w-2xl {
-    max-width: 600px;
-  }
-
-  /* Homepage hero: scale copy block with viewport — avoids “collected” column on ultrawide.
+  /* Hero: scale copy block with viewport — avoids “collected” column on ultrawide.
      Flex column + gap: one rhythm between headline/lede stack and CTAs (no competing mt-* + space-y). */
   .hero.home-hero .home-hero__copy {
     width: 100%;
@@ -1547,17 +1554,25 @@
     }
   }
 
-  /* Inner-page heroes: single title block. Front page uses .home-hero with its own stack spacing. */
-  .hero:not(.home-hero) h1 {
-    color: #fff;
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
-  }
-
   .hero.home-hero .home-hero__eyebrow {
     color: var(--warm-gold-hero);
     font-weight: 600;
+  }
+
+  /* Blog single (single.php): archive link, category, read time — shares text-stack gap with title/lede. */
+  .hero.home-hero .home-hero__article-meta {
+    width: 100%;
+    max-width: min(48ch, 100%);
+  }
+
+  .hero.home-hero .home-hero__byline {
+    max-width: min(52ch, 100%);
+  }
+
+  .hero.home-hero.hero--has-media .home-hero__byline {
+    text-shadow:
+      0 1px 2px rgb(0 0 0 / 0.35),
+      0 2px 12px rgb(0 0 0 / 0.22);
   }
 
   /* Hero lede: ch-based measure (comfortable short paragraph; aligns with H1 rhythm). */
@@ -1570,14 +1585,14 @@
   }
 
   .hero.home-hero.hero--has-media .home-hero__eyebrow,
-  .hero.home-hero.hero--has-media #home-hero-heading {
+  .hero.home-hero.hero--has-media h1.home-hero__heading {
     text-shadow:
       0 1px 2px rgb(0 0 0 / 0.35),
       0 2px 20px rgb(0 0 0 / 0.3);
   }
 
-  /* Front page hero: vertical rhythm + promise microcopy (not dependent on Tailwind JIT) */
-  .hero.home-hero h1#home-hero-heading {
+  /* Hero: vertical rhythm + promise microcopy (not dependent on Tailwind JIT) */
+  .hero.home-hero h1.home-hero__heading {
     margin-bottom: 0;
     /* Let eyebrow + display lines set size; avoid global mobile `h1 { font-size: 2rem }` clash */
     font-size: unset;
@@ -1619,7 +1634,7 @@
       gap: var(--space-5);
     }
 
-    .hero.home-hero #home-hero-lede {
+    .hero.home-hero .home-hero__lede {
       line-height: 1.7;
     }
   }
@@ -1829,12 +1844,12 @@
       margin-inline: auto;
     }
 
-    .hero.home-hero h1#home-hero-heading {
+    .hero.home-hero h1.home-hero__heading {
       text-align: center;
     }
 
     /* Single soft halo — fewer stacked shadows = less visual noise on small screens */
-    .hero.home-hero.hero--has-media #home-hero-heading .home-hero__title-lines {
+    .hero.home-hero.hero--has-media h1.home-hero__heading .home-hero__title-lines {
       filter: drop-shadow(0 2px 12px rgb(0 0 0 / 0.45));
     }
 
@@ -1850,13 +1865,13 @@
     }
 
     .hero.home-hero.hero--has-media .home-hero__eyebrow,
-    .hero.home-hero.hero--has-media #home-hero-heading {
+    .hero.home-hero.hero--has-media h1.home-hero__heading {
       text-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
     }
 
     /* Gold eyebrow: warm gold + one legibility halo (was 4 layers) */
     .hero.home-hero.hero--has-media .home-hero__eyebrow {
-      color: var(--warm-gold);
+      color: var(--warm-gold-hero);
       text-shadow:
         0 1px 2px rgb(0 0 0 / 0.75),
         0 2px 14px rgb(0 0 0 / 0.4);
@@ -1881,7 +1896,7 @@
       border-top: 1px solid rgba(255, 255, 255, 0.14);
     }
 
-    /* Long justified paragraphs in #main-content must not hit this — explicit centre + no hyphens */
+    /* Short centred UI line; keep hyphens off (same rationale as main-column body: readability when zoomed) */
     #main-content .hero.home-hero .home-hero__scroll-hint {
       text-align: center;
       hyphens: none;
@@ -2051,27 +2066,152 @@
     align-items: center;
   }
 
+  /* Padding from utilities on the section (e.g. py-20 md:py-28); vertical padding not set here */
   .intro-section {
-    background: #F5EDE0;
-    padding: 6rem 0;
+    text-align: start;
+  }
+
+  /* Width/alignment: headings, highlight grid, and prose share one start edge (see front-page.php). */
+  .intro-section .intro-section__column {
+    width: 100%;
+  }
+
+  /* Full-width strip: heading rail + grid share the same content edge as the H2 above. */
+  .intro-section .intro-section__highlights-wrap {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .intro-section .intro-section__highlights-heading {
+    box-sizing: border-box;
+  }
+
+  /* Gold accent sits inline so the first line aligns with the H2 above (no border + padding inset). */
+  .intro-section .intro-section__highlights-kicker {
+    display: inline-block;
+    width: 3px;
+    height: 0.85em;
+    margin-right: 0.65rem;
+    background: var(--warm-gold-text);
+    border-radius: 9999px;
+    vertical-align: 0.12em;
+  }
+
+  @media (min-width: 768px) {
+    .intro-section .intro-section__highlights-kicker {
+      margin-right: 0.75rem;
+    }
+  }
+
+  #main-content .intro-section:not(.intro-section--home) .section-label,
+  #main-content .intro-section:not(.intro-section--home) .intro-section__highlights-heading,
+  #main-content .intro-section:not(.intro-section--home) .intro-section__highlights,
+  #main-content .intro-section:not(.intro-section--home) .intro-section__prose {
+    text-align: start;
+  }
+
+  /* Homepage wireframe: band titles centred; highlight cards + intro prose stay left-aligned for reading. */
+  #main-content .intro-section.intro-section--home .intro-section__hero-copy,
+  #main-content .intro-section.intro-section--home .section-label,
+  #main-content .intro-section.intro-section--home .intro-section__highlights-heading {
     text-align: center;
   }
 
-  .intro-section p,
-  .intro-section .text-lg {
-    max-width: 700px;
-    margin: 0 auto;
+  #main-content .intro-section.intro-section--home .intro-section__prose {
+    text-align: start;
   }
 
-  .property-section {
-    background: #F5EDE0;
-    padding: 6rem 0;
+  /* Wireframe: two-column story block under highlights (desktop). */
+  #main-content .intro-section.intro-section--home .intro-section__prose--home {
+    width: 100%;
   }
 
+  #main-content .intro-section.intro-section--home .intro-section__prose-columns {
+    width: 100%;
+  }
+
+  .intro-section .intro-section__highlights {
+    justify-items: stretch;
+  }
+
+  .intro-section .intro-section__highlights li,
+  .intro-section .intro-section__highlight-card {
+    text-align: start;
+  }
+
+  /* Defeat any theme / block styles that centre or end-align card stacks. */
+  #main-content .intro-section li.intro-section__highlight-card {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  #main-content .intro-section li.intro-section__highlight-card h4,
+  #main-content .intro-section li.intro-section__highlight-card .intro-section__highlight-desc {
+    text-align: start;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Reading column: never auto-centre inside the intro rail (fixes “body starts inset” if mx-auto leaks in). */
+  #main-content .intro-section .intro-section__prose {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  /* Icon well: fixed size + larger FA glyphs (avoids tiny icons inside tall cards). */
+  .intro-section .intro-section__highlight-icon {
+    width: 3.75rem;
+    height: 3.75rem;
+    margin-inline: 0;
+  }
+
+  .intro-section .intro-section__highlight-icon .fa-solid {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  @media (min-width: 768px) {
+    .intro-section .intro-section__highlight-icon {
+      width: 4rem;
+      height: 4rem;
+    }
+
+    .intro-section .intro-section__highlight-icon .fa-solid {
+      font-size: 1.625rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .intro-section .intro-section__highlight-card,
+    .who-card,
+    .why-feature-card {
+      transition:
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.2s ease;
+    }
+
+    .intro-section .intro-section__highlight-card:hover,
+    .who-card:hover,
+    .why-feature-card:hover {
+      box-shadow: 0 12px 40px rgb(0 0 0 / 0.07);
+      border-color: color-mix(in srgb, var(--deep-teal) 22%, transparent);
+      transform: translateY(-2px);
+    }
+
+    .intro-section .intro-section__highlight-card:focus-within,
+    .who-card:focus-within,
+    .why-feature-card:focus-within {
+      box-shadow: 0 12px 40px rgb(0 0 0 / 0.07);
+      border-color: color-mix(in srgb, var(--deep-teal) 28%, transparent);
+      transform: translateY(-2px);
+    }
+  }
+
+  /* Background from Tailwind on the section (bg-white); padding from py-* utilities */
   .property-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
     align-items: center;
   }
 
@@ -2111,7 +2251,6 @@
   }
 
   .feature-item {
-    text-align: center;
     padding: 2rem 1rem;
   }
 
@@ -2133,27 +2272,20 @@
     border-radius: 1rem;
   }
 
-  /* Who grid: override global #main-content .grid.md:grid-cols-2 { gap: 4rem } — that was creating huge dead space */
+  /* Who grid: tighter stack on small screens, generous at md+ */
   #main-content .who-section .who-section__grid {
-    gap: 2rem;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 640px) {
+    #main-content .who-section .who-section__grid {
+      gap: var(--space-6);
+    }
   }
 
   @media (min-width: 768px) {
     #main-content .who-section .who-section__grid {
-      column-gap: 1.75rem;
-      row-gap: 2rem;
-    }
-  }
-
-  /* Area & funding: same grid override (stacked cards were ~4rem apart on mobile) */
-  #main-content .home-teaser-area-funding .home-teaser__grid {
-    gap: 1.25rem;
-  }
-
-  @media (min-width: 768px) {
-    #main-content .home-teaser-area-funding .home-teaser__grid {
-      column-gap: 2rem;
-      row-gap: 2rem;
+      gap: var(--space-16);
     }
   }
 
@@ -2230,22 +2362,26 @@
     position: relative;
   }
 
-  #main-content > section {
-    padding: 6rem 0;
+  /*
+   * Sections without explicit py-* rely on design tokens (--section-padding-y).
+   * Sections with py-* / md:py-* use Tailwind utilities (ID rule no longer overrides them).
+   * Use py-0 on bands that pad their inner .container instead (e.g. equipment strip, wg-glance).
+   */
+  #main-content > section:not(.hero):not([class*="py-"]) {
+    padding-top: var(--section-padding-y);
+    padding-bottom: var(--section-padding-y);
   }
 
-  /* Full-bleed hero: section padding was creating a band below the header on mobile */
-  #main-content > section.hero,
-  #main-content > section.restwell-interior-hero {
-    padding: 0;
-  }
-
-  @media (max-width: 767px) {
-    /* #main-content > section beats Tailwind py-*; 6rem was excessive on phones */
-    #main-content > section:not(.hero):not(.restwell-interior-hero) {
-      padding-top: 2.75rem;
-      padding-bottom: 2.75rem;
+  @media (min-width: 768px) {
+    #main-content > section:not(.hero):not([class*="py-"]) {
+      padding-top: var(--section-padding-y-md);
+      padding-bottom: var(--section-padding-y-md);
     }
+  }
+
+  /* Full-bleed hero: no vertical padding on the section shell */
+  #main-content > section.hero {
+    padding: 0;
   }
 
   .section-label {
@@ -2280,15 +2416,32 @@
     font-weight: var(--font-weight-ui);
   }
 
+  /* Stacked 2-col grids: same gap as section rhythm on mobile; roomier columns from md */
   #main-content .grid.md\:grid-cols-2 {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 4rem;
+    gap: var(--space-6);
   }
 
   @media (min-width: 768px) {
     #main-content .grid.md\:grid-cols-2 {
       grid-template-columns: 1fr 1fr;
+      gap: var(--space-16);
+    }
+  }
+
+  #main-content .home-teaser-area-funding header .section-label {
+    margin-bottom: 0;
+  }
+
+  /* Eyebrow → cards: match inter-card gap (--space-6) on mobile for one rhythm */
+  #main-content .home-teaser-area-funding header {
+    margin-bottom: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    #main-content .home-teaser-area-funding header {
+      margin-bottom: var(--space-8);
     }
   }
 
@@ -2431,12 +2584,7 @@
     h1 { font-size: 2rem; }
     h2 { font-size: 1.5rem; }
     h3 { font-size: 1.25rem; }
-    section { padding: 3rem 0; }
-    .intro-section { padding: 3rem 0; }
-    .property-section { padding: 3rem 0; }
-    .features-section { padding: 3rem 0; }
-    .who-section { padding: 3rem 0; }
-    .cta-section { padding: 3rem 0; }
+    /* Section vertical padding: use py-* on each section; avoid blanket section { padding } (breaks utilities) */
     .hero:not(.home-hero) { min-height: 80vh; background-attachment: scroll; }
     .hero-content { padding: 2rem 0; }
     .hero:not(.home-hero) h1 { font-size: clamp(1.75rem, 6vw, 2.5rem); }
@@ -2638,11 +2786,13 @@
     background-color: var(--warm-gold-hero);
     color: var(--deep-teal);
     border-color: var(--warm-gold-hero);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   }
   .btn-gold:hover {
     background-color: #DDB860;
     border-color: #DDB860;
     color: var(--deep-teal);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 
   /* - Ghost-light: for use on dark/image backgrounds ----------------------- */
@@ -2818,18 +2968,7 @@
   scroll-padding-top: clamp(7.5rem, 18vh, 11rem);
 }
 
-/* Match py-16 md:py-24 - global #main-content > section { padding: 6rem 0 } overrides Tailwind utilities */
-#main-content.restwell-wif-page > section {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-}
-
-@media (min-width: 768px) {
-  #main-content.restwell-wif-page > section {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
-  }
-}
+/* Who It's For: vertical rhythm comes from py-16 md:py-24 on each section (no ID override). */
 
 /* Who It's For: section kicker uses AA gold on subtle bg (DESIGN-SYSTEM) */
 .restwell-wif-page #main-content .section-label {
@@ -3324,8 +3463,13 @@
 }
 
 /* -----------------------------------------------------------------------------
-   Long-form narrative: justified paragraphs (main column only).
-   Short UI, heroes, and centred CTAs stay left/centred via :not / omitted selectors.
+   Main-column body copy: left-aligned + pretty wraps (no full justification).
+   Full justification harms tracking for many readers and when zoomed. See WCAG 1.4.8,
+   W3C Low Vision TF supplemental guidance on text justification
+   (https://www.w3.org/WAI/GL/low-vision-a11y-tf/wiki/Supplemental_Guidance:_Text_Justification),
+   and practical notes on alignment (e.g.
+   https://thewebsitearchitect.com/does-center-aligned-text-matter-for-accessibility/).
+   Avoid centred multi-sentence blocks; keep body left-aligned.
    ----------------------------------------------------------------------------- */
 
 #main-content .prose strong,
@@ -3339,34 +3483,75 @@
 #main-content .wif-persona-card__prose > p,
 #main-content .faq-item details > div.leading-relaxed p,
 #main-content section.intro-section .max-w-prose > p,
+#main-content .intro-section ul.grid li p,
 #main-content .home-teaser__grid p.max-w-prose.leading-relaxed,
+#main-content .property-grid__text > p:not(.property-section__quick-links),
 #main-content div.text-lg.leading-relaxed.max-w-prose.space-y-4 p,
-#main-content p.max-w-prose.leading-relaxed.text-gray-600:not(.text-xs):not(.text-sm):not(.text-center) {
-  text-align: justify;
-  hyphens: auto;
-  -webkit-hyphens: auto;
+#main-content p.max-w-prose.leading-relaxed.text-gray-600:not(.text-xs):not(.text-sm):not(.text-center),
+#main-content .home-hero-equipment-strip__text,
+#main-content .home-faq-section dd,
+#main-content .restwell-prose-readable,
+#main-content .restwell-justify-soft {
+  text-align: start;
+  hyphens: none;
+  -webkit-hyphens: none;
   overflow-wrap: break-word;
   text-wrap: pretty;
 }
 
-@media (max-width: 639px) {
-  #main-content .prose p,
-  #main-content .wg-content-body > p,
-  #main-content .wg-eating-body > p,
-  #main-content .wif-persona-card__prose > p,
-  #main-content .faq-item details > div.leading-relaxed p,
-  #main-content section.intro-section .max-w-prose > p,
-  #main-content .home-teaser__grid p.max-w-prose.leading-relaxed,
-  #main-content div.text-lg.leading-relaxed.max-w-prose.space-y-4 p,
-  #main-content p.max-w-prose.leading-relaxed.text-gray-600:not(.text-xs):not(.text-sm):not(.text-center) {
-    hyphens: none;
-    -webkit-hyphens: none;
-  }
-}
-
-/* Intentionally centred blurbs (not full-width narrative). */
+/*
+ * Intentionally centred paragraphs (short lines only; avoid long centred blocks).
+ */
 #main-content p.text-center {
   text-align: center;
   hyphens: none;
   -webkit-hyphens: none;
+  text-wrap: pretty;
+}
+
+/* Who cards: centred stack (global #main-content prose uses text-align: start on many p) */
+#main-content .who-section .who-card p.who-card__body {
+  text-align: center;
+  hyphens: none;
+  -webkit-hyphens: none;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+/* Why Restwell feature grid: centred copy (same global prose conflict as who-cards) */
+#main-content .features-section .feature-item p.feature-item__body {
+  text-align: center;
+  hyphens: none;
+  -webkit-hyphens: none;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+#main-content p[class*="text-center"]:not(.text-center) {
+  hyphens: none;
+  -webkit-hyphens: none;
+  text-wrap: pretty;
+}
+
+#main-content .text-center p,
+#main-content header.text-center p {
+  text-wrap: pretty;
+  hyphens: none;
+  -webkit-hyphens: none;
+}
+
+#main-content .text-center h1,
+#main-content .text-center h2,
+#main-content .text-center h3,
+#main-content .text-center h4,
+#main-content header.text-center h1,
+#main-content header.text-center h2,
+#main-content header.text-center h3 {
+  text-wrap: balance;
+}
+
+/* Headings that use responsive centre (e.g. md:text-center) — same even line-length treatment */
+#main-content h2[class*="text-center"],
+#main-content h3[class*="text-center"] {
+  text-wrap: balance;
 }

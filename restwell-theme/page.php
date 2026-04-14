@@ -25,13 +25,12 @@ if ( ! $page_hero_media && $page_id ) {
 	set_query_var(
 		'args',
 		array(
-			'heading_id'    => 'page-hero-heading',
-			'label'         => '',
-			'heading'       => $page_heading,
-			'intro'         => $page_subheading,
-			'media_id'      => $page_hero_media,
-			'image_alt'     => $page_heading,
-			'content_max'   => 'max-w-3xl mx-auto text-center',
+			'heading_id' => 'page-hero-heading',
+			'label'      => '',
+			'heading'    => $page_heading,
+			'intro'      => $page_subheading,
+			'media_id'   => $page_hero_media,
+			'image_alt'  => $page_heading,
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );

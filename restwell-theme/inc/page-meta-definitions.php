@@ -50,15 +50,16 @@ function restwell_get_page_content_field_definitions( $post = null ) {
 function restwell_get_front_page_field_definitions() {
 	return array(
 		'Hero' => array(
-			'hero_eyebrow'            => __( 'Hero eyebrow (short context above the headline — e.g. offer + place; avoid repeating the site name)', 'restwell-retreats' ),
+			'hero_eyebrow'            => __( 'Hero eyebrow (short context above the headline, e.g. offer + place; avoid repeating the site name)', 'restwell-retreats' ),
 			'hero_heading'            => __( 'Hero heading (h1). Aim for five words or fewer; use Enter only if a second line is essential', 'restwell-retreats' ),
-			'hero_subheading'         => __( 'Hero intro — one short sentence (shown in the hero under the headline)', 'restwell-retreats' ),
+			'hero_subheading'         => __( 'Hero intro: one short sentence (shown in the hero under the headline)', 'restwell-retreats' ),
 			'hero_spec_heading'       => __( 'Optional. Equipment or promise line in the strip under the hero only when filled (hidden when empty)', 'restwell-retreats' ),
 			'hero_media_id'           => __( 'Hero background (image or video)', 'restwell-retreats' ),
 			'hero_cta_primary_label'  => __( 'Hero primary button label', 'restwell-retreats' ),
 			'hero_cta_primary_url'    => __( 'Hero primary button URL', 'restwell-retreats' ),
 			'hero_cta_secondary_label'=> __( 'Hero secondary button label', 'restwell-retreats' ),
 			'hero_cta_secondary_url'  => __( 'Hero secondary button URL', 'restwell-retreats' ),
+			'hero_cta_reassurance'    => __( 'Optional line under hero buttons (response time & no obligation). Empty = use theme default; clear the field and save to hide.', 'restwell-retreats' ),
 			'hero_cta_promise'        => __( 'Optional. Not shown in the hero (trust line lives on the bottom CTA). You can leave this empty.', 'restwell-retreats' ),
 		),
 		'Area & funding (home teaser)' => array(
@@ -107,6 +108,23 @@ function restwell_get_front_page_field_definitions() {
 			'why_item3_desc'  => __( 'Item 3 description', 'restwell-retreats' ),
 			'why_item4_title' => __( 'Item 4 title', 'restwell-retreats' ),
 			'why_item4_desc'  => __( 'Item 4 description', 'restwell-retreats' ),
+		),
+		'Homepage comparison (optional)' => array(
+			'home_comparison_label'   => __( 'Section label (eyebrow)', 'restwell-retreats' ),
+			'home_comparison_heading' => __( 'Section heading (h2). Clear and save empty to hide this block', 'restwell-retreats' ),
+			'home_comparison_intro'   => __( 'Short intro under the heading', 'restwell-retreats' ),
+			'home_comparison_row1_feature' => __( 'Row 1: feature label', 'restwell-retreats' ),
+			'home_comparison_row1_restwell' => __( 'Row 1: Restwell', 'restwell-retreats' ),
+			'home_comparison_row1_other' => __( 'Row 1: hotel / care setting', 'restwell-retreats' ),
+			'home_comparison_row2_feature' => __( 'Row 2: feature label', 'restwell-retreats' ),
+			'home_comparison_row2_restwell' => __( 'Row 2: Restwell', 'restwell-retreats' ),
+			'home_comparison_row2_other' => __( 'Row 2: hotel / care setting', 'restwell-retreats' ),
+			'home_comparison_row3_feature' => __( 'Row 3: feature label', 'restwell-retreats' ),
+			'home_comparison_row3_restwell' => __( 'Row 3: Restwell', 'restwell-retreats' ),
+			'home_comparison_row3_other' => __( 'Row 3: hotel / care setting', 'restwell-retreats' ),
+			'home_comparison_row4_feature' => __( 'Row 4: feature label', 'restwell-retreats' ),
+			'home_comparison_row4_restwell' => __( 'Row 4: Restwell', 'restwell-retreats' ),
+			'home_comparison_row4_other' => __( 'Row 4: hotel / care setting', 'restwell-retreats' ),
 		),
 		'Homepage FAQ' => array(
 			'home_faq_label'   => __( 'Section label', 'restwell-retreats' ),

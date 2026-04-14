@@ -165,16 +165,13 @@ $wg_glance = array(
 			'heading'         => $heading,
 			'intro'           => $intro,
 			'media_id'        => $hero_image_id,
-			'image_alt'       => $heading,
-			'container_class' => 'container max-w-5xl mx-auto w-full',
-			'content_max'     => 'wg-section-rail w-full',
-			'min_height_class' => 'min-h-[32rem] md:min-h-[42rem]',
+			'image_alt' => $heading,
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );
 	?>
 
-	<section class="wg-glance border-b border-[var(--deep-teal)]/10 bg-[var(--bg-subtle)]" aria-label="<?php esc_attr_e( 'Whitstable and travel at a glance', 'restwell-retreats' ); ?>">
+	<section class="wg-glance py-0 border-b border-[var(--deep-teal)]/10 bg-[var(--bg-subtle)]" aria-label="<?php esc_attr_e( 'Whitstable and travel at a glance', 'restwell-retreats' ); ?>">
 		<div class="container max-w-5xl mx-auto py-10 md:py-12">
 			<div class="grid w-full grid-cols-1 gap-0 divide-y divide-[var(--deep-teal)]/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
 				<?php foreach ( $wg_glance as $glance ) : ?>

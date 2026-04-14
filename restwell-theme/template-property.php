@@ -227,7 +227,6 @@ $prop_cta_promise = get_post_meta( $pid, 'prop_cta_promise', true ) ?: '';
 			'intro'         => $prop_hero_subtitle,
 			'media_id'      => $prop_hero_image_id,
 			'image_alt'     => $prop_hero_heading,
-			'content_max'   => 'max-w-2xl',
 			'cta_primary'   => $prop_hero_cta_text !== '' ? array(
 				'label' => $prop_hero_cta_text,
 				'url'   => $prop_hero_cta_url,

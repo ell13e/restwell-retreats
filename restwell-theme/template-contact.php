@@ -46,7 +46,6 @@ $cta_url     = (string) get_post_meta( $pid, 'contact_cta_url', true ) ?: '/enqu
 			'intro'              => $intro,
 			'media_id'           => $hero_image_id,
 			'image_alt'          => $heading,
-			'min_height_class'   => 'min-h-[30rem] md:min-h-[38rem]',
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );

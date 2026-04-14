@@ -80,7 +80,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			);
 		} else {
 			echo '<ul class="mobile-nav-list">';
-			foreach ( restwell_get_fallback_nav_links() as $item ) {
+			foreach ( restwell_get_primary_nav_links() as $item ) {
 				$class = ! empty( $item['is_cta'] ) ? ' mobile-nav-cta' : '';
 				echo '<li><a href="' . esc_url( $item['url'] ) . '" class="' . esc_attr( trim( $class ) ) . '">' . esc_html( $item['label'] ) . '</a></li>';
 			}

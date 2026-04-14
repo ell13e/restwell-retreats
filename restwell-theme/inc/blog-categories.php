@@ -3,7 +3,7 @@
  * Blog (post) categories: Restwell-specific labels and editor-facing descriptions.
  *
  * Used when seeding posts and when ensuring default terms exist. Keeps copy aligned
- * with accessible travel, Kent, funding, and the property — not generic “blog” buckets.
+ * with accessible travel, Kent, funding, and the property, not generic “blog” buckets.
  *
  * @package Restwell_Retreats
  */
@@ -34,7 +34,7 @@ function restwell_get_blog_category_definitions() {
 		),
 		'funding-care' => array(
 			'name'        => __( 'Care funding & respite', 'restwell-retreats' ),
-			'description' => __( 'Direct payments, personal health budgets, CHC, LA routes, respite and carer assessments — what funding can cover.', 'restwell-retreats' ),
+			'description' => __( 'Direct payments, personal health budgets, CHC, LA routes, respite and carer assessments: what funding can cover.', 'restwell-retreats' ),
 		),
 		'accessible-holidays' => array(
 			'name'        => __( 'Property & suitability', 'restwell-retreats' ),

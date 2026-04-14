@@ -21,17 +21,26 @@ function restwell_get_seo_meta_defaults_by_slug() {
 	return array(
 		'how-it-works'          => array(
 			'meta_title'       => 'How It Works | Plan Your Accessible Stay | ' . $name,
-			'meta_description' => 'Plan your accessible stay from first enquiry to keys: what we include, typical rates, arrival, and optional CQC-regulated care. No pressure—ask us anything.',
+			'meta_description' => 'Plan your accessible stay from first enquiry to keys: what we include, typical rates, arrival, and optional CQC-regulated care. No pressure: ask us anything.',
 			'focus_keyphrase'  => 'accessible stay',
 		),
 		'home'                  => array(
 			'meta_title'       => 'Accessible holidays Whitstable 2026 | ' . $name,
-			'meta_description' => 'Accessible holidays in Whitstable: adapted bungalow, hoist, profiling bed, wet room. Book the whole property. Optional CQC-regulated care. Chat about access.',
+			
+			// Variant A: Specificity-led (151 chars) - ACTIVE
+			'meta_description' => 'Ceiling track hoist, profiling bed, wet room. Private self-catering bungalow in Whitstable. Optional CQC-regulated care. No booking commitment.',
+			
+			// Variant B: Outcome-led (148 chars)
+			// 'meta_description' => 'Accessible coastal break in Whitstable: adapted bungalow, ceiling hoist, wet room. Private self-catering. Optional care partner. Enquire today.',
+			
+			// Variant C: Differentiator-led (153 chars)
+			// 'meta_description' => 'Private adapted holiday home Whitstable: ceiling hoist, profiling bed, roll-in wet room. Whole-property booking. Optional CQC care. No pressure.',
+			
 			'focus_keyphrase'  => 'accessible holidays whitstable',
 		),
 		'the-property'          => array(
 			'meta_title'       => 'Adapted Bungalow Whitstable | Property | ' . $name,
-			'meta_description' => 'Adapted bungalow Whitstable: ceiling track hoist, profiling bed, roll-in shower, wide doorways. Private self-catering accessible stay—book direct.',
+			'meta_description' => 'Adapted bungalow Whitstable: ceiling track hoist, profiling bed, roll-in shower, wide doorways. Private self-catering accessible stay. Book direct.',
 			'focus_keyphrase'  => 'adapted bungalow whitstable',
 		),
 		'accessibility'         => array(
@@ -46,12 +55,12 @@ function restwell_get_seo_meta_defaults_by_slug() {
 		),
 		'whitstable-area-guide' => array(
 			'meta_title'       => 'Whitstable Kent Coast Guide | Days Out | ' . $name,
-			'meta_description' => 'The Whitstable Kent coast: accessible days out in Canterbury, Faversham, Herne Bay, Tankerton—where to eat, promenade walks, parking, and travel tips.',
+			'meta_description' => 'The Whitstable Kent coast: accessible days out in Canterbury, Faversham, Herne Bay, Tankerton. Where to eat, promenade walks, parking, and travel tips.',
 			'focus_keyphrase'  => 'whitstable kent coast',
 		),
 		'enquire'               => array(
 			'meta_title'       => 'Enquire at Restwell | Availability | ' . $name,
-			'meta_description' => 'Enquire at Restwell for rates and availability. Tell us your access needs—we offer flexible check-in, direct payments, and funded stays where eligible.',
+			'meta_description' => 'Enquire at Restwell for rates and availability. Tell us your access needs: we offer flexible check-in, direct payments, and funded stays where eligible.',
 			'focus_keyphrase'  => 'enquire at restwell',
 		),
 		'faq'                   => array(
@@ -71,12 +80,12 @@ function restwell_get_seo_meta_defaults_by_slug() {
 		),
 		'guest-guide'                              => array(
 			'meta_title'       => 'Restwell Guest Guide | Check-In Tips | ' . $name,
-			'meta_description' => 'Restwell guest guide: check-in, Wi-Fi, house rules, parking, and local tips for Whitstable—everything confirmed guests need in one place.',
+			'meta_description' => 'Restwell guest guide: check-in, Wi-Fi, house rules, parking, and local tips for Whitstable. Everything confirmed guests need in one place.',
 			'focus_keyphrase'  => 'restwell guest guide',
 		),
 		'accessible-beaches-coastal-walks-kent'    => array(
 			'meta_title'       => 'Accessible Beaches Kent | Coast Walks | ' . $name,
-			'meta_description' => 'Accessible beaches Kent: level promenades, Beach Within Reach, Herne Bay, Viking Bay, Margate—plan a seaside day with realistic access notes.',
+			'meta_description' => 'Accessible beaches Kent: level promenades, Beach Within Reach, Herne Bay, Viking Bay, Margate. Plan a seaside day with realistic access notes.',
 			'focus_keyphrase'  => 'accessible beaches kent',
 		),
 		'direct-payment-holiday-accommodation'     => array(
@@ -86,7 +95,7 @@ function restwell_get_seo_meta_defaults_by_slug() {
 		),
 		'revitalise-alternatives-accessible-holidays' => array(
 			'meta_title'       => 'Revitalise Centres Closed | What Next | ' . $name,
-			'meta_description' => 'Revitalise closed its holiday centres in 2024—why, what the charity funds now, and where to find accessible UK holidays and respite alternatives.',
+			'meta_description' => 'Revitalise closed its holiday centres in 2024: why, what the charity funds now, and where to find accessible UK holidays and respite alternatives.',
 			'focus_keyphrase'  => 'revitalise',
 		),
 		'how-to-choose-accessible-self-catering-holiday' => array(
@@ -101,7 +110,7 @@ function restwell_get_seo_meta_defaults_by_slug() {
 		),
 		'contact'               => array(
 			'meta_title'       => 'Contact Restwell | Whitstable Team | ' . $name,
-			'meta_description' => 'Contact Restwell by phone or email: bookings, access questions, or a pre-stay chat—we reply with honest, practical answers.',
+			'meta_description' => 'Contact Restwell by phone or email: bookings, access questions, or a pre-stay chat. We reply with honest, practical answers.',
 			'focus_keyphrase'  => 'contact restwell',
 		),
 		'privacy-policy'        => array(
@@ -281,7 +290,7 @@ function restwell_seed_priority_blog_posts( array &$result, bool $force = false 
 			'title'            => 'A guide to accessible beaches and coastal walks in Kent',
 			'excerpt'          => 'Level promenades, shingle realities, and where to plan a seaside day if you use a wheelchair or mobility equipment - covering Whitstable, Herne Bay, Broadstairs, and Margate.',
 			'meta_title'       => 'Accessible Beaches Kent | Coast Walks | ' . $site_name,
-			'meta_description' => 'Accessible beaches Kent: level promenades, Beach Within Reach, Herne Bay, Viking Bay, Margate—plan a seaside day with realistic access notes.',
+			'meta_description' => 'Accessible beaches Kent: level promenades, Beach Within Reach, Herne Bay, Viking Bay, Margate. Plan a seaside day with realistic access notes.',
 			'content'          => restwell_get_blog_post_beaches_kent_html(),
 			'category_slug'    => 'kent-coast',
 		),
@@ -299,7 +308,7 @@ function restwell_seed_priority_blog_posts( array &$result, bool $force = false 
 			'title'            => 'What happened to Revitalise - and where to find accessible holidays now',
 			'excerpt'          => "Revitalise closed its holiday centres in November 2024 after 60 years. Here's what happened, what Revitalise now offers, and where to find accessible holidays in the UK.",
 			'meta_title'       => 'Revitalise Centres Closed | What Next | ' . $site_name,
-			'meta_description' => 'Revitalise closed its holiday centres in 2024—why, what the charity funds now, and where to find accessible UK holidays and respite alternatives.',
+			'meta_description' => 'Revitalise closed its holiday centres in 2024: why, what the charity funds now, and where to find accessible UK holidays and respite alternatives.',
 			'content'          => restwell_get_blog_post_revitalise_html(),
 			'category_slug'    => 'news-updates',
 		),

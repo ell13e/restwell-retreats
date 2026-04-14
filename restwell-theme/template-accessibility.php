@@ -77,7 +77,6 @@ $rooms = array(
 			'heading'     => $acc_heading,
 			'intro'       => $acc_intro,
 			'media_id'    => $acc_hero_image_id,
-			'content_max' => 'max-w-2xl',
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );

@@ -170,9 +170,7 @@ get_header();
 			'label'            => __( 'Guest information', 'restwell-retreats' ),
 			'heading'          => __( 'Your arrival guide', 'restwell-retreats' ),
 			'intro'            => __( 'Everything you need for a comfortable stay, available to verified guests only.', 'restwell-retreats' ),
-			'media_id'         => 0,
-			'content_max'      => 'max-w-2xl',
-			'min_height_class' => 'min-h-[28rem] md:min-h-[36rem]',
+			'media_id' => 0,
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );

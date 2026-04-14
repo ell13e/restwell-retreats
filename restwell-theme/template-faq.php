@@ -186,7 +186,6 @@ $categories = array(
 			'heading'     => $faq_heading,
 			'intro'       => $faq_intro,
 			'media_id'    => $faq_hero_image_id,
-			'content_max' => 'max-w-2xl',
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );
@@ -223,13 +222,13 @@ $categories = array(
 			<p id="faq-filter-status" class="sr-only" role="status" aria-live="polite"></p>
 
 			<!-- FAQ accordion list -->
-			<div class="space-y-3 faq-list" id="faq-list">
+			<div class="space-y-4 faq-list" id="faq-list">
 				<?php foreach ( $faq_pairs as $faq ) : ?>
 					<details class="faq-item bg-white rounded-2xl px-8 py-1 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 group hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] transition-all duration-300 ease-out motion-reduce:transition-none"
 					         data-category="<?php echo esc_attr( $faq['cat'] ); ?>">
 						<summary class="text-[var(--deep-teal)] font-medium text-lg py-4 min-h-[2.75rem] cursor-pointer list-none flex items-center justify-between gap-4 [&::-webkit-details-marker]:hidden rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] focus-visible:ring-offset-2">
 							<span><?php echo esc_html( $faq['q'] ); ?></span>
-							<span class="flex-shrink-0 text-[var(--warm-gold-text)] transition-transform group-open:rotate-180" aria-hidden="true">
+							<span class="flex-shrink-0 text-[var(--warm-gold-text)] transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
 								<i class="fa-solid fa-chevron-down"></i>
 							</span>
 						</summary>

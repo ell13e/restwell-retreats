@@ -32,8 +32,6 @@ get_header();
 			'heading'            => __( "We couldn't find that page.", 'restwell-retreats' ),
 			'intro'              => __( 'It may have moved, or the address was mistyped. Here are a few places to start from.', 'restwell-retreats' ),
 			'media_id'           => 0,
-			'content_max'        => 'max-w-2xl mx-auto text-center',
-			'min_height_class'   => 'min-h-[24rem] md:min-h-[32rem]',
 			'section_decor_html' => $decor_404,
 			'cta_primary'        => array(
 				'label' => __( 'Back to home', 'restwell-retreats' ),

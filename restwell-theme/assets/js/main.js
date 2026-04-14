@@ -323,9 +323,20 @@
 				if (show) visible++;
 			});
 			if (status) {
-				status.textContent = value === 'all' ? '' : visible === 0
-					? 'No places match this filter. Try another or show all.'
-					: 'Showing ' + visible + ' ' + (visible === 1 ? 'place' : 'places') + '.';
+				var msg = '';
+				if (value !== 'all') {
+					if (visible === 0) {
+						msg = 'No places match this filter. Try another or show all.';
+					} else {
+						msg =
+							'Showing ' +
+							visible +
+							' ' +
+							(visible === 1 ? 'place' : 'places') +
+							'.';
+					}
+				}
+				status.textContent = msg;
 			}
 			if (emptyState) {
 				emptyState.style.display = visible === 0 ? 'block' : 'none';
@@ -444,15 +455,15 @@
 					circle.innerHTML             = String(n);
 					label.style.color            = 'var(--deep-teal)';
 					label.style.fontWeight       = '500';
-			} else {
-				// Pending - #6B6355 on white = 5.9:1 (WCAG AA pass)
-				circle.style.backgroundColor = '#fff';
-				circle.style.borderColor     = '#E8DFD0';
-				circle.style.color           = '#6B6355';
-				circle.innerHTML             = String(n);
-				label.style.color            = '#6B6355';
-				label.style.fontWeight       = 'normal';
-			}
+				} else {
+					// Pending - #6B6355 on white = 5.9:1 (WCAG AA pass)
+					circle.style.backgroundColor = '#fff';
+					circle.style.borderColor     = '#E8DFD0';
+					circle.style.color           = '#6B6355';
+					circle.innerHTML             = String(n);
+					label.style.color            = '#6B6355';
+					label.style.fontWeight       = 'normal';
+				}
 			});
 
 			lines.forEach(function (line, idx) {
@@ -465,35 +476,35 @@
 			}
 		}
 
-	function showStep(n, skipScroll) {
-		steps.forEach(function (step) {
-			var stepNum = parseInt(step.getAttribute('data-step'), 10);
-			step.classList.toggle('hidden', stepNum !== n);
-		});
-		updateProgress(n);
-		currentStep = n;
-		// Smooth scroll to top of form when navigating between steps,
-		// but not on initial load (skipScroll = true) so the page starts at the top.
-		if (!skipScroll) {
-			form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-		}
-
-		// Announce the new step to screen readers and move focus to the form
-		// heading so keyboard users know where they are after the transition.
-		// Without this, focus is destroyed when the active step receives display:none.
-		var announcement = document.getElementById('enq-step-announcement');
-		var stepLabels = { 1: 'Step 1: About you', 2: 'Step 2: Your stay', 3: 'Step 3: Your needs' };
-		if (announcement) {
-			announcement.textContent = stepLabels[n] || '';
-		}
-		var formHeading = form.querySelector('h2');
-		if (formHeading) {
-			if (!formHeading.getAttribute('tabindex')) {
-				formHeading.setAttribute('tabindex', '-1');
+		function showStep(n, skipScroll) {
+			steps.forEach(function (step) {
+				var stepNum = parseInt(step.getAttribute('data-step'), 10);
+				step.classList.toggle('hidden', stepNum !== n);
+			});
+			updateProgress(n);
+			currentStep = n;
+			// Smooth scroll to top of form when navigating between steps,
+			// but not on initial load (skipScroll = true) so the page starts at the top.
+			if (!skipScroll) {
+				form.scrollIntoView({ behavior: 'smooth', block: 'start' });
 			}
-			formHeading.focus({ preventScroll: true });
+
+			// Announce the new step to screen readers and move focus to the form
+			// heading so keyboard users know where they are after the transition.
+			// Without this, focus is destroyed when the active step receives display:none.
+			var announcement = document.getElementById('enq-step-announcement');
+			var stepLabels = { 1: 'Step 1: About you', 2: 'Step 2: Your stay', 3: 'Step 3: Your needs' };
+			if (announcement) {
+				announcement.textContent = stepLabels[n] || '';
+			}
+			var formHeading = form.querySelector('h2');
+			if (formHeading) {
+				if (!formHeading.getAttribute('tabindex')) {
+					formHeading.setAttribute('tabindex', '-1');
+				}
+				formHeading.focus({ preventScroll: true });
+			}
 		}
-	}
 
 		function clearErrors(step) {
 			step.querySelectorAll('.enq-field-error').forEach(function (el) {
@@ -593,8 +604,8 @@
 			}
 		});
 
-	// Initialise at step 1 - skip scroll so the page loads at the top.
-	showStep(1, true);
+		// Initialise at step 1 - skip scroll so the page loads at the top.
+		showStep(1, true);
 	}
 
 	/**
@@ -605,6 +616,20 @@
 		var params = new URLSearchParams(window.location.search);
 		if (params.get('sent') !== '1') {
 			return;
+		}
+		// Primary conversion: successful enquiry (GA4; requires measurement ID in theme SEO settings).
+		if (typeof window.gtag === 'function') {
+			var refPath = '';
+			try {
+				refPath = document.referrer ? new URL(document.referrer).pathname : '';
+			} catch (err) {
+				refPath = '';
+			}
+			window.gtag('event', 'enquiry_form_submitted', {
+				source_page: refPath || '(direct)',
+				user_type: 'guest',
+				page_path: window.location.pathname,
+			});
 		}
 		var el = document.getElementById('enquiry-result');
 		if (!el) {
@@ -785,6 +810,52 @@
 }
 
 	/**
+	 * GA4: secondary page-view-style events (property, accessibility spec).
+	 * Micro-conversions: tel / mailto (no PII in parameters).
+	 */
+	function initRestwellGa4SecondaryEvents() {
+		if (typeof window.gtag !== 'function') {
+			return;
+		}
+		var path = window.location.pathname || '';
+		if (path.indexOf('/the-property') !== -1) {
+			window.gtag('event', 'property_page_viewed', {
+				user_type: 'guest',
+				page_path: path,
+			});
+		}
+		if (path.indexOf('/accessibility') !== -1) {
+			window.gtag('event', 'accessibility_spec_viewed', {
+				user_type: 'guest',
+				page_path: path,
+			});
+		}
+
+		document.addEventListener(
+			'click',
+			function (e) {
+				var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+				if (!a || typeof window.gtag !== 'function') {
+					return;
+				}
+				var href = a.getAttribute('href') || '';
+				if (/^tel:/i.test(href)) {
+					window.gtag('event', 'phone_number_clicked', {
+						user_type: 'guest',
+						page_path: window.location.pathname,
+					});
+				} else if (/^mailto:/i.test(href)) {
+					window.gtag('event', 'email_clicked', {
+						user_type: 'guest',
+						page_path: window.location.pathname,
+					});
+				}
+			},
+			true
+		);
+	}
+
+	/**
 	 * GA4: log CTA clicks when gtag is present (measurement ID from theme SEO settings).
 	 * Event name: restwell_cta_click. Parameter: cta_id (from data-cta).
 	 */
@@ -802,6 +873,8 @@
 				}
 				window.gtag('event', 'restwell_cta_click', {
 					cta_id: id,
+					page_path: window.location.pathname,
+					user_type: 'guest',
 				});
 			},
 			true
@@ -952,6 +1025,7 @@
 		initExploreFilter();
 		initFaqTabs();
 		initMultiStepForm();
+		initRestwellGa4SecondaryEvents();
 		initEnquirySuccessScroll();
 		initRestwellCtaAnalytics();
 		initWifPersonaNav();

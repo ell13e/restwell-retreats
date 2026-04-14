@@ -45,15 +45,15 @@ function restwell_get_theme_setup_defaults() {
 		'hero_heading'             => 'Accessible Holidays in Whitstable, Kent',
 		'hero_subheading'          => 'Adapted bungalow for guests, families, and carers with whole-property booking.',
 		'hero_spec_heading'        => '',
-		'hero_cta_primary_label'   => 'Check availability',
-		'hero_cta_primary_url'     => '/enquire/',
-		'hero_cta_secondary_label' => 'View the property',
-		'hero_cta_secondary_url'   => '/the-property/',
+		'hero_cta_primary_label'   => 'View the property',
+		'hero_cta_primary_url'     => '/the-property/',
+		'hero_cta_secondary_label' => 'Send an enquiry',
+		'hero_cta_secondary_url'   => '/enquire/',
 		'hero_cta_promise'         => '',
 
 		'home_teaser_label'         => 'Area & funding',
 		'home_teaser_area_title'    => 'Whitstable & the Kent coast',
-		'home_teaser_area_body'     => 'Single-storey bungalow on the Kent coast: harbour, promenade, and day trips with realistic access notes. We focus on step-free routes, parking, and places that match your needs—not a vague list labelled "wheelchair friendly".',
+		'home_teaser_area_body'     => 'Single-storey bungalow on the Kent coast: harbour, promenade, and day trips with realistic access notes. We focus on step-free routes, parking, and places that match your needs, not a vague list labelled "wheelchair friendly".',
 		'home_teaser_funding_title' => 'Funding your stay',
 		'home_teaser_funding_body'  => 'Many guests use personal budgets, direct payments, NHS Continuing Healthcare, or local authority funding. Our guides explain common routes in plain English: what to ask your social worker, and what paperwork helps.',
 
@@ -71,13 +71,13 @@ function restwell_get_theme_setup_defaults() {
 		'who_label'        => "Who it's for",
 		'who_heading'      => 'Two people. One break.',
 		'who_guest_title'  => 'For the guest',
-		'who_guest_body'   => 'A private home with the space and access features you need: wide doorways, level thresholds, room for equipment, and space to settle. Self-catering in Whitstable at your pace—the house is yours, the timetable is yours. Rest by the sea, then explore the town or stay close as you prefer.',
+		'who_guest_body'   => 'A private home with the space and access features you need: wide doorways, level thresholds, room for equipment, and space to settle. Self-catering in Whitstable at your pace: the house is yours, the timetable is yours. Rest by the sea, then explore the town or stay close as you prefer.',
 		'who_carer_title'  => 'For the carer',
 		'who_carer_body'   => 'The layout supports care routines: separate sleeping, practical bathroom access, and space to assist. Optional CQC-regulated support is available through Continuity of Care Services, or bring your own carer. Either way, the environment is set up for real routines, day and night, so you are not improvising.',
 
 		'property_label'      => 'The property',
 		'property_heading'   => 'Our Whitstable home',
-		'property_body'      => 'An adapted single-storey property in Whitstable: level approach from the street, off-street parking for adapted vehicles, and a flat route toward the Tankerton promenade. Whitstable town centre—harbour, seafood restaurants, and the waterfront—is close enough for day trips without stressful route planning.',
+		'property_body'      => 'An adapted single-storey property in Whitstable: level approach from the street, off-street parking for adapted vehicles, and a flat route toward the Tankerton promenade. Whitstable town centre (harbour, seafood restaurants, and the waterfront) is close enough for day trips without stressful route planning.',
 		'property_cta_label' => 'Explore the property',
 		'property_cta_url'   => '/the-property/',
 		'property_image_id'  => 0,
@@ -93,13 +93,29 @@ function restwell_get_theme_setup_defaults() {
 		'why_item4_title' => 'Honest & open',
 		'why_item4_desc'  => 'We publish the access specification: exact dimensions, thresholds, and equipment, so you can plan with confidence before you travel.',
 
+		'home_comparison_label'          => 'Compare options',
+		'home_comparison_heading'        => 'Restwell vs. a typical hotel stay',
+		'home_comparison_intro'          => 'Self-catering whole-property stays differ from one accessible hotel room. Use the table to judge fit before you book.',
+		'home_comparison_row1_feature'   => 'Privacy',
+		'home_comparison_row1_restwell'  => 'Whole property',
+		'home_comparison_row1_other'     => 'Shared spaces',
+		'home_comparison_row2_feature'   => 'Equipment',
+		'home_comparison_row2_restwell'  => 'Hoist, profiling bed',
+		'home_comparison_row2_other'     => 'Limited',
+		'home_comparison_row3_feature'   => 'Care',
+		'home_comparison_row3_restwell'  => 'Optional, your choice',
+		'home_comparison_row3_other'     => 'Fixed or none',
+		'home_comparison_row4_feature'   => 'Kitchen',
+		'home_comparison_row4_restwell'  => 'Full self-catering',
+		'home_comparison_row4_other'     => 'None or limited',
+
 		'cta_heading'          => 'Ready to plan your accessible stay?',
 		'cta_body'            => 'Ask about hoist limits, door widths, or funding. No pressure: we reply with specifics you can use.',
 		'cta_primary_label'   => 'Send an enquiry',
 		'cta_primary_url'     => '/enquire/',
 		'cta_secondary_label' => 'See the property',
 		'cta_secondary_url'   => '/the-property/',
-		'cta_promise'         => 'No booking commitment. Just a conversation.',
+		'cta_promise'         => 'No booking commitment. Replies usually within one working day.',
 		'cta_image_id'        => 0,
 	);
 
@@ -108,6 +124,33 @@ function restwell_get_theme_setup_defaults() {
 	}
 
 	return $defaults;
+}
+
+/**
+ * Merge theme default post meta into a page: overwrite all keys when $force; otherwise only set keys that are not stored yet.
+ *
+ * Preserves intentional edits and empty values; fills gaps when new defaults are added to the theme.
+ *
+ * @param int   $post_id  Post ID.
+ * @param array $defaults Key => value from a restwell_get_*_defaults() map.
+ * @param bool  $force    When true, replace every listed key from defaults.
+ * @return int Number of meta keys written.
+ */
+function restwell_merge_theme_defaults_into_post_meta( $post_id, array $defaults, $force ) {
+	$post_id = (int) $post_id;
+	if ( $post_id < 1 || empty( $defaults ) ) {
+		return 0;
+	}
+
+	$written = 0;
+	foreach ( $defaults as $key => $value ) {
+		if ( $force || ! metadata_exists( 'post', $post_id, $key ) ) {
+			update_post_meta( $post_id, $key, $value );
+			++$written;
+		}
+	}
+
+	return $written;
 }
 
 /**
@@ -644,6 +687,28 @@ function restwell_theme_setup_admin_menu() {
 add_action( 'admin_menu', 'restwell_theme_setup_admin_menu' );
 
 /**
+ * Print long-cache guidance for theme static assets (server/CDN; not set by PHP).
+ */
+function restwell_theme_setup_performance_docs_section() {
+	$slug = basename( get_template() );
+	$path = '/wp-content/themes/' . $slug . '/assets/';
+	$nginx_block = "location ~* ^{$path} {\n    expires 1y;\n    add_header Cache-Control \"public, max-age=31536000, immutable\";\n}";
+	$apache_block = '<FilesMatch "\\.(css|js|woff2?|ttf|eot)$">' . "\n" . '    Header set Cache-Control "public, max-age=31536000, immutable"' . "\n" . '</FilesMatch>';
+	?>
+	<div class="card" style="max-width: 52rem; margin-top: 1.5rem;">
+		<h2><?php esc_html_e( 'Performance: static assets & caching', 'restwell-retreats' ); ?></h2>
+		<p><?php esc_html_e( 'After Theme Setup, WordPress regenerates responsive image sizes (unless you skip that step). For CSS/JS/fonts under the theme, set long cache lifetimes at the web server or CDN. Theme enqueue URLs include a version query string so updates bust caches.', 'restwell-retreats' ); ?></p>
+		<p><strong><?php esc_html_e( 'Theme assets path (adjust for your install):', 'restwell-retreats' ); ?></strong> <code><?php echo esc_html( $path ); ?></code></p>
+		<h3><?php esc_html_e( 'nginx (example location)', 'restwell-retreats' ); ?></h3>
+		<pre style="overflow:auto; padding:12px; background:#f6f7f7; border:1px solid #c3c4c7;"><?php echo esc_html( $nginx_block ); ?></pre>
+		<h3><?php esc_html_e( 'Apache (prefer server or vhost config; .htaccess in the theme is not loaded for asset requests)', 'restwell-retreats' ); ?></h3>
+		<pre style="overflow:auto; padding:12px; background:#f6f7f7; border:1px solid #c3c4c7;"><?php echo esc_html( $apache_block ); ?></pre>
+		<p class="description"><?php esc_html_e( 'Requires mod_headers (and related modules) as appropriate. Page caching remains a separate plugin or host feature.', 'restwell-retreats' ); ?></p>
+	</div>
+	<?php
+}
+
+/**
  * Render the Theme Setup admin page and handle POST.
  */
 function restwell_theme_setup_page() {
@@ -659,9 +724,10 @@ function restwell_theme_setup_page() {
 		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ RESTWELL_SETUP_NONCE_NAME ] ) ), RESTWELL_SETUP_NONCE_ACTION ) ) {
 			$message = '<div class="notice notice-error"><p>' . esc_html__( 'Security check failed. Please try again.', 'restwell-retreats' ) . '</p></div>';
 		} else {
-			$force = ! empty( $_POST['restwell_rerun'] );
-			$result = restwell_run_theme_setup( $force );
-			$message = restwell_theme_setup_format_message( $result );
+			$force            = ! empty( $_POST['restwell_rerun'] );
+			$skip_image_regen = ! empty( $_POST['restwell_skip_image_regen'] );
+			$result           = restwell_run_theme_setup( $force, $skip_image_regen );
+			$message          = restwell_theme_setup_format_message( $result );
 		}
 	}
 
@@ -672,7 +738,7 @@ function restwell_theme_setup_page() {
 		<?php echo $message; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped - built from escaped fragments ?>
 
 		<div class="notice notice-warning">
-			<p><?php esc_html_e( 'This will create all pages and populate default content. Only run this once on a fresh install.', 'restwell-retreats' ); ?></p>
+			<p><?php esc_html_e( 'Creates missing pages and fills default content. Re-running merges any new theme default fields into pages where those keys are not stored yet; use “Re-run setup anyway” to overwrite Home and template page fields from current theme defaults.', 'restwell-retreats' ); ?></p>
 		</div>
 
 		<?php if ( $already_seeded ) : ?>
@@ -687,16 +753,24 @@ function restwell_theme_setup_page() {
 				<p>
 					<label>
 						<input type="checkbox" name="restwell_rerun" value="1" />
-						<?php esc_html_e( 'Re-run setup anyway (re-seeds content and overwrites SEO title, meta description, and focus keyphrase from theme defaults)', 'restwell-retreats' ); ?>
+						<?php esc_html_e( 'Re-run setup anyway (re-seeds content and overwrites SEO title, meta description, and focus keyphrase from theme defaults). Responsive image regeneration still runs unless you skip it below.', 'restwell-retreats' ); ?>
 					</label>
 				</p>
 			<?php endif; ?>
+			<p>
+				<label>
+					<input type="checkbox" name="restwell_skip_image_regen" value="1" />
+					<?php esc_html_e( 'Skip regenerating responsive image sizes (restwell-hero, restwell-cta-bg) for all uploads. Use if this request might time out on a very large Media Library; you can run wp media regenerate later.', 'restwell-retreats' ); ?>
+				</label>
+			</p>
 			<p>
 				<button type="submit" name="restwell_run_setup" value="1" class="button button-primary">
 					<?php esc_html_e( 'Run Theme Setup', 'restwell-retreats' ); ?>
 				</button>
 			</p>
 		</form>
+
+		<?php restwell_theme_setup_performance_docs_section(); ?>
 	</div>
 	<?php
 }
@@ -810,17 +884,19 @@ function restwell_upload_theme_logos( array &$result ) {
 /**
  * Run theme setup: create pages, set front page, seed Home meta.
  *
- * @param bool $force If true, re-seed Home and page content where supported, refresh seeded blog posts, and overwrite SEO meta from theme defaults.
+ * @param bool $force               If true, re-seed Home and page content where supported, refresh seeded blog posts, and overwrite SEO meta from theme defaults.
+ * @param bool $skip_image_regen    If true, skip regenerating image subsizes (restwell-hero, restwell-cta-bg) for all attachments.
  * @return array<string, mixed> Setup result (created, skipped, seo_meta_applied, seo_meta_forced, etc.).
  */
-function restwell_run_theme_setup( $force = false ) {
+function restwell_run_theme_setup( $force = false, $skip_image_regen = false ) {
 	$result = array(
 		'created'            => array(),
 		'skipped'            => array(),
 		'front_page_set'     => false,
 		'posts_page_set'     => false,
-		'home_seeded'        => false,
-		'home_editor_seeded' => false,
+		'home_seeded'           => false,
+		'home_meta_keys_written'  => 0,
+		'home_additive_only'      => false,
 		'pages_seeded'       => array(),
 		'pages_seed_skipped' => array(),
 		'hub_seeded'         => array(),
@@ -831,7 +907,9 @@ function restwell_run_theme_setup( $force = false ) {
 		'logos_uploaded'     => array(),
 		'logos_skipped'      => array(),
 		'logos_missing'      => array(),
-		'logos_failed'       => array(),
+		'logos_failed'         => array(),
+		'image_regen_skipped'  => false,
+		'image_regen'          => null,
 	);
 
 	$pages = restwell_get_theme_setup_pages();
@@ -888,19 +966,17 @@ function restwell_run_theme_setup( $force = false ) {
 		update_option( 'page_on_front', $home_id );
 		$result['front_page_set'] = true;
 
-		$should_seed = $force || get_post_meta( $home_id, 'restwell_fields_seeded', true ) !== '1';
-		if ( $should_seed ) {
-			$defaults = restwell_get_theme_setup_defaults();
-			foreach ( $defaults as $key => $value ) {
-				update_post_meta( $home_id, $key, $value );
-			}
+		$home_was_seeded = get_post_meta( $home_id, 'restwell_fields_seeded', true ) === '1';
+
+		$home_defaults           = restwell_get_theme_setup_defaults();
+		$home_meta_keys_written  = restwell_merge_theme_defaults_into_post_meta( $home_id, $home_defaults, $force );
+		$result['home_meta_keys_written'] = $home_meta_keys_written;
+		$result['home_additive_only']     = $home_was_seeded && ! $force && $home_meta_keys_written > 0;
+		if ( $home_meta_keys_written > 0 ) {
 			update_post_meta( $home_id, 'restwell_fields_seeded', '1' );
 			$result['home_seeded'] = true;
 		}
 
-		if ( restwell_seed_front_page_editor_content( $home_id, $force ) ) {
-			$result['home_editor_seeded'] = true;
-		}
 	}
 
 	// Seed meta defaults for all non-Home template pages.
@@ -933,6 +1009,13 @@ function restwell_run_theme_setup( $force = false ) {
 
 	// Upload logos to Media Library so templates can use stable attachment URLs.
 	restwell_upload_theme_logos( $result );
+
+	// Build restwell-hero / restwell-cta-bg (and other registered sizes) for every image; runs on Theme Setup unless skipped.
+	$run_regen = ! $skip_image_regen && apply_filters( 'restwell_theme_setup_run_image_subsize_regen', true, $force );
+	$result['image_regen_skipped'] = ! $run_regen;
+	if ( $run_regen && function_exists( 'restwell_regenerate_all_image_subsizes' ) ) {
+		$result['image_regen'] = restwell_regenerate_all_image_subsizes();
+	}
 
 	return $result;
 }
@@ -1070,19 +1153,17 @@ function restwell_seed_all_pages_meta( array $created_ids, $force, array &$resul
 			continue;
 		}
 
-		$already_seeded = get_post_meta( $page_id, 'restwell_fields_seeded', true ) === '1';
-		if ( $already_seeded && ! $force ) {
-			$result['pages_seed_skipped'][] = $title;
+		if ( ! is_callable( $defaults_fn ) ) {
 			continue;
 		}
 
-		if ( is_callable( $defaults_fn ) ) {
-			$defaults = call_user_func( $defaults_fn );
-			foreach ( $defaults as $key => $value ) {
-				update_post_meta( $page_id, $key, $value );
-			}
+		$defaults = call_user_func( $defaults_fn );
+		$n        = restwell_merge_theme_defaults_into_post_meta( $page_id, $defaults, $force );
+		if ( $n > 0 ) {
 			update_post_meta( $page_id, 'restwell_fields_seeded', '1' );
 			$result['pages_seeded'][] = $title;
+		} elseif ( ! $force ) {
+			$result['pages_seed_skipped'][] = $title;
 		}
 	}
 }
@@ -1106,16 +1187,20 @@ function restwell_theme_setup_format_message( $result ) {
 		$lines[] = esc_html__( 'Home set as static front page.', 'restwell-retreats' );
 	}
 	if ( $result['home_seeded'] ) {
-		$lines[] = esc_html__( 'Default content seeded on Home page.', 'restwell-retreats' );
-	}
-	if ( ! empty( $result['home_editor_seeded'] ) ) {
-		$lines[] = esc_html__( 'Home page editor body populated from defaults (editable in the classic editor).', 'restwell-retreats' );
+		$n          = isset( $result['home_meta_keys_written'] ) ? (int) $result['home_meta_keys_written'] : 0;
+		$additive   = ! empty( $result['home_additive_only'] );
+		if ( $additive && $n > 0 ) {
+			/* translators: %d: number of meta keys written from theme defaults */
+			$lines[] = sprintf( esc_html__( 'Home page: %d new default field(s) merged from theme (existing values unchanged).', 'restwell-retreats' ), $n );
+		} else {
+			$lines[] = esc_html__( 'Default content seeded on Home page.', 'restwell-retreats' );
+		}
 	}
 	if ( ! empty( $result['pages_seeded'] ) ) {
 		$lines[] = '<strong>' . esc_html__( 'Page content seeded:', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['pages_seeded'] ) );
 	}
 	if ( ! empty( $result['pages_seed_skipped'] ) ) {
-		$lines[] = '<strong>' . esc_html__( 'Page content already seeded (skipped):', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['pages_seed_skipped'] ) );
+		$lines[] = '<strong>' . esc_html__( 'Template pages: no missing default fields (unchanged):', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['pages_seed_skipped'] ) );
 	}
 	if ( ! empty( $result['logos_uploaded'] ) ) {
 		$lines[] = '<strong>' . esc_html__( 'Logos uploaded to Media Library:', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['logos_uploaded'] ) );
@@ -1147,6 +1232,21 @@ function restwell_theme_setup_format_message( $result ) {
 	}
 	if ( ! empty( $result['blog_posts_failed'] ) ) {
 		$lines[] = '<strong>' . esc_html__( 'Blog post seed failed (slug):', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['blog_posts_failed'] ) );
+	}
+
+	if ( ! empty( $result['image_regen_skipped'] ) ) {
+		$lines[] = esc_html__( 'Responsive image regeneration was skipped (checkbox). Use Theme Setup again or run wp media regenerate on the server.', 'restwell-retreats' );
+	} elseif ( ! empty( $result['image_regen'] ) && is_array( $result['image_regen'] ) ) {
+		$ir = $result['image_regen'];
+		/* translators: %d: number of attachments processed */
+		$lines[] = sprintf( esc_html__( 'Responsive image sizes updated for %d image(s) (restwell-hero, restwell-cta-bg, etc.).', 'restwell-retreats' ), (int) ( $ir['processed'] ?? 0 ) );
+		if ( ! empty( $ir['errors'] ) ) {
+			/* translators: %d: error count */
+			$lines[] = sprintf( esc_html__( 'Image regeneration reported %d error(s). Check file permissions and disk space.', 'restwell-retreats' ), (int) $ir['errors'] );
+			if ( ! empty( $ir['error_samples'] ) ) {
+				$lines[] = esc_html( implode( ' ', $ir['error_samples'] ) );
+			}
+		}
 	}
 
 	if ( empty( $lines ) ) {

@@ -53,8 +53,8 @@ if ( $footer_cta_note === '' ) {
 			<h2 class="footer-cta__heading"><?php echo esc_html( $footer_cta_heading ); ?></h2>
 			<p class="footer-cta__intro"><?php echo esc_html( $footer_cta_intro ); ?></p>
 			<div class="footer-cta__actions">
-				<a href="<?php echo esc_url( $footer_cta_primary_url ); ?>" class="footer-cta__btn footer-cta__btn--primary"><?php echo esc_html( $footer_cta_primary_label ); ?></a>
-				<a href="<?php echo esc_url( $enquire_url ); ?>" class="footer-cta__btn footer-cta__btn--ghost"><?php echo esc_html( $footer_cta_secondary_label ); ?></a>
+				<a href="<?php echo esc_url( $footer_cta_primary_url ); ?>" class="footer-cta__btn footer-cta__btn--primary" data-cta="footer-cta-property"><?php echo esc_html( $footer_cta_primary_label ); ?></a>
+				<a href="<?php echo esc_url( $enquire_url ); ?>" class="footer-cta__btn footer-cta__btn--ghost" data-cta="footer-cta-enquire"><?php echo esc_html( $footer_cta_secondary_label ); ?></a>
 			</div>
 			<p class="footer-cta__note"><?php echo esc_html( $footer_cta_note ); ?></p>
 		</div>
@@ -82,7 +82,7 @@ if ( $footer_cta_note === '' ) {
 				<h3 class="footer-heading"><?php esc_html_e( 'Explore', 'restwell-retreats' ); ?></h3>
 				<nav aria-label="<?php esc_attr_e( 'Footer navigation', 'restwell-retreats' ); ?>">
 					<ul class="footer-nav-list">
-						<?php foreach ( restwell_get_footer_nav_links() as $item ) : ?>
+						<?php foreach ( restwell_get_primary_nav_links() as $item ) : ?>
 							<li><a href="<?php echo esc_url( $item['url'] ); ?>"><?php echo esc_html( $item['label'] ); ?></a></li>
 						<?php endforeach; ?>
 					</ul>
@@ -93,7 +93,15 @@ if ( $footer_cta_note === '' ) {
 			<div class="footer-contact">
 				<h3 class="footer-heading"><?php esc_html_e( 'Contact', 'restwell-retreats' ); ?></h3>
 				<p class="footer-contact__copy"><?php esc_html_e( 'Questions about dates, accessibility, or anything else? We\'re happy to help.', 'restwell-retreats' ); ?></p>
-				<a href="<?php echo esc_url( $enquire_url ); ?>" class="footer-contact__link"><?php esc_html_e( 'Enquire now', 'restwell-retreats' ); ?></a>
+				<p class="footer-contact__actions m-0 flex flex-col gap-2">
+					<a href="<?php echo esc_url( $enquire_url ); ?>" class="footer-contact__link" data-cta="footer-contact-enquire"><?php esc_html_e( 'Enquire now', 'restwell-retreats' ); ?></a>
+					<?php
+					$restwell_contact_page = get_page_by_path( 'contact', OBJECT, 'page' );
+					if ( $restwell_contact_page instanceof WP_Post ) :
+						?>
+					<a href="<?php echo esc_url( get_permalink( $restwell_contact_page ) ); ?>" class="footer-contact__link footer-contact__link--secondary text-sm font-normal opacity-90 hover:opacity-100" data-cta="footer-contact-details"><?php esc_html_e( 'Phone, email & address', 'restwell-retreats' ); ?></a>
+					<?php endif; ?>
+				</p>
 			</div>
 		</div>
 

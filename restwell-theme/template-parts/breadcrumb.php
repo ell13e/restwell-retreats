@@ -49,7 +49,30 @@ $crumbs[] = array(
 	'label' => get_the_title(),
 	'url'   => '',
 );
+
+// Build Schema.org BreadcrumbList JSON-LD.
+$schema_items = array();
+foreach ( $crumbs as $position => $crumb ) {
+	$item = array(
+		'@type'    => 'ListItem',
+		'position' => $position + 1,
+		'name'     => $crumb['label'],
+	);
+	if ( ! empty( $crumb['url'] ) ) {
+		$item['item'] = $crumb['url'];
+	}
+	$schema_items[] = $item;
+}
+
+$breadcrumb_schema = array(
+	'@context'        => 'https://schema.org',
+	'@type'           => 'BreadcrumbList',
+	'itemListElement' => $schema_items,
+);
 ?>
+<script type="application/ld+json">
+<?php echo wp_json_encode( $breadcrumb_schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ); ?>
+</script>
 <nav class="breadcrumb" aria-label="<?php esc_attr_e( 'Breadcrumb', 'restwell-retreats' ); ?>">
 	<div class="container">
 		<ol class="breadcrumb__list">

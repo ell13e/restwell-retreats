@@ -32,8 +32,8 @@ $wrap_class = 'dark' === $variant
 	: 'text-[#3a5a63] text-sm max-w-lg mx-auto mb-6 leading-relaxed';
 
 $link_class = 'dark' === $variant
-	? 'text-white font-medium underline underline-offset-2 hover:text-[var(--warm-gold-hero)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 rounded'
-	: 'text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:text-[var(--warm-gold-text)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] rounded';
+	? 'text-white font-medium underline underline-offset-[0.28em] decoration-white/70 hover:text-[var(--warm-gold-hero)] hover:decoration-[var(--warm-gold-hero)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 rounded'
+	: 'text-[var(--deep-teal)] font-medium underline underline-offset-[0.28em] hover:text-[var(--warm-gold-text)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] rounded';
 ?>
 <p class="<?php echo esc_attr( $wrap_class ); ?>">
 	<a href="<?php echo esc_url( get_permalink( $acc_page ) ); ?>" class="<?php echo esc_attr( $link_class ); ?>">

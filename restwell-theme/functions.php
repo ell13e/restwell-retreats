@@ -16,9 +16,10 @@ add_filter( 'use_block_editor_for_post', '__return_false' );
 add_filter( 'use_widgets_block_editor', '__return_false' );
 
 require_once get_template_directory() . '/inc/enqueue.php';
+require_once get_template_directory() . '/inc/performance.php';
+require_once get_template_directory() . '/inc/wp-runtime-optimization.php';
 require_once get_template_directory() . '/inc/meta-fields.php';
 require_once get_template_directory() . '/inc/theme-setup.php';
-require_once get_template_directory() . '/inc/front-page-editor.php';
 require_once get_template_directory() . '/inc/emails.php';
 require_once get_template_directory() . '/inc/crm.php';
 require_once get_template_directory() . '/inc/enquire-handler.php';
@@ -53,6 +54,10 @@ function restwell_theme_setup() {
 			'primary' => __( 'Primary Menu', 'restwell-retreats' ),
 		)
 	);
+
+	// Responsive theme images: cap hero/CTA width for smaller files + richer srcset (regenerate after deploy: wp media regenerate).
+	add_image_size( 'restwell-hero', 1920, 0 );
+	add_image_size( 'restwell-cta-bg', 1920, 0 );
 }
 add_action( 'after_setup_theme', 'restwell_theme_setup' );
 
@@ -128,12 +133,17 @@ add_filter( 'nav_menu_link_attributes', 'restwell_primary_nav_menu_link_attribut
  * @return string
  */
 function restwell_nav_resolve_page_url( $slug ) {
+	static $cache = array();
 	$slug = (string) $slug;
 	if ( $slug === '' ) {
 		return home_url( '/' );
 	}
+	if ( isset( $cache[ $slug ] ) ) {
+		return $cache[ $slug ];
+	}
 	$page = get_page_by_path( $slug, OBJECT, 'page' );
-	return $page ? get_permalink( $page ) : home_url( '/' . $slug . '/' );
+	$cache[ $slug ] = $page ? get_permalink( $page ) : home_url( '/' . $slug . '/' );
+	return $cache[ $slug ];
 }
 
 /**
@@ -143,6 +153,11 @@ function restwell_nav_resolve_page_url( $slug ) {
  * @return array<int, array<string, mixed>>
  */
 function restwell_get_primary_nav_structure() {
+	static $built = null;
+	if ( null !== $built ) {
+		return $built;
+	}
+
 	$raw = array(
 		array(
 			'type'   => 'link',
@@ -213,11 +228,12 @@ function restwell_get_primary_nav_structure() {
 		}
 	}
 
-	return $out;
+	$built = $out;
+	return $built;
 }
 
 /**
- * Flat list of nav links (footer, mobile, SEO): same destinations as the desktop structure.
+ * Flat list of nav links for footer, mobile fallback, and SEO: same destinations as the desktop structure.
  *
  * @return array<int, array{label: string, url: string, is_cta?: bool}>
  */
@@ -276,26 +292,6 @@ function restwell_render_primary_nav_fallback() {
 		echo '</li>';
 	}
 	echo '</ul>';
-}
-
-/**
- * Fallback nav links when no menu is assigned to Primary.
- * Uses restwell_get_primary_nav_links() for consistent order and labels.
- *
- * @return array<int, array{label: string, url: string}>
- */
-function restwell_get_fallback_nav_links() {
-	return restwell_get_primary_nav_links();
-}
-
-/**
- * Footer nav links (Explore section).
- * Same structure as primary; can be filtered or simplified for footer.
- *
- * @return array<int, array{label: string, url: string}>
- */
-function restwell_get_footer_nav_links() {
-	return restwell_get_primary_nav_links();
 }
 
 /**
@@ -449,7 +445,7 @@ function restwell_wif_group_sentences_into_blocks( array $sentences, $per_block 
 	foreach ( $sentences as $s ) {
 		$buffer[] = $s;
 		if ( count( $buffer ) >= $per_block ) {
-			$out[]    = implode( ' ', $buffer );
+			$out[]  = implode( ' ', $buffer );
 			$buffer = array();
 		}
 	}
