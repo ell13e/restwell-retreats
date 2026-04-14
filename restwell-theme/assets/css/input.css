@@ -3490,6 +3490,7 @@
 #main-content p.max-w-prose.leading-relaxed.text-gray-600:not(.text-xs):not(.text-sm):not(.text-center),
 #main-content .home-hero-equipment-strip__text,
 #main-content .home-faq-section dd,
+#main-content .home-faq-section .home-faq__answer,
 #main-content .restwell-prose-readable,
 #main-content .restwell-justify-soft {
   text-align: start;
@@ -3509,13 +3510,21 @@
   text-wrap: pretty;
 }
 
-/* Who cards: centred stack (global #main-content prose uses text-align: start on many p) */
+/* Who cards: inherit alignment from card utilities (centred on small screens, start on md+) */
 #main-content .who-section .who-card p.who-card__body {
-  text-align: center;
+  text-align: inherit;
   hyphens: none;
   -webkit-hyphens: none;
   overflow-wrap: break-word;
   text-wrap: pretty;
+}
+
+/* Homepage FAQ accordion: +/- icons for <details> open state */
+#main-content .home-faq-section details.home-faq__item:not([open]) summary .home-faq__icon--minus {
+  display: none;
+}
+#main-content .home-faq-section details.home-faq__item[open] summary .home-faq__icon--plus {
+  display: none;
 }
 
 /* Why Restwell feature grid: centred copy (same global prose conflict as who-cards) */
