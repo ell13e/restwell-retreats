@@ -20,8 +20,11 @@ require_once get_template_directory() . '/inc/performance.php';
 require_once get_template_directory() . '/inc/wp-runtime-optimization.php';
 require_once get_template_directory() . '/inc/meta-fields.php';
 require_once get_template_directory() . '/inc/theme-setup.php';
+require_once get_template_directory() . '/inc/social-profiles.php';
 require_once get_template_directory() . '/inc/emails.php';
+require_once get_template_directory() . '/inc/form-notify.php';
 require_once get_template_directory() . '/inc/crm.php';
+require_once get_template_directory() . '/inc/faq-question-handler.php';
 require_once get_template_directory() . '/inc/enquire-handler.php';
 require_once get_template_directory() . '/inc/seo.php';
 require_once get_template_directory() . '/inc/seo-admin.php';
@@ -145,6 +148,48 @@ function restwell_nav_resolve_page_url( $slug ) {
 	$cache[ $slug ] = $page ? get_permalink( $page ) : home_url( '/' . $slug . '/' );
 	return $cache[ $slug ];
 }
+
+/**
+ * 301 redirect legacy /contact/ to the enquire page (single contact surface).
+ */
+function restwell_redirect_contact_to_enquire() {
+	if ( is_admin() || wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		return;
+	}
+
+	$target = restwell_nav_resolve_page_url( 'enquire' );
+
+	if ( is_page( 'contact' ) ) {
+		wp_safe_redirect( $target, 301 );
+		exit;
+	}
+
+	// When no WP page exists, /contact/ may 404 — still consolidate to enquire.
+	global $wp;
+	if ( is_404() && isset( $wp->request ) && is_string( $wp->request ) && preg_match( '#^contact/?$#', $wp->request ) ) {
+		wp_safe_redirect( $target, 301 );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'restwell_redirect_contact_to_enquire', 20 );
+
+/**
+ * 301 redirect legacy carers guide slug to canonical post URL (theme + seed use carers-respite-holiday-guide).
+ */
+function restwell_redirect_legacy_carers_guide_slug() {
+	if ( is_admin() || wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		return;
+	}
+	global $wp;
+	if ( ! isset( $wp->request ) || ! is_string( $wp->request ) ) {
+		return;
+	}
+	if ( preg_match( '#^carers-holiday-respite-funding/?$#', $wp->request ) ) {
+		wp_safe_redirect( home_url( '/carers-respite-holiday-guide/' ), 301 );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'restwell_redirect_legacy_carers_guide_slug', 21 );
 
 /**
  * Primary navigation tree for desktop: top-level links plus dropdown groups.
@@ -280,7 +325,7 @@ function restwell_render_primary_nav_fallback() {
 		echo '<li class="site-nav__item site-nav__item--has-dropdown" data-nav-dropdown>';
 		echo '<button type="button" class="site-nav__dropdown-toggle" id="' . esc_attr( $mid ) . '-btn" aria-expanded="false" aria-haspopup="true" aria-controls="' . esc_attr( $mid ) . '-menu">';
 		echo esc_html( $item['label'] );
-		echo '<span class="site-nav__dropdown-chevron" aria-hidden="true"><i class="fa-solid fa-chevron-down"></i></span>';
+		echo '<span class="site-nav__dropdown-chevron" aria-hidden="true"><i class="ph-bold ph-caret-down"></i></span>';
 		echo '</button>';
 		echo '<ul class="site-nav__submenu" id="' . esc_attr( $mid ) . '-menu" role="list">';
 		foreach ( $item['children'] as $ch ) {

@@ -87,7 +87,7 @@ if ( have_posts() ) {
 	?>
 
 	<!-- Articles -->
-	<div class="bg-[var(--bg-subtle)] py-16 md:py-24">
+	<div class="bg-[var(--bg-subtle)] rw-section-y">
 		<div class="container max-w-5xl">
 
 			<?php if ( $first_post ) : ?>
@@ -107,7 +107,7 @@ if ( have_posts() ) {
 								     loading="eager" />
 							<?php else : ?>
 								<div class="absolute inset-0 flex items-center justify-center">
-									<i class="fa-solid fa-newspaper text-[var(--deep-teal)]/20 text-6xl" aria-hidden="true"></i>
+									<i class="ph-bold ph-newspaper text-[var(--deep-teal)]/20 text-6xl" aria-hidden="true"></i>
 								</div>
 							<?php endif; ?>
 						</div>
@@ -127,7 +127,7 @@ if ( have_posts() ) {
 							</div>
 							<div class="flex items-center justify-end mt-6 pt-6 border-t border-gray-100">
 								<span class="inline-flex items-center gap-1.5 text-[var(--deep-teal)] text-sm font-semibold">
-									<?php esc_html_e( 'Continue reading', 'restwell-retreats' ); ?> <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+									<?php esc_html_e( 'Continue reading', 'restwell-retreats' ); ?> <i class="ph-bold ph-arrow-right text-xs" aria-hidden="true"></i>
 								</span>
 							</div>
 						</div>
@@ -151,7 +151,7 @@ if ( have_posts() ) {
 											     loading="lazy" />
 										<?php else : ?>
 											<div class="absolute inset-0 flex items-center justify-center">
-												<i class="fa-solid fa-newspaper text-[var(--deep-teal)]/20 text-4xl" aria-hidden="true"></i>
+												<i class="ph-bold ph-newspaper text-[var(--deep-teal)]/20 text-4xl" aria-hidden="true"></i>
 											</div>
 										<?php endif; ?>
 									</div>
@@ -168,7 +168,7 @@ if ( have_posts() ) {
 										<div class="flex items-center justify-between mt-5 pt-4 border-t border-gray-100">
 											<time class="text-xs text-[var(--muted-grey)]" datetime="<?php echo esc_attr( $post['date_iso'] ); ?>"><?php echo esc_html( $post['date'] ); ?></time>
 											<span class="inline-flex items-center gap-1 text-[var(--deep-teal)] text-xs font-semibold">
-												<?php esc_html_e( 'Continue', 'restwell-retreats' ); ?> <i class="fa-solid fa-arrow-right text-[10px]" aria-hidden="true"></i>
+												<?php esc_html_e( 'Continue', 'restwell-retreats' ); ?> <i class="ph-bold ph-arrow-right text-[10px]" aria-hidden="true"></i>
 											</span>
 										</div>
 									</div>
@@ -182,8 +182,8 @@ if ( have_posts() ) {
 				<?php
 				the_posts_pagination( array(
 					'mid_size'           => 2,
-					'prev_text'          => '<i class="fa-solid fa-arrow-left" aria-hidden="true"></i> ' . __( 'Newer', 'restwell-retreats' ),
-					'next_text'          => __( 'Older', 'restwell-retreats' ) . ' <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>',
+					'prev_text'          => '<i class="ph-bold ph-arrow-left" aria-hidden="true"></i> ' . __( 'Newer', 'restwell-retreats' ),
+					'next_text'          => __( 'Older', 'restwell-retreats' ) . ' <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>',
 					'screen_reader_text' => __( 'Articles navigation', 'restwell-retreats' ),
 					'class'              => 'mt-14 md:mt-20',
 				) );
@@ -194,7 +194,7 @@ if ( have_posts() ) {
 				<!-- Empty state -->
 				<div class="text-center py-16 max-w-md mx-auto">
 					<div class="w-16 h-16 bg-[#A8D5D0]/30 rounded-full flex items-center justify-center mx-auto mb-6" aria-hidden="true">
-						<i class="fa-solid fa-pen-nib text-[var(--deep-teal)] text-2xl"></i>
+						<i class="ph-bold ph-pen-nib text-[var(--deep-teal)] text-2xl"></i>
 					</div>
 					<h2 class="text-2xl font-serif text-[var(--deep-teal)] mb-3"><?php esc_html_e( 'Guides coming soon', 'restwell-retreats' ); ?></h2>
 					<p class="text-gray-600 leading-relaxed"><?php esc_html_e( 'We are working on practical guides to accessible holidays, the Whitstable area, and funding your stay. Check back soon, or enquire now and we will send you updates.', 'restwell-retreats' ); ?></p>
@@ -205,22 +205,5 @@ if ( have_posts() ) {
 		</div>
 	</div>
 
-	<!-- CTA strip -->
-	<section class="py-16 md:py-20 bg-white" aria-labelledby="archive-cta-heading">
-		<div class="container max-w-2xl text-center">
-			<p class="section-label mb-3"><?php esc_html_e( 'Planning a stay?', 'restwell-retreats' ); ?></p>
-			<h2 id="archive-cta-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Come and see Whitstable for yourself.', 'restwell-retreats' ); ?></h2>
-			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'Restwell is an adapted holiday home in Whitstable, Kent - designed for guests with disabilities, their families, and carers.', 'restwell-retreats' ); ?></p>
-			<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary">
-				<?php esc_html_e( 'Check your dates', 'restwell-retreats' ); ?>
-				<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-			</a>
-		</div>
-	</section>
-
 </main>
-<?php
-global $restwell_hide_footer_cta;
-$restwell_hide_footer_cta = true;
-get_footer();
-?>
+<?php get_footer(); ?>

@@ -416,12 +416,72 @@
 	}
 
 	/**
+	 * Homepage FAQ accordion behavior.
+	 * Keeps a single FAQ item open at a time.
+	 */
+	function initHomeFaqAccordion() {
+		var items = document.querySelectorAll('#home-faq-accordion .faq-item');
+		if (!items.length) return;
+
+		items.forEach(function (item) {
+			item.addEventListener('toggle', function () {
+				if (!item.open) return;
+				items.forEach(function (otherItem) {
+					if (otherItem !== item) {
+						otherItem.open = false;
+					}
+				});
+			});
+		});
+	}
+
+	/**
+	 * Anti-bot timing token: set when the form is first rendered (no-JS users leave empty; server allows).
+	 */
+	function initRestwellFormOpenedAt() {
+		document.querySelectorAll('[data-restwell-form-opened]').forEach(function (input) {
+			if (!input || !input.name) return;
+			input.value = String(Math.floor(Date.now() / 1000));
+		});
+	}
+
+	/**
 	 * Multi-step enquiry form.
 	 * Manages step visibility, progress indicator state, and per-step validation.
 	 */
 	function initMultiStepForm() {
 		var form = document.querySelector('.restwell-enq-form[data-multistep]');
 		if (!form) return;
+
+		function todayYmd() {
+			var d = new Date();
+			var y = d.getFullYear();
+			var m = String(d.getMonth() + 1);
+			var day = String(d.getDate());
+			if (m.length === 1) m = '0' + m;
+			if (day.length === 1) day = '0' + day;
+			return y + '-' + m + '-' + day;
+		}
+
+		var dateFrom = form.querySelector('#enq_date_from');
+		var dateTo = form.querySelector('#enq_date_to');
+		var todayStr = todayYmd();
+		function syncDateConstraints() {
+			if (!dateFrom || !dateTo) return;
+			if (!dateFrom.getAttribute('min')) {
+				dateFrom.setAttribute('min', todayStr);
+			}
+			if (!dateTo.getAttribute('min')) {
+				dateTo.setAttribute('min', todayStr);
+			}
+			var fromVal = dateFrom.value;
+			var floor = fromVal && fromVal >= todayStr ? fromVal : todayStr;
+			dateTo.setAttribute('min', floor);
+		}
+		if (dateFrom && dateTo) {
+			syncDateConstraints();
+			dateFrom.addEventListener('change', syncDateConstraints);
+		}
 
 		var steps       = form.querySelectorAll('.enquire-step');
 		var nodes       = form.querySelectorAll('.step-node');
@@ -444,7 +504,7 @@
 					circle.style.backgroundColor = 'var(--deep-teal)';
 					circle.style.borderColor     = 'var(--deep-teal)';
 					circle.style.color           = '#fff';
-					circle.innerHTML             = '<i class="fa-solid fa-check text-xs" aria-hidden="true"></i>';
+					circle.innerHTML             = '<i class="ph-bold ph-check text-xs" aria-hidden="true"></i>';
 					label.style.color            = 'var(--deep-teal)';
 					label.style.fontWeight       = '500';
 				} else if (n === newStep) {
@@ -497,12 +557,16 @@
 			if (announcement) {
 				announcement.textContent = stepLabels[n] || '';
 			}
-			var formHeading = form.querySelector('h2');
-			if (formHeading) {
-				if (!formHeading.getAttribute('tabindex')) {
-					formHeading.setAttribute('tabindex', '-1');
+			// Move focus to the form heading only when changing steps (not on first paint):
+			// initial showStep(1, true) would otherwise highlight "Tell us about your stay" on load.
+			if (!skipScroll) {
+				var formHeading = form.querySelector('h2');
+				if (formHeading) {
+					if (!formHeading.getAttribute('tabindex')) {
+						formHeading.setAttribute('tabindex', '-1');
+					}
+					formHeading.focus({ preventScroll: true });
 				}
-				formHeading.focus({ preventScroll: true });
 			}
 		}
 
@@ -561,6 +625,26 @@
 				}
 			});
 
+			if (n === 2 && dateFrom && dateTo) {
+				var fromV = dateFrom.value;
+				var toV = dateTo.value;
+				if (fromV && fromV < todayStr) {
+					addFieldError(dateFrom, 'Start date cannot be in the past.');
+					valid = false;
+					if (!firstInvalid) firstInvalid = dateFrom;
+				}
+				if (toV && toV < todayStr) {
+					addFieldError(dateTo, 'End date cannot be in the past.');
+					valid = false;
+					if (!firstInvalid) firstInvalid = dateTo;
+				}
+				if (fromV && toV && toV < fromV) {
+					addFieldError(dateTo, 'End date must be on or after the start date.');
+					valid = false;
+					if (!firstInvalid) firstInvalid = dateTo;
+				}
+			}
+
 			if (!valid && firstInvalid) {
 				firstInvalid.focus();
 			}
@@ -584,10 +668,23 @@
 			}
 		});
 
-		// Validate step 3 fields on final submit (novalidate suppresses browser checks).
+		// Final submit: validate every step (novalidate suppresses native checks for multi-step UX).
 		form.addEventListener('submit', function (e) {
-			if (!validateStep(currentStep)) {
+			var order = [1, 2, 3];
+			var ok = true;
+			var badStep = 0;
+			for (var i = 0; i < order.length; i++) {
+				if (!validateStep(order[i])) {
+					ok = false;
+					badStep = order[i];
+					break;
+				}
+			}
+			if (!ok) {
 				e.preventDefault();
+				if (badStep) {
+					showStep(badStep);
+				}
 			}
 		});
 
@@ -1017,6 +1114,43 @@
 		window.addEventListener('hashchange', openFromHash);
 	}
 
+	function initHomeComparisonScrollHints() {
+		var scrollEl = document.querySelector('[data-home-comparison-scroll]');
+		var leftFade = document.querySelector('[data-home-comparison-fade="left"]');
+		var rightFade = document.querySelector('[data-home-comparison-fade="right"]');
+		if (!scrollEl || !leftFade || !rightFade) {
+			return;
+		}
+
+		function update() {
+			if (window.matchMedia('(min-width: 768px)').matches) {
+				leftFade.classList.add('opacity-0');
+				rightFade.classList.add('opacity-0');
+				return;
+			}
+			var sw = scrollEl.scrollWidth;
+			var cw = scrollEl.clientWidth;
+			var sl = scrollEl.scrollLeft;
+			var epsilon = 3;
+			var scrollable = sw > cw + epsilon;
+			if (!scrollable) {
+				leftFade.classList.add('opacity-0');
+				rightFade.classList.add('opacity-0');
+				return;
+			}
+			var atStart = sl <= epsilon;
+			var atEnd = sl + cw >= sw - epsilon;
+			leftFade.classList.toggle('opacity-0', atStart);
+			leftFade.classList.toggle('opacity-100', !atStart);
+			rightFade.classList.toggle('opacity-0', atEnd);
+			rightFade.classList.toggle('opacity-100', !atEnd);
+		}
+
+		scrollEl.addEventListener('scroll', update, { passive: true });
+		window.addEventListener('resize', update, { passive: true });
+		update();
+	}
+
 	function initRevealAnimations() {
 		var els = document.querySelectorAll('.rw-reveal');
 		if (!els.length) {
@@ -1051,12 +1185,14 @@
 	}
 
 	ready(function () {
+		initRestwellFormOpenedAt();
 		setActiveNavLinks();
 		initStickyHeaderShadow();
 		initNavDropdowns();
 		initMobileMenu();
 		initExploreFilter();
 		initFaqTabs();
+		initHomeFaqAccordion();
 		initMultiStepForm();
 		initRestwellGa4SecondaryEvents();
 		initEnquirySuccessScroll();
@@ -1064,5 +1200,6 @@
 		initWifPersonaNav();
 		initWifPersonaAccordions();
 		initRevealAnimations();
+		initHomeComparisonScrollHints();
 	});
 })();

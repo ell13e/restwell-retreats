@@ -188,7 +188,7 @@ get_header();
 	<?php endif; ?>
 
 	<!-- Gate / guide section -->
-	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]" aria-label="<?php esc_attr_e( 'Guest guide', 'restwell-retreats' ); ?>">
+	<section class="rw-section-y bg-[var(--bg-subtle)]" aria-label="<?php esc_attr_e( 'Guest guide', 'restwell-retreats' ); ?>">
 		<div class="container">
 
 			<?php if ( $show_email_form ) : ?>
@@ -231,7 +231,7 @@ get_header();
 						<div class="pt-2">
 							<button type="submit" class="btn btn-primary w-full">
 								<?php esc_html_e( 'Send my access code', 'restwell-retreats' ); ?>
-								<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+								<i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
 							</button>
 						</div>
 					</div>
@@ -289,7 +289,7 @@ get_header();
 						<div class="pt-2">
 							<button type="submit" class="btn btn-primary w-full">
 								<?php esc_html_e( 'Access my guide', 'restwell-retreats' ); ?>
-								<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+								<i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
 							</button>
 						</div>
 					</div>
@@ -308,10 +308,10 @@ get_header();
 			<!-- ===== State 3: Guest guide content ===== -->
 
 				<div class="max-w-6xl mx-auto">
-				<div class="mb-8 md:mb-10">
-					<p class="section-label mb-3"><?php esc_html_e( 'Stay guide', 'restwell-retreats' ); ?></p>
-					<h2 class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Your stay information.', 'restwell-retreats' ); ?></h2>
-					<p class="text-gray-600 leading-relaxed max-w-3xl"><?php esc_html_e( 'Check-in details, property access, local area notes, and emergency contacts - all in one place. You can print this page or come back to it during your stay.', 'restwell-retreats' ); ?></p>
+				<div class="mb-8 md:mb-10 rw-stack max-w-3xl">
+					<p class="section-label"><?php esc_html_e( 'Stay guide', 'restwell-retreats' ); ?></p>
+					<h2 class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php esc_html_e( 'Your stay information.', 'restwell-retreats' ); ?></h2>
+					<p class="text-gray-600 leading-relaxed m-0"><?php esc_html_e( 'Check-in details, property access, local area notes, and emergency contacts - all in one place. You can print this page or come back to it during your stay.', 'restwell-retreats' ); ?></p>
 				</div>
 
 				<!-- Welcome card - full width -->
@@ -326,14 +326,16 @@ get_header();
 				</div>
 				<?php endif; ?>
 
-				<p class="section-label mb-3"><?php esc_html_e( 'Arrival and access', 'restwell-retreats' ); ?></p>
-				<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6 mb-10">
+				<div class="rw-section-head rw-section-head--left rw-section-head--tight">
+					<p class="section-label"><?php esc_html_e( 'Arrival and access', 'restwell-retreats' ); ?></p>
+				</div>
+				<div class="grid md:grid-cols-2 xl:grid-cols-3 rw-gap-grid mb-10">
 
 					<!-- Arrival card -->
 					<?php if ( $gg_address || $gg_checkin || $gg_checkout ) : ?>
 					<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 h-full">
 						<h2 class="text-lg font-serif text-[var(--deep-teal)] mb-5 pb-3 border-b border-gray-100">
-							<i class="fa-regular fa-calendar-check mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
+							<i class="ph ph-calendar-check mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
 							<?php esc_html_e( 'Arrival details', 'restwell-retreats' ); ?>
 						</h2>
 						<dl class="space-y-4 text-[15px]">
@@ -363,7 +365,7 @@ get_header();
 					<?php if ( $gg_keysafe || $gg_door ) : ?>
 					<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 h-full">
 						<h2 class="text-lg font-serif text-[var(--deep-teal)] mb-5 pb-3 border-b border-gray-100">
-							<i class="fa-solid fa-key mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
+							<i class="ph-bold ph-key mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
 							<?php esc_html_e( 'Getting in', 'restwell-retreats' ); ?>
 						</h2>
 						<dl class="space-y-4 text-[15px]">
@@ -401,7 +403,7 @@ get_header();
 					<?php if ( $gg_wifi_name || $gg_wifi_pass ) : ?>
 					<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 h-full">
 						<h2 class="text-lg font-serif text-[var(--deep-teal)] mb-5 pb-3 border-b border-gray-100">
-							<i class="fa-solid fa-wifi mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
+							<i class="ph-bold ph-wifi-high mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
 							<?php esc_html_e( 'WiFi', 'restwell-retreats' ); ?>
 						</h2>
 						<dl class="space-y-4 text-[15px]">
@@ -425,7 +427,7 @@ get_header();
 					<?php if ( $gg_parking ) : ?>
 					<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 h-full">
 						<h2 class="text-lg font-serif text-[var(--deep-teal)] mb-5 pb-3 border-b border-gray-100">
-							<i class="fa-solid fa-car mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
+							<i class="ph-bold ph-car mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
 							<?php esc_html_e( 'Parking', 'restwell-retreats' ); ?>
 						</h2>
 						<div class="text-[15px] text-gray-600 leading-relaxed">
@@ -438,7 +440,7 @@ get_header();
 				<?php if ( $gg_house_rules !== '' ) : ?>
 				<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 h-full">
 					<h2 class="text-lg font-serif text-[var(--deep-teal)] mb-5 pb-3 border-b border-gray-100">
-						<i class="fa-solid fa-list-check mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
+						<i class="ph-bold ph-list-checks mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
 						<?php esc_html_e( 'House rules', 'restwell-retreats' ); ?>
 					</h2>
 					<div class="text-[15px] text-gray-600 leading-relaxed">
@@ -451,7 +453,7 @@ get_header();
 				<?php if ( $gg_departure_notes !== '' ) : ?>
 				<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 h-full">
 					<h2 class="text-lg font-serif text-[var(--deep-teal)] mb-5 pb-3 border-b border-gray-100">
-						<i class="fa-regular fa-circle-check mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
+						<i class="ph ph-check-circle mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
 						<?php esc_html_e( 'Before you leave', 'restwell-retreats' ); ?>
 					</h2>
 					<div class="text-[15px] text-gray-600 leading-relaxed">
@@ -467,7 +469,7 @@ get_header();
 				<?php if ( $gg_local_info !== '' ) : ?>
 				<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 h-full">
 					<h2 class="text-lg font-serif text-[var(--deep-teal)] mb-5 pb-3 border-b border-gray-100">
-						<i class="fa-solid fa-map-location-dot mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
+						<i class="ph-bold ph-map-pin mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
 						<?php esc_html_e( 'Local area', 'restwell-retreats' ); ?>
 					</h2>
 					<div class="text-[15px] text-gray-600 leading-relaxed">
@@ -489,7 +491,7 @@ get_header();
 				<?php if ( array_filter( $gg_emergency ) ) : ?>
 				<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 h-full">
 					<h2 class="text-lg font-serif text-[var(--deep-teal)] mb-5 pb-3 border-b border-gray-100">
-						<i class="fa-solid fa-triangle-exclamation mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
+						<i class="ph-bold ph-warning mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
 						<?php esc_html_e( 'Emergency information', 'restwell-retreats' ); ?>
 					</h2>
 				<ul class="space-y-2 text-[15px]">
@@ -525,10 +527,12 @@ get_header();
 
 			<!-- Host contact card - full width -->
 				<?php if ( $gg_host ) : ?>
-				<p class="section-label mb-3"><?php esc_html_e( 'Support contacts', 'restwell-retreats' ); ?></p>
+				<div class="rw-section-head rw-section-head--left rw-section-head--tight">
+					<p class="section-label"><?php esc_html_e( 'Support contacts', 'restwell-retreats' ); ?></p>
+				</div>
 				<div class="bg-white rounded-2xl p-7 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 mb-8">
 					<h2 class="text-lg font-serif text-[var(--deep-teal)] mb-3">
-						<i class="fa-regular fa-circle-user mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
+						<i class="ph ph-user-circle mr-2 text-[var(--warm-gold-text)] text-base" aria-hidden="true"></i>
 						<?php esc_html_e( 'Your host', 'restwell-retreats' ); ?>
 					</h2>
 					<p class="text-gray-600 text-[15px] leading-relaxed"><?php echo wp_kses_post( nl2br( esc_html( $gg_host ) ) ); ?></p>
@@ -539,7 +543,7 @@ get_header();
 					<p class="text-sm text-[var(--muted-grey)] mb-4"><?php esc_html_e( 'Need a paper copy for your trip?', 'restwell-retreats' ); ?></p>
 					<button type="button" onclick="window.print()"
 					        class="btn btn-outline btn-sm">
-						<i class="fa-solid fa-print text-sm" aria-hidden="true"></i>
+						<i class="ph-bold ph-printer text-sm" aria-hidden="true"></i>
 						<?php esc_html_e( 'Print this guide', 'restwell-retreats' ); ?>
 					</button>
 				</div>
@@ -565,7 +569,7 @@ get_header();
 						<?php wp_nonce_field( 'restwell_gg_confirm_read', 'restwell_gg_nonce' ); ?>
 						<input type="hidden" name="restwell_gg_step" value="confirm_read" />
 						<button type="submit" class="btn btn-primary">
-							<i class="fa-solid fa-check mr-1" aria-hidden="true"></i>
+							<i class="ph-bold ph-check mr-1" aria-hidden="true"></i>
 							<?php esc_html_e( "I've read the guide", 'restwell-retreats' ); ?>
 						</button>
 					</form>
@@ -573,7 +577,7 @@ get_header();
 				</div>
 				<?php else : ?>
 				<p class="text-center mt-8 text-xs text-green-700 no-print">
-					<i class="fa-solid fa-circle-check mr-1" aria-hidden="true"></i>
+					<i class="ph-bold ph-check-circle mr-1" aria-hidden="true"></i>
 					<?php esc_html_e( 'You confirmed reading this guide.', 'restwell-retreats' ); ?>
 				</p>
 				<?php endif; ?>
@@ -594,11 +598,7 @@ get_header();
 	</section>
 
 </main>
-<?php
-global $restwell_hide_footer_cta;
-$restwell_hide_footer_cta = true;
-get_footer();
-?>
+<?php get_footer(); ?>
 <style>
 @media print {
 	header, footer, nav, .no-print,

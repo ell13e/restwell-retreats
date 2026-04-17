@@ -46,7 +46,7 @@ $personas = array(
 	array(
 		'id'               => 'wif-guests',
 		'jump_label'       => (string) get_post_meta( $pid, 'wif_nav_family_label', true ) ?: __( "I'm a guest or family", 'restwell-retreats' ),
-		'icon'             => 'fa-users',
+		'icon'             => 'users',
 		'featured'         => true,
 		'title'            => (string) get_post_meta( $pid, 'wif_family_title', true ) ?: 'For guests and families',
 		'body'             => restwell_wif_persona_intro_body(
@@ -62,7 +62,7 @@ $personas = array(
 	array(
 		'id'               => 'wif-carers',
 		'jump_label'       => (string) get_post_meta( $pid, 'wif_nav_carers_label', true ) ?: __( "I'm a carer", 'restwell-retreats' ),
-		'icon'             => 'fa-hand-holding-heart',
+		'icon'             => 'hand-heart',
 		'featured'         => false,
 		'title'            => (string) get_post_meta( $pid, 'wif_carers_title', true ) ?: 'For carers and support workers',
 		'body'             => restwell_wif_persona_intro_body(
@@ -78,7 +78,7 @@ $personas = array(
 	array(
 		'id'               => 'wif-ot',
 		'jump_label'       => (string) get_post_meta( $pid, 'wif_nav_ot_label', true ) ?: __( "I'm an OT / case manager", 'restwell-retreats' ),
-		'icon'             => 'fa-clipboard-check',
+		'icon'             => 'clipboard-text',
 		'featured'         => false,
 		'title'            => (string) get_post_meta( $pid, 'wif_ot_title', true ) ?: 'For occupational therapists and case managers',
 		'body'             => restwell_wif_persona_intro_body(
@@ -94,7 +94,7 @@ $personas = array(
 	array(
 		'id'               => 'wif-commissioners',
 		'jump_label'       => (string) get_post_meta( $pid, 'wif_nav_commissioners_label', true ) ?: __( "I'm a commissioner", 'restwell-retreats' ),
-		'icon'             => 'fa-building-user',
+		'icon'             => 'buildings',
 		'featured'         => false,
 		'title'            => (string) get_post_meta( $pid, 'wif_commissioners_title', true ) ?: 'For commissioners and social care teams',
 		'body'             => restwell_wif_persona_intro_body(
@@ -130,24 +130,24 @@ $default_fund_private_bullets = array(
 
 $funding_routes = array(
 	array(
-		'icon'    => 'fa-landmark',
+		'icon'    => 'bank',
 		'title'   => (string) get_post_meta( $pid, 'wif_fund_la_title', true ) ?: __( 'Local authority & direct payments', 'restwell-retreats' ),
 		'bullets' => restwell_wif_bullet_list( $pid, 'wif_fund_la_bullets', $default_fund_la_bullets ),
 		'cta_label' => (string) get_post_meta( $pid, 'wif_fund_la_cta_label', true ) ?: __( 'Direct payments guide', 'restwell-retreats' ),
 		'cta_url'   => (string) get_post_meta( $pid, 'wif_fund_la_cta_url', true ) ?: '/direct-payment-holiday-accommodation/',
 	),
 	array(
-		'icon'    => 'fa-heart-pulse',
+		'icon'    => 'heartbeat',
 		'title'   => (string) get_post_meta( $pid, 'wif_fund_phb_title', true ) ?: __( 'Personal health budget', 'restwell-retreats' ),
 		'bullets' => restwell_wif_bullet_list( $pid, 'wif_fund_phb_bullets', $default_fund_phb_bullets ),
 		'cta_label' => (string) get_post_meta( $pid, 'wif_fund_phb_cta_label', true ) ?: __( 'PHB and funding overview', 'restwell-retreats' ),
 		'cta_url'   => (string) get_post_meta( $pid, 'wif_fund_phb_cta_url', true ) ?: '/resources/',
 	),
 	array(
-		'icon'    => 'fa-wallet',
+		'icon'    => 'wallet',
 		'title'   => (string) get_post_meta( $pid, 'wif_fund_private_title', true ) ?: __( 'Private / self-funded', 'restwell-retreats' ),
 		'bullets' => restwell_wif_bullet_list( $pid, 'wif_fund_private_bullets', $default_fund_private_bullets ),
-		'cta_label' => (string) get_post_meta( $pid, 'wif_fund_private_cta_label', true ) ?: __( 'Check your dates', 'restwell-retreats' ),
+		'cta_label' => (string) get_post_meta( $pid, 'wif_fund_private_cta_label', true ) ?: __( 'Ask about your dates', 'restwell-retreats' ),
 		'cta_url'   => (string) get_post_meta( $pid, 'wif_fund_private_cta_url', true ) ?: '/enquire/',
 	),
 );
@@ -161,12 +161,6 @@ $img_1_cap = (string) get_post_meta( $pid, 'wif_section_image_1_caption', true )
 $img_2_cap = (string) get_post_meta( $pid, 'wif_section_image_2_caption', true ) ?: __( 'Spacious layout for equipment and transfers', 'restwell-retreats' );
 $img_3_cap = (string) get_post_meta( $pid, 'wif_section_image_3_caption', true ) ?: __( 'Comfortable, private spaces', 'restwell-retreats' );
 
-$cta_heading         = (string) get_post_meta( $pid, 'wif_cta_heading', true ) ?: 'Need to check suitability first?';
-$cta_body            = (string) get_post_meta( $pid, 'wif_cta_body', true ) ?: 'Tell us what you need and we will answer honestly, with no pressure.';
-$cta_primary_label   = (string) get_post_meta( $pid, 'wif_cta_primary_label', true ) ?: 'Read accessibility features';
-$cta_primary_url     = (string) get_post_meta( $pid, 'wif_cta_primary_url', true ) ?: '/accessibility/';
-$cta_secondary_label = (string) get_post_meta( $pid, 'wif_cta_secondary_label', true ) ?: 'Enquire about your dates';
-$cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', true ) ?: '/enquire/';
 ?>
 <main class="flex-1 restwell-wif-page" id="main-content">
 	<?php get_template_part( 'template-parts/breadcrumb' ); ?>
@@ -211,20 +205,20 @@ $cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', tr
 		</div>
 	</nav>
 
-	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]" aria-labelledby="wif-audience-heading">
+	<section class="rw-section-y bg-[var(--bg-subtle)]" aria-labelledby="wif-audience-heading">
 		<div class="container max-w-5xl">
-			<div class="mb-12 md:mb-14 max-w-3xl">
-				<p class="section-label mb-3"><?php esc_html_e( 'Your situation', 'restwell-retreats' ); ?></p>
-				<h2 id="wif-audience-heading" class="wif-audience-section__title text-3xl md:text-4xl font-serif leading-tight text-[var(--deep-teal)] mb-5"><?php echo esc_html( $audience_heading ); ?></h2>
+			<div class="max-w-3xl rw-stack rw-mb-section">
+				<p class="section-label"><?php esc_html_e( 'Your situation', 'restwell-retreats' ); ?></p>
+				<h2 id="wif-audience-heading" class="wif-audience-section__title text-3xl md:text-4xl font-serif leading-tight text-[var(--deep-teal)] m-0"><?php echo esc_html( $audience_heading ); ?></h2>
 				<p class="m-0 text-left text-[var(--muted-grey)] leading-relaxed max-w-prose"><?php echo esc_html( $audience_intro ); ?></p>
 			</div>
 
-			<div class="flex flex-col gap-5 md:gap-6">
+			<div class="flex flex-col rw-stack rw-stack--loose">
 				<?php foreach ( $personas as $card ) : ?>
 					<div id="<?php echo esc_attr( $card['id'] ); ?>" class="wif-persona-card scroll-mt-28 rounded-2xl border border-gray-100/90 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-[box-shadow,border-color] duration-300 ease-out hover:border-gray-200/90 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] motion-reduce:transition-none">
 						<div class="flex flex-row gap-4 sm:gap-5 items-start wif-persona-card__inner">
 							<div class="wif-icon-circle w-11 h-11 sm:w-12 sm:h-12" aria-hidden="true">
-								<i class="fa-solid <?php echo esc_attr( $card['icon'] ); ?> text-lg sm:text-xl"></i>
+								<i class="ph-bold ph-<?php echo esc_attr( $card['icon'] ); ?> text-lg sm:text-xl"></i>
 							</div>
 							<div class="min-w-0 flex-1 flex flex-col">
 								<h3 class="text-xl sm:text-2xl font-serif text-[var(--deep-teal)] m-0 leading-tight shrink-0" id="wif-heading-<?php echo esc_attr( $card['id'] ); ?>">
@@ -237,7 +231,7 @@ $cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', tr
 									>
 										<span class="sr-only"><?php esc_html_e( 'Expand section:', 'restwell-retreats' ); ?></span>
 										<span class="min-w-0 flex-1"><?php echo esc_html( $card['title'] ); ?></span>
-										<span class="wif-persona-expand__icon flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-chevron-down"></i></span>
+										<span class="wif-persona-expand__icon flex-shrink-0" aria-hidden="true"><i class="ph-bold ph-caret-down"></i></span>
 									</button>
 								</h3>
 								<div class="wif-persona-card__panel-shell">
@@ -256,7 +250,7 @@ $cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', tr
 														<?php foreach ( $card['bullets'] as $item ) : ?>
 															<li class="grid grid-cols-[1.25rem_minmax(0,1fr)] items-start gap-x-2 text-left">
 																<span class="wif-icon-circle wif-icon-circle--muted h-5 w-5 shrink-0" aria-hidden="true">
-																	<i class="fa-solid fa-check text-[10px]"></i>
+																	<i class="ph-bold ph-check text-[10px]"></i>
 																</span>
 																<div class="min-w-0"><?php echo esc_html( $item ); ?></div>
 															</li>
@@ -265,7 +259,7 @@ $cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', tr
 													<div class="wif-persona-card__cta mt-4 border-t border-gray-200/60 pt-4 lg:mt-auto">
 														<a class="inline-flex min-h-[2.75rem] w-full items-center justify-center gap-2 rounded-2xl bg-[var(--deep-teal)] px-6 py-3 text-center text-sm font-semibold text-white whitespace-normal no-underline transition-[opacity,transform] duration-300 ease-in-out hover:-translate-y-0.5 hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0" href="<?php echo esc_url( home_url( $card['inline_cta_url'] ) ); ?>">
 															<?php echo esc_html( $card['inline_cta_label'] ); ?>
-															<i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+															<i class="ph-bold ph-arrow-right text-xs" aria-hidden="true"></i>
 														</a>
 													</div>
 												</div>
@@ -283,12 +277,14 @@ $cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', tr
 		</div>
 	</section>
 
-	<section class="py-16 md:py-24 bg-white" aria-labelledby="wif-visual-trust-heading">
+	<section class="rw-section-y bg-white" aria-labelledby="wif-visual-trust-heading">
 		<div class="container max-w-5xl">
-			<p class="section-label mb-3"><?php esc_html_e( 'The property', 'restwell-retreats' ); ?></p>
-			<h2 id="wif-visual-trust-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Accessibility you can see, not just read about', 'restwell-retreats' ); ?></h2>
-			<p class="text-gray-600 mb-10 leading-relaxed max-w-prose"><?php echo esc_html( $wif_visual_intro ); ?></p>
-			<div class="grid md:grid-cols-3 gap-6 md:gap-8">
+			<div class="rw-stack rw-mb-section max-w-prose">
+				<p class="section-label"><?php esc_html_e( 'The property', 'restwell-retreats' ); ?></p>
+				<h2 id="wif-visual-trust-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php esc_html_e( 'Accessibility you can see, not just read about', 'restwell-retreats' ); ?></h2>
+				<p class="text-gray-600 m-0 leading-relaxed max-w-prose"><?php echo esc_html( $wif_visual_intro ); ?></p>
+			</div>
+			<div class="grid md:grid-cols-3 rw-gap-grid">
 				<?php
 				$strip = array(
 					array( 'id' => $img_1_id, 'cap' => $img_1_cap ),
@@ -305,7 +301,7 @@ $cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', tr
 							</div>
 						<?php else : ?>
 							<div class="restwell-image-placeholder aspect-[4/3] flex flex-col items-center justify-center gap-3 text-center px-4 py-8 text-[var(--muted-grey)]" role="img" aria-label="<?php echo esc_attr( $slot['cap'] ); ?>">
-								<i class="fa-solid fa-image text-2xl opacity-60" aria-hidden="true"></i>
+								<i class="ph-bold ph-image text-2xl opacity-60" aria-hidden="true"></i>
 								<span class="text-sm font-semibold text-[var(--deep-teal)]/80"><?php echo esc_html( $slot['cap'] ); ?></span>
 								<span class="text-xs leading-snug max-w-[14rem]"><?php esc_html_e( 'Set image ID in page fields to show this shot.', 'restwell-retreats' ); ?></span>
 							</div>
@@ -317,17 +313,19 @@ $cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', tr
 		</div>
 	</section>
 
-	<section class="py-16 md:py-24 bg-[var(--soft-sand)] scroll-mt-28" id="wif-funding" aria-labelledby="wif-funding-heading">
+	<section class="rw-section-y bg-[var(--soft-sand)] scroll-mt-28" id="wif-funding" aria-labelledby="wif-funding-heading">
 		<div class="container max-w-5xl">
-			<p class="section-label mb-3"><?php esc_html_e( 'Funding', 'restwell-retreats' ); ?></p>
-			<h2 id="wif-funding-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php echo esc_html( $funding_heading ); ?></h2>
-			<p class="text-gray-600 leading-relaxed max-w-prose mb-10"><?php echo esc_html( $funding_body ); ?></p>
-			<div class="wif-funding-routes grid md:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-14 items-stretch">
+			<div class="rw-stack rw-mb-section max-w-prose">
+				<p class="section-label"><?php esc_html_e( 'Funding', 'restwell-retreats' ); ?></p>
+				<h2 id="wif-funding-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php echo esc_html( $funding_heading ); ?></h2>
+				<p class="text-gray-600 m-0 leading-relaxed max-w-prose"><?php echo esc_html( $funding_body ); ?></p>
+			</div>
+			<div class="wif-funding-routes grid md:grid-cols-3 rw-gap-grid mb-12 md:mb-14 items-stretch">
 				<?php foreach ( $funding_routes as $route ) : ?>
 					<article class="flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 ease-out hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
 						<header class="shrink-0 px-6 pt-7 pb-4 md:px-7 md:pt-8">
 							<div class="wif-icon-circle wif-icon-circle--feature h-14 w-14" aria-hidden="true">
-								<i class="fa-solid <?php echo esc_attr( $route['icon'] ); ?> text-lg"></i>
+								<i class="ph-bold ph-<?php echo esc_attr( $route['icon'] ); ?> text-lg"></i>
 							</div>
 							<h3 class="mt-5 text-lg font-serif leading-snug text-[var(--deep-teal)]"><?php echo esc_html( $route['title'] ); ?></h3>
 						</header>
@@ -336,7 +334,7 @@ $cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', tr
 								<?php foreach ( $route['bullets'] as $bullet ) : ?>
 									<li class="grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-x-3 text-left">
 										<span class="wif-icon-circle wif-icon-circle--muted h-6 w-6" aria-hidden="true">
-											<i class="fa-solid fa-check text-[11px]"></i>
+											<i class="ph-bold ph-check text-[11px]"></i>
 										</span>
 										<div class="min-w-0 pt-0.5"><?php echo esc_html( $bullet ); ?></div>
 									</li>
@@ -355,18 +353,20 @@ $cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', tr
 				<p class="text-gray-600 leading-relaxed mb-6 m-0"><?php esc_html_e( 'Step-by-step timelines, Kent-specific context, and practical guidance on using assessments and personal budgets, all in one place.', 'restwell-retreats' ); ?></p>
 				<a class="inline-flex items-center justify-center gap-2 bg-[var(--deep-teal)] text-white font-semibold px-8 py-3.5 rounded-2xl text-base hover:opacity-90 hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)] no-underline" href="<?php echo esc_url( home_url( '/resources/' ) ); ?>">
 					<?php esc_html_e( 'Open the funding & support hub', 'restwell-retreats' ); ?>
-					<i class="fa-solid fa-arrow-right text-sm" aria-hidden="true"></i>
+					<i class="ph-bold ph-arrow-right text-sm" aria-hidden="true"></i>
 				</a>
 			</div>
 		</div>
 	</section>
 
-	<section class="py-16 md:py-24 bg-white" aria-labelledby="wif-process-heading">
+	<section class="rw-section-y bg-white" aria-labelledby="wif-process-heading">
 		<div class="container max-w-5xl">
-			<p class="section-label mb-3"><?php esc_html_e( 'How we work', 'restwell-retreats' ); ?></p>
-			<h2 id="wif-process-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Clear, practical steps from first question to arrival', 'restwell-retreats' ); ?></h2>
-			<p class="text-gray-600 mb-10 leading-relaxed max-w-prose"><?php esc_html_e( 'You do not need everything decided before you contact us. We will help you work through fit, dates, and any support details.', 'restwell-retreats' ); ?></p>
-			<div class="grid md:grid-cols-3 gap-6 md:gap-8 items-stretch">
+			<div class="rw-stack rw-mb-section max-w-prose">
+				<p class="section-label"><?php esc_html_e( 'How we work', 'restwell-retreats' ); ?></p>
+				<h2 id="wif-process-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php esc_html_e( 'Clear, practical steps from first question to arrival', 'restwell-retreats' ); ?></h2>
+				<p class="text-gray-600 m-0 leading-relaxed max-w-prose"><?php esc_html_e( 'You do not need everything decided before you contact us. We will help you work through fit, dates, and any support details.', 'restwell-retreats' ); ?></p>
+			</div>
+			<div class="grid md:grid-cols-3 rw-gap-grid items-stretch">
 				<div class="flex h-full min-h-0 flex-col bg-[var(--bg-subtle)] rounded-2xl p-8 md:p-10 border border-gray-100">
 					<p class="mb-5 shrink-0">
 						<span class="sr-only"><?php esc_html_e( 'Step 1 of 3', 'restwell-retreats' ); ?></span>
@@ -395,27 +395,13 @@ $cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', tr
 		</div>
 	</section>
 
-	<section class="py-16 md:py-24 bg-[var(--soft-sand)]" aria-labelledby="wif-cta-heading">
-		<div class="container max-w-3xl text-center">
-			<p class="section-label mb-3"><?php esc_html_e( 'Next step', 'restwell-retreats' ); ?></p>
-			<h2 id="wif-cta-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php echo esc_html( $cta_heading ); ?></h2>
-			<p class="text-gray-600 leading-relaxed max-w-prose mx-auto mb-8"><?php echo esc_html( $cta_body ); ?></p>
-			<div class="flex flex-wrap justify-center gap-4">
-				<a class="inline-flex items-center justify-center gap-2 bg-[var(--deep-teal)] text-white font-semibold px-6 py-3 rounded-2xl text-sm text-center whitespace-normal hover:opacity-90 hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)] no-underline" href="<?php echo esc_url( home_url( $cta_primary_url ) ); ?>">
-					<?php echo esc_html( $cta_primary_label ); ?>
-				</a>
-				<a class="inline-flex items-center justify-center gap-2 border-2 border-[var(--deep-teal)]/25 text-[var(--deep-teal)] font-semibold px-6 py-3 rounded-2xl text-sm text-center whitespace-normal hover:border-[var(--deep-teal)]/50 hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] no-underline" href="<?php echo esc_url( home_url( $cta_secondary_url ) ); ?>">
-					<?php echo esc_html( $cta_secondary_label ); ?>
-				</a>
-			</div>
-		</div>
-	</section>
-
-	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]" aria-labelledby="wif-related-reading-heading">
+	<section class="rw-section-y bg-[var(--bg-subtle)]" aria-labelledby="wif-related-reading-heading">
 		<div class="container max-w-5xl">
-			<p class="section-label mb-3"><?php esc_html_e( 'Related reading', 'restwell-retreats' ); ?></p>
-			<h2 id="wif-related-reading-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Guides for families and referrers', 'restwell-retreats' ); ?></h2>
-			<p class="text-gray-600 leading-relaxed max-w-prose mb-10"><?php esc_html_e( 'Local walks, funding context, and planning support: useful context once you have your next step in mind.', 'restwell-retreats' ); ?></p>
+			<div class="rw-stack rw-mb-section max-w-prose">
+				<p class="section-label"><?php esc_html_e( 'Related reading', 'restwell-retreats' ); ?></p>
+				<h2 id="wif-related-reading-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php esc_html_e( 'Guides for families and referrers', 'restwell-retreats' ); ?></h2>
+				<p class="text-gray-600 m-0 leading-relaxed max-w-prose"><?php esc_html_e( 'Local walks, funding context, and planning support: useful context once you have your next step in mind.', 'restwell-retreats' ); ?></p>
+			</div>
 			<div class="flex flex-wrap gap-3">
 				<a class="btn btn-outline btn-sm" href="<?php echo esc_url( home_url( '/whitstable-area-guide/' ) ); ?>"><?php esc_html_e( 'Whitstable area guide', 'restwell-retreats' ); ?></a>
 				<a class="btn btn-outline btn-sm" href="<?php echo esc_url( home_url( '/accessible-beaches-kent-coast/' ) ); ?>"><?php esc_html_e( 'Accessible beaches and coastal walks', 'restwell-retreats' ); ?></a>
@@ -425,8 +411,4 @@ $cta_secondary_url   = (string) get_post_meta( $pid, 'wif_cta_secondary_url', tr
 		</div>
 	</section>
 </main>
-<?php
-global $restwell_hide_footer_cta;
-$restwell_hide_footer_cta = true;
-get_footer();
-?>
+<?php get_footer(); ?>

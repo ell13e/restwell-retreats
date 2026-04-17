@@ -26,13 +26,13 @@ function restwell_get_theme_setup_pages() {
 		'Who It\'s For'      => 'who-its-for',
 		'FAQ'                => 'faq',
 		'Enquire'            => 'enquire',
-		'Contact'            => 'contact',
 		'Resources'          => 'resources',
 		'Whitstable Guide'   => 'whitstable-area-guide',
 		'Blog'               => 'blog',
 		'Guest Guide'        => 'guest-guide',
-		'Privacy Policy'     => 'privacy-policy',
+		'Privacy Policy'       => 'privacy-policy',
 		'Terms & Conditions' => 'terms-and-conditions',
+		'Accessibility Policy' => 'accessibility-policy',
 	);
 }
 
@@ -59,7 +59,7 @@ function restwell_get_theme_setup_defaults() {
 
 		'what_restwell_label'   => 'What is Restwell?',
 		'what_restwell_heading' => 'A proper accessible coastal holiday.',
-		'highlights_heading'    => 'A proper coastal break',
+		'highlights_heading'    => '',
 		'highlight_1_title'     => 'Ceiling track hoist',
 		'highlight_1_desc'      => 'Full-room coverage for safer, more predictable transfers.',
 		'highlight_2_title'   => 'Profiling bed',
@@ -95,7 +95,7 @@ function restwell_get_theme_setup_defaults() {
 
 		'home_comparison_label'          => 'Compare options',
 		'home_comparison_heading'        => 'Restwell vs. a typical hotel stay',
-		'home_comparison_intro'          => 'Self-catering whole-property stays differ from one accessible hotel room. Use the table to judge fit before you book.',
+		'home_comparison_intro'          => 'A side-by-side on privacy, equipment, care, and the kitchen.',
 		'home_comparison_row1_feature'   => 'Privacy',
 		'home_comparison_row1_restwell'  => 'Whole property',
 		'home_comparison_row1_other'     => 'Shared spaces',
@@ -154,12 +154,55 @@ function restwell_merge_theme_defaults_into_post_meta( $post_id, array $defaults
 }
 
 /**
- * Legacy single-block intro copy (before GEO split into definition + supporting paragraphs).
+ * Post meta value, or the default from a theme defaults map when the key has never been saved.
  *
- * @return string
+ * Uses metadata_exists so intentionally saved empty strings are preserved. Unseeded pages get
+ * the same copy as Theme Setup / restwell_get_*_page_defaults().
+ *
+ * @param int    $post_id  Post ID.
+ * @param string $key      Meta key.
+ * @param array  $defaults Key => default from restwell_get_*_page_defaults().
+ * @return mixed Stored value or default.
  */
-function restwell_get_front_page_legacy_intro_body() {
-	return 'Restwell is a wheelchair-accessible, single-storey self-catering bungalow in Whitstable, Kent, for guests with disabilities, their families, and carers. You book the whole property for a private coastal break. Optional professional care is available through Continuity of Care Services (CQC-regulated), on your terms.';
+function restwell_post_meta_or_default( $post_id, $key, array $defaults ) {
+	$post_id = (int) $post_id;
+	if ( $post_id < 1 ) {
+		return $defaults[ $key ] ?? '';
+	}
+	if ( metadata_exists( 'post', $post_id, $key ) ) {
+		return get_post_meta( $post_id, $key, true );
+	}
+	return $defaults[ $key ] ?? '';
+}
+
+/**
+ * Resolve a stored URL or path; empty stored values fall back to the theme default (same as old `?:` for URLs).
+ *
+ * @param int    $post_id  Post ID.
+ * @param string $key      Meta key.
+ * @param array  $defaults Map from restwell_get_*_page_defaults().
+ * @return string Absolute URL (not escaped).
+ */
+function restwell_post_meta_url( $post_id, $key, array $defaults ) {
+	$post_id = (int) $post_id;
+	$def     = trim( (string) ( $defaults[ $key ] ?? '' ) );
+	if ( $post_id < 1 ) {
+		$raw = $def;
+	} elseif ( metadata_exists( 'post', $post_id, $key ) ) {
+		$raw = trim( (string) get_post_meta( $post_id, $key, true ) );
+	} else {
+		$raw = $def;
+	}
+	if ( $raw === '' ) {
+		$raw = $def;
+	}
+	if ( $raw === '' ) {
+		return home_url( '/' );
+	}
+	if ( preg_match( '#^https?://#i', $raw ) ) {
+		return $raw;
+	}
+	return home_url( $raw );
 }
 
 /**
@@ -175,11 +218,12 @@ function restwell_get_property_page_defaults() {
 		'prop_hero_label'               => 'The Property',
 		'prop_hero_heading'             => 'Our accessible home in Whitstable',
 		'prop_hero_subtitle'            => 'An adapted home on the Kent coast: ceiling track hoist, profiling bed, and wet room already in place.',
-		'prop_hero_cta_text'            => 'Check your dates',
+		'prop_hero_cta_text'            => 'Ask about your dates',
 		'prop_hero_cta_url'             => '/enquire/',
 		'prop_hero_cta_secondary_text'  => 'How it works',
 		'prop_hero_cta_secondary_url'   => '/how-it-works/',
 		'prop_hero_cta_promise'         => 'We reply within one working day.',
+		'prop_hero_image_id'            => 0,
 
 		'prop_home_label'   => 'Your home for the week',
 		'prop_home_heading' => 'Everything you need. Nothing you don\'t.',
@@ -190,9 +234,13 @@ function restwell_get_property_page_defaults() {
 		'prop_home_3_title' => 'Quiet location',
 		'prop_home_3_body'  => 'Set on a residential street away from traffic. Close enough to walk to the seafront, quiet enough to rest properly.',
 
+		'prop_overview_heading' => 'Your coastal home-from-home',
+		'prop_overview_body'    => "This is a private holiday home, not a hotel room or a care facility. The whole property is yours for the duration of your stay: no shared corridors, no other guests, no institutional feel. The layout has been designed around the access needs of wheelchair users and guests with complex physical disabilities, with practical details like transfer space, equipment compatibility, and carer accommodation considered from the start.\n\nThe property sits in a quiet, flat residential area of Whitstable. The town itself is compact, independent, and manageable, known for its harbour, seafood, and coastal walks. It is about 60 miles from London, with direct train services and straightforward road access via the M2.",
+
 		'prop_dignity_label'   => 'Designed for dignity',
 		'prop_dignity_heading' => 'Thoughtful at every turn.',
 		'prop_dignity_body'    => "We have thought carefully about what 'accessible' actually means in practice, not just ticked a box.\n\nThat means a wet room with a ceiling hoist, an adjustable bed, wide hallways, and no awkward lips or steps. It means a kitchen where everyone can cook together. A garden you can actually enjoy.\n\nWe want every guest to feel at home, completely, not just mostly.",
+		'prop_dignity_image_id' => 0,
 
 		'prop_features_label'   => 'At a glance',
 		'prop_features_heading' => 'What\'s in the house',
@@ -235,7 +283,10 @@ function restwell_get_property_page_defaults() {
 
 		'prop_gallery_label'       => 'See the space',
 		'prop_gallery_heading'     => 'Take a look around.',
-		'prop_gallery_btn_1_label' => 'Check your dates',
+		'prop_gallery_1_image_id'  => 0,
+		'prop_gallery_2_image_id'  => 0,
+		'prop_gallery_3_image_id'  => 0,
+		'prop_gallery_btn_1_label' => 'Ask about your dates',
 		'prop_gallery_btn_1_url'   => '/enquire/',
 		'prop_gallery_btn_2_label' => '',
 		'prop_gallery_btn_2_url'   => '',
@@ -244,13 +295,13 @@ function restwell_get_property_page_defaults() {
 
 		'prop_practical_label'   => 'Practical details',
 		'prop_practical_heading' => 'The basics, clearly.',
-		'prop_bedrooms_count'    => 'TBC',
-		'prop_bedrooms'          => 'Bedroom configuration confirmed before booking',
-		'prop_bathrooms_count'   => 'TBC',
-		'prop_bathroom'          => 'Bathroom configuration confirmed before booking',
+		'prop_bedrooms_count'    => '3',
+		'prop_bedrooms'          => 'Three bedrooms: flexible layout for guests, family, and carers',
+		'prop_bathrooms_count'   => '1',
+		'prop_bathroom'          => 'One wet room with roll-in shower (full spec on our Accessibility page)',
 		'prop_parking_label'     => 'Parking',
-		'prop_parking'           => 'Private driveway, two cars',
-		'prop_sleeps_value'      => 'TBC',
+		'prop_parking'           => '2 cars',
+		'prop_sleeps_value'      => '5',
 		'prop_sleeps_label'      => 'Sleeps',
 		'prop_distances'         => "Tankerton Slopes promenade: 15 min flat walk\nWhitstable town centre: 15 min walk\nWhitstable station: 20-30 min walk",
 		'prop_confirm_details_url' => '/enquire/',
@@ -512,13 +563,9 @@ function restwell_get_enquire_page_defaults() {
 		'enq_success_body'        => 'We will call you back within 24 hours to discuss your enquiry. If you would prefer an email response, just let us know.',
 		'enq_success_urgent_body' => 'As you\'ve indicated this is time-sensitive, we will aim to respond as quickly as possible.',
 
-		'enq_contact_heading'      => 'Prefer to contact us directly?',
-		'enq_email'                => 'hello@restwellretreats.co.uk',
-		'enq_phone'                => '01622 809881',
-		'enq_response_heading'     => 'We respond within 24 hours',
-		'enq_response_body'        => 'Every enquiry is handled personally. We will take the time to understand your needs and answer every question honestly.',
-		'enq_no_pressure_heading'  => 'No pressure',
-		'enq_no_pressure_body'     => 'There is absolutely no obligation. If the property isn\'t the right fit for you, we will tell you.',
+		'enq_contact_heading' => 'Other ways to reach us',
+		'enq_email'            => 'hello@restwellretreats.co.uk',
+		'enq_phone'            => '01622 809881',
 	);
 }
 
@@ -609,7 +656,7 @@ function restwell_get_whitstable_guide_page_defaults() {
 		'wg_towns_heading' => 'Nearby towns worth visiting',
 		'wg_towns_body'    => "Canterbury (about 8 miles): the cathedral city. Good for a day out with shops, restaurants, and the cathedral itself. The city centre is mostly pedestrianised and largely flat, though some older streets are cobbled. There are several accessible car parks including the Whitefriars shopping centre. The cathedral has wheelchair access to most areas.\nFaversham (about 7 miles): a quieter market town with independent shops and pubs. The town centre is compact and mostly flat. Market days are Tuesday, Friday, and Saturday. A good option if you want a change of scene without a long drive.\nHerne Bay (about 4 miles): traditional seafront with a long, flat promenade that is fully paved and accessible. There is also a pier (partially rebuilt), amusement arcades, and fish and chips. An easy option for a couple of hours by the sea.",
 		'wg_getting_here_heading' => 'Getting here',
-		'wg_getting_here_body'    => "By car: Whitstable is reached via the M2 and A299 from London (about 60 miles, usually around 90 minutes depending on traffic). The property has off-street parking with enough space for adapted vehicles, including those with rear or side ramps.\nBy train: Whitstable station has direct services to London Victoria and London St Pancras (via Canterbury West or Faversham). Journey time is roughly 75-90 minutes. The station has step-free access to both platforms. From the station to the property is about a 10-minute drive; we can advise on accessible taxi options if needed.",
+		'wg_getting_here_body'    => "By car: Whitstable is reached via the M2 and A299 from London (about 60 miles, usually around 90 minutes depending on traffic). The property has off-street parking with enough space for adapted vehicles, including those with rear or side ramps.\nBy train: Whitstable station has direct services to London Victoria and London St Pancras (via Canterbury West or Faversham). Journey time is roughly 75-90 minutes. We do not verify station layout or platform access here; details change, so check National Rail Enquiries or your operator before you travel. From the station to the property is about a 10-minute drive; we can advise on taxi options if needed.",
 		'wg_getting_around_heading' => 'Getting around during your stay',
 		'wg_getting_around_body'    => "Most guests find a car is the easiest way to get around, especially if you need to transport equipment. The property parking is level and spacious.\nThe Stagecoach 400 bus runs between Whitstable and Canterbury and stops nearby. This route uses low-floor buses, but availability of the ramp and wheelchair space can vary; it is worth checking with Stagecoach before relying on it for a specific journey.\nIf you use a mobility scooter or powerchair, the Tankerton promenade and Whitstable seafront are both suitable surfaces. The town centre is mixed: some pavements are narrow or uneven in older parts.\nWheelchair hire is available locally. Ask us before your stay and we can share contact details for trusted suppliers in the area.",
 		'wg_spotlight_image_1_id' => 0,
@@ -642,33 +689,10 @@ function restwell_get_whitstable_guide_page_defaults() {
 		'wg_cta_body'            => 'If you have dates in mind, get in touch and we will help you plan a stay that works for your access needs.',
 		'wg_cta_primary_label'   => 'See the property',
 		'wg_cta_primary_url'       => '/the-property/',
-		'wg_cta_secondary_label'   => 'Check your dates',
+		'wg_cta_secondary_label'   => 'Ask about your dates',
 		'wg_cta_secondary_url'     => '/enquire/',
 		'wg_cta_blog_label'        => 'Read local articles',
 		'wg_cta_blog_url'          => '/blog/',
-	);
-}
-
-/**
- * Default meta for the Contact page.
- */
-function restwell_get_contact_page_defaults() {
-	return array(
-		'contact_label'         => 'Contact',
-		'contact_heading'       => 'Get in touch.',
-		'contact_intro'         => 'Ask a question, check dates, or talk through accessibility requirements before you book.',
-		'contact_hero_image_id' => 0,
-		'contact_phone'         => '01622 809881',
-		'contact_email'         => 'hello@restwellretreats.co.uk',
-		'contact_address'       => "Restwell Retreats\n101 Russell Drive\nWhitstable\nKent\nCT5 2RQ",
-		'contact_hours_heading' => 'Response times',
-		'contact_hours_body'    => "We aim to reply to all enquiries within 24 hours.\nIf your enquiry is urgent, please call.",
-		'contact_prof_heading'  => 'For professionals',
-		'contact_prof_body'     => 'If you are an occupational therapist, case manager, or commissioner, we are happy to provide property specifications, access measurements, and supporting information for referrals or funding applications. We prefer to give you specifics rather than marketing material.',
-		'contact_cta_heading'   => 'Prefer the full enquiry form?',
-		'contact_cta_body'      => 'Use our enquiry form; it\'s the quickest way to share your dates, requirements, and any questions.',
-		'contact_cta_label'     => 'Go to enquiry form',
-		'contact_cta_url'       => '/enquire/',
 	);
 }
 
@@ -923,9 +947,11 @@ function restwell_run_theme_setup( $force = false, $skip_image_regen = false ) {
 		'Whitstable Guide'   => 'template-whitstable-guide.php',
 		'FAQ'                => 'template-faq.php',
 		'Enquire'            => 'template-enquire.php',
-		'Contact'            => 'template-contact.php',
 		'Resources'          => 'template-resources.php',
-		'Guest Guide'        => 'page-guest-guide.php',
+		'Guest Guide'          => 'page-guest-guide.php',
+		'Privacy Policy'       => 'template-privacy-policy.php',
+		'Terms & Conditions'   => 'template-terms-and-conditions.php',
+		'Accessibility Policy' => 'template-accessibility-policy.php',
 	);
 
 	foreach ( $pages as $title => $slug ) {
@@ -982,9 +1008,6 @@ function restwell_run_theme_setup( $force = false, $skip_image_regen = false ) {
 	// Seed meta defaults for all non-Home template pages.
 	restwell_seed_all_pages_meta( $created_ids, $force, $result );
 
-	// Seed post_content for legal pages.
-	restwell_seed_legal_pages_content( $created_ids, $force, $result );
-
 	// Hub pages (Who it's for, Whitstable guide) + blog archive excerpt.
 	restwell_seed_hub_pages_content( $created_ids, $force, $result );
 
@@ -1021,101 +1044,183 @@ function restwell_run_theme_setup( $force = false, $skip_image_regen = false ) {
 }
 
 /**
- * Seed post_content for Privacy Policy and Terms & Conditions pages.
+ * Public contact email for policies and footers (matches enquiry notify default).
  *
- * Only seeds if the page has no existing content, or if $force is true.
- *
- * @param array $created_ids Map of page title => post ID.
- * @param bool  $force       Re-seed even if content exists.
- * @param array $result      Result array passed by reference.
+ * @return string Valid email address.
  */
-function restwell_seed_legal_pages_content( array $created_ids, $force, array &$result ) {
-	$legal_content = array(
-		'Privacy Policy'     => restwell_get_privacy_policy_content(),
-		'Terms & Conditions' => restwell_get_terms_conditions_content(),
-	);
-
-	foreach ( $legal_content as $title => $content ) {
-		$page_id = isset( $created_ids[ $title ] ) ? (int) $created_ids[ $title ] : 0;
-		if ( $page_id < 1 ) {
-			$slug = sanitize_title( $title );
-			$page = get_page_by_path( $slug, OBJECT, 'page' );
-			$page_id = $page ? (int) $page->ID : 0;
-		}
-		if ( $page_id < 1 ) {
-			continue;
-		}
-
-		$existing = get_post_field( 'post_content', $page_id );
-		if ( ! $force && ! empty( trim( $existing ) ) ) {
-			continue;
-		}
-
-		wp_update_post(
-			array(
-				'ID'           => $page_id,
-				'post_content' => wp_kses_post( $content ),
-			)
-		);
-		$result['legal_seeded'][] = $title;
+function restwell_get_public_enquiry_email(): string {
+	$e = (string) get_option( 'restwell_enquiry_notify_email', '' );
+	if ( $e && function_exists( 'is_email' ) && is_email( $e ) ) {
+		return $e;
 	}
+	return 'hello@restwellretreats.co.uk';
 }
 
 /**
- * Returns minimal Privacy Policy post_content.
+ * Registered / trading name for legal copy (same option as footer copyright).
  *
- * @return string HTML string (no outer wrapper, ready for classic editor).
+ * @return string Plain text (escape when outputting in HTML).
+ */
+function restwell_get_legal_entity_display_name(): string {
+	return (string) get_option(
+		'restwell_footer_legal_name',
+		__( 'Homely Housing Investments Ltd t/a Restwell Retreats', 'restwell-retreats' )
+	);
+}
+
+/**
+ * Site hostname for policy text (avoids hardcoding the production domain).
+ *
+ * @return string Hostname only, no scheme.
+ */
+function restwell_get_public_site_host(): string {
+	$host = wp_parse_url( home_url(), PHP_URL_HOST );
+	return is_string( $host ) && $host !== '' ? $host : 'restwellretreats.co.uk';
+}
+
+/**
+ * Returns minimal Privacy Policy body HTML (used by template-privacy-policy when legal_body_html is empty).
+ *
+ * @return string HTML string.
  */
 function restwell_get_privacy_policy_content(): string {
-	$site = esc_html( get_bloginfo( 'name' ) );
+	$site        = esc_html( get_bloginfo( 'name' ) );
+	$entity      = esc_html( restwell_get_legal_entity_display_name() );
+	$email       = restwell_get_public_enquiry_email();
+	$mailto_href = esc_url( 'mailto:' . $email );
+
 	return '<h2>Who we are</h2>
-<p>' . $site . ' ("we", "us", "our") provides accessible holiday accommodation in Whitstable, Kent. Our website address is: ' . esc_url( home_url( '/' ) ) . '</p>
+<p>' . $site . ' ("we", "us", "our") offers accessible holiday accommodation in Whitstable, Kent. This website is published at ' . esc_url( home_url( '/' ) ) . '.</p>
+<p>The data controller for personal information collected through this site is ' . $entity . '.</p>
 
 <h2>What information we collect and why</h2>
-<p>When you use our enquiry form we collect: your name, email address, phone number, and any care or accessibility information you choose to share. We use this information solely to respond to your enquiry and, where relevant, to arrange your stay.</p>
-<p>We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties, except to our care partner (Continuity of Care Services) where care support is part of your booking, and only with your explicit knowledge.</p>
+<p>When you use our enquiry form we collect: your name, email address, phone number, and any care or accessibility information you choose to share. We use this on the basis of our legitimate interests to respond to your enquiry and, if you go on to book, to perform the contract for your stay.</p>
+<p>We do not sell your personal information. We share it only with our care partner, Continuity of Care Services (CQC-regulated), when care support is part of your booking and you have agreed to that arrangement.</p>
 
 <h2>Cookies and analytics</h2>
-<p>We use cookies for essential site functionality and, with your consent, for analytics purposes (Google Analytics 4). You can manage your cookie preferences using the banner displayed on your first visit.</p>
+<p>We use cookies for essential site functionality and, where you consent, for analytics (Google Analytics 4). You can change preferences using the cookie controls shown on your first visit.</p>
 
 <h2>How long we keep your data</h2>
-<p>Enquiry records are retained for up to 3 years to allow us to respond to follow-up questions and to fulfil any care-related obligations. You may request deletion at any time.</p>
+<p>We keep enquiry and booking-related records for up to three years so we can answer follow-up questions and meet regulatory and insurance expectations. You can ask us to delete your data sooner where the law allows.</p>
 
 <h2>Your rights</h2>
-<p>Under UK GDPR you have the right to: access the personal data we hold about you; request correction of inaccurate data; request erasure of your data; object to or restrict processing; and lodge a complaint with the Information Commissioner\'s Office (ico.org.uk).</p>
-<p>To exercise any of these rights, please contact us at <a href="mailto:hello@restwellretreats.co.uk">hello@restwellretreats.co.uk</a>.</p>
+<p>Under UK GDPR you may: ask what data we hold about you; ask us to correct mistakes; ask us to delete or restrict use of your data in certain cases; object to some processing; and complain to the <a href="https://www.ico.org.uk/" target="_blank" rel="noopener noreferrer">Information Commissioner\'s Office (ICO)<span class="sr-only"> (opens in new tab)</span></a>.</p>
+<p>To exercise these rights, email <a href="' . $mailto_href . '">' . esc_html( $email ) . '</a>.</p>
 
 <h2>Changes to this policy</h2>
-<p>We may update this policy from time to time. The current version will always be available on this page. Last updated: ' . gmdate( 'F Y' ) . '.</p>';
+<p>We may update this policy from time to time. The current version is always on this page. Last updated: ' . esc_html( gmdate( 'F Y' ) ) . '.</p>';
 }
 
 /**
- * Returns minimal Terms & Conditions post_content.
+ * Returns minimal Terms & Conditions body HTML (used by template-terms-and-conditions when legal_body_html is empty).
  *
  * @return string HTML string.
  */
 function restwell_get_terms_conditions_content(): string {
 	$site    = esc_html( get_bloginfo( 'name' ) );
+	$entity  = esc_html( restwell_get_legal_entity_display_name() );
 	$enquire = esc_url( home_url( '/enquire/' ) );
+	$email   = restwell_get_public_enquiry_email();
+	$mailto  = esc_url( 'mailto:' . $email );
+
 	return '<h2>Booking</h2>
-<p>Reservations at ' . $site . ' are confirmed only when we have received a signed booking form and deposit. All bookings are subject to availability and our written confirmation.</p>
+<p>These terms apply when you book accessible self-catering accommodation with ' . $entity . ' (trading as "' . $site . '") in Whitstable, Kent. A booking is confirmed only when we have received a signed booking form and any deposit we ask for, and we have sent you written confirmation. All stays are subject to availability.</p>
 
 <h2>Payment</h2>
-<p>A non-refundable deposit (amount confirmed at time of booking) is required to secure your dates. The remaining balance is due six weeks before arrival. We accept BACS bank transfer and debit/credit card.</p>
+<p>A non-refundable deposit (the amount is confirmed when you book) secures your dates. The balance is due six weeks before arrival unless we agree otherwise in writing. We accept BACS bank transfer and debit or credit card.</p>
 
 <h2>Cancellation</h2>
-<p>Cancellations made more than 6 weeks before arrival: deposit forfeited. Cancellations within 6 weeks of arrival: full balance due unless we are able to re-let the property. We strongly recommend travel and cancellation insurance.</p>
+<p>If you cancel more than six weeks before arrival you forfeit the deposit. If you cancel within six weeks of arrival the full balance remains payable unless we re-let the property. We strongly recommend travel and cancellation insurance.</p>
 
 <h2>Care support</h2>
-<p>Where care support is arranged through our partner Continuity of Care Services, separate terms issued by that provider will also apply. We act as an introducer only and are not responsible for the delivery of care services.</p>
+<p>Optional care may be arranged with Continuity of Care Services (CQC-regulated). Their terms and privacy notices apply to the care they deliver. We introduce the service only and are not responsible for how care is provided.</p>
 
 <h2>Liability</h2>
-<p>' . $site . ' is not liable for any loss, damage, or injury to guests or their property during the stay, except where caused by our own negligence. Guests are responsible for taking out appropriate travel and medical insurance.</p>
+<p>Except where the law does not allow us to limit liability, ' . $entity . ' is not liable for loss, damage, or injury to guests or their belongings during the stay except where caused by our negligence. Guests should hold appropriate travel and medical insurance.</p>
 
 <h2>Contact</h2>
-<p>Questions about these terms? Contact us at <a href="' . $enquire . '">our enquiry page</a> or email <a href="mailto:hello@restwellretreats.co.uk">hello@restwellretreats.co.uk</a>.</p>
+<p>Questions about these terms? Use <a href="' . $enquire . '">our enquiry page</a> or email <a href="' . $mailto . '">' . esc_html( $email ) . '</a>.</p>
 
-<p><em>Last updated: ' . gmdate( 'F Y' ) . '.</em></p>';
+<p><em>Last updated: ' . esc_html( gmdate( 'F Y' ) ) . '.</em></p>';
+}
+
+/**
+ * Website accessibility statement body HTML (template-accessibility-policy).
+ *
+ * @return string HTML string.
+ */
+function restwell_get_accessibility_policy_content(): string {
+	$site   = esc_html( get_bloginfo( 'name' ) );
+	$host   = esc_html( restwell_get_public_site_host() );
+	$acc    = esc_url( home_url( '/accessibility/' ) );
+	$enq    = esc_url( home_url( '/enquire/' ) );
+	$email  = restwell_get_public_enquiry_email();
+	$mailto = esc_url( 'mailto:' . $email );
+
+	return '<h2>Our aim</h2>
+<p>' . $site . ' aims to make ' . $host . ' as easy to use and understand as we can for guests, families, carers, and professionals. We aim to meet Web Content Accessibility Guidelines (WCAG) 2.2 Level AA where it is reasonably practicable for our pages, forms, and theme.</p>
+
+<h2>How we test</h2>
+<p>We combine automated checks with manual testing: keyboard-only navigation, text zoom to at least 200%, and common browser and screen reader pairings. We fix issues we can control when we update the site.</p>
+
+<h2>Property access information</h2>
+<p>Door widths, equipment, and room layout for the bungalow are on our <a href="' . $acc . '">accessibility specification</a> page. This statement is about the website, not the bricks-and-mortar property.</p>
+
+<h2>Third-party content</h2>
+<p>Some pages include embedded maps, video, or links to other organisations. We cannot guarantee how accessible those services are. If something blocks you, tell us and we will try to provide an alternative where we can.</p>
+
+<h2>Feedback and help</h2>
+<p>If any part of this site does not work for you, or you need information in another format, email <a href="' . $mailto . '">' . esc_html( $email ) . '</a> or use our <a href="' . $enq . '">enquiry form</a>. We aim to reply within one working day.</p>
+
+<h2>Formal complaints</h2>
+<p>If you are not satisfied with our response, the <a href="https://www.equalityhumanrights.com/en" target="_blank" rel="noopener noreferrer">Equality and Human Rights Commission (EHRC)<span class="sr-only"> (opens in new tab)</span></a> publishes guidance on accessibility rights in England, Scotland, and Wales.</p>
+
+<p><em>Last updated: ' . esc_html( gmdate( 'F Y' ) ) . '.</em></p>';
+}
+
+/**
+ * Default Page Content Fields for Privacy Policy template.
+ *
+ * @return array<string, mixed>
+ */
+function restwell_get_privacy_policy_page_defaults() {
+	return array(
+		'legal_label'         => 'Your information',
+		'legal_heading'       => 'Privacy Policy',
+		'legal_intro'         => 'Who is responsible for your data, what we collect when you enquire or book, cookies, retention, and your UK GDPR rights (including contacting the ICO).',
+		'legal_hero_image_id' => 0,
+		'legal_body_html'     => '',
+	);
+}
+
+/**
+ * Default Page Content Fields for Terms & Conditions template.
+ *
+ * @return array<string, mixed>
+ */
+function restwell_get_terms_conditions_page_defaults() {
+	return array(
+		'legal_label'         => 'Bookings',
+		'legal_heading'       => 'Terms & Conditions',
+		'legal_intro'         => 'Deposit, balance, cancellation, optional care via Continuity of Care Services, and liability for stays at our Whitstable accessible bungalow.',
+		'legal_hero_image_id' => 0,
+		'legal_body_html'     => '',
+	);
+}
+
+/**
+ * Default Page Content Fields for Accessibility Policy (website statement) template.
+ *
+ * @return array<string, mixed>
+ */
+function restwell_get_accessibility_policy_page_defaults() {
+	return array(
+		'legal_label'         => 'Digital access',
+		'legal_heading'       => 'Website accessibility statement',
+		'legal_intro'         => 'WCAG-oriented testing, known limits of third-party embeds, and how to request alternative formats or report a barrier.',
+		'legal_hero_image_id' => 0,
+		'legal_body_html'     => '',
+	);
 }
 
 /**
@@ -1136,9 +1241,11 @@ function restwell_seed_all_pages_meta( array $created_ids, $force, array &$resul
 		'Whitstable Guide' => 'restwell_get_whitstable_guide_page_defaults',
 		'FAQ'           => 'restwell_get_faq_page_defaults',
 		'Enquire'       => 'restwell_get_enquire_page_defaults',
-		'Contact'       => 'restwell_get_contact_page_defaults',
 		'Resources'     => 'restwell_get_resources_page_defaults',
-		'Guest Guide'   => 'restwell_get_guest_guide_page_defaults',
+		'Guest Guide'          => 'restwell_get_guest_guide_page_defaults',
+		'Privacy Policy'       => 'restwell_get_privacy_policy_page_defaults',
+		'Terms & Conditions'   => 'restwell_get_terms_conditions_page_defaults',
+		'Accessibility Policy' => 'restwell_get_accessibility_policy_page_defaults',
 	);
 
 	foreach ( $page_defaults_map as $title => $defaults_fn ) {
@@ -1285,3 +1392,163 @@ function restwell_migrate_homepage_faq_meta_v1() {
 }
 add_action( 'admin_init', 'restwell_migrate_homepage_faq_meta_v1', 5 );
 add_action( 'after_switch_theme', 'restwell_migrate_homepage_faq_meta_v1', 10 );
+
+/**
+ * One-time refresh of Property page practical-stats meta for sites seeded with TBC / long parking copy.
+ *
+ * Only overwrites values that still match the old placeholders so manual edits stay intact.
+ */
+function restwell_migrate_property_practical_meta_v1() {
+	if ( get_option( 'restwell_property_practical_meta_v1', '' ) === '1' ) {
+		return;
+	}
+	$page = get_page_by_path( 'the-property', OBJECT, 'page' );
+	if ( ! $page || (int) $page->ID < 1 ) {
+		return;
+	}
+	$page_id  = (int) $page->ID;
+	$defaults = restwell_get_property_page_defaults();
+
+	$is_tbc = static function ( $val ) {
+		return is_string( $val ) && strcasecmp( trim( $val ), 'TBC' ) === 0;
+	};
+
+	foreach ( array( 'prop_bedrooms_count', 'prop_bathrooms_count', 'prop_sleeps_value' ) as $key ) {
+		$cur = get_post_meta( $page_id, $key, true );
+		if ( $is_tbc( $cur ) && isset( $defaults[ $key ] ) ) {
+			update_post_meta( $page_id, $key, $defaults[ $key ] );
+		}
+	}
+
+	$park_cur = (string) get_post_meta( $page_id, 'prop_parking', true );
+	$park_old = 'Private driveway, two cars';
+	if ( $is_tbc( $park_cur ) || trim( $park_cur ) === $park_old ) {
+		update_post_meta( $page_id, 'prop_parking', $defaults['prop_parking'] ?? '2 cars' );
+	}
+
+	foreach ( array( 'prop_bedrooms', 'prop_bathroom' ) as $key ) {
+		$cur = get_post_meta( $page_id, $key, true );
+		$old_bed = 'Bedroom configuration confirmed before booking';
+		$old_bath = 'Bathroom configuration confirmed before booking';
+		if ( $key === 'prop_bedrooms' && is_string( $cur ) && trim( $cur ) === $old_bed && isset( $defaults[ $key ] ) ) {
+			update_post_meta( $page_id, $key, $defaults[ $key ] );
+		}
+		if ( $key === 'prop_bathroom' && is_string( $cur ) && trim( $cur ) === $old_bath && isset( $defaults[ $key ] ) ) {
+			update_post_meta( $page_id, $key, $defaults[ $key ] );
+		}
+	}
+
+	update_option( 'restwell_property_practical_meta_v1', '1' );
+}
+add_action( 'init', 'restwell_migrate_property_practical_meta_v1', 20 );
+add_action( 'after_switch_theme', 'restwell_migrate_property_practical_meta_v1', 10 );
+
+/**
+ * One-time: set sleeps to 5 for sites that received the earlier default of 6.
+ */
+function restwell_migrate_property_sleeps_five_v1() {
+	if ( get_option( 'restwell_property_sleeps_five_v1', '' ) === '1' ) {
+		return;
+	}
+	$page = get_page_by_path( 'the-property', OBJECT, 'page' );
+	if ( ! $page || (int) $page->ID < 1 ) {
+		return;
+	}
+	$page_id = (int) $page->ID;
+	$cur     = get_post_meta( $page_id, 'prop_sleeps_value', true );
+	if ( is_string( $cur ) && trim( $cur ) === '6' ) {
+		update_post_meta( $page_id, 'prop_sleeps_value', '5' );
+	}
+	update_option( 'restwell_property_sleeps_five_v1', '1' );
+}
+add_action( 'init', 'restwell_migrate_property_sleeps_five_v1', 21 );
+add_action( 'after_switch_theme', 'restwell_migrate_property_sleeps_five_v1', 11 );
+
+/**
+ * One-time: shorten parking strip text (private drive wording was too long for the grid on small screens).
+ */
+function restwell_migrate_property_parking_short_v1() {
+	if ( get_option( 'restwell_property_parking_short_v1', '' ) === '1' ) {
+		return;
+	}
+	$page = get_page_by_path( 'the-property', OBJECT, 'page' );
+	if ( ! $page || (int) $page->ID < 1 ) {
+		return;
+	}
+	$page_id = (int) $page->ID;
+	$cur     = trim( (string) get_post_meta( $page_id, 'prop_parking', true ) );
+	$short   = '2 cars';
+	$legacy  = array(
+		'Private drive · 2 cars',
+		'Private drive • 2 cars',
+		'Private driveway, two cars',
+		'Private driveway, 2 cars',
+		'Private drive, 2 cars',
+		'Private drive, two cars',
+	);
+	if ( in_array( $cur, $legacy, true ) ) {
+		update_post_meta( $page_id, 'prop_parking', $short );
+	}
+	update_option( 'restwell_property_parking_short_v1', '1' );
+}
+add_action( 'init', 'restwell_migrate_property_parking_short_v1', 22 );
+add_action( 'after_switch_theme', 'restwell_migrate_property_parking_short_v1', 12 );
+
+/**
+ * One-time: assign dedicated legal / policy templates and ensure Accessibility Policy page exists.
+ *
+ * Existing installs keep their Privacy and Terms pages at the same URLs; post_content is no longer
+ * used for the default copy (templates + Page Content Fields / theme defaults instead).
+ */
+function restwell_migrate_legal_policy_templates_v1() {
+	if ( get_option( 'restwell_legal_policy_templates_v1', '' ) === '1' ) {
+		return;
+	}
+
+	$assign = static function ( $slug, $template_file ) {
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( $page && (int) $page->ID > 0 ) {
+			update_post_meta( (int) $page->ID, '_wp_page_template', $template_file );
+		}
+	};
+
+	$assign( 'privacy-policy', 'template-privacy-policy.php' );
+	$assign( 'terms-and-conditions', 'template-terms-and-conditions.php' );
+
+	$ap = get_page_by_path( 'accessibility-policy', OBJECT, 'page' );
+	if ( ! $ap ) {
+		$admins = get_users(
+			array(
+				'role'   => 'administrator',
+				'number' => 1,
+				'fields' => 'ID',
+			)
+		);
+		$author_id = ! empty( $admins[0] ) ? (int) $admins[0] : 1;
+
+		$new_id = wp_insert_post(
+			array(
+				'post_title'   => 'Accessibility Policy',
+				'post_name'    => 'accessibility-policy',
+				'post_status'  => 'publish',
+				'post_type'    => 'page',
+				'post_author'  => $author_id,
+				'post_content' => '',
+			),
+			true
+		);
+		if ( ! is_wp_error( $new_id ) && $new_id > 0 ) {
+			update_post_meta( (int) $new_id, '_wp_page_template', 'template-accessibility-policy.php' );
+			if ( function_exists( 'restwell_merge_theme_defaults_into_post_meta' ) && function_exists( 'restwell_get_accessibility_policy_page_defaults' ) ) {
+				restwell_merge_theme_defaults_into_post_meta( (int) $new_id, restwell_get_accessibility_policy_page_defaults(), false );
+				update_post_meta( (int) $new_id, 'restwell_fields_seeded', '1' );
+			}
+		}
+	} else {
+		update_post_meta( (int) $ap->ID, '_wp_page_template', 'template-accessibility-policy.php' );
+	}
+
+	update_option( 'restwell_legal_policy_templates_v1', '1' );
+}
+add_action( 'init', 'restwell_migrate_legal_policy_templates_v1', 12 );
+add_action( 'after_switch_theme', 'restwell_migrate_legal_policy_templates_v1', 12 );

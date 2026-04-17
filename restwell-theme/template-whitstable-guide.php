@@ -38,7 +38,7 @@ $sections = array(
 		'key'     => 'getting_here',
 		'eyebrow' => 'Travel',
 		'heading' => (string) get_post_meta( $pid, 'wg_getting_here_heading', true ) ?: 'Getting here',
-		'body'    => (string) get_post_meta( $pid, 'wg_getting_here_body', true ) ?: "By car: Whitstable is reached via the M2 and A299 from London (about 60 miles, usually around 90 minutes depending on traffic). The property has off-street parking with enough space for adapted vehicles, including those with rear or side ramps.\nBy train: Whitstable station has direct services to London Victoria and London St Pancras (via Canterbury West or Faversham). Journey time is roughly 75-90 minutes. The station has step-free access to both platforms. From the station to the property is about a 10-minute drive; we can advise on accessible taxi options if needed.",
+		'body'    => (string) get_post_meta( $pid, 'wg_getting_here_body', true ) ?: "By car: Whitstable is reached via the M2 and A299 from London (about 60 miles, usually around 90 minutes depending on traffic). The property has off-street parking with enough space for adapted vehicles, including those with rear or side ramps.\nBy train: Whitstable station has direct services to London Victoria and London St Pancras (via Canterbury West or Faversham). Journey time is roughly 75-90 minutes. We do not verify station layout or platform access here; details change, so check National Rail Enquiries or your operator before you travel. From the station to the property is about a 10-minute drive; we can advise on taxi options if needed.",
 		'bg'      => 'bg-[var(--soft-sand)]',
 	),
 	array(
@@ -55,25 +55,25 @@ $access_cards = array(
 		'title' => 'Tankerton promenade',
 		'body'  => 'The promenade route is wide, level, and surfaced, which makes it the most practical seafront option for many wheelchair users.',
 		'note'  => 'The slopes down are steeper; many guests stay on the top route for easier access.',
-		'icon'  => 'fa-water',
+		'icon'  => 'drop',
 	),
 	array(
 		'title' => 'Whitstable harbour area',
 		'body'  => 'Harbour-side routes are lively and mostly level, with some uneven sections and busier pedestrian flow at peak times.',
 		'note'  => 'Weekday mornings are usually easier for quieter movement.',
-		'icon'  => 'fa-anchor',
+		'icon'  => 'anchor',
 	),
 	array(
 		'title' => 'Town centre and Harbour Street',
 		'body'  => 'Shops and cafes are close together, but some pavements are narrower around older parts of town.',
 		'note'  => 'Plan extra time if you need wider turning space or quieter access.',
-		'icon'  => 'fa-store',
+		'icon'  => 'storefront',
 	),
 	array(
 		'title' => 'Practical services',
 		'body'  => 'Tesco Extra and other larger stores are typically easier to navigate with mobility equipment than smaller convenience stores.',
 		'note'  => 'If you need pharmacy access, it is usually simplest to combine with a town-centre trip.',
-		'icon'  => 'fa-cart-shopping',
+		'icon'  => 'shopping-cart',
 	),
 );
 
@@ -102,15 +102,6 @@ $eating_heading = (string) get_post_meta( $pid, 'wg_eating_heading', true ) ?: '
 $eating_intro   = (string) get_post_meta( $pid, 'wg_eating_intro', true ) ?: '';
 $eating_body    = (string) get_post_meta( $pid, 'wg_eating_body', true ) ?: "<strong>The Plough, Whitstable</strong>: a short walk from the property. Relaxed pub with a good food menu. Speak to us about accessibility on arrival as we have a direct contact there.\n<strong>Whitstable harbour</strong> has several fish and chip shops and seafood restaurants. Most are accessible at ground level, though space inside can be tight at peak times. Eating outside on the harbour wall is a good option in warmer weather.\n<strong>Tankerton Parade</strong> (along Marine Parade near the slopes) has a small cluster of independent cafes and a bakery. Generally quieter than the town centre.\nWe are happy to recommend other places based on your specific access needs; just ask before or during your stay.";
 
-$cta_heading         = (string) get_post_meta( $pid, 'wg_cta_heading', true ) ?: 'Planning your coastal break?';
-$cta_body            = (string) get_post_meta( $pid, 'wg_cta_body', true ) ?: 'If you have dates in mind, get in touch and we will help you plan a stay that works for your access needs.';
-$cta_primary_label   = (string) get_post_meta( $pid, 'wg_cta_primary_label', true ) ?: 'See the property';
-$cta_primary_url     = (string) get_post_meta( $pid, 'wg_cta_primary_url', true ) ?: '/the-property/';
-$cta_secondary_label = (string) get_post_meta( $pid, 'wg_cta_secondary_label', true ) ?: 'Check your dates';
-$cta_secondary_url   = (string) get_post_meta( $pid, 'wg_cta_secondary_url', true ) ?: '/enquire/';
-$cta_blog_label      = (string) get_post_meta( $pid, 'wg_cta_blog_label', true ) ?: 'Read local articles';
-$cta_blog_url        = (string) get_post_meta( $pid, 'wg_cta_blog_url', true ) ?: '/blog/';
-
 $spotlight_images = array();
 for ( $i = 1; $i <= 3; $i++ ) {
 	$image_id = (int) get_post_meta( $pid, "wg_spotlight_image_{$i}_id", true );
@@ -130,25 +121,25 @@ for ( $i = 1; $i <= 3; $i++ ) {
 	);
 }
 
-$card_hover = 'shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100/90 transition-all duration-300 ease-out hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0';
-$body_class = 'font-sans text-[var(--body-secondary)] text-base leading-relaxed';
+$card_hover = 'rw-surface-card rw-card-hover-lift motion-reduce:transition-none motion-reduce:hover:translate-y-0';
+$body_class = 'rw-copy-body font-sans text-base leading-relaxed';
 $link_class = 'text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:bg-[var(--deep-teal)]/5 rounded-sm cursor-pointer transition-colors duration-200 focus:outline-none focus-visible:ring-[3px] focus-visible:ring-[var(--deep-teal)] focus-visible:ring-offset-[3px]';
 
 $wg_glance = array(
 	array(
 		'stat'  => __( '~90 min', 'restwell-retreats' ),
 		'label' => __( 'Typical drive from London (M2 / A299)', 'restwell-retreats' ),
-		'icon'  => 'fa-car',
+		'icon'  => 'car',
 	),
 	array(
 		'stat'  => __( '75–90 min', 'restwell-retreats' ),
 		'label' => __( 'Direct trains from Victoria or St Pancras', 'restwell-retreats' ),
-		'icon'  => 'fa-train-subway',
+		'icon'  => 'train',
 	),
 	array(
-		'stat'  => __( 'Step-free', 'restwell-retreats' ),
-		'label' => __( 'Whitstable station: lift to both platforms', 'restwell-retreats' ),
-		'icon'  => 'fa-universal-access',
+		'stat'  => __( '20–30 min', 'restwell-retreats' ),
+		'label' => __( 'Approx. walk from the property to Whitstable station (paved routes; exact time varies). Check station access with National Rail before you travel.', 'restwell-retreats' ),
+		'icon'  => 'map-pin',
 	),
 );
 
@@ -175,10 +166,10 @@ $wg_glance = array(
 		<div class="container max-w-5xl mx-auto py-10 md:py-12">
 			<div class="grid w-full grid-cols-1 gap-0 divide-y divide-[var(--deep-teal)]/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
 				<?php foreach ( $wg_glance as $glance ) : ?>
-					<?php $g_icon = isset( $glance['icon'] ) ? $glance['icon'] : 'fa-circle-dot'; ?>
+					<?php $g_icon = isset( $glance['icon'] ) ? $glance['icon'] : 'dot'; ?>
 					<div class="wg-glance-item flex flex-col sm:flex-row sm:items-start gap-4 py-8 text-center sm:px-6 sm:py-6 sm:first:pl-0 sm:last:pr-0 sm:text-left">
 						<span class="wg-glance-item__icon flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--sea-glass)_30%,transparent)] text-[var(--deep-teal)] mx-auto sm:mx-0" aria-hidden="true">
-							<i class="fa-solid <?php echo esc_attr( $g_icon ); ?> text-lg text-[var(--deep-teal)]"></i>
+							<i class="ph-bold ph-<?php echo esc_attr( $g_icon ); ?> text-lg text-[var(--deep-teal)]"></i>
 						</span>
 						<dl class="min-w-0 flex-1 m-0">
 							<dt class="font-serif text-2xl md:text-[1.65rem] text-[var(--deep-teal)] tracking-tight leading-tight"><?php echo esc_html( $glance['stat'] ); ?></dt>
@@ -191,7 +182,7 @@ $wg_glance = array(
 	</section>
 
 	<?php foreach ( $sections as $section ) : ?>
-		<section class="wg-content-section py-16 md:py-24 <?php echo esc_attr( $section['bg'] ); ?>">
+		<section class="wg-content-section rw-section-y <?php echo esc_attr( $section['bg'] ); ?>">
 			<div class="container max-w-5xl mx-auto">
 				<div class="wg-section-rail w-full">
 					<div class="wg-section-head mb-6 md:mb-8">
@@ -207,14 +198,21 @@ $wg_glance = array(
 					</div>
 					<?php if ( 'about' === $section['key'] ) : ?>
 						<p class="<?php echo esc_attr( $body_class ); ?> mt-8 pt-6 border-t border-[var(--deep-teal)]/10 m-0"><?php esc_html_e( 'Read more:', 'restwell-retreats' ); ?>
-							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/blog/accessible-beaches-coastal-walks-kent' ) ); ?>"><?php esc_html_e( 'A guide to accessible beaches and coastal walks in Kent', 'restwell-retreats' ); ?></a>
+							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/blog/accessible-beaches-coastal-walks-kent/' ) ); ?>"><?php esc_html_e( 'A guide to accessible beaches and coastal walks in Kent', 'restwell-retreats' ); ?></a>
+						</p>
+						<p class="<?php echo esc_attr( $body_class ); ?> mt-6 m-0 max-w-[65ch]">
+							<?php esc_html_e( 'Staying at Restwell puts Whitstable on your doorstep. For kit, access, and layout,', 'restwell-retreats' ); ?>
+							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/the-property/' ) ); ?>"><?php esc_html_e( 'see the adapted bungalow', 'restwell-retreats' ); ?></a><?php esc_html_e( '. The', 'restwell-retreats' ); ?>
+							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'homepage', 'restwell-retreats' ); ?></a>
+							<?php esc_html_e( 'summarises how we work; when you are ready,', 'restwell-retreats' ); ?>
+							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>"><?php esc_html_e( 'get in touch about your stay', 'restwell-retreats' ); ?></a>.
 						</p>
 					<?php endif; ?>
 					<?php if ( 'getting_around' === $section['key'] ) : ?>
 						<p class="<?php echo esc_attr( $body_class ); ?> mt-8 pt-6 border-t border-[var(--deep-teal)]/10 m-0"><?php esc_html_e( 'If you want to understand whether our property suits your access needs specifically, start with', 'restwell-retreats' ); ?>
-							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/who-its-for' ) ); ?>"><?php esc_html_e( 'who Restwell is for', 'restwell-retreats' ); ?></a>
+							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/who-its-for/' ) ); ?>"><?php esc_html_e( 'who Restwell is for', 'restwell-retreats' ); ?></a>
 							<?php esc_html_e( 'and', 'restwell-retreats' ); ?>
-							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/accessibility' ) ); ?>"><?php esc_html_e( 'our accessibility specification', 'restwell-retreats' ); ?></a>.
+							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/accessibility/' ) ); ?>"><?php esc_html_e( 'our accessibility specification', 'restwell-retreats' ); ?></a>.
 						</p>
 					<?php endif; ?>
 				</div>
@@ -222,7 +220,7 @@ $wg_glance = array(
 		</section>
 	<?php endforeach; ?>
 
-	<section class="wg-content-section py-16 md:py-24 bg-[var(--bg-subtle)] wg-band--texture" aria-labelledby="wg-access-heading">
+	<section class="wg-content-section rw-section-y bg-[var(--bg-subtle)] wg-band--texture" aria-labelledby="wg-access-heading">
 		<div class="container max-w-5xl mx-auto">
 			<div class="wg-section-rail w-full">
 				<div class="wg-section-head mb-10 md:mb-12">
@@ -235,12 +233,12 @@ $wg_glance = array(
 				$wg_card_i = 0;
 				foreach ( $access_cards as $card ) :
 					++$wg_card_i;
-					$icon = isset( $card['icon'] ) ? $card['icon'] : 'fa-circle-dot';
+					$icon = isset( $card['icon'] ) ? $card['icon'] : 'dot';
 					?>
 					<div class="wg-access-card min-w-0 bg-white rounded-2xl p-8 md:p-9 h-full flex flex-col <?php echo esc_attr( $card_hover ); ?>">
 						<div class="flex gap-4">
 							<span class="wg-access-card__icon flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[color-mix(in_srgb,var(--sea-glass)_35%,transparent)] text-[var(--deep-teal)] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]" aria-hidden="true">
-								<i class="fa-solid <?php echo esc_attr( $icon ); ?> text-lg text-[var(--deep-teal)]"></i>
+								<i class="ph-bold ph-<?php echo esc_attr( $icon ); ?> text-lg text-[var(--deep-teal)]"></i>
 							</span>
 							<div class="min-w-0 flex-1">
 								<p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--warm-gold-text)] font-sans mb-2"><?php echo esc_html( sprintf( '%02d', $wg_card_i ) ); ?></p>
@@ -257,7 +255,7 @@ $wg_glance = array(
 	</section>
 
 	<?php if ( ! empty( $spotlight_images ) ) : ?>
-	<section class="wg-content-section py-16 md:py-24 bg-[var(--soft-sand)]" aria-labelledby="wg-visual-guide-heading">
+	<section class="wg-content-section rw-section-y bg-[var(--soft-sand)]" aria-labelledby="wg-visual-guide-heading">
 		<div class="container max-w-5xl mx-auto">
 			<div class="wg-section-rail w-full">
 				<div class="wg-section-head mb-10 md:mb-12">
@@ -286,7 +284,7 @@ $wg_glance = array(
 	</section>
 	<?php endif; ?>
 
-	<section class="wg-content-section py-16 md:py-24 bg-white" aria-labelledby="wg-related-reading-heading">
+	<section class="wg-content-section rw-section-y bg-white" aria-labelledby="wg-related-reading-heading">
 		<div class="container max-w-5xl mx-auto">
 			<div class="wg-section-rail w-full">
 				<div class="wg-section-head mb-8 md:mb-10">
@@ -298,12 +296,13 @@ $wg_glance = array(
 				<a class="btn btn-outline w-full sm:w-auto justify-center whitespace-normal text-center leading-snug px-6" href="<?php echo esc_url( home_url( '/accessible-beaches-kent-coast/' ) ); ?>"><?php esc_html_e( 'Accessible beaches on the Kent coast', 'restwell-retreats' ); ?></a>
 				<a class="btn btn-outline w-full sm:w-auto justify-center whitespace-normal text-center leading-snug px-6" href="<?php echo esc_url( home_url( '/who-its-for/' ) ); ?>"><?php esc_html_e( 'Who Restwell is for', 'restwell-retreats' ); ?></a>
 				<a class="btn btn-outline w-full sm:w-auto justify-center whitespace-normal text-center leading-snug px-6" href="<?php echo esc_url( home_url( '/direct-payment-holiday-accommodation/' ) ); ?>"><?php esc_html_e( 'Using direct payments for holidays', 'restwell-retreats' ); ?></a>
+				<a class="btn btn-outline w-full sm:w-auto justify-center whitespace-normal text-center leading-snug px-6" href="<?php echo esc_url( home_url( '/carers-respite-holiday-guide/' ) ); ?>"><?php esc_html_e( "Carers' respite: rights and funding", 'restwell-retreats' ); ?></a>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="wg-content-section py-16 md:py-24 bg-[var(--bg-subtle)] wg-band--texture" aria-labelledby="wg-planning-heading">
+	<section class="wg-content-section rw-section-y bg-[var(--bg-subtle)] wg-band--texture" aria-labelledby="wg-planning-heading">
 		<div class="container max-w-5xl mx-auto">
 			<div class="wg-section-rail w-full">
 				<div class="wg-section-head mb-8 md:mb-10">
@@ -315,7 +314,7 @@ $wg_glance = array(
 					<div class="wg-planning-card min-w-0 bg-white rounded-2xl p-8 md:p-9 h-full flex flex-col <?php echo esc_attr( $card_hover ); ?>">
 						<h3 class="flex items-start gap-4 text-xl font-serif text-[var(--deep-teal)] mb-4">
 							<span class="wg-planning-card__icon flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[color-mix(in_srgb,var(--sea-glass)_35%,transparent)] text-[var(--deep-teal)] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]" aria-hidden="true">
-								<i class="fa-solid fa-clipboard-list text-lg text-[var(--deep-teal)]"></i>
+								<i class="ph-bold ph-clipboard-text text-lg text-[var(--deep-teal)]"></i>
 							</span>
 							<span class="min-w-0 pt-1"><?php echo esc_html( $planning_before_heading ); ?></span>
 						</h3>
@@ -330,7 +329,7 @@ $wg_glance = array(
 					<div class="wg-planning-card min-w-0 bg-white rounded-2xl p-8 md:p-9 h-full flex flex-col <?php echo esc_attr( $card_hover ); ?>">
 						<h3 class="flex items-start gap-4 text-xl font-serif text-[var(--deep-teal)] mb-4">
 							<span class="wg-planning-card__icon flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[color-mix(in_srgb,var(--sea-glass)_35%,transparent)] text-[var(--deep-teal)] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]" aria-hidden="true">
-								<i class="fa-solid fa-sun text-lg text-[var(--deep-teal)]"></i>
+								<i class="ph-bold ph-sun text-lg text-[var(--deep-teal)]"></i>
 							</span>
 							<span class="min-w-0 pt-1"><?php echo esc_html( $planning_day_heading ); ?></span>
 						</h3>
@@ -347,7 +346,7 @@ $wg_glance = array(
 		</div>
 	</section>
 
-	<section class="wg-content-section py-16 md:py-24 bg-white" aria-labelledby="wg-eating-heading">
+	<section class="wg-content-section rw-section-y bg-white" aria-labelledby="wg-eating-heading">
 		<div class="container max-w-5xl mx-auto">
 			<div class="wg-section-rail w-full">
 				<div class="wg-section-head <?php echo $eating_intro !== '' ? 'mb-8 md:mb-10' : 'mb-6 md:mb-8'; ?>">
@@ -368,29 +367,5 @@ $wg_glance = array(
 		</div>
 	</section>
 
-	<section class="py-16 md:py-20 bg-[var(--deep-teal)] text-center" aria-labelledby="wg-cta-heading">
-		<div class="container max-w-5xl mx-auto">
-			<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-3 font-sans"><?php esc_html_e( 'Next step', 'restwell-retreats' ); ?></p>
-			<h2 id="wg-cta-heading" class="text-3xl md:text-[2rem] font-serif text-white tracking-tight mb-5 md:mb-6"><?php echo esc_html( $cta_heading ); ?></h2>
-			<p class="text-white/90 text-lg leading-relaxed max-w-prose mx-auto mb-10"><?php echo esc_html( $cta_body ); ?></p>
-			<div class="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center justify-center gap-4 md:gap-5">
-				<a class="btn btn-gold w-full sm:w-auto min-h-[2.75rem] inline-flex items-center justify-center gap-2" href="<?php echo esc_url( home_url( $cta_primary_url ) ); ?>">
-					<?php echo esc_html( $cta_primary_label ); ?>
-					<i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
-				</a>
-				<a class="btn btn-ghost-light w-full sm:w-auto min-h-[2.75rem] inline-flex items-center justify-center gap-2" href="<?php echo esc_url( home_url( $cta_secondary_url ) ); ?>">
-					<?php echo esc_html( $cta_secondary_label ); ?>
-					<i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
-				</a>
-				<a class="btn btn-ghost-light w-full sm:w-auto min-h-[2.75rem] inline-flex items-center justify-center gap-2" href="<?php echo esc_url( home_url( $cta_blog_url ) ); ?>">
-					<?php echo esc_html( $cta_blog_label ); ?>
-					<i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
-				</a>
-			</div>
-		</div>
-	</section>
 </main>
-<?php
-global $restwell_hide_footer_cta;
-$restwell_hide_footer_cta = true;
-get_footer();
+<?php get_footer(); ?>

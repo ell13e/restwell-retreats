@@ -41,7 +41,7 @@ $image_src         = ( $variant === 'with-image' && $image_id ) ? wp_get_attachm
 
 $section_class = 'page-hero relative overflow-hidden';
 if ( $variant === 'compact' ) {
-	$section_class .= ' py-12 md:py-16';
+	$section_class .= ' rw-section-y--compact';
 	$section_class .= $background === 'sand' ? ' bg-[var(--soft-sand)]' : ' bg-[var(--deep-teal)]';
 } else {
 	$section_class .= ' min-h-[20rem] md:min-h-[24rem] flex flex-col justify-end';
@@ -78,7 +78,7 @@ $is_centered  = ( $variant === 'compact' && $background === 'teal' );
 					<?php if ( $has_cta_primary ) : ?>
 						<a href="<?php echo esc_url( $cta_primary['url'] ); ?>" class="btn btn-gold btn-sm">
 							<?php echo esc_html( $cta_primary['label'] ); ?>
-							<i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+							<i class="ph-bold ph-caret-right text-xs" aria-hidden="true"></i>
 						</a>
 					<?php endif; ?>
 					<?php if ( $has_cta_secondary ) : ?>

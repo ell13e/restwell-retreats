@@ -18,7 +18,7 @@ $hiw_hero_image_id = (int) get_post_meta( $pid, 'hiw_hero_image_id', true );
 $hiw_label          = get_post_meta( $pid, 'hiw_label', true ) ?: '';
 $hiw_heading        = get_post_meta( $pid, 'hiw_heading', true ) ?: 'How it works';
 $hiw_intro          = get_post_meta( $pid, 'hiw_intro', true ) ?: 'From first enquiry to arrival: how your accessible stay in Kent works at Restwell. Tell us what you need and we will take it from there.';
-$hiw_hero_cta_text           = get_post_meta( $pid, 'hiw_hero_cta_text', true ) ?: 'Check your dates';
+$hiw_hero_cta_text           = get_post_meta( $pid, 'hiw_hero_cta_text', true ) ?: 'Ask about your dates';
 $hiw_hero_cta_url            = esc_url( get_post_meta( $pid, 'hiw_hero_cta_url', true ) ?: home_url( '/enquire/' ) );
 $hiw_hero_cta_promise        = get_post_meta( $pid, 'hiw_hero_cta_promise', true ) ?: '';
 $hiw_hero_cta_secondary_text = get_post_meta( $pid, 'hiw_hero_cta_secondary_text', true ) ?: '';
@@ -154,7 +154,7 @@ for ( $i = 1; $i <= 3; $i++ ) {
 	?>
 
 	<!-- Care support CTA band -->
-	<section class="py-16 md:py-24 bg-[var(--deep-teal)]" aria-labelledby="care-cta-heading">
+	<section class="rw-section-y bg-[var(--deep-teal)]" aria-labelledby="care-cta-heading">
 		<div class="container max-w-3xl text-center">
 			<?php if ( $hiw_care_cta_label !== '' ) : ?>
 				<p class="text-[var(--warm-gold-hero)] text-xs font-semibold uppercase tracking-[0.2em] mb-3 font-sans"><?php echo esc_html( $hiw_care_cta_label ); ?></p>
@@ -163,13 +163,13 @@ for ( $i = 1; $i <= 3; $i++ ) {
 			<p class="text-white/85 text-lg leading-relaxed mb-8 max-w-2xl mx-auto"><?php echo esc_html( $hiw_care_cta_body ); ?></p>
 		<a href="<?php echo esc_url( $hiw_care_cta_url ); ?>" class="btn btn-gold">
 				<?php echo esc_html( $hiw_care_cta_btn ); ?>
-				<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+				<i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
 			</a>
 		</div>
 	</section>
 
 	<!-- What's included (cards) -->
-	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]" aria-labelledby="hiw-included-heading">
+	<section class="rw-section-y bg-[var(--bg-subtle)]" aria-labelledby="hiw-included-heading">
 		<div class="container">
 			<p class="section-label text-center mb-3"><?php echo esc_html( $hiw_included_label ); ?></p>
 			<h2 id="hiw-included-heading" class="text-3xl font-serif text-[var(--deep-teal)] text-center mb-4"><?php echo esc_html( $hiw_included_heading ); ?></h2>
@@ -186,32 +186,32 @@ for ( $i = 1; $i <= 3; $i++ ) {
 						<?php
 						switch ( $item['icon'] ) {
 							case 'house':
-								echo '<i class="fa-solid fa-house text-3xl"></i>';
+								echo '<i class="ph-bold ph-house text-3xl"></i>';
 								break;
 							case 'linen':
-								echo '<i class="fa-solid fa-bed text-3xl"></i>';
+								echo '<i class="ph-bold ph-bed text-3xl"></i>';
 								break;
 							case 'gift':
-								echo '<i class="fa-solid fa-gift text-3xl"></i>';
+								echo '<i class="ph-bold ph-gift text-3xl"></i>';
 								break;
 							case 'kitchen':
-								echo '<i class="fa-solid fa-utensils text-3xl"></i>';
+								echo '<i class="ph-bold ph-fork-knife text-3xl"></i>';
 								break;
 							case 'accessibility':
-								echo '<i class="fa-solid fa-universal-access text-3xl"></i>';
+								echo '<i class="ph-bold ph-wheelchair text-3xl"></i>';
 								break;
 							case 'garden':
-								echo '<i class="fa-solid fa-seedling text-3xl"></i>';
+								echo '<i class="ph-bold ph-plant text-3xl"></i>';
 								break;
 							case 'wifi':
-								echo '<i class="fa-solid fa-wifi text-3xl"></i>';
+								echo '<i class="ph-bold ph-wifi-high text-3xl"></i>';
 								break;
 							case 'parking':
-								echo '<i class="fa-solid fa-square-parking text-3xl"></i>';
+								echo '<i class="ph-bold ph-garage text-3xl"></i>';
 								break;
 							case 'clock':
 							default:
-								echo '<i class="fa-solid fa-clock text-3xl"></i>';
+								echo '<i class="ph-bold ph-clock text-3xl"></i>';
 								break;
 						}
 						?>
@@ -227,19 +227,21 @@ for ( $i = 1; $i <= 3; $i++ ) {
 	</section>
 
 	<!-- Bottom CTA -->
-	<section class="py-16 md:py-24 bg-[var(--soft-sand)]" aria-labelledby="hiw-cta-heading">
+	<section class="rw-section-y bg-[var(--soft-sand)]" aria-labelledby="hiw-cta-heading">
 		<div class="container max-w-3xl text-center">
+			<div class="rw-section-head rw-section-head--center rw-section-head--tight mx-auto">
 			<?php if ( $hiw_cta_label !== '' ) : ?>
-				<p class="section-label mb-3"><?php echo esc_html( $hiw_cta_label ); ?></p>
+				<p class="section-label"><?php echo esc_html( $hiw_cta_label ); ?></p>
 			<?php endif; ?>
-			<h2 id="hiw-cta-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php echo esc_html( $hiw_cta_heading ); ?></h2>
+			<h2 id="hiw-cta-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php echo esc_html( $hiw_cta_heading ); ?></h2>
+			</div>
 			<?php if ( $hiw_cta_body !== '' ) : ?>
-				<p class="text-gray-600 text-lg leading-relaxed mb-8 max-w-prose mx-auto"><?php echo esc_html( $hiw_cta_body ); ?></p>
+				<p class="text-center text-gray-600 text-lg leading-relaxed mb-8 max-w-prose mx-auto mt-0"><?php echo esc_html( $hiw_cta_body ); ?></p>
 			<?php endif; ?>
 		<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
 			<a href="<?php echo esc_url( $hiw_cta_primary_url ); ?>" class="btn btn-primary">
 				<?php echo esc_html( $hiw_cta_primary_label ); ?>
-				<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+				<i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
 			</a>
 			<a href="<?php echo esc_url( $hiw_cta_secondary_url ); ?>" class="btn btn-outline">
 				<?php echo esc_html( $hiw_cta_secondary_label ); ?>
@@ -253,19 +255,21 @@ for ( $i = 1; $i <= 3; $i++ ) {
 
 	<!-- Common questions (FAQ): same accordion pattern as template-faq.php -->
 	<?php if ( ! empty( $faq_pairs ) ) : ?>
-	<section class="py-16 md:py-24 bg-white" aria-labelledby="hiw-faq-heading">
+	<section class="rw-section-y bg-white" aria-labelledby="hiw-faq-heading">
 		<div class="container max-w-3xl">
-			<p class="section-label mb-3"><?php echo esc_html( $hiw_faq_label ); ?></p>
-			<h2 id="hiw-faq-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php echo esc_html( $hiw_faq_heading ); ?></h2>
+			<div class="rw-stack rw-mb-section max-w-prose">
+			<p class="section-label"><?php echo esc_html( $hiw_faq_label ); ?></p>
+			<h2 id="hiw-faq-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php echo esc_html( $hiw_faq_heading ); ?></h2>
 			<?php if ( $hiw_faq_intro !== '' ) : ?>
-				<p class="text-gray-600 text-lg leading-relaxed mb-10 max-w-prose"><?php echo esc_html( $hiw_faq_intro ); ?></p>
+				<p class="text-gray-600 text-lg leading-relaxed m-0"><?php echo esc_html( $hiw_faq_intro ); ?></p>
 			<?php endif; ?>
+			</div>
 			<div class="space-y-3">
 				<?php foreach ( $faq_pairs as $faq ) : ?>
 					<details class="bg-white rounded-2xl px-8 shadow-[0_4px_20px_rgb(0,0,0,0.05)] border border-gray-100 group">
 						<summary class="text-[var(--deep-teal)] font-medium text-base py-5 min-h-[2.75rem] cursor-pointer list-none flex items-center justify-between gap-4 [&::-webkit-details-marker]:hidden rounded-xl">
 							<span><?php echo esc_html( $faq['q'] ); ?></span>
-							<span class="flex-shrink-0 text-[var(--warm-gold)] transition-transform duration-200 group-open:rotate-180" aria-hidden="true"><i class="fa-solid fa-chevron-down"></i></span>
+							<span class="flex-shrink-0 text-[var(--warm-gold)] transition-transform duration-200 group-open:rotate-180" aria-hidden="true"><i class="ph-bold ph-caret-down"></i></span>
 						</summary>
 						<div class="text-gray-600 text-sm leading-relaxed pb-6"><?php echo wp_kses_post( wpautop( $faq['a'] ) ); ?></div>
 					</details>
@@ -276,7 +280,7 @@ for ( $i = 1; $i <= 3; $i++ ) {
 	<?php endif; ?>
 
 	<!-- Related guides -->
-	<section class="py-12 md:py-16 bg-[var(--bg-subtle)] border-t border-gray-100" aria-labelledby="hiw-related-heading">
+	<section class="rw-section-y--compact bg-[var(--bg-subtle)] border-t border-gray-100" aria-labelledby="hiw-related-heading">
 		<div class="container max-w-3xl">
 			<h2 id="hiw-related-heading" class="text-2xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Useful guides for planning your stay', 'restwell-retreats' ); ?></h2>
 			<ul class="space-y-3 text-gray-700">
@@ -302,8 +306,4 @@ for ( $i = 1; $i <= 3; $i++ ) {
 		</div>
 	</section>
 </main>
-<?php
-global $restwell_hide_footer_cta;
-$restwell_hide_footer_cta = true;
-get_footer();
-?>
+<?php get_footer(); ?>

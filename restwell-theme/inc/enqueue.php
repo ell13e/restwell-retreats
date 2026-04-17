@@ -17,17 +17,27 @@ function restwell_enqueue_scripts() {
 	$theme_uri = get_template_directory_uri();
 	$version   = wp_get_theme()->get( 'Version' );
 
+	/*
+	 * Phosphor Icons (@phosphor-icons/web): regular = `.ph` + `.ph-{name}`, bold = `.ph-bold` + `.ph-{name}`.
+	 * Note: there is no single `src/index.css` in this package; per-weight styles are the supported entry points.
+	 */
 	wp_enqueue_style(
-		'font-awesome',
-		$theme_uri . '/assets/css/fontawesome/all.min.css',
+		'phosphor-icons-regular',
+		'https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css',
 		array(),
-		'6.5.1'
+		'2.1.1'
+	);
+	wp_enqueue_style(
+		'phosphor-icons-bold',
+		'https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css',
+		array( 'phosphor-icons-regular' ),
+		'2.1.1'
 	);
 
 	wp_enqueue_style(
 		'restwell-tailwind',
 		$theme_uri . '/assets/css/tailwind.css',
-		array(),
+		array( 'phosphor-icons-bold' ),
 		$version
 	);
 
@@ -61,33 +71,6 @@ function restwell_defer_main_script( $tag, $handle, $src ) {
 	return str_replace( '<script ', '<script defer ', $tag );
 }
 add_filter( 'script_loader_tag', 'restwell_defer_main_script', 10, 3 );
-
-/**
- * Load Font Awesome CSS without blocking first paint (preload → stylesheet).
- *
- * @param string $tag    The link tag HTML.
- * @param string $handle Style handle.
- * @return string
- */
-function restwell_preload_font_awesome_css( $tag, $handle ) {
-	if ( 'font-awesome' !== $handle ) {
-		return $tag;
-	}
-	global $wp_styles;
-	if ( ! isset( $wp_styles->registered['font-awesome'] ) ) {
-		return $tag;
-	}
-	$obj = $wp_styles->registered['font-awesome'];
-	$href = isset( $obj->src ) ? $obj->src : '';
-	if ( $href === '' ) {
-		return $tag;
-	}
-	$href = $obj->ver ? add_query_arg( 'ver', $obj->ver, $href ) : $href;
-	$href = esc_url( $href );
-	return '<link rel="preload" as="style" href="' . $href . '" onload="this.onload=null;this.rel=\'stylesheet\'" />' .
-		'<noscript><link rel="stylesheet" href="' . $href . '" /></noscript>';
-}
-add_filter( 'style_loader_tag', 'restwell_preload_font_awesome_css', 10, 2 );
 
 /**
  * Enqueue polished admin styles for Restwell CRM screens.

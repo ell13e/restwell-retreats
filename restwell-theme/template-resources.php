@@ -32,12 +32,6 @@ $res_complaints_body    = get_post_meta( $pid, 'res_complaints_body', true ) ?: 
 $res_contacts_heading   = get_post_meta( $pid, 'res_contacts_heading', true ) ?: 'Key Kent contacts';
 $res_contacts_body      = get_post_meta( $pid, 'res_contacts_body', true ) ?: '';
 
-// CTA
-$res_cta_heading = get_post_meta( $pid, 'res_cta_heading', true ) ?: 'Still have questions?';
-$res_cta_body    = get_post_meta( $pid, 'res_cta_body', true ) ?: 'Get in touch and we will help you think through the options. We have helped guests navigate funding before and will point you in the right direction.';
-$res_cta_btn     = get_post_meta( $pid, 'res_cta_btn', true ) ?: 'Get in touch';
-$res_cta_url     = esc_url( get_post_meta( $pid, 'res_cta_url', true ) ?: home_url( '/enquire/' ) );
-
 // Default content when meta is empty.
 if ( $res_fund_body === '' ) {
 	$res_fund_body = '<ul class="space-y-3">'
@@ -64,7 +58,7 @@ if ( $res_complaints_body === '' ) {
 		. '<p class="mt-3"><strong>NHS CHC</strong>: Contact Kent &amp; Medway ICB (<a href="mailto:chc@kmicb.nhs.uk">chc@kmicb.nhs.uk</a>). Then <a href="https://www.ombudsman.org.uk" target="_blank" rel="noopener noreferrer">Parliamentary &amp; Health Service Ombudsman (PHSO)<span class="sr-only"> (opens in new tab)</span></a>.</p>';
 }
 if ( $res_contacts_body === '' ) {
-	$res_contacts_body = '<div class="overflow-x-auto -mx-1">'
+	$res_contacts_body = '<div class="overflow-x-auto">'
 		. '<table class="w-full text-left text-sm">'
 		. '<thead><tr class="border-b border-gray-200"><th class="pb-3 pr-6 font-semibold text-[var(--deep-teal)]">Organisation</th><th class="pb-3 font-semibold text-[var(--deep-teal)]">Contact</th></tr></thead>'
 		. '<tbody class="divide-y divide-gray-100">'
@@ -121,7 +115,7 @@ $sections = array(
 	</div>
 
 	<!-- Content with sidebar -->
-	<section class="py-16 md:py-24 bg-white" aria-label="Funding and support information">
+	<section class="rw-section-y bg-white" aria-label="Funding and support information">
 		<div class="container max-w-6xl">
 			<div class="grid md:grid-cols-[220px_1fr] gap-12 lg:gap-16 items-start">
 
@@ -140,20 +134,22 @@ $sections = array(
 					</ul>
 				</nav>
 
-				<!-- Main content -->
-				<div class="space-y-16 md:space-y-20 min-w-0">
+				<!-- Main content: min-w-0 + overflow-x-hidden so wide tables/prose never spill past rails on small viewports -->
+				<div class="space-y-16 md:space-y-20 min-w-0 overflow-x-hidden">
 					<?php foreach ( $sections as $i => $section ) : ?>
 						<div id="<?php echo esc_attr( $section['id'] ); ?>" class="scroll-mt-24">
-							<p class="section-label mb-3"><?php echo esc_html( $section['eyebrow'] ); ?></p>
-							<h2 class="text-2xl md:text-3xl font-serif text-[var(--deep-teal)] mb-6"><?php echo esc_html( $section['heading'] ); ?></h2>
+							<div class="rw-section-head rw-section-head--left">
+							<p class="section-label"><?php echo esc_html( $section['eyebrow'] ); ?></p>
+							<h2 class="text-2xl md:text-3xl font-serif text-[var(--deep-teal)] m-0"><?php echo esc_html( $section['heading'] ); ?></h2>
+							</div>
 							<?php if ( ! empty( $section['is_contacts'] ) ) : ?>
 								<div class="bg-[var(--bg-subtle)] rounded-2xl p-6 md:p-8 border border-gray-100">
-									<div class="text-gray-600 leading-relaxed prose prose-sm max-w-none prose-a:text-[var(--deep-teal)] prose-a:underline hover:prose-a:no-underline prose-strong:text-[var(--deep-teal)]">
+									<div class="restwell-resources-body restwell-prose-readable text-gray-600 leading-relaxed prose prose-sm max-w-none prose-a:text-[var(--deep-teal)] prose-a:underline hover:prose-a:no-underline prose-strong:text-[var(--deep-teal)] prose-headings:scroll-mt-24">
 										<?php echo wp_kses_post( $section['body'] ); ?>
 									</div>
 								</div>
 							<?php else : ?>
-								<div class="text-gray-600 leading-relaxed prose prose-sm max-w-none prose-a:text-[var(--deep-teal)] prose-a:underline hover:prose-a:no-underline prose-strong:text-[var(--deep-teal)] prose-li:my-1.5">
+								<div class="restwell-resources-body restwell-prose-readable text-gray-600 leading-relaxed prose prose-sm max-w-none prose-a:text-[var(--deep-teal)] prose-a:underline hover:prose-a:no-underline prose-strong:text-[var(--deep-teal)] prose-li:my-1.5 prose-headings:scroll-mt-24">
 									<?php echo wp_kses_post( $section['body'] ); ?>
 								</div>
 							<?php endif; ?>
@@ -166,7 +162,7 @@ $sections = array(
 	</section>
 
 	<!-- Related guides -->
-	<section class="py-12 md:py-16 bg-white border-t border-gray-100" aria-labelledby="res-related-heading">
+	<section class="rw-section-y--compact bg-white border-t border-gray-100" aria-labelledby="res-related-heading">
 		<div class="container max-w-3xl">
 			<h2 id="res-related-heading" class="text-2xl font-serif text-[var(--deep-teal)] mb-6"><?php esc_html_e( 'Related guides', 'restwell-retreats' ); ?></h2>
 			<p class="text-gray-600 mb-6 leading-relaxed"><?php esc_html_e( 'These articles cover the practical detail behind the funding routes above.', 'restwell-retreats' ); ?></p>
@@ -178,7 +174,7 @@ $sections = array(
 					<span class="text-gray-500">: <?php esc_html_e( 'what direct payments cover on holiday, how to make the case, and what to watch out for.', 'restwell-retreats' ); ?></span>
 				</li>
 				<li>
-					<a href="<?php echo esc_url( home_url( '/carers-holiday-respite-funding/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
+					<a href="<?php echo esc_url( home_url( '/carers-respite-holiday-guide/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
 						<?php esc_html_e( 'Carers taking holidays: respite rights, funding, and planning', 'restwell-retreats' ); ?>
 					</a>
 					<span class="text-gray-500">: <?php esc_html_e( 'carers assessments, replacement care, and funding options for a break.', 'restwell-retreats' ); ?></span>
@@ -193,22 +189,5 @@ $sections = array(
 		</div>
 	</section>
 
-	<!-- CTA -->
-	<section class="py-16 md:py-20 bg-[var(--deep-teal)] text-center" aria-labelledby="res-cta-heading">
-		<div class="container max-w-2xl">
-			<h2 id="res-cta-heading" class="text-3xl font-serif text-white mb-4"><?php echo esc_html( $res_cta_heading ); ?></h2>
-			<?php if ( $res_cta_body !== '' ) : ?>
-				<p class="text-white/90 text-lg mb-8 max-w-md mx-auto leading-relaxed"><?php echo esc_html( $res_cta_body ); ?></p>
-			<?php endif; ?>
-			<a href="<?php echo esc_url( $res_cta_url ); ?>" class="btn btn-gold">
-				<?php echo esc_html( $res_cta_btn ); ?> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-			</a>
-		</div>
-	</section>
-
 </main>
-<?php
-global $restwell_hide_footer_cta;
-$restwell_hide_footer_cta = true;
-get_footer();
-?>
+<?php get_footer(); ?>

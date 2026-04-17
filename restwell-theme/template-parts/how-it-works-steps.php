@@ -25,7 +25,7 @@ if ( empty( $steps ) ) {
 	return;
 }
 ?>
-<section class="py-16 md:py-24 bg-white" aria-labelledby="hiw-steps-heading">
+<section class="rw-section-y bg-white" aria-labelledby="hiw-steps-heading">
 	<div class="container max-w-5xl">
 		<?php if ( $steps_label !== '' ) : ?>
 		<p class="section-label text-center mb-3"><?php echo esc_html( $steps_label ); ?></p>

@@ -1,7 +1,8 @@
 <?php
 /**
- * Interior page hero — same markup, classes, and responsive behaviour as the front-page hero
- * (see front-page.php). Copy, CTAs, and media are passed via args.
+ * Interior page hero — same markup and responsive behaviour as the front-page hero
+ * (see front-page.php), with `hero--interior` for a neutral image scrim (homepage keeps teal).
+ * Copy, CTAs, and media are passed via args.
  *
  * @package Restwell_Retreats
  *
@@ -106,9 +107,10 @@ if ( trim( (string) $intro ) !== '' ) {
 	$hero_describedby[] = $lede_id;
 }
 
-$section_class = 'hero home-hero relative flex overflow-hidden';
+$section_class = 'hero home-hero hero--interior relative flex overflow-hidden';
 $section_class .= ( $has_media && $media_url ) ? ' hero--has-media' : '';
-$section_class .= $has_media ? '' : ' bg-[var(--deep-teal)]';
+/* No photo: neutral plate — homepage keeps brand teal via front-page.php */
+$section_class .= $has_media ? '' : ' bg-neutral-900';
 ?>
 <section
 	class="<?php echo esc_attr( trim( $section_class ) ); ?>"
@@ -188,7 +190,7 @@ $section_class .= $has_media ? '' : ' bg-[var(--deep-teal)]';
 								data-cta="hero-primary"
 							>
 								<?php echo esc_html( $cta_primary['label'] ); ?>
-								<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+								<i class="ph-bold ph-caret-right" aria-hidden="true"></i>
 							</a>
 						<?php endif; ?>
 						<?php if ( $has_cta_secondary ) : ?>
@@ -204,7 +206,7 @@ $section_class .= $has_media ? '' : ' bg-[var(--deep-teal)]';
 					</div>
 				<?php endif; ?>
 				<?php if ( $cta_promise !== '' ) : ?>
-					<p id="<?php echo esc_attr( $heading_id ); ?>-reassurance" class="home-hero__reassurance m-0 mt-3 text-center text-white/90 text-sm font-sans max-w-md mx-auto leading-snug [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]">
+					<p id="<?php echo esc_attr( $heading_id ); ?>-reassurance" class="home-hero__reassurance m-0 mt-3 text-white/90 text-sm font-sans leading-snug [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]">
 						<?php echo esc_html( $cta_promise ); ?>
 					</p>
 				<?php endif; ?>
@@ -212,7 +214,7 @@ $section_class .= $has_media ? '' : ' bg-[var(--deep-teal)]';
 					<p class="home-hero__scroll-hint m-0 text-center">
 						<a href="#restwell-main-after-hero" class="home-hero__scroll-link">
 							<span class="home-hero__scroll-link-text"><?php esc_html_e( 'Scroll to explore', 'restwell-retreats' ); ?></span>
-							<i class="fa-solid fa-chevron-down home-hero__scroll-icon" aria-hidden="true"></i>
+							<i class="ph-bold ph-caret-down home-hero__scroll-icon" aria-hidden="true"></i>
 						</a>
 					</p>
 				<?php endif; ?>

@@ -12,7 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $args = (array) get_query_var( 'args', array() );
-$label = isset( $args['label'] ) ? $args['label'] : '';
+/*
+ * load_template() extract() may already set $label when get_template_part() passes args.
+ * Only fall back to the query var when $label was not supplied.
+ */
+if ( ! isset( $label ) || '' === $label ) {
+	$label = isset( $args['label'] ) ? $args['label'] : '';
+}
 if ( $label === '' ) {
 	return;
 }

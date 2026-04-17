@@ -23,6 +23,22 @@ function restwell_get_access_statement_url() {
 	return (string) get_option( 'restwell_access_statement_url', '' );
 }
 
+/**
+ * Add configured social profile URLs to a schema.org entity as `sameAs`.
+ *
+ * @param array<string, mixed> $entity JSON-LD object.
+ * @return array<string, mixed>
+ */
+function restwell_jsonld_with_same_as( array $entity ) {
+	if ( function_exists( 'restwell_get_social_same_as_list' ) ) {
+		$same = restwell_get_social_same_as_list();
+		if ( ! empty( $same ) ) {
+			$entity['sameAs'] = $same;
+		}
+	}
+	return $entity;
+}
+
 // ---------------------------------------------------------------------------
 // 1. Title tag override
 // ---------------------------------------------------------------------------
@@ -486,7 +502,7 @@ function restwell_output_structured_data() {
 		restwell_output_jsonld_how_to();
 	}
 
-	if ( is_page_template( 'template-enquire.php' ) || is_page_template( 'template-contact.php' ) ) {
+	if ( is_page_template( 'template-enquire.php' ) ) {
 		restwell_output_jsonld_contact_page();
 	}
 }
@@ -651,10 +667,11 @@ function restwell_output_jsonld_front_page_vacation_rental() {
 			'postalCode'      => $postcode,
 			'addressCountry'  => 'GB',
 		),
+		// CT5 2RQ centroid (postcodes.io); verify against rooftop if you need pin-point accuracy.
 		'geo'         => array(
 			'@type'     => 'GeoCoordinates',
-			'latitude'  => 51.3600,
-			'longitude' => 1.0300,
+			'latitude'  => 51.363701,
+			'longitude' => 1.073327,
 		),
 		'checkinTime'  => '15:00',
 		'checkoutTime' => '11:00',
@@ -683,6 +700,8 @@ function restwell_output_jsonld_front_page_vacation_rental() {
 	if ( $image_url ) {
 		$schema['image'] = $image_url;
 	}
+
+	$schema = restwell_jsonld_with_same_as( $schema );
 
 	restwell_print_jsonld( $schema );
 }
@@ -831,21 +850,23 @@ function restwell_output_jsonld_website_organization() {
 		'publisher' => array( '@id' => trailingslashit( $site_url ) . '#organization' ),
 	);
 
-	$organization = array(
-		'@context' => 'https://schema.org',
-		'@type'    => 'Organization',
-		'@id'      => trailingslashit( $site_url ) . '#organization',
-		'name'     => $site_name,
-		'url'      => $site_url,
-		'description' => get_bloginfo( 'description' ),
-		'address' => array(
-			'@type'           => 'PostalAddress',
-			'streetAddress'   => (string) get_option( 'restwell_property_address', '101 Russell Drive' ),
-			'addressLocality' => 'Whitstable',
-			'addressRegion'   => 'Kent',
-			'postalCode'      => (string) get_option( 'restwell_property_postcode', 'CT5 2RQ' ),
-			'addressCountry'  => 'GB',
-		),
+	$organization = restwell_jsonld_with_same_as(
+		array(
+			'@context' => 'https://schema.org',
+			'@type'    => 'Organization',
+			'@id'      => trailingslashit( $site_url ) . '#organization',
+			'name'     => $site_name,
+			'url'      => $site_url,
+			'description' => get_bloginfo( 'description' ),
+			'address' => array(
+				'@type'           => 'PostalAddress',
+				'streetAddress'   => (string) get_option( 'restwell_property_address', '101 Russell Drive' ),
+				'addressLocality' => 'Whitstable',
+				'addressRegion'   => 'Kent',
+				'postalCode'      => (string) get_option( 'restwell_property_postcode', 'CT5 2RQ' ),
+				'addressCountry'  => 'GB',
+			),
+		)
 	);
 
 	restwell_print_jsonld( $website );
@@ -927,6 +948,14 @@ function restwell_output_jsonld_article() {
 		$category = restwell_get_primary_category( $pid );
 	}
 
+	$publisher_org = restwell_jsonld_with_same_as(
+		array(
+			'@type' => 'Organization',
+			'name'  => get_bloginfo( 'name' ),
+			'url'   => home_url( '/' ),
+		)
+	);
+
 	$schema = array(
 		'@context'         => 'https://schema.org',
 		'@type'            => 'BlogPosting',
@@ -940,11 +969,7 @@ function restwell_output_jsonld_article() {
 			'name'  => $author_name,
 			'url'   => home_url( '/' ),
 		),
-		'publisher'        => array(
-			'@type' => 'Organization',
-			'name'  => get_bloginfo( 'name' ),
-			'url'   => home_url( '/' ),
-		),
+		'publisher'        => $publisher_org,
 		'mainEntityOfPage' => array(
 			'@type' => 'WebPage',
 			'@id'   => get_permalink( $pid ),
@@ -1083,7 +1108,86 @@ function restwell_output_jsonld_vacation_rental() {
 		$schema['amenityFeature'] = $amenities;
 	}
 
+	// Match homepage VacationRental: postcode CT5 2RQ centroid (postcodes.io).
+	$schema['geo'] = array(
+		'@type'     => 'GeoCoordinates',
+		'latitude'  => 51.363701,
+		'longitude' => 1.073327,
+	);
+
+	$schema = restwell_jsonld_with_same_as( $schema );
+
 	restwell_print_jsonld( $schema );
+}
+
+/**
+ * Default FAQ Q/A for the FAQ page template and matching FAQPage JSON-LD (single source of truth).
+ *
+ * @return array<int, array{q: string, a: string, cat: string}>
+ */
+function restwell_get_faq_page_default_pairs() {
+	return array(
+		array(
+			'q'   => 'Is this a care home?',
+			'a'   => 'No. Restwell is a private holiday let: a real house that you have entirely to yourself. It is not a care home, a residential facility, or a clinical environment. Care is an optional extra that you can choose to add through our partner, Continuity of Care Services.',
+			'cat' => 'about',
+		),
+		array(
+			'q'   => 'What accessibility features does the property have?',
+			'a'   => 'The property has level access throughout the ground floor and wide doorways suitable for wheelchair access. It is located on a quiet, flat residential street. For full details please visit our Accessibility page.',
+			'cat' => 'about',
+		),
+		array(
+			'q'   => 'How do I book?',
+			'a'   => 'Start by using our enquiry form or getting in touch by phone or email. We will talk through your dates, your needs, and any questions you have. Once we have confirmed availability and you are happy with everything, we will confirm your booking.',
+			'cat' => 'booking',
+		),
+		array(
+			'q'   => 'How far in advance can I book?',
+			'a'   => 'We accept bookings as early as you need; some guests plan months ahead, particularly for summer. Get in touch with your preferred dates and we will confirm availability.',
+			'cat' => 'booking',
+		),
+		array(
+			'q'   => 'Can I bring my own carer or PA?',
+			'a'   => 'Absolutely. Many of our guests bring their own Personal Assistant or carer. The property is designed to accommodate everyone comfortably. You can also use CCS for \'top-up\' support alongside your own carer.',
+			'cat' => 'care',
+		),
+		array(
+			'q'   => 'What care can you provide?',
+			'a'   => 'Care is provided by Continuity of Care Services (CCS), a CQC-regulated Kent-based provider. Support can range from a brief morning check-in to more comprehensive daily assistance. We will discuss your needs before your stay.',
+			'cat' => 'care',
+		),
+		array(
+			'q'   => 'Is the beach accessible?',
+			'a'   => 'Whitstable\'s beach is shingle, which is generally not wheelchair-friendly. However, the Tankerton Slopes promenade (a long, flat concrete walkway above the beach) is excellent for wheelchair users and offers stunning sea views.',
+			'cat' => 'local',
+		),
+		array(
+			'q'   => 'What is Whitstable like to get around?',
+			'a'   => 'Much of central Whitstable and the seafront area is relatively flat and accessible. The town has accessible parking, and the high street has a good mix of level and stepped access venues. We are happy to suggest specific places to eat, visit, and explore.',
+			'cat' => 'local',
+		),
+		array(
+			'q'   => 'Can I use my direct payment to stay at Restwell?',
+			'a'   => 'In many cases, yes. Direct payments can often be used for short breaks and respite accommodation, depending on your care plan and local authority. We can provide the documentation your social worker or broker needs to approve the spend. Start with our Funding & Support page or get in touch to discuss your situation.',
+			'cat' => 'funding',
+		),
+		array(
+			'q'   => 'Is the property suitable for hoists and profiling beds?',
+			'a'   => 'The property already has a ceiling track hoist fitted, along with a profiling bed and a full wet room. If you have additional or specialist equipment needs, please get in touch before booking so we can confirm we can accommodate them.',
+			'cat' => 'about',
+		),
+		array(
+			'q'   => 'What is the minimum stay?',
+			'a'   => 'We are flexible. Most guests stay for a week, but shorter breaks are sometimes available depending on the time of year. Get in touch with your preferred dates and we will let you know.',
+			'cat' => 'booking',
+		),
+		array(
+			'q'   => 'What does CQC-regulated mean?',
+			'a'   => 'CQC stands for Care Quality Commission, the independent regulator of health and social care in England. Continuity of Care Services, our partner provider, is inspected and rated by the CQC. This means the care you receive meets nationally recognised standards for safety and quality.',
+			'cat' => 'care',
+		),
+	);
 }
 
 /**
@@ -1104,18 +1208,14 @@ function restwell_output_jsonld_faq_page() {
 		}
 	}
 
-	// If no custom pairs saved, mirror the template's built-in fallbacks
+	// If no custom pairs saved, use the same defaults as template-faq.php (restwell_get_faq_page_default_pairs).
 	if ( empty( $faq_pairs ) ) {
-		$faq_pairs = array(
-			array( 'q' => 'Is this a care home?', 'a' => 'No. Restwell is a private holiday let: a real house that you have entirely to yourself. It is not a care home, a residential facility, or a clinical environment. Care is an optional extra that you can choose to add through our partner, Continuity of Care Services.' ),
-			array( 'q' => 'Can I bring my own carer or PA?', 'a' => 'Absolutely. Many of our guests bring their own Personal Assistant or carer. The property is designed to accommodate everyone comfortably. You can also use CCS for \'top-up\' support alongside your own carer.' ),
-			array( 'q' => 'What care can you provide?', 'a' => 'Care is provided by Continuity of Care Services (CCS), a CQC-regulated Kent-based provider. Support can range from a brief morning check-in to more comprehensive daily assistance. We will discuss your needs before your stay.' ),
-			array( 'q' => 'What accessibility features does the property have?', 'a' => 'The property has level access throughout the ground floor and wide doorways suitable for wheelchair access. It is located on a quiet, flat residential street. For full details please visit our Accessibility page.' ),
-			array( 'q' => 'How do I book?', 'a' => 'Start by using our enquiry form or getting in touch by phone or email. We will talk through your dates, your needs, and any questions you have. Once we have confirmed availability and you are happy with everything, we will confirm your booking.' ),
-			array( 'q' => "Is the beach accessible?", 'a' => "Whitstable's beach is shingle, which is generally not wheelchair-friendly. However, the Tankerton Slopes promenade (a long, flat concrete walkway above the beach) is excellent for wheelchair users and offers stunning sea views." ),
-			array( 'q' => 'Can I pay with direct payments or a personal budget?', 'a' => 'Many guests use direct payments or personal budgets, subject to your care plan and local authority rules. Speak to your social worker or care coordinator. We can provide an access statement to support applications. See our Funding & support page for more.' ),
-			array( 'q' => 'Do you accept NHS Continuing Healthcare (CHC) funding for care?', 'a' => 'Care may be arranged through Continuity of Care Services. Whether CHC can fund care during your stay depends on your package; discuss with your NHS case manager. We can provide property and care information to support those conversations.' ),
-		);
+		foreach ( restwell_get_faq_page_default_pairs() as $row ) {
+			$faq_pairs[] = array(
+				'q' => $row['q'],
+				'a' => $row['a'],
+			);
+		}
 	}
 
 	$main_entity = array();
@@ -1220,7 +1320,7 @@ function restwell_output_jsonld_how_to() {
 }
 
 /**
- * ContactPage - output on enquire and contact templates.
+ * ContactPage - output on the enquire template (primary contact surface).
  */
 function restwell_output_jsonld_contact_page() {
 	$pid = get_queried_object_id();
@@ -1250,19 +1350,23 @@ function restwell_output_jsonld_contact_page() {
 		$contact_point['email'] = $email;
 	}
 
+	$main_org = restwell_jsonld_with_same_as(
+		array(
+			'@type'         => 'Organization',
+			'@id'           => trailingslashit( home_url( '/' ) ) . '#organization',
+			'name'          => get_bloginfo( 'name' ),
+			'url'           => home_url( '/' ),
+			'contactPoint'  => $contact_point,
+		)
+	);
+
 	$schema = array(
 		'@context'    => 'https://schema.org',
 		'@type'       => 'ContactPage',
 		'name'        => get_the_title( $pid ),
 		'url'         => $page_url,
 		'description' => __( 'Enquire about availability or ask any questions about staying at Restwell Retreats, the accessible holiday home in Whitstable, Kent.', 'restwell-retreats' ),
-		'mainEntity'  => array(
-			'@type'         => 'Organization',
-			'@id'           => trailingslashit( home_url( '/' ) ) . '#organization',
-			'name'          => get_bloginfo( 'name' ),
-			'url'           => home_url( '/' ),
-			'contactPoint'  => $contact_point,
-		),
+		'mainEntity'  => $main_org,
 	);
 
 	restwell_print_jsonld( $schema );

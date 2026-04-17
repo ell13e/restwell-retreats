@@ -59,9 +59,9 @@ function restwell_get_seo_meta_defaults_by_slug() {
 			'focus_keyphrase'  => 'whitstable kent coast',
 		),
 		'enquire'               => array(
-			'meta_title'       => 'Enquire at Restwell | Availability | ' . $name,
-			'meta_description' => 'Enquire at Restwell for rates and availability. Tell us your access needs: we offer flexible check-in, direct payments, and funded stays where eligible.',
-			'focus_keyphrase'  => 'enquire at restwell',
+			'meta_title'       => 'Contact & Enquire | Restwell | ' . $name,
+			'meta_description' => 'Contact Restwell by phone, email, or enquiry form for rates, availability, and access questions. We usually reply within one working day.',
+			'focus_keyphrase'  => 'contact restwell',
 		),
 		'faq'                   => array(
 			'meta_title'       => 'Restwell Booking Questions | FAQ | ' . $name,
@@ -108,11 +108,6 @@ function restwell_get_seo_meta_defaults_by_slug() {
 			'meta_description' => 'Respite holidays for unpaid carers: carer\'s assessment, Kent routes, direct payments, grants, and how to plan a break that actually restores you.',
 			'focus_keyphrase'  => 'respite holidays',
 		),
-		'contact'               => array(
-			'meta_title'       => 'Contact Restwell | Whitstable Team | ' . $name,
-			'meta_description' => 'Contact Restwell by phone or email: bookings, access questions, or a pre-stay chat. We reply with honest, practical answers.',
-			'focus_keyphrase'  => 'contact restwell',
-		),
 		'privacy-policy'        => array(
 			'meta_title'       => 'Restwell Privacy | Policy & Data | ' . $name,
 			'meta_description' => 'Restwell privacy policy: what we collect on forms and bookings, cookies, retention, your rights, and how to request changes or deletion.',
@@ -122,6 +117,11 @@ function restwell_get_seo_meta_defaults_by_slug() {
 			'meta_title'       => 'Restwell Terms | Bookings & Payments | ' . $name,
 			'meta_description' => 'Restwell terms for bookings: deposits, cancellations, guest responsibilities, accessibility reliance, and how disputes are handled.',
 			'focus_keyphrase'  => 'restwell terms',
+		),
+		'accessibility-policy'  => array(
+			'meta_title'       => 'Website Accessibility | Restwell | ' . $name,
+			'meta_description' => 'Accessibility statement for the Restwell Retreats website: WCAG-based approach, how we test, third-party content, and how to request information in another format.',
+			'focus_keyphrase'  => 'restwell website accessibility',
 		),
 	);
 }
@@ -501,10 +501,12 @@ function restwell_seed_hub_pages_content( array $created_ids, $force, array &$re
 function restwell_get_blog_post_beaches_kent_html() {
 	$loc       = esc_url( home_url( '/whitstable-area-guide/' ) );
 	$pr        = esc_url( home_url( '/the-property/' ) );
+	$home      = esc_url( home_url( '/' ) );
 	$enq       = esc_url( home_url( '/enquire/' ) );
 	$who       = esc_url( home_url( '/who-its-for/' ) );
 	$checklist = esc_url( home_url( '/how-to-choose-accessible-self-catering-holiday/' ) );
 	$dp        = esc_url( home_url( '/direct-payment-holiday-accommodation/' ) );
+	$turner    = 'https://www.turnercontemporary.org/';
 
 	return "<p>Kent's coastline stretches for over 350 miles. Most of it is shingle. That matters if you use a wheelchair, powerchair, or walking frame, because shingle is difficult to navigate and varies from manageable to impassable depending on depth and compaction.</p>
 <p>This guide focuses on surfaces and practical access - not just where the Blue Flags are.</p>
@@ -535,6 +537,7 @@ function restwell_get_blog_post_beaches_kent_html() {
 
 <h2>Margate Main Sands</h2>
 <p>Margate's main beach is sandy rather than shingle - a difference that immediately makes it more manageable on wheels. Blue Badge parking is available at Dreamland car park, with level seafront access via dropped kerbs and tactile paving.</p>
+<p>If you are combining the coast with art, <a href=\"{$turner}\" target=\"_blank\" rel=\"noopener noreferrer\">Turner Contemporary</a> is a short distance from Main Sands — check their site for current access, tickets, and lift status before you travel.</p>
 <p>Beach Within Reach wheelchairs are available at Margate from the Bay Inspectors office - contact 07432 648279 to confirm availability before your visit. A boardwalk improvement funded by Thanet District Council is planned for 2026-27, which should extend accessible beach-level access further.</p>
 
 <h2>Beach Within Reach</h2>
@@ -555,7 +558,8 @@ function restwell_get_blog_post_beaches_kent_html() {
 
 <h2>If you are staying in Whitstable</h2>
 <p>Whitstable puts you within easy reach of the Tankerton promenade, and about fifteen minutes' drive from Herne Bay's seafront. Broadstairs and Margate are roughly 30 to 40 minutes by car - practical for day trips but worth planning rather than treating as spontaneous.</p>
-<p>Our <a href=\"{$loc}\">Whitstable and Kent coast area guide</a> has more detail on what is accessible locally. If you are considering a stay, <a href=\"{$who}\">read who Restwell is for</a> or <a href=\"{$enq}\">enquire directly about dates and suitability</a>.</p>
+<p>Our <a href=\"{$loc}\">Whitstable and Kent coast area guide</a> has more detail on what is accessible locally. If you are considering a stay, <a href=\"{$who}\">read who Restwell is for</a>, <a href=\"{$pr}\">review the adapted bungalow</a>, or <a href=\"{$enq}\">enquire directly about dates and suitability</a>.</p>
+<p>For a quick overview of Restwell before you book, see the <a href=\"{$home}\">Restwell home page</a>.</p>
 <p>If you are planning where to stay, our <a href=\"{$checklist}\">guide to choosing an accessible self-catering property</a> covers what to check before you book. If you are funding a PA to support you during the trip, see our <a href=\"{$dp}\">direct payments guide</a> for how care costs work on holiday.</p>";
 }
 
@@ -566,6 +570,7 @@ function restwell_get_blog_post_direct_payments_html() {
 	$res     = esc_url( home_url( '/resources/' ) );
 	$faq     = esc_url( home_url( '/faq/' ) );
 	$enq     = esc_url( home_url( '/enquire/' ) );
+	$pr      = esc_url( home_url( '/the-property/' ) );
 	$carers  = esc_url( home_url( '/carers-respite-holiday-guide/' ) );
 	$who = esc_url( home_url( '/who-its-for/' ) );
 	$acc = esc_url( home_url( '/accessibility/' ) );
@@ -608,7 +613,7 @@ function restwell_get_blog_post_direct_payments_html() {
 <li>Be clear about what you are asking them to fund - the care support during the stay, not the accommodation itself.</li>
 <li>Ask about short break provisions in your area specifically, not just your standard direct payment.</li>
 </ul>
-<p>Restwell can provide a full property specification, access statement, and supporting documentation to help with funding conversations. If you are at this stage, <a href=\"{$enq}\">get in touch</a> and we will provide what you need.</p>
+<p>Restwell can provide a full property specification, access statement, and supporting documentation to help with funding conversations. If you are at this stage, <a href=\"{$pr}\">review the property page</a> or <a href=\"{$enq}\">get in touch</a> and we will provide what you need.</p>
 
 <h2>How to find out what applies to your situation</h2>
 <p>In practice, the majority of Restwell guests who use care funding self-fund the accommodation and use direct payments or their personal health budget to cover their personal assistant or carer's time during the stay. The property cost and the care cost are treated separately, which keeps both simpler.</p>
@@ -791,6 +796,7 @@ function restwell_get_blog_post_carers_respite_html() {
 	$res       = esc_url( home_url( '/resources/' ) );
 	$enq       = esc_url( home_url( '/enquire/' ) );
 	$who       = esc_url( home_url( '/who-its-for/' ) );
+	$loc       = esc_url( home_url( '/whitstable-area-guide/' ) );
 	$dp        = esc_url( home_url( '/direct-payment-holiday-accommodation/' ) );
 	$checklist = esc_url( home_url( '/how-to-choose-accessible-self-catering-holiday/' ) );
 
@@ -847,5 +853,6 @@ function restwell_get_blog_post_carers_respite_html() {
 <h2>If you are thinking about Restwell</h2>
 <p>Restwell is an adapted self-catering property in Whitstable, Kent. It is designed for guests with disabilities, their families, and carers - with a layout and equipment specification built around what actually matters for a supported stay rather than what looks good in a listing.</p>
 <p>The property has a separate sleeping area for carers, ceiling track hoist, profiling bed, and wet room. We welcome funded stays and can provide documentation to support care plan discussions. We have worked with guests whose stays have been funded through direct payments, CHC routes, and personal budgets alongside self-funded bookings.</p>
-<p>For more on how funded stays work, visit our <a href=\"{$res}\">funding and support hub</a>. To understand whether the property suits your specific situation, <a href=\"{$who}\">read who Restwell is for</a> or <a href=\"{$enq}\">send us a question before you commit to anything</a>.</p>";
+<p>For more on how funded stays work, visit our <a href=\"{$res}\">funding and support hub</a>. To understand whether the property suits your specific situation, <a href=\"{$who}\">read who Restwell is for</a> or <a href=\"{$enq}\">send us a question before you commit to anything</a>.</p>
+<p>If you are weighing up the local area, our <a href=\"{$loc}\">Whitstable area guide</a> covers seafront routes, parking, and day-trip distances.</p>";
 }

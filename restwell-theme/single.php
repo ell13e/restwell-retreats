@@ -123,7 +123,7 @@ $show_updated = $modified_ts > $published_ts + DAY_IN_SECONDS;
 	?>
 
 	<!-- Article body -->
-	<div class="bg-white py-12 md:py-16">
+	<div class="bg-white rw-section-y--compact">
 		<div class="container max-w-3xl">
 
 
@@ -150,7 +150,7 @@ $show_updated = $modified_ts > $published_ts + DAY_IN_SECONDS;
 			<!-- Back to articles -->
 			<div class="mt-10">
 				<a href="<?php echo esc_url( $archive_url ); ?>" class="inline-flex items-center gap-2 text-[var(--deep-teal)] text-sm font-semibold hover:underline no-underline">
-					<i class="fa-solid fa-arrow-left text-xs" aria-hidden="true"></i>
+					<i class="ph-bold ph-arrow-left text-xs" aria-hidden="true"></i>
 					<?php echo esc_html( sprintf( __( 'Back to %s', 'restwell-retreats' ), $archive_label ) ); ?>
 				</a>
 			</div>
@@ -160,11 +160,13 @@ $show_updated = $modified_ts > $published_ts + DAY_IN_SECONDS;
 
 	<!-- Related articles -->
 	<?php if ( ! empty( $related_posts ) ) : ?>
-		<section class="py-16 md:py-20 bg-[var(--bg-subtle)]" aria-labelledby="related-heading">
+		<section class="rw-section-y--cta bg-[var(--bg-subtle)]" aria-labelledby="related-heading">
 			<div class="container max-w-5xl">
-				<p class="section-label mb-3"><?php esc_html_e( 'More to read', 'restwell-retreats' ); ?></p>
-				<h2 id="related-heading" class="text-2xl font-serif text-[var(--deep-teal)] mb-8"><?php esc_html_e( 'You might also like', 'restwell-retreats' ); ?></h2>
-				<div class="grid sm:grid-cols-2 gap-6">
+				<div class="rw-section-head rw-section-head--left">
+				<p class="section-label"><?php esc_html_e( 'More to read', 'restwell-retreats' ); ?></p>
+				<h2 id="related-heading" class="text-2xl font-serif text-[var(--deep-teal)] m-0"><?php esc_html_e( 'You might also like', 'restwell-retreats' ); ?></h2>
+				</div>
+				<div class="grid sm:grid-cols-2 rw-gap-grid">
 					<?php foreach ( $related_posts as $rp ) : ?>
 						<article class="group">
 							<a href="<?php echo esc_url( $rp['permalink'] ); ?>"
@@ -182,7 +184,7 @@ $show_updated = $modified_ts > $published_ts + DAY_IN_SECONDS;
 									<div class="mt-auto pt-4 flex items-center justify-between">
 										<time class="text-xs text-[var(--muted-grey)]"><?php echo esc_html( $rp['date'] ); ?></time>
 										<span class="text-[var(--deep-teal)] text-xs font-semibold inline-flex items-center gap-1">
-											Read <i class="fa-solid fa-arrow-right text-[10px]" aria-hidden="true"></i>
+											Read <i class="ph-bold ph-arrow-right text-[10px]" aria-hidden="true"></i>
 										</span>
 									</div>
 								</div>
@@ -194,27 +196,5 @@ $show_updated = $modified_ts > $published_ts + DAY_IN_SECONDS;
 		</section>
 	<?php endif; ?>
 
-	<!-- CTA -->
-	<section class="py-16 md:py-20 <?php echo empty( $related_posts ) ? 'bg-[var(--bg-subtle)]' : 'bg-white'; ?>" aria-labelledby="article-cta-heading">
-		<div class="container max-w-2xl text-center">
-			<p class="section-label mb-3"><?php esc_html_e( 'Planning a stay?', 'restwell-retreats' ); ?></p>
-			<h2 id="article-cta-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Come and see Whitstable for yourself.', 'restwell-retreats' ); ?></h2>
-			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'Restwell is an adapted holiday home in Whitstable, Kent, designed for guests with disabilities, their families, and carers. Enquire to check dates and suitability.', 'restwell-retreats' ); ?></p>
-			<div class="flex flex-wrap gap-4 justify-center">
-				<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary">
-					<?php esc_html_e( 'Check your dates', 'restwell-retreats' ); ?>
-					<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-				</a>
-				<a href="<?php echo esc_url( home_url( '/the-property/' ) ); ?>" class="btn btn-outline">
-					<?php esc_html_e( 'See the property', 'restwell-retreats' ); ?>
-				</a>
-			</div>
-		</div>
-	</section>
-
 </main>
-<?php
-global $restwell_hide_footer_cta;
-$restwell_hide_footer_cta = true;
-get_footer();
-?>
+<?php get_footer(); ?>

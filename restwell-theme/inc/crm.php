@@ -13,10 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'RESTWELL_CRM_DB_VERSION', '3.2' );
+define( 'RESTWELL_CRM_DB_VERSION', '3.3' );
 define( 'RESTWELL_CRM_TABLE',    'rw_enquiries' );
 define( 'RESTWELL_NOTES_TABLE',  'rw_enquiry_notes' );
 define( 'RESTWELL_GUESTS_TABLE', 'rw_guests' );
+define( 'RESTWELL_FAQ_TABLE',    'rw_faq_submissions' );
 define( 'RESTWELL_CRM_CAP',      'restwell_manage_enquiries' );
 
 /**
@@ -165,6 +166,21 @@ function restwell_crm_maybe_create_table() {
 		KEY email (email)
 	) {$charset_collate};" );
 
+	// ── rw_faq_submissions (FAQ page questions; survives email failures) ─────
+	$faq_table = $wpdb->prefix . RESTWELL_FAQ_TABLE;
+	dbDelta( "CREATE TABLE {$faq_table} (
+		id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+		submitted_at datetime NOT NULL,
+		name varchar(200) NOT NULL DEFAULT '',
+		email varchar(200) NOT NULL DEFAULT '',
+		question text NOT NULL,
+		notify_sent tinyint(1) NOT NULL DEFAULT 0,
+		source_url varchar(500) NOT NULL DEFAULT '',
+		PRIMARY KEY  (id),
+		KEY submitted_at (submitted_at),
+		KEY email (email)
+	) {$charset_collate};" );
+
 	// ── One-time migration: restwell_guests option → rw_guests ───────────────
 	$legacy_guests = get_option( 'restwell_guests', array() );
 	if ( is_array( $legacy_guests ) && ! empty( $legacy_guests ) ) {
@@ -274,6 +290,46 @@ function restwell_crm_save_enquiry( array $data ) {
 	);
 
 	return $result ? (int) $wpdb->insert_id : false;
+}
+
+/**
+ * Persist an FAQ page question (always store before attempting email).
+ *
+ * @param array{name:string,email:string,question:string,source_url?:string} $data Sanitised fields.
+ * @return int|false Inserted row ID, or false on failure.
+ */
+function restwell_faq_save_submission( array $data ) {
+	global $wpdb;
+	$table = $wpdb->prefix . RESTWELL_FAQ_TABLE;
+	$result = $wpdb->insert(
+		$table,
+		array(
+			'submitted_at' => current_time( 'mysql' ),
+			'name'         => $data['name'] ?? '',
+			'email'        => $data['email'] ?? '',
+			'question'     => $data['question'] ?? '',
+			'notify_sent'  => 0,
+			'source_url'   => $data['source_url'] ?? '',
+		),
+		array( '%s', '%s', '%s', '%s', '%d', '%s' )
+	);
+	return $result ? (int) $wpdb->insert_id : false;
+}
+
+/**
+ * Mark FAQ staff notification as sent.
+ *
+ * @param int $id Submission row ID.
+ */
+function restwell_faq_mark_notify_sent( int $id ): void {
+	global $wpdb;
+	$wpdb->update(
+		$wpdb->prefix . RESTWELL_FAQ_TABLE,
+		array( 'notify_sent' => 1 ),
+		array( 'id' => $id ),
+		array( '%d' ),
+		array( '%d' )
+	);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1128,7 +1184,7 @@ function restwell_crm_dashboard_page() {
 										name="restwell_footer_cta_btn"
 										value="<?php echo esc_attr( (string) get_option( 'restwell_footer_cta_btn', '' ) ); ?>"
 										class="regular-text"
-										placeholder="<?php esc_attr_e( 'Check your dates', 'restwell-retreats' ); ?>"
+										placeholder="<?php esc_attr_e( 'Ask about your dates', 'restwell-retreats' ); ?>"
 									/>
 									<p class="description">
 										<?php esc_html_e( 'Usually links to the Enquire page.', 'restwell-retreats' ); ?>

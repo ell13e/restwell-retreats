@@ -257,6 +257,8 @@ function restwell_save_page_content_meta_box( $post_id ) {
 			$raw = wp_unslash( $_POST[ $key ] );
 			if ( strpos( $key, '_image_id' ) !== false || $key === 'hero_media_id' ) {
 				$value = absint( $raw );
+			} elseif ( 'legal_body_html' === $key ) {
+				$value = wp_kses_post( $raw );
 			} elseif ( $key === 'meta_description' || $key === 'hero_spec_heading' || $key === 'hero_cta_reassurance' || strpos( $key, '_body' ) !== false || strpos( $key, '_desc' ) !== false || strpos( $key, '_intro' ) !== false || strpos( $key, '_confirmed' ) !== false || strpos( $key, '_tbc' ) !== false ) {
 				$value = sanitize_textarea_field( $raw );
 			} else {

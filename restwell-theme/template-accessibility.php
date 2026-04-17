@@ -47,12 +47,6 @@ $acc_dest_challenge_body    = get_post_meta( $pid, 'acc_dest_challenge_body', tr
 $acc_dest_reality_heading   = get_post_meta( $pid, 'acc_dest_reality_heading', true ) ?: 'The reality';
 $acc_dest_reality_body      = get_post_meta( $pid, 'acc_dest_reality_body', true ) ?: "Whitstable's beach is shingle. We want to be honest: shingle beaches are generally not wheelchair-friendly. The promenade above the beach provides excellent views and is accessible for most wheelchair users. There are also accessible cafes and restaurants along the seafront at street level.";
 
-// CTA
-$acc_cta_heading = get_post_meta( $pid, 'acc_cta_heading', true ) ?: 'Still have questions?';
-$acc_cta_body    = get_post_meta( $pid, 'acc_cta_body', true ) ?: 'We understand that accessibility details matter, and that everyone\'s needs are different. If you have specific questions about the property, the local area, or anything else, please get in touch.';
-$acc_cta_btn     = get_post_meta( $pid, 'acc_cta_btn', true ) ?: 'Ask us anything';
-$acc_cta_url     = esc_url( get_post_meta( $pid, 'acc_cta_url', true ) ?: home_url( '/enquire/' ) );
-
 $access_statement_url = restwell_get_access_statement_url();
 $access_statement_url = $access_statement_url !== '' ? esc_url( $access_statement_url ) : '';
 
@@ -83,15 +77,17 @@ $rooms = array(
 	?>
 
 	<!-- Room by room -->
-	<section class="py-16 md:py-24 bg-[var(--bg-subtle)]" aria-labelledby="acc-room-heading">
+	<section class="rw-section-y bg-[var(--bg-subtle)]" aria-labelledby="acc-room-heading">
 		<div class="container max-w-4xl">
+			<div class="rw-stack rw-mb-section max-w-prose">
 			<?php if ( $acc_room_label !== '' ) : ?>
-				<p class="section-label mb-3"><?php echo esc_html( $acc_room_label ); ?></p>
+				<p class="section-label"><?php echo esc_html( $acc_room_label ); ?></p>
 			<?php endif; ?>
-			<h2 id="acc-room-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php echo esc_html( $acc_room_heading ); ?></h2>
+			<h2 id="acc-room-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php echo esc_html( $acc_room_heading ); ?></h2>
 			<?php if ( $acc_room_intro !== '' ) : ?>
-				<p class="text-gray-600 leading-relaxed mb-10 max-w-prose"><?php echo esc_html( $acc_room_intro ); ?></p>
+				<p class="text-gray-600 leading-relaxed m-0"><?php echo esc_html( $acc_room_intro ); ?></p>
 			<?php endif; ?>
+			</div>
 			<div class="space-y-6">
 				<?php foreach ( $rooms as $room ) :
 					$lines = array_filter( array_map( 'trim', explode( "\n", $room['body'] ) ), function ( $line ) {
@@ -111,7 +107,7 @@ $rooms = array(
 							<?php foreach ( $lines as $line ) : ?>
 								<li class="flex items-start gap-3">
 									<span class="w-6 h-6 rounded-full bg-[#A8D5D0]/40 flex items-center justify-center flex-shrink-0 mt-0.5 text-[#1B4D5C] text-xs" aria-hidden="true">
-										<i class="fa-solid fa-check"></i>
+										<i class="ph-bold ph-check"></i>
 									</span>
 									<span><?php echo esc_html( $line ); ?></span>
 								</li>
@@ -122,14 +118,14 @@ $rooms = array(
 			</div>
 
 			<!-- Inquiry cards for specific requirements -->
-			<div class="mt-12 grid md:grid-cols-2 gap-6">
+			<div class="mt-12 grid md:grid-cols-2 rw-gap-grid">
 				<div class="bg-[var(--bg-subtle)] rounded-2xl p-7 border border-gray-100 flex flex-col gap-5">
 					<div>
 						<h3 class="text-lg font-serif text-[var(--deep-teal)] mb-2">Have a specific requirement?</h3>
 						<p class="text-gray-600 leading-relaxed text-sm">We are happy to discuss access needs, measurements, or equipment availability. Get in touch and we will answer honestly.</p>
 					</div>
 					<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary self-start">
-						Ask us directly <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+						Ask us directly <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
 					</a>
 				</div>
 				<div class="bg-[var(--bg-subtle)] rounded-2xl p-7 border border-gray-100 flex flex-col gap-5">
@@ -138,7 +134,7 @@ $rooms = array(
 						<p class="text-gray-600 leading-relaxed text-sm">Door widths, turning circles, bed heights, grab rail positions: we can provide exact figures for any room in the property.</p>
 					</div>
 					<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary self-start">
-						Request measurements <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+						Request measurements <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
 					</a>
 				</div>
 			</div>
@@ -146,21 +142,23 @@ $rooms = array(
 	</section>
 
 	<!-- Destination: what to expect -->
-	<section class="py-16 md:py-24 bg-[var(--soft-sand)]" aria-labelledby="acc-dest-heading">
+	<section class="rw-section-y bg-[var(--soft-sand)]" aria-labelledby="acc-dest-heading">
 		<div class="container max-w-4xl">
+			<div class="rw-stack rw-mb-section max-w-prose">
 			<?php if ( $acc_dest_label !== '' ) : ?>
-				<p class="section-label mb-3"><?php echo esc_html( $acc_dest_label ); ?></p>
+				<p class="section-label"><?php echo esc_html( $acc_dest_label ); ?></p>
 			<?php endif; ?>
-			<h2 id="acc-dest-heading" class="text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php echo esc_html( $acc_dest_heading ); ?></h2>
-			<p class="text-gray-600 leading-relaxed mb-10 max-w-prose"><?php echo esc_html( $acc_dest_intro ); ?></p>
-			<div class="grid md:grid-cols-3 gap-6">
+			<h2 id="acc-dest-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php echo esc_html( $acc_dest_heading ); ?></h2>
+			<p class="text-gray-600 leading-relaxed m-0"><?php echo esc_html( $acc_dest_intro ); ?></p>
+			</div>
+			<div class="grid md:grid-cols-3 rw-gap-grid">
 
 				<!-- The good -->
 				<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col gap-4
 				            hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5
 				            transition-all duration-300 ease-out motion-reduce:transition-none motion-reduce:hover:translate-y-0">
 					<div class="w-10 h-10 rounded-full bg-[#A8D5D0]/40 flex items-center justify-center text-[var(--deep-teal)]" aria-hidden="true">
-						<i class="fa-solid fa-check text-sm"></i>
+						<i class="ph-bold ph-check text-sm"></i>
 					</div>
 					<div>
 						<h3 class="text-lg font-semibold font-serif text-[var(--deep-teal)] mb-2"><?php echo esc_html( $acc_dest_good_heading ); ?></h3>
@@ -173,7 +171,7 @@ $rooms = array(
 				            hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5
 				            transition-all duration-300 ease-out motion-reduce:transition-none motion-reduce:hover:translate-y-0">
 					<div class="w-10 h-10 rounded-full bg-[#A8D5D0]/40 flex items-center justify-center text-[var(--deep-teal)]" aria-hidden="true">
-						<i class="fa-solid fa-route text-sm"></i>
+						<i class="ph-bold ph-path text-sm"></i>
 					</div>
 					<div>
 						<h3 class="text-lg font-semibold font-serif text-[var(--deep-teal)] mb-2"><?php echo esc_html( $acc_dest_challenge_heading ); ?></h3>
@@ -186,7 +184,7 @@ $rooms = array(
 				            hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5
 				            transition-all duration-300 ease-out motion-reduce:transition-none motion-reduce:hover:translate-y-0">
 					<div class="w-10 h-10 rounded-full bg-[#A8D5D0]/40 flex items-center justify-center text-[var(--deep-teal)]" aria-hidden="true">
-						<i class="fa-solid fa-circle-info text-sm"></i>
+						<i class="ph-bold ph-info text-sm"></i>
 					</div>
 					<div>
 						<h3 class="text-lg font-semibold font-serif text-[var(--deep-teal)] mb-2"><?php echo esc_html( $acc_dest_reality_heading ); ?></h3>
@@ -200,12 +198,12 @@ $rooms = array(
 
 	<?php if ( $access_statement_url !== '' ) : ?>
 	<!-- Access statement download -->
-	<section class="py-16 md:py-24 bg-white border-t border-[#E8DFD0]/80" aria-labelledby="acc-statement-heading">
+	<section class="rw-section-y bg-white border-t border-[#E8DFD0]/80" aria-labelledby="acc-statement-heading">
 		<div class="container max-w-3xl text-center">
 			<h3 id="acc-statement-heading" class="text-2xl md:text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Download our access statement', 'restwell-retreats' ); ?></h3>
 			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'A PDF summary of access routes, door widths, equipment, and the local area, useful for OTs, commissioners, and planning your stay.', 'restwell-retreats' ); ?></p>
 			<a href="<?php echo esc_url( $access_statement_url ); ?>" class="btn btn-primary inline-flex items-center gap-2" rel="noopener" target="_blank">
-				<i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+				<i class="ph-bold ph-file-pdf" aria-hidden="true"></i>
 				<?php esc_html_e( 'Open access statement (PDF)', 'restwell-retreats' ); ?>
 			</a>
 			<p class="text-sm text-[var(--muted-grey)] mt-6">
@@ -217,20 +215,5 @@ $rooms = array(
 	</section>
 	<?php endif; ?>
 
-	<!-- CTA -->
-	<section class="py-16 md:py-20 bg-[var(--deep-teal)] text-center" aria-labelledby="acc-cta-heading">
-		<div class="container max-w-2xl">
-			<h2 id="acc-cta-heading" class="text-3xl font-serif text-white mb-4"><?php echo esc_html( $acc_cta_heading ); ?></h2>
-			<p class="text-white/90 text-lg leading-relaxed max-w-md mx-auto mb-8"><?php echo esc_html( $acc_cta_body ); ?></p>
-			<a href="<?php echo esc_url( $acc_cta_url ); ?>" class="btn btn-gold">
-				<?php echo esc_html( $acc_cta_btn ); ?> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-			</a>
-		</div>
-	</section>
-
 </main>
-<?php
-global $restwell_hide_footer_cta;
-$restwell_hide_footer_cta = true;
-get_footer();
-?>
+<?php get_footer(); ?>

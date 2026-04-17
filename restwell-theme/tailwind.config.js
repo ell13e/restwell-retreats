@@ -4,6 +4,15 @@ module.exports = {
     './**/*.php',
     './assets/js/**/*.js',
   ],
+  /*
+   * Custom `.container` lives in assets/css/input.css (@layer components) with
+   * token-based gutters. Tailwind’s default `container` plugin emits bare
+   * `.container{width:100%}` + breakpoint max-widths in the utilities layer,
+   * which can override those gutters in the cascade — keep a single source of truth.
+   */
+  corePlugins: {
+    container: false,
+  },
   theme: {
     extend: {
       colors: {

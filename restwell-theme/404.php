@@ -4,8 +4,7 @@
  *
  * Shown whenever WordPress cannot match a URL to a page, post, or archive.
  * Sends the correct HTTP 404 status (WordPress handles this automatically
- * for 404.php). The footer "Ready to book?" CTA is suppressed - it is not
- * the right moment for a hard sell.
+ * for 404.php). Uses the same site footer as other templates.
  *
  * @package Restwell_Retreats
  */
@@ -13,9 +12,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-// Suppress the footer CTA strip.
-$GLOBALS['restwell_hide_footer_cta'] = true;
 
 get_header();
 ?>
@@ -44,7 +40,7 @@ get_header();
 
 	<!-- ─── Helpful links ─────────────────────────────────────────────────────── -->
 	<section
-		class="py-16 md:py-24 bg-[var(--soft-sand)]"
+		class="rw-section-y bg-[var(--soft-sand)]"
 		aria-label="<?php esc_attr_e( 'Helpful pages', 'restwell-retreats' ); ?>"
 	>
 		<div class="container">
@@ -54,7 +50,7 @@ get_header();
 				<div class="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-start gap-4">
 					<div class="feature-icon-wrapper">
 						<div class="feature-icon-blob"></div>
-						<i class="fa-solid fa-house feature-icon-svg text-[var(--deep-teal)]" aria-hidden="true"></i>
+						<i class="ph-bold ph-house feature-icon-svg text-[var(--deep-teal)]" aria-hidden="true"></i>
 					</div>
 					<div class="flex-1">
 						<h2 class="text-xl font-serif text-[var(--deep-teal)] mb-2">
@@ -75,7 +71,7 @@ get_header();
 						class="inline-flex items-center gap-2 text-[var(--deep-teal)] font-semibold text-sm hover:text-[var(--warm-gold-text)] hover:underline transition-colors duration-300 no-underline"
 					>
 						<?php esc_html_e( 'View the property', 'restwell-retreats' ); ?>
-						<i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+						<i class="ph-bold ph-caret-right text-xs" aria-hidden="true"></i>
 					</a>
 				</div>
 
@@ -83,7 +79,7 @@ get_header();
 				<div class="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-start gap-4">
 					<div class="feature-icon-wrapper">
 						<div class="feature-icon-blob"></div>
-						<i class="fa-solid fa-envelope feature-icon-svg text-[var(--deep-teal)]" aria-hidden="true"></i>
+						<i class="ph-bold ph-envelope-simple feature-icon-svg text-[var(--deep-teal)]" aria-hidden="true"></i>
 					</div>
 					<div class="flex-1">
 						<h2 class="text-xl font-serif text-[var(--deep-teal)] mb-2">
@@ -98,7 +94,7 @@ get_header();
 						class="inline-flex items-center gap-2 text-[var(--deep-teal)] font-semibold text-sm hover:text-[var(--warm-gold-text)] hover:underline transition-colors duration-300 no-underline"
 					>
 						<?php esc_html_e( 'Get in touch', 'restwell-retreats' ); ?>
-						<i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+						<i class="ph-bold ph-caret-right text-xs" aria-hidden="true"></i>
 					</a>
 				</div>
 
@@ -106,7 +102,7 @@ get_header();
 				<div class="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-start gap-4">
 					<div class="feature-icon-wrapper">
 						<div class="feature-icon-blob"></div>
-						<i class="fa-solid fa-circle-info feature-icon-svg text-[var(--deep-teal)]" aria-hidden="true"></i>
+						<i class="ph-bold ph-info feature-icon-svg text-[var(--deep-teal)]" aria-hidden="true"></i>
 					</div>
 					<div class="flex-1">
 						<h2 class="text-xl font-serif text-[var(--deep-teal)] mb-2">
@@ -121,7 +117,7 @@ get_header();
 						class="inline-flex items-center gap-2 text-[var(--deep-teal)] font-semibold text-sm hover:text-[var(--warm-gold-text)] hover:underline transition-colors duration-300 no-underline"
 					>
 						<?php esc_html_e( 'Find out more', 'restwell-retreats' ); ?>
-						<i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+						<i class="ph-bold ph-caret-right text-xs" aria-hidden="true"></i>
 					</a>
 				</div>
 

@@ -59,8 +59,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			aria-controls="mobile-nav"
 			aria-label="Open menu"
 		>
-			<i class="fa-solid fa-bars js-menu-icon-open" aria-hidden="true"></i>
-			<i class="fa-solid fa-xmark js-menu-icon-close" aria-hidden="true"></i>
+			<i class="ph-bold ph-list js-menu-icon-open" aria-hidden="true"></i>
+			<i class="ph-bold ph-x js-menu-icon-close" aria-hidden="true"></i>
 		</button>
 	</div>
 

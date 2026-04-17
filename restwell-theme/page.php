@@ -35,7 +35,7 @@ if ( ! $page_hero_media && $page_id ) {
 	);
 	get_template_part( 'template-parts/interior-hero' );
 	?>
-	<div class="container py-16 md:py-24">
+	<div class="container rw-section-y">
 		<?php
 		while ( have_posts() ) {
 			the_post();

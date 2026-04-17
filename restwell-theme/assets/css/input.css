@@ -61,6 +61,369 @@
 }
 
 @layer components {
+  /* Editorial stacks: one gap token between siblings (replaces ad-hoc gap-4 / space-y-4 mixes) */
+  .rw-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rw-stack-gap);
+  }
+
+  .rw-stack--tight {
+    gap: var(--rw-stack-gap-tight);
+  }
+
+  /* Major regions inside a card (intro → divider block → CTA) */
+  .rw-stack--regions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rw-card-region-gap);
+  }
+
+  .rw-stack--loose {
+    gap: var(--rw-stack-gap-loose);
+  }
+
+  .rw-stack--dense {
+    gap: var(--rw-stack-gap-dense);
+  }
+
+  /*
+   * Section title band: eyebrow + heading (+ optional dek). Replaces ad-hoc mb-3/mb-4 on labels
+   * and mixed space-y on wrappers. Margin below = distance before grids/prose.
+   */
+  .rw-section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--rw-stack-gap);
+    margin-bottom: var(--rw-section-after-head);
+  }
+
+  @media (min-width: 768px) {
+    .rw-section-head {
+      margin-bottom: var(--rw-section-after-head-md);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rw-section-head {
+      margin-bottom: var(--rw-section-after-head-lg);
+    }
+  }
+
+  .rw-section-head.rw-section-head--tight {
+    margin-bottom: var(--rw-section-after-head-tight);
+  }
+
+  @media (min-width: 768px) {
+    .rw-section-head.rw-section-head--tight {
+      margin-bottom: var(--rw-section-after-head-tight-md);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rw-section-head.rw-section-head--tight {
+      margin-bottom: var(--rw-section-after-head-tight-lg);
+    }
+  }
+
+  .rw-section-head--center {
+    text-align: center;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .rw-section-head--wide {
+    max-width: 64rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .rw-section-head--left {
+    text-align: left;
+  }
+
+  /* Standalone spacing after a heading line (when not using .rw-section-head wrapper) */
+  .rw-mb-section {
+    margin-bottom: var(--rw-section-after-head);
+  }
+
+  @media (min-width: 768px) {
+    .rw-mb-section {
+      margin-bottom: var(--rw-section-after-head-md);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rw-mb-section {
+      margin-bottom: var(--rw-section-after-head-lg);
+    }
+  }
+
+  .rw-mb-section-tight {
+    margin-bottom: var(--rw-section-after-head-tight);
+  }
+
+  @media (min-width: 768px) {
+    .rw-mb-section-tight {
+      margin-bottom: var(--rw-section-after-head-tight-md);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rw-mb-section-tight {
+      margin-bottom: var(--rw-section-after-head-tight-lg);
+    }
+  }
+
+  /* Editorial grids: replaces gap-6 md:gap-8 clusters */
+  .rw-gap-grid {
+    gap: var(--rw-grid-gap);
+  }
+
+  @media (min-width: 768px) {
+    .rw-gap-grid {
+      gap: var(--rw-grid-gap-md);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rw-gap-grid {
+      gap: var(--rw-grid-gap-lg);
+    }
+  }
+
+  .rw-gap-grid-lg {
+    gap: var(--rw-grid-gap);
+  }
+
+  @media (min-width: 768px) {
+    .rw-gap-grid-lg {
+      gap: var(--rw-grid-gap-lg);
+    }
+  }
+
+  /*
+   * Sitewide section vertical padding — token-backed replacement for py-16 / md:py-24 clusters.
+   * Prefer these over raw Tailwind py-* when sections should follow the global 4-tier rhythm.
+   */
+  .rw-section-y {
+    padding-top: var(--section-padding-y);
+    padding-bottom: var(--section-padding-y);
+  }
+
+  @media (min-width: 640px) {
+    .rw-section-y {
+      padding-top: var(--section-padding-y-sm);
+      padding-bottom: var(--section-padding-y-sm);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .rw-section-y {
+      padding-top: var(--section-padding-y-tablet);
+      padding-bottom: var(--section-padding-y-tablet);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rw-section-y {
+      padding-top: var(--section-padding-y-desktop);
+      padding-bottom: var(--section-padding-y-desktop);
+    }
+  }
+
+  .rw-section-y--hero {
+    padding-top: var(--section-padding-y-hero);
+    padding-bottom: var(--section-padding-y-hero);
+  }
+
+  @media (min-width: 640px) {
+    .rw-section-y--hero {
+      padding-top: var(--section-padding-y-hero-sm);
+      padding-bottom: var(--section-padding-y-hero-sm);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .rw-section-y--hero {
+      padding-top: var(--section-padding-y-hero-tablet);
+      padding-bottom: var(--section-padding-y-hero-tablet);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rw-section-y--hero {
+      padding-top: var(--section-padding-y-hero-desktop);
+      padding-bottom: var(--section-padding-y-hero-desktop);
+    }
+  }
+
+  /**
+   * Pair with eyebrow + main block in a flex column with gap-* (e.g. homepage area/funding teaser).
+   * Without this, padding-top + label + gap reads as “more air” than padding-bottom alone.
+   */
+  .rw-section-y.rw-section-y--eyebrow-split {
+    padding-top: max(2rem, calc(var(--section-padding-y) - var(--rw-balance-eyebrow-split)));
+    padding-bottom: calc(var(--section-padding-y) + var(--rw-balance-eyebrow-split));
+  }
+
+  @media (min-width: 640px) {
+    .rw-section-y.rw-section-y--eyebrow-split {
+      padding-top: max(2.25rem, calc(var(--section-padding-y-sm) - var(--rw-balance-eyebrow-split-sm)));
+      padding-bottom: calc(var(--section-padding-y-sm) + var(--rw-balance-eyebrow-split-sm));
+    }
+  }
+
+  @media (min-width: 768px) {
+    .rw-section-y.rw-section-y--eyebrow-split {
+      padding-top: max(2.5rem, calc(var(--section-padding-y-tablet) - var(--rw-balance-eyebrow-split-md)));
+      padding-bottom: calc(var(--section-padding-y-tablet) + var(--rw-balance-eyebrow-split-md));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rw-section-y.rw-section-y--eyebrow-split {
+      padding-top: max(2.75rem, calc(var(--section-padding-y-desktop) - var(--rw-balance-eyebrow-split-lg)));
+      padding-bottom: calc(var(--section-padding-y-desktop) + var(--rw-balance-eyebrow-split-lg));
+    }
+  }
+
+  /**
+   * Centred title cluster + grid below uses .rw-mb-section / .rw-section-head (large margin before grid).
+   * Shifts half of that margin token from section padding-top to padding-bottom so the band feels even.
+   */
+  .rw-section-y.rw-section-y--head-grid-split {
+    padding-top: max(2rem, calc(var(--section-padding-y) - calc(var(--rw-section-after-head) * 0.5)));
+    padding-bottom: calc(var(--section-padding-y) + calc(var(--rw-section-after-head) * 0.5));
+  }
+
+  @media (min-width: 640px) {
+    .rw-section-y.rw-section-y--head-grid-split {
+      padding-top: max(2.25rem, calc(var(--section-padding-y-sm) - calc(var(--rw-section-after-head) * 0.5)));
+      padding-bottom: calc(var(--section-padding-y-sm) + calc(var(--rw-section-after-head) * 0.5));
+    }
+  }
+
+  @media (min-width: 768px) {
+    .rw-section-y.rw-section-y--head-grid-split {
+      padding-top: max(2.5rem, calc(var(--section-padding-y-tablet) - calc(var(--rw-section-after-head-md) * 0.5)));
+      padding-bottom: calc(var(--section-padding-y-tablet) + calc(var(--rw-section-after-head-md) * 0.5));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rw-section-y.rw-section-y--head-grid-split {
+      padding-top: max(2.75rem, calc(var(--section-padding-y-desktop) - calc(var(--rw-section-after-head-lg) * 0.5)));
+      padding-bottom: calc(var(--section-padding-y-desktop) + calc(var(--rw-section-after-head-lg) * 0.5));
+    }
+  }
+
+  /* Related / secondary strips — token-backed replacement for py-12 md:py-16 */
+  .rw-section-y--compact {
+    padding-top: var(--section-padding-y-compact);
+    padding-bottom: var(--section-padding-y-compact);
+  }
+
+  @media (min-width: 640px) {
+    .rw-section-y--compact {
+      padding-top: var(--section-padding-y-compact-sm);
+      padding-bottom: var(--section-padding-y-compact-sm);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .rw-section-y--compact {
+      padding-top: var(--section-padding-y-compact-tablet);
+      padding-bottom: var(--section-padding-y-compact-tablet);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rw-section-y--compact {
+      padding-top: var(--section-padding-y-compact-desktop);
+      padding-bottom: var(--section-padding-y-compact-desktop);
+    }
+  }
+
+  /* Full-width teal (or solid) CTA bands — replacement for py-16 md:py-20 */
+  .rw-section-y--cta {
+    padding-top: var(--section-padding-y-cta);
+    padding-bottom: var(--section-padding-y-cta);
+  }
+
+  @media (min-width: 640px) {
+    .rw-section-y--cta {
+      padding-top: var(--section-padding-y-cta-sm);
+      padding-bottom: var(--section-padding-y-cta-sm);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .rw-section-y--cta {
+      padding-top: var(--section-padding-y-cta-tablet);
+      padding-bottom: var(--section-padding-y-cta-tablet);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rw-section-y--cta {
+      padding-top: var(--section-padding-y-cta-desktop);
+      padding-bottom: var(--section-padding-y-cta-desktop);
+    }
+  }
+
+  /*
+   * Hairline section seams — inset shadow so vertical padding stays visually symmetric
+   * (a real border-top adds 1px outside the padding box and can read as uneven top vs bottom).
+   */
+  .rw-seam-t {
+    box-shadow: inset 0 1px 0 0 color-mix(in srgb, var(--deep-teal) 10%, transparent);
+  }
+
+  .rw-seam-y-muted {
+    box-shadow:
+      inset 0 1px 0 0 color-mix(in srgb, var(--deep-teal) 8%, transparent),
+      inset 0 -1px 0 0 color-mix(in srgb, var(--deep-teal) 8%, transparent);
+  }
+
+  /* Top + bottom hairlines at 10% (matches former border-y on Area & funding band) */
+  .rw-seam-y-soft {
+    box-shadow:
+      inset 0 1px 0 0 color-mix(in srgb, var(--deep-teal) 10%, transparent),
+      inset 0 -1px 0 0 color-mix(in srgb, var(--deep-teal) 10%, transparent);
+  }
+
+  /* Prose / form stacks — same as .rw-stack; use when migrating space-y-* */
+  .rw-prose-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rw-stack-gap);
+  }
+
+  /* Eyebrows: spacing comes from parent gap only */
+  #main-content .rw-stack .section-label,
+  #main-content .rw-stack--regions .section-label,
+  #main-content .rw-section-head .section-label,
+  #main-content .rw-prose-stack .section-label {
+    margin-bottom: 0;
+  }
+
+  #main-content .rw-stack > p.section-label {
+    margin-bottom: 0;
+  }
+
+  #main-content .rw-stack > span.section-label {
+    margin-bottom: 0;
+  }
+
+  #main-content .rw-section-head > h2,
+  #main-content .rw-section-head > h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   /* Feature icon (What makes us different) - icon centred inside circle */
   .feature-icon-wrapper {
     @apply relative w-14 h-14 flex items-center justify-center mx-auto mb-4;
@@ -74,8 +437,8 @@
     @apply relative z-10 w-9 h-9 text-[#1B4D5C] m-0;
   }
 
-  /* Font Awesome icons in feature circles (override w/h so font-size controls size) */
-  .feature-icon-wrapper .fa-solid {
+  /* Phosphor icons in feature circles (override w/h so font-size controls size) */
+  .feature-icon-wrapper .ph-bold {
     width: auto;
     height: auto;
     font-size: 1.5rem;
@@ -84,6 +447,21 @@
   /* Homepage "Why Restwell" grid: vertical rhythm from parent space-y only (avoid mb-4 + space-y doubling). */
   #main-content .features-section .feature-icon-wrapper {
     margin-bottom: 0;
+  }
+
+  /* Equal-height tiles: grid stretches rows; body grows so short/long copy share one baseline band. */
+  #main-content .features-section ul.grid {
+    align-items: stretch;
+  }
+
+  #main-content .features-section .feature-item.rw-stack {
+    height: 100%;
+    min-height: 0;
+  }
+
+  #main-content .features-section .feature-item .feature-item__body {
+    flex: 1 1 auto;
+    min-height: 0;
   }
 
   /* Page hero: size and text position */
@@ -217,20 +595,94 @@
     --space-4:  1rem;
     --space-5:  1.25rem;
     --space-6:  1.5rem;
+    /* Aligns with Tailwind spacing scale (p-7 / gap-7) */
+    --space-7:  1.75rem;
     --space-8:  2rem;
     --space-10: 2.5rem;
     --space-12: 3rem;
     --space-14: 3.5rem;
     --space-16: 4rem;
     --space-20: 5rem;
-    /* Section padding scale (use for main sections: py-16 / py-24) */
-    --section-padding-y: 4rem;
-    --section-padding-y-md: 6rem;
-    /* Hero/intro larger padding */
-    --section-padding-y-hero: 5rem;
-    --section-padding-y-hero-md: 7rem;
+
+    /*
+     * Horizontal gutters — match .container breakpoints (640 / 1024).
+     * Use for full-bleed bands that manually pad inline with the page grid.
+     */
+    --rw-gutter-x: var(--space-5);
+    --rw-gutter-x-sm: var(--space-6);
+    --rw-gutter-x-lg: var(--space-8);
+
+    /*
+     * Sitewide section vertical padding — 4 tiers aligned with Tailwind breakpoints.
+     * default: <640 (narrow mobile), sm: 640+, md: 768+ tablet, lg: 1024+ desktop.
+     */
+    --section-padding-y: 3.5rem;
+    --section-padding-y-sm: 4rem;
+    --section-padding-y-tablet: 5rem;
+    --section-padding-y-desktop: 6rem;
+
+    --section-padding-y-hero: 4.5rem;
+    --section-padding-y-hero-sm: 5rem;
+    --section-padding-y-hero-tablet: 6rem;
+    --section-padding-y-hero-desktop: 7rem;
+
+    /*
+     * Eyebrow + body columns: when a section uses flex column gap between label and content,
+     * optical weight sits high. Split correction shifts half of ~(label row + gap) from pt to pb
+     * so focal content (e.g. cards) sits more evenly; sum(pt+pb) unchanged per breakpoint.
+     */
+    --rw-balance-eyebrow-split: 1.25rem;
+    --rw-balance-eyebrow-split-sm: 1.25rem;
+    --rw-balance-eyebrow-split-md: 1.375rem;
+    --rw-balance-eyebrow-split-lg: 1.5rem;
+
+    /* Two-column split layouts: avoid a single jump from compact mobile to huge desktop gap */
+    --rw-split-grid-gap-mobile: var(--space-6);
+    --rw-split-grid-gap-tablet: var(--space-10);
+    --rw-split-grid-gap-desktop: var(--space-16);
     /* Subtle section background - alternating with bg-white */
     --bg-subtle: #F8FAFA;
+    /*
+     * Editorial vertical rhythm (prefer .rw-stack / .rw-stack--regions in templates
+     * instead of mixing space-y-* with gap-* and eyebrow margins).
+     */
+    --rw-stack-gap: var(--space-4);
+    --rw-stack-gap-tight: var(--space-3);
+    --rw-stack-gap-loose: var(--space-5);
+    --rw-stack-gap-dense: var(--space-2);
+    --rw-card-region-gap: var(--space-6);
+    --rw-explore-label-gap: var(--space-3);
+    --rw-panel-pad-sm: var(--space-5);
+    --rw-panel-pad-md: var(--space-7);
+    --rw-panel-pad-lg: var(--space-8);
+    /* Space below a section title cluster (eyebrow + heading [+ dek]) before main content */
+    --rw-section-after-head: var(--space-8);
+    --rw-section-after-head-md: var(--space-10);
+    --rw-section-after-head-lg: var(--space-12);
+    --rw-section-after-head-tight: var(--space-6);
+    --rw-section-after-head-tight-md: var(--space-8);
+    --rw-section-after-head-tight-lg: var(--space-10);
+    /* Default grid gaps for 2–3 column editorial layouts */
+    --rw-grid-gap: var(--space-6);
+    --rw-grid-gap-md: var(--space-8);
+    --rw-grid-gap-lg: var(--space-10);
+
+    /*
+     * Compact vertical bands — related links, “more reading”, page hero (compact).
+     * Replaces py-12 / md:py-16 with the same four breakpoints as .rw-section-y.
+     */
+    --section-padding-y-compact: 3rem;
+    --section-padding-y-compact-sm: 3.25rem;
+    --section-padding-y-compact-tablet: 4rem;
+    --section-padding-y-compact-desktop: 4rem;
+
+    /*
+     * Teal CTA bands — slightly shorter than full section ramp on mobile (legacy py-16 md:py-20).
+     */
+    --section-padding-y-cta: 4rem;
+    --section-padding-y-cta-sm: 4rem;
+    --section-padding-y-cta-tablet: 5rem;
+    --section-padding-y-cta-desktop: 5rem;
   }
 
   /* -----------------------------------------------------------------------------
@@ -273,9 +725,11 @@
   }
 
   body {
+    font-family: var(--font-sans);
     font-size: 18px;
     line-height: 1.75;
     font-weight: var(--font-weight-body);
+    color: var(--body-secondary);
     background: #ffffff;
   }
 
@@ -285,8 +739,10 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
     line-height: 1.2;
     font-weight: var(--font-weight-heading);
+    color: var(--deep-teal);
   }
 
   h1 { font-size: 2.75rem; }
@@ -470,27 +926,47 @@
   }
 
   /* -----------------------------------------------------------------------------
-     4. Container
+     4. Container + page gutters (spacing system)
+     Horizontal inset uses --rw-gutter-x / --rw-gutter-x-sm / --rw-gutter-x-lg.
+     ≤768px uses --space-6 so small phones match header / hero rhythm.
+     `.rw-page-gutter-x` = inset only (pair with w-full max-w-* mx-auto when not using .container).
      ----------------------------------------------------------------------------- */
+  .container,
+  .rw-page-gutter-x {
+    padding-left: max(var(--rw-gutter-x), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--rw-gutter-x), env(safe-area-inset-right, 0px));
+  }
+
   .container {
     width: 100%;
     margin: 0 auto;
-    padding-left: max(var(--space-5), env(safe-area-inset-left, 0px));
-    padding-right: max(var(--space-5), env(safe-area-inset-right, 0px));
   }
 
   @media (min-width: 640px) {
-    .container {
-      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
-      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
+    .container,
+    .rw-page-gutter-x {
+      padding-left: max(var(--rw-gutter-x-sm), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--rw-gutter-x-sm), env(safe-area-inset-right, 0px));
     }
   }
 
   @media (min-width: 1024px) {
+    .container,
+    .rw-page-gutter-x {
+      padding-left: max(var(--rw-gutter-x-lg), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--rw-gutter-x-lg), env(safe-area-inset-right, 0px));
+    }
+
     .container {
-      padding-left: max(var(--space-8), env(safe-area-inset-left, 0px));
-      padding-right: max(var(--space-8), env(safe-area-inset-right, 0px));
       max-width: 1200px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container,
+    .rw-page-gutter-x {
+      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
     }
   }
 
@@ -571,17 +1047,16 @@
     text-decoration: none;
     text-underline-offset: 0.22em;
     padding: 0.5rem 0.75rem;
-    border-radius: 0;
+    border-radius: 0.625rem;
     background: transparent;
     transition:
       color 0.2s ease,
-      opacity 0.2s ease,
+      background-color 0.2s ease,
       text-decoration-color 0.2s ease;
   }
 
   .site-nav a:not(.site-nav-cta):hover {
-    background: transparent;
-    opacity: 0.88;
+    background: rgba(168, 213, 208, 0.18);
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-decoration-color: currentColor;
@@ -597,18 +1072,90 @@
     text-decoration-color: currentColor;
   }
 
-  /* CTA item in primary nav: primary button style */
+  /* CTA in primary nav: same pairing as .btn-gold / hero — warm gold + deep teal (AA on white header) */
   .site-nav .site-nav-cta,
   .site-nav .site-nav-list a.site-nav-cta {
-    background: var(--deep-teal);
-    color: white !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
     font-weight: var(--font-weight-ui);
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
+    line-height: 1.25;
+    letter-spacing: 0.012em;
+    text-decoration: none;
+    background: var(--warm-gold-hero);
+    color: var(--deep-teal);
+    border: 2px solid var(--warm-gold-hero);
+    padding: 0.4375rem 1.125rem;
+    min-height: 2.25rem;
+    border-radius: var(--radius);
+    box-shadow:
+      0 1px 2px rgb(27 77 92 / 0.06),
+      0 4px 14px rgb(27 77 92 / 0.07);
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.15s ease;
   }
-  .site-nav .site-nav-cta:hover {
-    background: color-mix(in srgb, var(--deep-teal) 90%, black);
-    color: white !important;
+
+  .site-nav .site-nav-cta:hover,
+  .site-nav .site-nav-list a.site-nav-cta:hover {
+    background: #ddb860;
+    border-color: #ddb860;
+    color: var(--deep-teal);
+    box-shadow:
+      0 2px 4px rgb(27 77 92 / 0.08),
+      0 8px 22px rgb(27 77 92 / 0.1);
+  }
+
+  .site-nav .site-nav-cta:focus,
+  .site-nav .site-nav-list a.site-nav-cta:focus {
+    outline: none;
+  }
+
+  .site-nav .site-nav-cta:focus-visible,
+  .site-nav .site-nav-list a.site-nav-cta:focus-visible {
+    outline: 3px solid var(--deep-teal);
+    outline-offset: 3px;
+  }
+
+  .site-nav .site-nav-cta:active,
+  .site-nav .site-nav-list a.site-nav-cta:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgb(27 77 92 / 0.06);
+    transition-duration: 0.05s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-nav .site-nav-cta,
+    .site-nav .site-nav-list a.site-nav-cta {
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .site-nav .site-nav-cta:hover,
+    .site-nav .site-nav-list a.site-nav-cta:hover,
+    .site-nav .site-nav-cta:active,
+    .site-nav .site-nav-list a.site-nav-cta:active {
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .site-nav .site-nav-cta:hover,
+    .site-nav .site-nav-list a.site-nav-cta:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  /* On Enquire page: teal ring reads as “current” without reverting to heavy solid fill */
+  .site-nav .current-menu-item > a.site-nav-cta {
+    background: var(--warm-gold-hero);
+    color: var(--deep-teal);
+    border-color: var(--deep-teal);
+    box-shadow: 0 1px 2px rgb(27 77 92 / 0.06);
   }
 
   /* Desktop dropdowns (fallback + WP Primary nested items) */
@@ -630,19 +1177,18 @@
     text-decoration: none;
     text-underline-offset: 0.22em;
     padding: 0.5rem 0.75rem;
-    border-radius: 0;
+    border-radius: 0.625rem;
     border: none;
     background: transparent;
     cursor: pointer;
     transition:
       color 0.2s ease,
-      opacity 0.2s ease,
+      background-color 0.2s ease,
       text-decoration-color 0.2s ease;
   }
 
   .site-nav__dropdown-toggle:hover {
-    background: transparent;
-    opacity: 0.88;
+    background: rgba(168, 213, 208, 0.18);
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-decoration-color: currentColor;
@@ -713,7 +1259,7 @@
     color: var(--deep-teal);
     text-decoration: none;
     text-underline-offset: 0.2em;
-    border-radius: 0;
+    border-radius: 0.5rem;
     margin: 0 0.35rem;
     background: transparent;
     transition:
@@ -724,8 +1270,7 @@
 
   .site-nav__submenu-link:hover,
   .site-nav .sub-menu a:hover {
-    background: transparent;
-    opacity: 0.88;
+    background: rgba(168, 213, 208, 0.2);
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-decoration-color: currentColor;
@@ -785,7 +1330,7 @@
     outline: 2px solid var(--deep-teal);
     outline-offset: 2px;
   }
-  .mobile-menu-btn .fa-solid {
+  .mobile-menu-btn .ph-bold {
     font-size: 1.375rem;
     flex-shrink: 0;
   }
@@ -906,7 +1451,7 @@
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.35;
-    border-radius: 0;
+    border-radius: 0.5rem;
     transition: background 0.2s ease, color 0.2s ease;
     touch-action: manipulation;
   }
@@ -923,12 +1468,7 @@
 
   /* Hover: underline + slight fade — no pill / band backgrounds */
   .mobile-nav a:not(.mobile-nav-cta):not(.active):hover {
-    background: transparent;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-    opacity: 0.88;
+    background: rgba(168, 213, 208, 0.16);
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.18em;
@@ -936,11 +1476,10 @@
 
   .mobile-nav a:not(.mobile-nav-cta).active,
   .mobile-nav .current-menu-item > a:not(.mobile-nav-cta) {
-    background: transparent;
+    background: rgba(168, 213, 208, 0.16);
     color: var(--deep-teal);
     font-weight: var(--font-weight-ui);
     border-left: none;
-    padding-left: 0;
     text-decoration: underline;
     text-decoration-thickness: 1.5px;
     text-underline-offset: 0.18em;
@@ -951,7 +1490,6 @@
     background: transparent;
     font-weight: var(--font-weight-ui);
     border-left: none;
-    padding-left: 0;
     text-decoration: none;
   }
 
@@ -962,33 +1500,45 @@
     text-decoration-thickness: 1.5px;
   }
 
-  /* Primary CTA row must stay solid even when WP / JS marks it current */
+  /* Primary CTA row — match desktop gold CTA */
   .mobile-nav a.mobile-nav-cta.active,
   .mobile-nav .current-menu-item > a.mobile-nav-cta {
-    background: var(--deep-teal);
-    color: white !important;
-    border-left: none;
+    background: var(--warm-gold-hero);
+    color: var(--deep-teal);
+    border: 2px solid var(--deep-teal);
+    box-shadow: none;
     padding-left: 1.25rem;
     justify-content: center;
   }
 
   .mobile-nav .mobile-nav-cta {
-    background: var(--deep-teal);
-    color: white !important;
+    background: var(--warm-gold-hero);
+    color: var(--deep-teal);
     font-weight: var(--font-weight-ui);
     justify-content: center;
     margin-top: 0;
     padding: 0.75rem 1.25rem;
     min-height: 48px;
-    border-radius: 0.75rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--warm-gold-hero);
+    box-shadow:
+      0 1px 2px rgb(27 77 92 / 0.06),
+      0 4px 14px rgb(27 77 92 / 0.07);
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease;
   }
   .mobile-nav .mobile-nav-cta:hover {
-    background: color-mix(in srgb, var(--deep-teal) 90%, black);
-    color: white !important;
-    margin-left: 0;
-    margin-right: 0;
+    background: #ddb860;
+    border-color: #ddb860;
+    color: var(--deep-teal);
     padding-left: 1.25rem;
     padding-right: 1.25rem;
+    box-shadow:
+      0 2px 4px rgb(27 77 92 / 0.08),
+      0 8px 22px rgb(27 77 92 / 0.1);
   }
 
   /* WP Primary menu: show nested links stacked (no desktop dropdown) */
@@ -1078,8 +1628,8 @@
 
   .footer-cta__intro {
     margin: 0;
-    max-width: 40rem;
-    font-size: 1rem;
+    max-width: 42rem;
+    font-size: 1.0625rem;
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.92);
   }
@@ -1103,7 +1653,7 @@
     margin: 0;
     font-size: 0.8125rem;
     line-height: 1.45;
-    color: rgba(255, 255, 255, 0.82);
+    color: rgba(255, 255, 255, 0.9);
   }
 
   /* Base + variants: .site-footer a would override colours without .footer-cta parent */
@@ -1111,12 +1661,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
     font-weight: var(--font-weight-ui);
     font-size: 1rem;
     padding: 0.875rem 1.75rem;
     min-height: 2.75rem;
     border-radius: 1rem;
     text-decoration: none;
+    white-space: nowrap;
     border: 2px solid transparent;
     transition:
       background 0.2s ease,
@@ -1157,9 +1709,17 @@
     color: white;
   }
 
+  .footer-cta__btn i {
+    font-size: 0.95em;
+    transition: transform 0.2s ease;
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     .footer-cta__btn:hover {
       transform: translateY(-2px);
+    }
+    .footer-cta__btn:hover i {
+      transform: translateX(2px);
     }
   }
 
@@ -1168,8 +1728,12 @@
   }
 
   .footer-cta__btn:focus-visible {
-    outline: 3px solid #fff;
+    outline: 3px solid var(--deep-teal);
     outline-offset: 3px;
+  }
+
+  .footer-cta__btn--primary:focus-visible {
+    outline-color: var(--deep-teal);
   }
 
   .footer-cta__btn--ghost:focus-visible {
@@ -1181,6 +1745,17 @@
     .footer-cta__actions .footer-cta__btn {
       width: 100%;
       max-width: 22rem;
+    }
+  }
+
+  @media (hover: none) {
+    .mobile-nav a:not(.mobile-nav-cta):not(.active):hover {
+      background: transparent;
+      text-decoration: none;
+    }
+    .footer-cta__btn:hover,
+    .footer-cta__btn:hover i {
+      transform: none;
     }
   }
 
@@ -1291,11 +1866,108 @@
 
   .footer-legal-name {
     color: rgba(245, 237, 224, 0.72);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     line-height: 1.55;
     letter-spacing: 0.01em;
     margin: 0;
     max-width: 36ch;
+  }
+
+  /* Footer social: readable icons, ~44px+ touch targets, full-width row on mobile */
+  .footer-social {
+    margin-top: 0.25rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .footer-social__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .footer-social__list li {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .footer-social__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    min-height: 3.25rem;
+    padding: 0.625rem 0.35rem;
+    border-radius: 0.75rem;
+    background: rgba(245, 237, 224, 0.07);
+    border: 1px solid rgba(168, 213, 208, 0.22);
+    color: rgba(245, 237, 224, 0.95);
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .site-footer .footer-social__link {
+    color: rgba(245, 237, 224, 0.95);
+  }
+
+  .footer-social__link:hover,
+  .site-footer .footer-social__link:hover {
+    background: rgba(245, 237, 224, 0.12);
+    border-color: rgba(168, 213, 208, 0.38);
+    color: #fff;
+  }
+
+  .footer-social__label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    line-height: 1.15;
+  }
+
+  .footer-social__link .ph-bold {
+    width: auto;
+    height: auto;
+    font-size: 1.625rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .site-footer .footer-social__link:focus-visible {
+    outline: none;
+    color: #fff;
+    border-radius: 0.75rem;
+    box-shadow:
+      0 0 0 2px var(--warm-gold-hero),
+      0 0 0 5px rgba(12, 58, 71, 0.95);
+  }
+
+  @media (min-width: 1024px) {
+    .footer-social__list {
+      flex-wrap: wrap;
+      max-width: 22rem;
+    }
+
+    .footer-social__list li {
+      flex: 1 1 calc(33.333% - 0.35rem);
+    }
+
+    .footer-social__link {
+      min-height: 3rem;
+      padding: 0.5rem 0.4rem;
+    }
+
+    .footer-social__link .ph-bold {
+      font-size: 1.5rem;
+    }
   }
 
   .footer-heading {
@@ -1364,53 +2036,47 @@
     transform: rotate(-45deg) translateX(2px) translateY(-1px);
   }
 
-  /* Contact card */
+  /*
+   * Contact column: same rhythm as Explore (footer-heading + action).
+   * Reuses .footer-cta__btn--ghost from the strip above; overrides .site-footer a colour.
+   */
   .footer-contact {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    background: rgba(6, 32, 40, 0.6);
-    border: 1px solid rgba(168, 213, 208, 0.15);
-    border-top: 3px solid rgba(240, 201, 122, 0.55);
-    border-radius: 0.875rem;
-    padding: 1.5rem;
+    align-items: flex-start;
+    align-self: start;
   }
 
-  .footer-contact__copy {
-    margin: 0;
-    color: rgba(245, 237, 224, 0.9);
-    font-size: 0.875rem;
-    line-height: 1.5;
+  .site-footer .footer-contact .footer-cta__btn.footer-cta__btn--ghost {
+    color: #fff;
   }
 
-  .footer-contact__link {
-    font-weight: var(--font-weight-ui);
-    font-size: 0.875rem;
-    color: var(--warm-gold-hero);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
+  .site-footer .footer-contact .footer-cta__btn.footer-cta__btn--ghost:hover {
+    color: #fff;
   }
 
-  /* Beat .site-footer a (0,2,1) so the CTA stays gold on teal */
-  .site-footer .footer-contact .footer-contact__link {
-    color: var(--warm-gold-hero);
+  .site-footer .footer-contact .footer-cta__btn:focus {
+    outline: none;
   }
 
-  .footer-contact__link:hover,
-  .site-footer .footer-contact .footer-contact__link:hover {
-    color: white;
+  /* Ghost focus: match .footer-cta__btn--ghost; clear generic .site-footer a:focus-visible ring. */
+  .site-footer .footer-contact .footer-cta__btn--ghost:focus-visible {
+    outline: 3px solid var(--warm-gold-hero);
+    outline-offset: 2px;
+    box-shadow: none;
+    border-radius: 1rem;
   }
 
-  .footer-contact__link::after {
-    content: "→";
-    font-size: 0.9em;
-    transition: transform 0.2s ease;
+  @media (max-width: 479px) {
+    .footer-contact .footer-cta__btn {
+      width: 100%;
+      max-width: 22rem;
+    }
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .footer-contact__link:hover::after {
-      transform: translateX(2px);
+  @media (min-width: 1024px) {
+    .footer-contact .footer-cta__btn {
+      width: auto;
     }
   }
 
@@ -1448,8 +2114,9 @@
 
   /*
    * Homepage hero: left-weighted teal scrim — readable copy on the left; image stays bright from ~60%.
+   * Interior pages (.hero--interior): neutral scrim so varied photography is not tinted teal.
    */
-  .hero.home-hero.hero--has-media::before {
+  .hero.home-hero.hero--has-media:not(.hero--interior)::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -1460,6 +2127,42 @@
       color-mix(in srgb, var(--deep-teal) 88%, transparent) 0%,
       color-mix(in srgb, var(--deep-teal) 38%, transparent) 45%,
       transparent 60%
+    );
+  }
+
+  /*
+   * Interior hero scrim: same layered neutral treatment at all breakpoints (matches the
+   * former mobile-only stack) so desktop mirrors the “poster” depth without changing layout.
+   */
+  .hero.home-hero.hero--has-media.hero--interior::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 120% 92% at 50% 32%, rgb(0 0 0 / 0.5) 0%, rgb(0 0 0 / 0.22) 42%, transparent 72%),
+      radial-gradient(ellipse 210% 95% at 50% 112%, rgb(0 0 0 / 0.34) 0%, rgb(0 0 0 / 0.12) 48%, transparent 58%),
+      linear-gradient(
+        to right,
+        rgb(0 0 0 / 0.36) 0%,
+        rgb(0 0 0 / 0.12) 46%,
+        transparent 65%
+      );
+  }
+
+  .hero.home-hero.hero--has-media.hero--interior::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgb(0 0 0 / 0.22) 0%,
+      transparent min(32vh, 40%),
+      transparent 55%,
+      rgb(0 0 0 / 0.36) 100%
     );
   }
 
@@ -1493,8 +2196,8 @@
     z-index: 3;
     padding-top: 0;
     padding-bottom: 2.75rem;
-    padding-left: max(var(--space-5), env(safe-area-inset-left, 0px));
-    padding-right: max(var(--space-5), env(safe-area-inset-right, 0px));
+    padding-left: max(var(--rw-gutter-x), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--rw-gutter-x), env(safe-area-inset-right, 0px));
   }
 
   @media (min-width: 768px) {
@@ -1505,15 +2208,22 @@
 
   @media (min-width: 640px) {
     .hero .relative.container {
-      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
-      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
+      padding-left: max(var(--rw-gutter-x-sm), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--rw-gutter-x-sm), env(safe-area-inset-right, 0px));
     }
   }
 
   @media (min-width: 1024px) {
     .hero .relative.container {
-      padding-left: max(var(--space-8), env(safe-area-inset-left, 0px));
-      padding-right: max(var(--space-8), env(safe-area-inset-right, 0px));
+      padding-left: max(var(--rw-gutter-x-lg), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--rw-gutter-x-lg), env(safe-area-inset-right, 0px));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero .relative.container {
+      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
     }
   }
 
@@ -1617,12 +2327,21 @@
     align-items: stretch;
   }
 
+  /* Promise under CTAs: left on desktop (flush with button row); ≤768px poster hero centres it with CTAs */
+  .hero.home-hero .home-hero__reassurance {
+    text-align: start;
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+    box-sizing: border-box;
+  }
+
   /* Narrow screens: even vertical rhythm — eyebrow/title/lede/CTAs share one scale (no huge lede→button gap). */
   @media (max-width: 639px) {
     .hero.home-hero .relative.container {
-      /* Wider inset than default .hero .relative.container (space-5) — mobile editorial gutter */
-      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
-      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
+      /* Wider inset than default .hero .relative.container — mobile editorial gutter */
+      padding-left: max(var(--rw-gutter-x-sm), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--rw-gutter-x-sm), env(safe-area-inset-right, 0px));
       /* Slightly more foot room before the next section — softens the transition off the photo */
       padding-bottom: 3.75rem;
     }
@@ -1653,11 +2372,11 @@
     justify-content: center;
   }
 
-  /* Explore: brand gold + dark text (primary story CTA on photo) */
+  /* Explore: same pairing as .btn-gold — deep-teal on saturated #D4A853 fails AA; hero uses --warm-gold-hero + deep-teal */
   .hero.home-hero .home-hero__cta-stack .btn.btn-gold:not(.home-hero__cta-secondary) {
-    background-color: var(--warm-gold);
-    border-color: color-mix(in srgb, var(--warm-gold) 82%, #000);
-    color: var(--warm-gold-text);
+    background-color: var(--warm-gold-hero);
+    border-color: var(--warm-gold-hero);
+    color: var(--deep-teal);
     box-shadow:
       inset 0 1px 0 rgb(255 255 255 / 0.35),
       0 1px 2px rgb(0 0 0 / 0.12),
@@ -1671,9 +2390,9 @@
   }
 
   .hero.home-hero .home-hero__cta-stack .btn.btn-gold:not(.home-hero__cta-secondary):hover {
-    background-color: color-mix(in srgb, var(--warm-gold) 92%, #000);
-    border-color: color-mix(in srgb, var(--warm-gold) 72%, #000);
-    color: var(--warm-gold-text);
+    background-color: #ddb860;
+    border-color: #ddb860;
+    color: var(--deep-teal);
     box-shadow:
       inset 0 1px 0 rgb(255 255 255 / 0.25),
       0 2px 4px rgb(0 0 0 / 0.14),
@@ -1749,7 +2468,7 @@
      * Layered scrim: center weight for headline + lede; bottom lift for CTAs; lateral teal.
      * ::after adds top + bottom vignettes so white breakers / pale sand don’t blow out contrast.
      */
-    .hero.home-hero.hero--has-media::before {
+    .hero.home-hero.hero--has-media:not(.hero--interior)::before {
       background:
         radial-gradient(ellipse 120% 92% at 50% 32%, rgb(6 28 38 / 0.72) 0%, rgb(10 36 46 / 0.35) 42%, transparent 72%),
         radial-gradient(ellipse 210% 95% at 50% 112%, rgb(4 22 32 / 0.58) 0%, rgb(8 28 38 / 0.2) 48%, transparent 58%),
@@ -1761,7 +2480,7 @@
         );
     }
 
-    .hero.home-hero.hero--has-media::after {
+    .hero.home-hero.hero--has-media:not(.hero--interior)::after {
       content: '';
       position: absolute;
       inset: 0;
@@ -1987,6 +2706,13 @@
         0 2px 8px rgb(0 0 0 / 0.2);
     }
 
+    /* Same width band as the centred CTA stack; centred to match headline + primary CTA on small screens */
+    .hero.home-hero .home-hero__reassurance {
+      max-width: var(--home-hero-col);
+      margin-inline: auto;
+      text-align: center;
+    }
+
   }
 
   @media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
@@ -2064,12 +2790,12 @@
     align-items: center;
   }
 
-  /* Padding from utilities on the section (e.g. py-20 md:py-28); vertical padding not set here */
+  /* Section shell padding from `rw-section-y` / `rw-section-y--hero` on `<section>`; not set here */
   .intro-section {
     text-align: start;
   }
 
-  /* Width/alignment: headings, highlight grid, and prose share one start edge (see front-page.php). */
+  /* Width/alignment: column shell (see front-page.php). */
   .intro-section .intro-section__column {
     width: 100%;
   }
@@ -2080,25 +2806,9 @@
     max-width: 100%;
   }
 
-  .intro-section .intro-section__highlights-heading {
+  .intro-section .intro-section__highlights-heading,
+  .intro-section .intro-section__highlights-eyebrow {
     box-sizing: border-box;
-  }
-
-  /* Gold accent sits inline so the first line aligns with the H2 above (no border + padding inset). */
-  .intro-section .intro-section__highlights-kicker {
-    display: inline-block;
-    width: 3px;
-    height: 0.85em;
-    margin-right: 0.65rem;
-    background: var(--warm-gold-text);
-    border-radius: 9999px;
-    vertical-align: 0.12em;
-  }
-
-  @media (min-width: 768px) {
-    .intro-section .intro-section__highlights-kicker {
-      margin-right: 0.75rem;
-    }
   }
 
   #main-content .intro-section:not(.intro-section--home) .section-label,
@@ -2111,7 +2821,7 @@
   /* Homepage wireframe: band titles centred; highlight cards + intro prose stay left-aligned for reading. */
   #main-content .intro-section.intro-section--home .intro-section__hero-copy,
   #main-content .intro-section.intro-section--home .section-label,
-  #main-content .intro-section.intro-section--home .intro-section__highlights-heading {
+  #main-content .intro-section.intro-section--home .intro-section__highlights-eyebrow {
     text-align: center;
   }
 
@@ -2119,17 +2829,21 @@
     text-align: start;
   }
 
-  /* Wireframe: two-column story block under highlights (desktop). */
+  /* Homepage: story block under highlights — comfortable measure, start-aligned with the card grid edge. */
   #main-content .intro-section.intro-section--home .intro-section__prose--home {
     width: 100%;
   }
 
-  #main-content .intro-section.intro-section--home .intro-section__prose-columns {
+  #main-content .intro-section.intro-section--home .intro-section__prose-stack {
     width: 100%;
+    margin-left: 0;
+    margin-right: auto;
+    text-align: start;
   }
 
   .intro-section .intro-section__highlights {
     justify-items: stretch;
+    align-items: start;
   }
 
   .intro-section .intro-section__highlights li,
@@ -2143,17 +2857,52 @@
     justify-content: flex-start;
   }
 
-  #main-content .intro-section li.intro-section__bento-card h4,
+  #main-content .intro-section li.intro-section__bento-card h3,
   #main-content .intro-section li.intro-section__bento-card .intro-section__bento-desc {
     text-align: start;
     width: 100%;
     max-width: 100%;
   }
 
-  /* Reading column: never auto-centre inside the intro rail (fixes “body starts inset” if mx-auto leaks in). */
-  #main-content .intro-section .intro-section__prose {
+  /* Interior pages: keep prose aligned to the start rail. Homepage intro: centre under the same max-width band as highlight cards. */
+  #main-content .intro-section:not(.intro-section--home) .intro-section__prose {
     margin-left: 0;
     margin-right: auto;
+  }
+
+  #main-content .intro-section.intro-section--home .intro-section__prose {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /*
+   * Homepage intro inline links: global `a { text-decoration-color: var(--warm-gold) }` reads as a
+   * gold underline under teal text. Tie decoration to the link colour for clearer, calmer reading.
+   */
+  #main-content .intro-section.intro-section--home .intro-section__inline-link,
+  #main-content .intro-section.intro-section--home .intro-section__body a {
+    color: var(--deep-teal);
+    font-weight: var(--font-weight-emphasis, 500);
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: max(1.5px, 0.06em);
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  #main-content .intro-section.intro-section--home .intro-section__inline-link:hover,
+  #main-content .intro-section.intro-section--home .intro-section__body a:hover {
+    text-decoration: none;
+  }
+
+  #main-content .intro-section.intro-section--home .intro-section__inline-link:focus-visible,
+  #main-content .intro-section.intro-section--home .intro-section__body a:focus-visible {
+    text-decoration-color: currentColor;
+  }
+
+  #main-content .intro-section.intro-section--home .intro-section__prose-meta {
+    letter-spacing: 0.01em;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -2238,6 +2987,58 @@
     }
   }
 
+  /* Homepage property spotlight: single-frame photo + divided link list */
+  #main-content .property-section .property-section__figure {
+    transition: box-shadow 0.3s ease;
+  }
+
+  /* Panel padding from tokens — even top/bottom; no inline p-* utilities */
+  #main-content .property-section .property-section__panel {
+    padding: var(--rw-panel-pad-sm);
+  }
+
+  @media (min-width: 640px) {
+    #main-content .property-section .property-section__panel {
+      padding: var(--rw-panel-pad-md);
+    }
+  }
+
+  @media (min-width: 768px) {
+    #main-content .property-section .property-section__panel {
+      padding: var(--rw-panel-pad-lg);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    #main-content .property-section .property-grid__media:hover .property-section__figure {
+      box-shadow: 0 12px 36px rgba(27, 77, 92, 0.1);
+    }
+  }
+
+  /* Divider block: offset matches --rw-card-region-gap so rhythm matches panel-inner stack */
+  #main-content .property-section .property-section__explore {
+    padding-top: var(--rw-card-region-gap);
+  }
+
+  /* “Explore further” — calm label, not shouty caps */
+  #main-content .property-section .property-section__explore-label {
+    letter-spacing: 0.02em;
+    text-transform: none;
+    margin: 0 0 var(--rw-explore-label-gap) 0;
+  }
+
+  #main-content .property-section .property-section__intro .section-heading {
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  #main-content .property-section .property-section__linklist .property-section__quick-link {
+    margin: 0 -0.125rem;
+    padding-left: 0.125rem;
+    padding-right: 0.125rem;
+    border-radius: 0.375rem;
+  }
+
   /* Property page: Your home for the week cards + feature grid */
   .property-feature-card {
     min-height: 12rem;
@@ -2315,7 +3116,7 @@
     }
   }
 
-  /* Lens A: one icon treatment per section — sea-glass + deep-teal (Font Awesome must inherit) */
+  /* Lens A: one icon treatment per section — sea-glass + deep-teal (Phosphor must inherit) */
   .who-section .who-card__icon {
     display: flex;
     align-items: center;
@@ -2329,7 +3130,7 @@
     flex-shrink: 0;
   }
 
-  .who-section .who-card__icon .fa-solid {
+  .who-section .who-card__icon .ph-bold {
     color: var(--deep-teal);
   }
 
@@ -2339,7 +3140,7 @@
     color: var(--warm-gold-text);
   }
 
-  .who-section .who-card__icon--warm .fa-solid {
+  .who-section .who-card__icon--warm .ph-bold {
     color: var(--warm-gold-text);
   }
 
@@ -2359,40 +3160,39 @@
     color: color-mix(in srgb, var(--warm-gold-text) 72%, var(--deep-teal) 28%);
   }
 
-  .trust-strip {
-    background: color-mix(in srgb, var(--sea-glass) 14%, var(--bg-subtle));
-  }
-
-  .trust-strip__line {
-    font-size: 1.0625rem;
-    line-height: 1.6;
-  }
-
-  @media (min-width: 640px) {
-    .trust-strip__line {
-      font-size: 1.125rem;
-    }
-  }
-
   .cta-section {
     background: linear-gradient(135deg, #1B4D5C 0%, #0d3040 100%);
     position: relative;
   }
 
   /*
-   * Sections without explicit py-* rely on design tokens (--section-padding-y).
-   * Sections with py-* / md:py-* use Tailwind utilities (ID rule no longer overrides them).
+   * Sections without explicit py-* or rw-section-y* rely on design tokens (same 4-tier rhythm).
+   * Sections with .rw-section-y / .rw-section-y--hero get padding from those utilities only.
    * Use py-0 on bands that pad their inner .container instead (e.g. equipment strip, wg-glance).
    */
-  #main-content > section:not(.hero):not([class*="py-"]) {
+  #main-content > section:not(.hero):not([class*="py-"]):not([class*="rw-section-y"]) {
     padding-top: var(--section-padding-y);
     padding-bottom: var(--section-padding-y);
   }
 
+  @media (min-width: 640px) {
+    #main-content > section:not(.hero):not([class*="py-"]):not([class*="rw-section-y"]) {
+      padding-top: var(--section-padding-y-sm);
+      padding-bottom: var(--section-padding-y-sm);
+    }
+  }
+
   @media (min-width: 768px) {
-    #main-content > section:not(.hero):not([class*="py-"]) {
-      padding-top: var(--section-padding-y-md);
-      padding-bottom: var(--section-padding-y-md);
+    #main-content > section:not(.hero):not([class*="py-"]):not([class*="rw-section-y"]) {
+      padding-top: var(--section-padding-y-tablet);
+      padding-bottom: var(--section-padding-y-tablet);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    #main-content > section:not(.hero):not([class*="py-"]):not([class*="rw-section-y"]) {
+      padding-top: var(--section-padding-y-desktop);
+      padding-bottom: var(--section-padding-y-desktop);
     }
   }
 
@@ -2433,33 +3233,28 @@
     font-weight: var(--font-weight-ui);
   }
 
-  /* Stacked 2-col grids: same gap as section rhythm on mobile; roomier columns from md */
+  /* Stacked 2-col grids: ramp gap mobile → tablet → desktop (was one harsh jump at md) */
   #main-content .grid.md\:grid-cols-2 {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-6);
+    gap: var(--rw-split-grid-gap-mobile);
   }
 
   @media (min-width: 768px) {
     #main-content .grid.md\:grid-cols-2 {
       grid-template-columns: 1fr 1fr;
-      gap: var(--space-16);
+      gap: var(--rw-split-grid-gap-tablet);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    #main-content .grid.md\:grid-cols-2 {
+      gap: var(--rw-split-grid-gap-desktop);
     }
   }
 
   #main-content .home-teaser-area-funding header .section-label {
     margin-bottom: 0;
-  }
-
-  /* Eyebrow → cards: match inter-card gap (--space-6) on mobile for one rhythm */
-  #main-content .home-teaser-area-funding header {
-    margin-bottom: var(--space-6);
-  }
-
-  @media (min-width: 768px) {
-    #main-content .home-teaser-area-funding header {
-      margin-bottom: var(--space-8);
-    }
   }
 
   /* #D4A853 with white text = 2.20:1 ✗ - switched to deep-teal text on warm-gold-hero.
@@ -2500,13 +3295,13 @@
     background: rgba(255, 255, 255, 0.25);
   }
 
-  #main-content section.relative.py-20.md\:py-28.overflow-hidden {
+  /* Bottom homepage CTA: full-bleed media + scrim; supports CTA or hero spacing utilities */
+  #main-content section.cta-section.relative:is(.rw-section-y--cta, .rw-section-y--hero).overflow-hidden {
     position: relative;
-    padding: 6rem 0;
     overflow: hidden;
   }
 
-  #main-content section.relative.py-20.md\:py-28.overflow-hidden .absolute.inset-0.w-full.h-full.object-cover {
+  #main-content section.cta-section.relative:is(.rw-section-y--cta, .rw-section-y--hero).overflow-hidden .absolute.inset-0.w-full.h-full.object-cover {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -2514,21 +3309,21 @@
     object-fit: cover;
   }
 
-  #main-content section.relative.py-20.md\:py-28.overflow-hidden .absolute.inset-0[class*="bg-[#1B4D5C]"] {
+  #main-content section.cta-section.relative:is(.rw-section-y--cta, .rw-section-y--hero).overflow-hidden .absolute.inset-0[class*="bg-[#1B4D5C]"] {
     position: absolute;
     inset: 0;
     background: rgba(27, 77, 92, 0.75);
     z-index: 1;
   }
 
-  #main-content section.relative.py-20.md\:py-28.overflow-hidden .relative.container.text-center {
+  #main-content section.cta-section.relative:is(.rw-section-y--cta, .rw-section-y--hero).overflow-hidden .relative.container.text-center {
     position: relative;
     z-index: 2;
     text-align: center;
     color: #fff;
   }
 
-  #main-content section.relative.py-20.md\:py-28.overflow-hidden h2 {
+  #main-content section.cta-section.relative:is(.rw-section-y--cta, .rw-section-y--hero).overflow-hidden h2 {
     color: #fff;
   }
 
@@ -2556,28 +3351,6 @@
 
   #main-content > section.bg-white {
     background: #fff;
-  }
-
-  #main-content section .container {
-    width: 100%;
-    margin: 0 auto;
-    padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
-    padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
-  }
-
-  @media (min-width: 640px) {
-    #main-content section .container {
-      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
-      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
-    }
-  }
-
-  @media (min-width: 1024px) {
-    #main-content section .container {
-      padding-left: max(var(--space-8), env(safe-area-inset-left, 0px));
-      padding-right: max(var(--space-8), env(safe-area-inset-right, 0px));
-      max-width: 1200px;
-    }
   }
 
   /* Responsive - tablet */
@@ -2616,17 +3389,7 @@
       text-align: center;
       width: 100%;
     }
-    /*
-     * Mobile container gutter — must match .site-header + hero + #main-content section rails.
-     * Previously `padding: 0 1rem` forced 16px and ignored safe-area; header (1rem) sat inside
-     * a different horizontal rhythm than `.hero.home-hero .relative.container` (space-6 @ ≤639px).
-     * Use the same token + safe-area as elsewhere. Do not use `padding` shorthand here — it
-     * would reset unrelated vertical padding on nested containers.
-     */
-    .container {
-      padding-left: max(var(--space-6), env(safe-area-inset-left, 0px));
-      padding-right: max(var(--space-6), env(safe-area-inset-right, 0px));
-    }
+    /* Mobile horizontal gutters: see @layer components `.container, .rw-page-gutter-x` (max-width: 768px). */
     .site-footer { padding-bottom: 2.5rem; }
     .site-footer__bottom {
       flex-direction: column;
@@ -2985,7 +3748,7 @@
   scroll-padding-top: clamp(7.5rem, 18vh, 11rem);
 }
 
-/* Who It's For: vertical rhythm comes from py-16 md:py-24 on each section (no ID override). */
+/* Who It's For: vertical rhythm from `rw-section-y` on each section (no #main-content fallback when class is present). */
 
 /* Who It's For: section kicker uses AA gold on subtle bg (DESIGN-SYSTEM) */
 .restwell-wif-page #main-content .section-label {
@@ -3280,6 +4043,35 @@
   outline-offset: 2px;
 }
 
+/* -----------------------------------------------------------------------------
+   Launch polish utilities
+   Shared card/copy primitives used by key launch templates
+   ----------------------------------------------------------------------------- */
+.rw-surface-card {
+  background: #fff;
+  border: 1px solid rgba(27, 77, 92, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 0.04);
+}
+
+.rw-card-hover-lift {
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.rw-card-hover-lift:hover {
+  box-shadow: 0 12px 36px rgb(0 0 0 / 0.08);
+  transform: translateY(-2px);
+}
+
+.rw-copy-body {
+  color: #3a5a63;
+  line-height: 1.7;
+}
+
+.rw-copy-muted {
+  color: var(--muted-grey);
+}
+
 .wif-persona-expand:not(.wif-persona-expand--header) .wif-persona-expand__icon {
   display: block;
   transition: transform 0.2s ease;
@@ -3502,12 +4294,11 @@
 #main-content section.intro-section .max-w-prose > p,
 #main-content .intro-section ul.grid li p,
 #main-content .home-teaser__grid p.max-w-prose.leading-relaxed,
+#main-content .property-section__body > p,
 #main-content .property-grid__text > p:not(.property-section__quick-links),
 #main-content div.text-lg.leading-relaxed.max-w-prose.space-y-4 p,
 #main-content p.max-w-prose.leading-relaxed.text-gray-600:not(.text-xs):not(.text-sm):not(.text-center),
 #main-content .home-hero-equipment-strip__text,
-#main-content .home-faq-section dd,
-#main-content .home-faq-section .home-faq__answer,
 #main-content .restwell-prose-readable,
 #main-content .restwell-justify-soft {
   text-align: start;
@@ -3515,6 +4306,27 @@
   -webkit-hyphens: none;
   overflow-wrap: break-word;
   text-wrap: pretty;
+}
+
+/* Funding & support (template-resources): stable list rails for long CMS/default HTML */
+#main-content .restwell-resources-body.prose ul,
+#main-content .restwell-resources-body.prose ol {
+  list-style-position: outside;
+  padding-inline-start: 1.25rem;
+  margin-inline-start: 0;
+}
+
+#main-content .restwell-resources-body.prose li > ul,
+#main-content .restwell-resources-body.prose li > ol {
+  margin-block-start: 0.375rem;
+  margin-block-end: 0.375rem;
+}
+
+@media (max-width: 639px) {
+  #main-content .restwell-resources-body.prose ul,
+  #main-content .restwell-resources-body.prose ol {
+    padding-inline-start: 1.125rem;
+  }
 }
 
 /*
