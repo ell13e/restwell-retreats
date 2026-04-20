@@ -28,7 +28,7 @@ function restwell_get_seo_meta_defaults_by_slug() {
 			'meta_title'       => 'Accessible holidays Whitstable 2026 | ' . $name,
 			
 			// Variant A: Specificity-led (151 chars) - ACTIVE
-			'meta_description' => 'Ceiling track hoist, profiling bed, wet room. Private self-catering bungalow in Whitstable. Optional CQC-regulated care. No booking commitment.',
+			'meta_description' => 'Bedroom ceiling track hoist, profiling bed, wet room. Private self-catering bungalow in Whitstable. Optional CQC-regulated care. No booking commitment.',
 			
 			// Variant B: Outcome-led (148 chars)
 			// 'meta_description' => 'Accessible coastal break in Whitstable: adapted bungalow, ceiling hoist, wet room. Private self-catering. Optional care partner. Enquire today.',
@@ -40,12 +40,12 @@ function restwell_get_seo_meta_defaults_by_slug() {
 		),
 		'the-property'          => array(
 			'meta_title'       => 'Adapted Bungalow Whitstable | Property | ' . $name,
-			'meta_description' => 'Adapted bungalow Whitstable: ceiling track hoist, profiling bed, roll-in shower, wide doorways. Private self-catering accessible stay. Book direct.',
+			'meta_description' => 'Adapted bungalow Whitstable: bedroom ceiling track hoist, profiling bed, roll-in shower, wide doorways. Private self-catering accessible stay. Book direct.',
 			'focus_keyphrase'  => 'adapted bungalow whitstable',
 		),
 		'accessibility'         => array(
 			'meta_title'       => 'Wheelchair Accessible Holiday Cottage | ' . $name,
-			'meta_description' => 'Wheelchair accessible holiday cottage: hoist, profiling bed, wide doors, roll-in shower, step-free. Download our access statement and book with confidence.',
+			'meta_description' => 'Wheelchair accessible holiday cottage: bedroom hoist, profiling bed, wide doors, roll-in shower, step-free. Download our access statement and book with confidence.',
 			'focus_keyphrase'  => 'wheelchair accessible holiday cottage',
 		),
 		'who-its-for'           => array(
@@ -60,7 +60,7 @@ function restwell_get_seo_meta_defaults_by_slug() {
 		),
 		'enquire'               => array(
 			'meta_title'       => 'Contact & Enquire | Restwell | ' . $name,
-			'meta_description' => 'Contact Restwell by phone, email, or enquiry form for rates, availability, and access questions. We usually reply within one working day.',
+			'meta_description' => 'Contact Restwell by phone, email, or enquiry form for rates, availability, and access questions. We usually reply within 48 hours.',
 			'focus_keyphrase'  => 'contact restwell',
 		),
 		'faq'                   => array(
@@ -232,7 +232,7 @@ function restwell_get_who_its_for_page_html() {
 <p>This is a real holiday - a comfortable self-catering bungalow on the Kent coast, not a clinical placement. We have designed the space so you can focus on the break: the sea air, Whitstable, and time together.</p>
 <p><a href="' . $prop . '">View the property</a> or <a href="' . $enquire . '">check availability and enquire</a>.</p>
 <h2>For carers and support workers</h2>
-<p>Bring your client or family member knowing the property has level access, a ceiling track hoist, profiling bed, and a full wet room. There is room for you to stay - tell us your party size when you book so we can confirm sleeping arrangements.</p>
+<p>Bring your client or family member knowing the property has level access, a ceiling track hoist in the accessible bedroom, profiling bed, and a full wet room on the same level with a height-adjustable washbasin. There is room for you to stay - tell us your party size when you book so we can confirm sleeping arrangements.</p>
 <p>Read our <a href="' . $acc . '">accessibility specification</a> and <a href="' . $faq . '">funding and booking FAQs</a>.</p>
 <h2>For occupational therapists and case managers</h2>
 <p>We provide detailed accessibility information so you can assess suitability. If you need room dimensions, equipment specifications, or a site visit, <a href="' . $enquire . '">contact us</a> - we are used to working with professionals.</p>
@@ -258,7 +258,7 @@ function restwell_get_whitstable_guide_page_html() {
 <h2>Nearby towns</h2>
 <p><strong>Canterbury</strong> (about eight miles) - cathedral, museums, and flat pedestrianised areas in the centre. <strong>Faversham</strong> and <strong>Herne Bay</strong> are short drives for market-town days out and traditional seafront.</p>
 <h2>Getting here</h2>
-<p>Whitstable station has trains to London St Pancras and Victoria. By car, use the M2 / Thanet Way. The property has off-street parking suitable for adapted vehicles.</p>
+<p>Whitstable station has trains to London St Pancras and Victoria. By car, use the M2 / Thanet Way. The property has two off-road spaces on a private drive, with on-street parking outside if you need extra room (no residents permit on this road).</p>
 <p><a href="' . $prop . '">Back to the property</a> · <a href="' . $enq . '">Book your stay</a></p>';
 }
 
@@ -662,7 +662,7 @@ function restwell_get_blog_post_revitalise_html() {
 <h2>What to look for instead: the self-catering option</h2>
 <p>Revitalise was a staffed residential model: care, meals, and activities all on site. The alternative most people are navigating now is self-catering - adapted properties where you bring your own support and manage your own stay.</p>
 <p>This is a very different proposition. It offers more independence and flexibility, but it requires you to have care in place before you arrive. For people who relied on Revitalise precisely because they did not have that independently, self-catering is not a direct substitute.</p>
-<p>If you do have care in place - a personal assistant, a family member who supports you, or a care agency that can travel with you - self-catering can work well. But the quality of \"accessible\" self-catering varies enormously. A property that describes itself as accessible might mean a grab rail by the toilet. Or it might mean a full wet room, ceiling track hoist, profiling bed, and wide doorways throughout. You need to know which one you are looking at before you book.</p>
+<p>If you do have care in place - a personal assistant, a family member who supports you, or a care agency that can travel with you - self-catering can work well. But the quality of \"accessible\" self-catering varies enormously. A property that describes itself as accessible might mean a grab rail by the toilet. Or it might mean a full wet room, a bedroom ceiling-track hoist, profiling bed, and wide doorways throughout. You need to know which one you are looking at before you book.</p>
 <p><strong>What to check before booking any adapted self-catering property:</strong> (see our full <a href=\"{$checklist}\">guide to choosing an accessible self-catering holiday</a> for detailed questions to ask)</p>
 <ul>
 <li>Does the listing name specific equipment, or just use the word \"accessible\" without detail?</li>
@@ -684,7 +684,7 @@ function restwell_get_blog_post_revitalise_html() {
 </ul>
 
 <h2>Restwell as one option</h2>
-<p>We run an adapted holiday home in Whitstable on the Kent coast. It is not a replacement for Revitalise - we do not provide on-site care, nursing, or staffing. Guests bring their own support. What we offer is a private, accessible property where the physical environment has been built around the needs that actually matter: ceiling track hoist, profiling bed, roll-in wet room, wide doorways throughout, and level access from the car park.</p>
+<p>We run an adapted holiday home in Whitstable on the Kent coast. It is not a replacement for Revitalise - we do not provide on-site care, nursing, or staffing. Guests bring their own support. What we offer is a private, accessible property where the physical environment has been built around the needs that actually matter: a ceiling track hoist in the accessible bedroom, profiling bed, roll-in wet room with a height-adjustable washbasin, wide doorways throughout, and level access from the car park.</p>
 <p>We publish a detailed access specification so you can assess suitability before you contact us. We welcome funded stays through direct payments, personal health budgets, and CHC pathways. Our <a href=\"{$res}\">funding and support page</a> has detail on how each route works, and our <a href=\"{$dp}\">direct payments guide</a> explains what care funding can and cannot cover.</p>
 <p>If you want to know whether the property could work for your situation, the straightforward route is to <a href=\"{$who}\">read who Restwell is for</a>, review <a href=\"{$acc}\">the accessibility specification</a>, and <a href=\"{$enq}\">enquire when you are ready</a>.</p>
 <p>We would rather you found the right place for your needs - even if that is not us - than booked somewhere that does not work when you arrive.</p>";
@@ -700,7 +700,7 @@ function restwell_get_blog_post_self_catering_checklist_html() {
 	$dp     = esc_url( home_url( '/direct-payment-holiday-accommodation/' ) );
 	$rev    = esc_url( home_url( '/revitalise-alternatives-accessible-holidays/' ) );
 
-	return "<p>The word \"accessible\" on a holiday property listing can mean almost anything. A grab rail by the bath. A ground-floor bedroom. A ramp at the front door. Or it can mean ceiling track hoist, profiling bed, roll-in wet room, and step-free access throughout. All of those listings use the same word.</p>
+	return "<p>The word \"accessible\" on a holiday property listing can mean almost anything. A grab rail by the bath. A ground-floor bedroom. A ramp at the front door. Or it can mean a bedroom ceiling-track hoist, profiling bed, roll-in wet room with a height-adjustable washbasin, and step-free access throughout. All of those listings use the same word.</p>
 <p>This guide is for anyone who needs genuine access information before booking a self-catering holiday - not reassuring descriptions, but specific details you can actually use to make a decision.</p>
 
 <h2>Why listings are unreliable</h2>
@@ -731,9 +731,10 @@ function restwell_get_blog_post_self_catering_checklist_html() {
 <ul>
 <li>Is it a roll-in (wheel-in) shower, or does it have a step or ridge? What is the shower entry width?</li>
 <li>Are there grab rails at the toilet and in the shower - on both sides, or only one?</li>
-<li>Is there a fold-down shower seat, or a fixed seat?</li>
+<li>What shower seating is provided (perching stool, portable chair, or none), and can the owner supply a shower chair if you need one?</li>
+<li>Is the washbasin at a fixed height or fully height-adjustable? Can it swing or move aside when you need clearer transfer or assistance space?</li>
 <li>Is there a ceiling or floor-based hoist, and if so, what is the safe working load?</li>
-<li>Can the hoist reach from the shower to the toilet and the bed?</li>
+<li>If a hoist is advertised, which rooms does the track actually cover (bedroom only, into the bathroom, or further)—and does that match how you transfer?</li>
 <li>What is the floor surface - wet room drainage, or a wet room with a slight camber?</li>
 </ul>
 
@@ -741,7 +742,7 @@ function restwell_get_blog_post_self_catering_checklist_html() {
 <ul>
 <li>What is the bed height? Transfer height is typically 45-55cm from the floor.</li>
 <li>Is the bed a standard fixed frame, or an adjustable profiling bed?</li>
-<li>Is there a hoist available, and does its track or range cover the bed?</li>
+<li>Is there a hoist, and is the track laid where you need it—for example fully over the bed, or extending into the bathroom?</li>
 <li>Is there space on both sides of the bed for transfers and for a carer to work?</li>
 <li>Is there storage for medical equipment, mobility aids, or a ventilator if needed?</li>
 </ul>
@@ -852,7 +853,7 @@ function restwell_get_blog_post_carers_respite_html() {
 
 <h2>If you are thinking about Restwell</h2>
 <p>Restwell is an adapted self-catering property in Whitstable, Kent. It is designed for guests with disabilities, their families, and carers - with a layout and equipment specification built around what actually matters for a supported stay rather than what looks good in a listing.</p>
-<p>The property has a separate sleeping area for carers, ceiling track hoist, profiling bed, and wet room. We welcome funded stays and can provide documentation to support care plan discussions. We have worked with guests whose stays have been funded through direct payments, CHC routes, and personal budgets alongside self-funded bookings.</p>
+<p>The property has a separate sleeping area for carers, a ceiling track hoist in the accessible bedroom, profiling bed, and wet room with a height-adjustable washbasin. We welcome funded stays and can provide documentation to support care plan discussions. We have worked with guests whose stays have been funded through direct payments, CHC routes, and personal budgets alongside self-funded bookings.</p>
 <p>For more on how funded stays work, visit our <a href=\"{$res}\">funding and support hub</a>. To understand whether the property suits your specific situation, <a href=\"{$who}\">read who Restwell is for</a> or <a href=\"{$enq}\">send us a question before you commit to anything</a>.</p>
 <p>If you are weighing up the local area, our <a href=\"{$loc}\">Whitstable area guide</a> covers seafront routes, parking, and day-trip distances.</p>";
 }

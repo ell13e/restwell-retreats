@@ -22,7 +22,7 @@ $audience_heading = (string) get_post_meta( $pid, 'wif_audience_heading', true )
 $audience_intro   = (string) get_post_meta( $pid, 'wif_audience_intro', true ) ?: 'Open the section that fits your situation. We have set out what usually matters, in plain language, with a clear next step when you are ready.';
 
 $default_family_bullets = array(
-	'Ceiling track hoist, profiling bed, and wet room with roll-in shower, already in place.',
+	'Ceiling track hoist in the accessible bedroom, profiling bed, and wet room with roll-in shower and height-adjustable washbasin, already in place.',
 	'Published access measurements before you commit to anything.',
 	'A private self-catering layout: your daily routines run on your schedule.',
 );
@@ -53,7 +53,7 @@ $personas = array(
 			$pid,
 			'wif_family_body',
 			'wif_family_detail_body',
-			"\"Accessible\" and \"wheelchair friendly\" are used loosely by a lot of accommodation. People book in good faith and arrive to find a step at the entrance, a bathroom that is too small to turn, or a hoist that is not actually there. Restwell works the other way: the ceiling track hoist is already fitted, the wet room has a roll-in shower with turning space, and every doorway and corridor is sized for a powerchair.\n\nThe full measurements are published on our accessibility page. Check them before you enquire, not after.\n\nThis is a private home, not a converted hotel room. No shared spaces, no clinical layout, and no surprises on arrival."
+			"\"Accessible\" and \"wheelchair friendly\" are used loosely by a lot of accommodation. People book in good faith and arrive to find a step at the entrance, a bathroom that is too small to turn, or a hoist that is not actually there. Restwell works the other way: the ceiling track hoist is already fitted in the accessible bedroom, the wet room has a roll-in shower with turning space, and every doorway and corridor is sized for a powerchair.\n\nThe full measurements are published on our accessibility page. Check them before you enquire, not after.\n\nThis is a private home, not a converted hotel room. No shared spaces, no clinical layout, and no surprises on arrival."
 		),
 		'bullets'          => restwell_wif_bullet_list( $pid, 'wif_family_detail_bullets', $default_family_bullets ),
 		'inline_cta_label' => (string) get_post_meta( $pid, 'wif_family_inline_cta_label', true ) ?: __( 'Read accessibility specification', 'restwell-retreats' ),
@@ -69,7 +69,7 @@ $personas = array(
 			$pid,
 			'wif_carers_body',
 			'wif_carers_detail_body',
-			"The ceiling hoist is already fitted, the wet room is designed for assisted personal care, and there is a separate sleeping area for the support worker. The layout is practical, not just manageable.\n\nIf your client has complex needs, check the suitability details with us before you commit. We will give you specifics, not a brochure.\n\nOne thing many carers do not know: you have a legal right to a Carer's Assessment under the Care Act 2014. Your local council must carry one out if you ask. It can open up direct payment routes to fund a holiday or short break, so it is worth requesting if you have not had one."
+			"The ceiling hoist is already fitted in the accessible bedroom; the wet room is designed for assisted personal care on the same level; and there is a separate sleeping area for the support worker. The layout is practical, not just manageable.\n\nIf your client has complex needs, check the suitability details with us before you commit. We will give you specifics, not a brochure.\n\nOne thing many carers do not know: you have a legal right to a Carer's Assessment under the Care Act 2014. Your local council must carry one out if you ask. It can open up direct payment routes to fund a holiday or short break, so it is worth requesting if you have not had one."
 		),
 		'bullets'          => restwell_wif_bullet_list( $pid, 'wif_carers_detail_bullets', $default_carers_bullets ),
 		'inline_cta_label' => (string) get_post_meta( $pid, 'wif_carers_inline_cta_label', true ) ?: __( 'Ask a suitability question', 'restwell-retreats' ),
@@ -85,7 +85,7 @@ $personas = array(
 			$pid,
 			'wif_ot_body',
 			'wif_ot_detail_body',
-			"Our accessibility page publishes doorway widths, turning circle dimensions, ceiling track hoist specifications, profiling bed measurements, and wet room dimensions: the specifics that matter for a clinical recommendation.\n\nIf you need something we have not published (transfer clearances, approach gradients, equipment positioning), ask and we will measure it.\n\nWe understand a poor recommendation reflects on you. We would rather give you a straight answer than lose your trust, and we welcome referral conversations before any booking commitment."
+			"Our accessibility page publishes doorway widths, turning circle dimensions, bedroom ceiling track hoist specifications, profiling bed measurements, and wet room dimensions: the specifics that matter for a clinical recommendation.\n\nIf you need something we have not published (transfer clearances, approach gradients, equipment positioning), ask and we will measure it.\n\nWe understand a poor recommendation reflects on you. We would rather give you a straight answer than lose your trust, and we welcome referral conversations before any booking commitment."
 		),
 		'bullets'          => restwell_wif_bullet_list( $pid, 'wif_ot_detail_bullets', $default_ot_bullets ),
 		'inline_cta_label' => (string) get_post_meta( $pid, 'wif_ot_inline_cta_label', true ) ?: __( 'Review accessibility details', 'restwell-retreats' ),

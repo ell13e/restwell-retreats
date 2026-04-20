@@ -68,14 +68,16 @@ if ( $body_html === '' ) {
 	get_template_part( 'template-parts/interior-hero' );
 	?>
 
-	<div class="container rw-section-y max-w-3xl">
-		<article class="legal-policy-document">
-			<div class="prose prose-lg max-w-none text-[#3a5a63] prose-headings:font-serif prose-headings:text-[var(--deep-teal)] prose-a:text-[var(--deep-teal)]">
-				<?php echo wp_kses_post( $body_html ); ?>
-			</div>
-			<p class="mt-10 text-sm text-gray-500 leading-relaxed border-t border-gray-100 pt-6">
-				<?php esc_html_e( 'This page is provided for general information and is not legal advice. If you need advice for your situation, speak to a qualified solicitor or adviser.', 'restwell-retreats' ); ?>
-			</p>
-		</article>
-	</div>
+	<section class="legal-policy-section rw-section-y">
+		<div class="container max-w-3xl">
+			<article class="legal-policy-document">
+				<div class="legal-policy-document__content prose prose-lg max-w-none text-[#3a5a63] prose-headings:font-serif prose-headings:text-[var(--deep-teal)] prose-a:text-[var(--deep-teal)] prose-a:font-medium prose-li:marker:text-[var(--deep-teal)]">
+					<?php echo wp_kses_post( $body_html ); ?>
+				</div>
+				<p class="legal-policy-document__disclaimer">
+					<?php esc_html_e( 'This page is provided for general information and is not legal advice. If you need advice for your situation, speak to a qualified solicitor or adviser.', 'restwell-retreats' ); ?>
+				</p>
+			</article>
+		</div>
+	</section>
 </main>

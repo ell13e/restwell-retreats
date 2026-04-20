@@ -118,7 +118,7 @@ $label_class = 'block text-sm font-semibold text-[#1B4D5C] mb-1.5';
 									<p class="rw-copy-body leading-relaxed"><?php echo esc_html( $urgent ? $enq_success_urgent_body : $enq_success_body ); ?></p>
 									<?php if ( $mail_warn ) : ?>
 										<p class="mt-4 text-sm text-[#92400e] bg-[#fef3c7] border border-[#fcd34d] rounded-xl px-4 py-3 leading-relaxed">
-											<?php esc_html_e( 'We saved your enquiry, but our automatic email to the team may not have gone through. If you do not hear from us within one working day, please call or email us so we can pick it up.', 'restwell-retreats' ); ?>
+											<?php esc_html_e( 'We saved your enquiry, but our automatic email to the team may not have gone through. If you do not hear from us within 48 hours, please call or email us so we can pick it up.', 'restwell-retreats' ); ?>
 										</p>
 									<?php endif; ?>
 								</div>

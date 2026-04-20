@@ -38,7 +38,7 @@ function restwell_get_blog_category_definitions() {
 		),
 		'accessible-holidays' => array(
 			'name'        => __( 'Property & suitability', 'restwell-retreats' ),
-			'description' => __( 'Choosing a property: access specs, wet room and hoist detail, self-catering checklists, and questions to ask before you book.', 'restwell-retreats' ),
+			'description' => __( 'Choosing a property: access specs, bedroom ceiling track hoist detail, wet room dimensions, self-catering checklists, and questions to ask before you book.', 'restwell-retreats' ),
 		),
 		'news-updates' => array(
 			'name'        => __( 'News & sector updates', 'restwell-retreats' ),

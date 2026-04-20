@@ -50,6 +50,36 @@ function restwell_get_theme_setup_defaults() {
 		'hero_cta_secondary_label' => 'Send an enquiry',
 		'hero_cta_secondary_url'   => '/enquire/',
 		'hero_cta_promise'         => '',
+		'home_partners_label'      => 'Trusted partners',
+		'home_partners_heading'    => 'Our partners',
+		'home_partners_intro'      => 'The full story of how we adapted Restwell, who built it, and who supports guests today.',
+		'home_partners_cta_text'   => 'See our journey',
+		'home_partners_cta_url'    => '/how-it-works/',
+			'home_partner_1_name'      => 'Care Spaces',
+		'home_partner_1_url'       => 'https://www.carespaces.co.uk/',
+		'home_partner_1_logo_id'   => 0,
+		'home_partner_1_blurb'     => 'Specialist design and installation for changing places, hygiene rooms, and accessible care environments.',
+		'home_partner_1_logo_scale'=> 1.75,
+		'home_partner_2_name'      => 'Thor Carpentry',
+		'home_partner_2_url'       => 'https://thorcarpenter.co.uk/',
+		'home_partner_2_logo_id'   => 0,
+		'home_partner_2_blurb'     => 'Bespoke carpentry and practical adaptation works that help make the property function day to day.',
+		'home_partner_2_logo_scale'=> 1.85,
+		'home_partner_3_name'      => 'Wealden Rehab',
+		'home_partner_3_url'       => 'https://www.wealdenrehab.com/',
+		'home_partner_3_logo_id'   => 0,
+		'home_partner_3_blurb'     => 'Care equipment specialists supporting bathing, moving and handling, and seating solutions.',
+		'home_partner_3_logo_scale'=> 1.7,
+		'home_partner_4_name'      => 'Continuity of Care Services',
+		'home_partner_4_url'       => 'https://www.continuitycareservices.co.uk/',
+		'home_partner_4_logo_id'   => 0,
+		'home_partner_4_blurb'     => 'CQC-regulated care partner providing domiciliary, respite, complex and palliative care in Kent.',
+		'home_partner_4_logo_scale'=> 1.65,
+		'home_partner_5_name'      => 'Continuity Training Academy',
+		'home_partner_5_url'       => 'https://www.continuitytrainingacademy.co.uk/',
+		'home_partner_5_logo_id'   => 0,
+		'home_partner_5_blurb'     => 'CPD-accredited care training provider supporting safer, compliant practice across care teams.',
+		'home_partner_5_logo_scale'=> 1.6,
 
 		'home_teaser_label'         => 'Area & funding',
 		'home_teaser_area_title'    => 'Whitstable & the Kent coast',
@@ -61,11 +91,11 @@ function restwell_get_theme_setup_defaults() {
 		'what_restwell_heading' => 'A proper accessible coastal holiday.',
 		'highlights_heading'    => '',
 		'highlight_1_title'     => 'Ceiling track hoist',
-		'highlight_1_desc'      => 'Full-room coverage for safer, more predictable transfers.',
+		'highlight_1_desc'      => 'Ceiling track in the accessible bedroom, laid for the full room so transfers at the profiling bed are straightforward.',
 		'highlight_2_title'   => 'Profiling bed',
 		'highlight_2_desc'      => 'Adjustable, with a pressure-relieving mattress. Ready for your stay.',
 		'highlight_3_title'     => 'Full wet room',
-		'highlight_3_desc'      => 'Roll-in shower, grab rails, and space to turn and assist.',
+		'highlight_3_desc'      => 'Roll-in shower, grab rails, perching stool in the shower, height-adjustable washbasin that swings aside, and space to turn and assist (shower chair may be available on request).',
 		'intro_body'            => 'Restwell is a wheelchair-accessible, single-storey self-catering bungalow in Whitstable, Kent, for guests with disabilities, their families, and carers. You book the whole property for a private coastal break. Optional professional care is available through Continuity of Care Services (CQC-regulated), on your terms.',
 
 		'who_label'        => "Who it's for",
@@ -77,7 +107,7 @@ function restwell_get_theme_setup_defaults() {
 
 		'property_label'      => 'The property',
 		'property_heading'   => 'Our Whitstable home',
-		'property_body'      => 'An adapted single-storey property in Whitstable: level approach from the street, off-street parking for adapted vehicles, and a flat route toward the Tankerton promenade. Whitstable town centre (harbour, seafood restaurants, and the waterfront) is close enough for day trips without stressful route planning.',
+		'property_body'      => 'An adapted single-storey property in Whitstable: level approach from the street, two off-road spaces on the private drive (on-street outside if you need extra room—no residents permit on this road), and a flat route toward the Tankerton promenade. Whitstable town centre (harbour, seafood restaurants, and the waterfront) is close enough for day trips without stressful route planning.',
 		'property_cta_label' => 'Explore the property',
 		'property_cta_url'   => '/the-property/',
 		'property_image_id'  => 0,
@@ -85,7 +115,7 @@ function restwell_get_theme_setup_defaults() {
 		'why_label'       => 'Why Restwell?',
 		'why_heading'     => 'Why choose Restwell for your accessible break?',
 		'why_item1_title' => 'Private & personal',
-		'why_item1_desc'  => 'The whole bungalow is yours: living space, kitchen, and bedrooms, with the privacy of a self-catering stay.',
+		'why_item1_desc'  => 'The whole bungalow is yours: living space, kitchen, two bedrooms plus a sofa bed in the living area (sleeps up to five), with the privacy of a self-catering stay.',
 		'why_item2_title' => 'Professional support on your terms',
 		'why_item2_desc'  => 'Continuity of Care Services (CQC-regulated): support arranged on your terms, as much or as little as you need, or bring your own carer.',
 		'why_item3_title' => 'Local knowledge',
@@ -100,7 +130,7 @@ function restwell_get_theme_setup_defaults() {
 		'home_comparison_row1_restwell'  => 'Whole property',
 		'home_comparison_row1_other'     => 'Shared spaces',
 		'home_comparison_row2_feature'   => 'Equipment',
-		'home_comparison_row2_restwell'  => 'Hoist, profiling bed',
+		'home_comparison_row2_restwell'  => 'Bedroom ceiling hoist, profiling bed',
 		'home_comparison_row2_other'     => 'Limited',
 		'home_comparison_row3_feature'   => 'Care',
 		'home_comparison_row3_restwell'  => 'Optional, your choice',
@@ -109,13 +139,13 @@ function restwell_get_theme_setup_defaults() {
 		'home_comparison_row4_restwell'  => 'Full self-catering',
 		'home_comparison_row4_other'     => 'None or limited',
 
-		'cta_heading'          => 'Ready to plan your accessible stay?',
-		'cta_body'            => 'Ask about hoist limits, door widths, or funding. No pressure: we reply with specifics you can use.',
+		'cta_heading'          => 'Need exact access details first?',
+		'cta_body'            => 'Tell us your dates and practical needs. We will reply with clear measurements, equipment details, and next steps.',
 		'cta_primary_label'   => 'Send an enquiry',
 		'cta_primary_url'     => '/enquire/',
 		'cta_secondary_label' => 'See the property',
 		'cta_secondary_url'   => '/the-property/',
-		'cta_promise'         => 'No booking commitment. Replies usually within one working day.',
+		'cta_promise'         => 'No pressure to book. Useful answers, usually within 48 hours.',
 		'cta_image_id'        => 0,
 	);
 
@@ -217,12 +247,12 @@ function restwell_get_property_page_defaults() {
 
 		'prop_hero_label'               => 'The Property',
 		'prop_hero_heading'             => 'Our accessible home in Whitstable',
-		'prop_hero_subtitle'            => 'An adapted home on the Kent coast: ceiling track hoist, profiling bed, and wet room already in place.',
+		'prop_hero_subtitle'            => 'An adapted home on the Kent coast: ceiling track hoist in the accessible bedroom, profiling bed, and wet room already in place.',
 		'prop_hero_cta_text'            => 'Ask about your dates',
 		'prop_hero_cta_url'             => '/enquire/',
 		'prop_hero_cta_secondary_text'  => 'How it works',
 		'prop_hero_cta_secondary_url'   => '/how-it-works/',
-		'prop_hero_cta_promise'         => 'We reply within one working day.',
+		'prop_hero_cta_promise'         => 'We reply within 48 hours.',
 		'prop_hero_image_id'            => 0,
 
 		'prop_home_label'   => 'Your home for the week',
@@ -230,41 +260,41 @@ function restwell_get_property_page_defaults() {
 		'prop_home_1_title' => 'Step-free throughout',
 		'prop_home_1_body'  => 'Wide doorways, level thresholds, and a layout designed around wheelchair users and anyone who finds steps difficult.',
 		'prop_home_2_title' => 'Flexible sleeping setup',
-		'prop_home_2_body'  => 'Sleeping arrangements can be planned around your group and support needs. Share your requirements and we will confirm suitability before booking.',
+		'prop_home_2_body'  => 'Two bedrooms, plus a sofa bed in the living area, so the house can sleep up to five. Tell us your party size and how you plan to use each space when you enquire—we will confirm it works before you book.',
 		'prop_home_3_title' => 'Quiet location',
 		'prop_home_3_body'  => 'Set on a residential street away from traffic. Close enough to walk to the seafront, quiet enough to rest properly.',
 
 		'prop_overview_heading' => 'Your coastal home-from-home',
-		'prop_overview_body'    => "This is a private holiday home, not a hotel room or a care facility. The whole property is yours for the duration of your stay: no shared corridors, no other guests, no institutional feel. The layout has been designed around the access needs of wheelchair users and guests with complex physical disabilities, with practical details like transfer space, equipment compatibility, and carer accommodation considered from the start.\n\nThe property sits in a quiet, flat residential area of Whitstable. The town itself is compact, independent, and manageable, known for its harbour, seafood, and coastal walks. It is about 60 miles from London, with direct train services and straightforward road access via the M2.",
+		'prop_overview_body'    => "This is a private holiday home, not a hotel room or a care facility. The whole property is yours for the duration of your stay: no shared corridors, no other guests, no institutional feel. There are two bedrooms and a sofa bed in the living area, sleeping up to five guests in total. The layout has been designed around the access needs of wheelchair users and guests with complex physical disabilities, with practical details like transfer space, equipment compatibility, and carer accommodation considered from the start.\n\nThe property sits in a quiet, flat residential area of Whitstable. The town itself is compact, independent, and manageable, known for its harbour, seafood, and coastal walks. It is about 60 miles from London, with direct train services and straightforward road access via the M2.",
 
 		'prop_dignity_label'   => 'Designed for dignity',
 		'prop_dignity_heading' => 'Thoughtful at every turn.',
-		'prop_dignity_body'    => "We have thought carefully about what 'accessible' actually means in practice, not just ticked a box.\n\nThat means a wet room with a ceiling hoist, an adjustable bed, wide hallways, and no awkward lips or steps. It means a kitchen where everyone can cook together. A garden you can actually enjoy.\n\nWe want every guest to feel at home, completely, not just mostly.",
+		'prop_dignity_body'    => "We have thought carefully about what 'accessible' actually means in practice, not just ticked a box.\n\nThat means a roll-in wet room for assisted bathing, a ceiling track hoist in the accessible bedroom around the profiling bed, wide hallways, and no awkward lips or steps. It means a kitchen where everyone can cook together. A garden you can actually enjoy.\n\nWe want every guest to feel at home, completely, not just mostly.",
 		'prop_dignity_image_id' => 0,
 
 		'prop_features_label'   => 'At a glance',
 		'prop_features_heading' => 'What\'s in the house',
 		'prop_feature_1'        => 'Ceiling track hoist',
-		'prop_feature_1_desc'   => 'Full-room coverage in the accessible bedroom',
+		'prop_feature_1_desc'   => 'Track laid for the full accessible bedroom—focused where bed-based transfers happen every day',
 		'prop_feature_2'        => 'Wet room',
-		'prop_feature_2_desc'   => 'Roll-in shower, grab rails, fold-down seat',
+		'prop_feature_2_desc'   => 'Roll-in shower, grab rails, perching stool in the shower, fully height-adjustable washbasin that swings aside (shower chair may be available on request)',
 		'prop_feature_3'        => 'Adjustable profiling bed',
 		'prop_feature_3_desc'   => 'With pressure-relieving mattress',
 		'prop_feature_4'        => 'Wide doorways',
 		'prop_feature_4_desc'   => 'Internal doors 926 mm clear; front door 965 mm',
 		'prop_feature_5'        => 'Step-free access',
-		'prop_feature_5_desc'   => 'Level entry from parking to all rooms',
+		'prop_feature_5_desc'   => 'Level entry from private-drive parking to all rooms',
 		'prop_feature_6'        => 'Accessible outdoor space',
 		'prop_feature_6_desc'   => 'Hard-standing patio and level garden',
 		'prop_feature_7'        => 'Fully equipped kitchen',
-		'prop_feature_7_desc'   => 'Height-adjustable worktop section',
+		'prop_feature_7_desc'   => 'Gas hob (not induction); height-adapted worktop section',
 		'prop_feature_8'        => 'High-speed broadband',
 		'prop_feature_8_desc'   => 'Reliable Wi-Fi throughout the property',
 
 		'prop_acc_label'      => 'Accessibility in detail',
 		'prop_acc_heading'    => 'Honest accessibility information',
 		'prop_acc_intro'      => 'We provide detailed accessibility information so you can make an informed decision about whether this property meets your needs. If anything below is unclear, please get in touch and we will happily answer your questions.',
-		'prop_acc_confirmed'  => "Step-free access from parking to all rooms\nCeiling track hoist with full-room coverage\nWet room with roll-in shower, fold-down seat, and grab rails\nAdjustable profiling bed with pressure-relieving mattress\nFront door: 965 mm clear opening width; internal doors: 926 mm clear\nLevel garden with hard-standing patio\nWi-Fi throughout the property",
+		'prop_acc_confirmed'  => "Step-free access from parking to all rooms\nTwo off-road car spaces on the private drive; on-street parking outside if you need extra room (no residents permit on this road)\nCeiling track hoist in the accessible bedroom (full-room track in that room)\nWet room with roll-in shower, perching stool in the shower, grab rails, and a fully height-adjustable washbasin that swings aside (shower chair may be available on request)\nAdjustable profiling bed with pressure-relieving mattress\nFront door: 965 mm clear opening width; internal doors: 926 mm clear\nLevel garden with hard-standing patio\nWi-Fi throughout the property",
 		'prop_acc_tbc'        => "Precise turning circle dimensions in each room\nHoist weight limit (confirming with installer)\nLocal hydrotherapy or pool access",
 
 		'prop_comparison_label'         => 'Why not a hotel?',
@@ -279,7 +309,7 @@ function restwell_get_property_page_defaults() {
 		'prop_comparison_right_1'       => 'The whole house is yours',
 		'prop_comparison_right_2'       => 'Cook your own meals together',
 		'prop_comparison_right_3'       => 'Optional CQC-regulated care on site',
-		'prop_comparison_right_4'       => 'Ceiling hoist, profiling bed included',
+		'prop_comparison_right_4'       => 'Bedroom ceiling hoist, profiling bed included',
 
 		'prop_gallery_label'       => 'See the space',
 		'prop_gallery_heading'     => 'Take a look around.',
@@ -295,12 +325,12 @@ function restwell_get_property_page_defaults() {
 
 		'prop_practical_label'   => 'Practical details',
 		'prop_practical_heading' => 'The basics, clearly.',
-		'prop_bedrooms_count'    => '3',
-		'prop_bedrooms'          => 'Three bedrooms: flexible layout for guests, family, and carers',
+		'prop_bedrooms_count'    => '2',
+		'prop_bedrooms'          => 'Two bedrooms, plus a sofa bed in the living area—sleeps up to five.',
 		'prop_bathrooms_count'   => '1',
 		'prop_bathroom'          => 'One wet room with roll-in shower (full spec on our Accessibility page)',
 		'prop_parking_label'     => 'Parking',
-		'prop_parking'           => '2 cars',
+		'prop_parking'           => '2 on private drive',
 		'prop_sleeps_value'      => '5',
 		'prop_sleeps_label'      => 'Sleeps',
 		'prop_distances'         => "Tankerton Slopes promenade: 15 min flat walk\nWhitstable town centre: 15 min walk\nWhitstable station: 20-30 min walk",
@@ -382,7 +412,7 @@ function restwell_get_how_it_works_page_defaults() {
 		'hiw_step1_title'   => 'Get in touch',
 		'hiw_step1_body'    => 'Fill in our short enquiry form or drop us an email. Tell us a little about who you are, when you\'re thinking of visiting, and any care or accessibility requirements.',
 		'hiw_step2_title'   => 'We\'ll call you back',
-		'hiw_step2_body'    => 'We want to understand what you need, confirm the property is right for you, and answer every question honestly. We aim to reply within one working day.',
+		'hiw_step2_body'    => 'We want to understand what you need, confirm the property is right for you, and answer every question honestly. We aim to reply within 48 hours.',
 		'hiw_step3_title'   => 'Confirm your booking',
 		'hiw_step3_body'    => 'Once you\'re happy, we\'ll send a simple booking confirmation and take a deposit. Care arrangements, if required, are agreed at this stage with Continuity of Care Services.',
 		'hiw_step4_title'   => 'Arrive and rest easy',
@@ -401,13 +431,13 @@ function restwell_get_how_it_works_page_defaults() {
 		'hiw_included_1_title' => 'Exclusive use of the whole house',
 		'hiw_included_1_desc'  => 'No shared spaces, no other guests.',
 		'hiw_included_2_title' => 'Ceiling hoist & profiling bed',
-		'hiw_included_2_desc'  => 'Ceiling track hoist, profiling bed, and wet room with grab rails, in place and ready for your arrival.',
+		'hiw_included_2_desc'  => 'Ceiling track hoist in the accessible bedroom, profiling bed, and wet room with grab rails and a height-adjustable washbasin that swings aside—in place and ready for your arrival.',
 		'hiw_included_3_title' => 'High-speed broadband',
 		'hiw_included_3_desc'  => 'Reliable Wi-Fi throughout.',
 		'hiw_included_4_title' => 'Linen and towels',
 		'hiw_included_4_desc'  => 'Freshly laundered for your arrival.',
 		'hiw_included_5_title' => 'Parking for two cars',
-		'hiw_included_5_desc'  => 'Private driveway.',
+		'hiw_included_5_desc'  => 'Two off-road spaces on the private drive. On-street outside if you need more room—no residents permit on this road.',
 		'hiw_included_6_title' => 'Welcome information pack',
 		'hiw_included_6_desc'  => 'Local tips, emergency contacts, house guide, plus tea, coffee, and a few basics so you are not shopping the moment you arrive.',
 
@@ -445,15 +475,15 @@ function restwell_get_accessibility_page_defaults() {
 		'acc_room_label'      => 'The property',
 		'acc_room_heading'    => 'Room by room.',
 		'acc_arrival_heading' => 'Arrival & entrance',
-		'acc_arrival_body'    => "Level driveway with space for two cars\nStep-free path from car to front door\nWide front door (965 mm clear)\nLevel threshold, no step",
+		'acc_arrival_body'    => "Private driveway: two off-road car spaces (adapted vehicles welcome)\nOn-street parking outside if you need extra room—no residents permit on this road; check signs on arrival in case street rules change\nStep-free path from car to front door\nWide front door (965 mm clear)\nLevel threshold, no step",
 		'acc_inside_heading'  => 'Inside the property',
-		'acc_inside_body'     => "All internal doors 926 mm clear\nOpen-plan ground floor, no internal steps\nLevel flooring throughout (no carpet lips)\nCeiling track hoist covers accessible bedroom and wet room",
-		'acc_bedroom_heading' => 'Accessible bedroom',
-		'acc_bedroom_body'    => "Profiling bed with pressure-relieving mattress\nCeiling hoist with full-room track\nHeight-adjustable features\nSpace for carer on both sides of bed",
+		'acc_inside_body'     => "All internal doors 926 mm clear\nOpen-plan ground floor, no internal steps\nLevel flooring throughout (no carpet lips)\nCeiling track hoist in the accessible bedroom (full-room track there; wet room is on the same level nearby)",
+		'acc_bedroom_heading' => 'Bedrooms & sleeping',
+		'acc_bedroom_body'    => "Accessible bedroom: profiling bed with pressure-relieving mattress\nCeiling hoist with full-room track in this room for transfers at the bed\nHeight-adjustable features\nSpace for carer on both sides of bed\nSecond bedroom for additional guests or a support worker\nSofa bed in the living area—house sleeps up to five; tell us your party layout when you enquire",
 		'acc_bathroom_heading'=> 'Wet room',
-		'acc_bathroom_body'   => "Full wet room: roll-in shower, no lip\nFold-down shower seat\nGrab rails: shower, toilet, and washbasin\nFloor-level drain\nExtractor fan",
+		'acc_bathroom_body'   => "Full wet room: roll-in shower, no lip — layout and specification by <a href=\"https://www.carespaces.co.uk/\" target=\"_blank\" rel=\"noopener noreferrer\">Care Spaces</a> (specialist care environments, design & installation)\nPerching stool in the shower for balance and short rests\nShower chair may be available on request; please say so when you enquire or book\nWashbasin is fully height-adjustable and swings aside, so you can set a comfortable working height and move it out of the way for transfers or assistance\nGrab rails: shower, toilet, and washbasin\nFloor-level drain\nExtractor fan",
 		'acc_kitchen_heading' => 'Kitchen',
-		'acc_kitchen_body'    => "Open-plan kitchen, easy wheelchair access\nHeight-adjustable worktop section\nInduction hob (safer for some users)\nAccessible storage at lower levels",
+		'acc_kitchen_body'    => "Open-plan kitchen, easy wheelchair access\nHeight-adapted worktop section\nGas hob (not induction)—no electromagnetic field from the cooktop, which many guests with pacemakers prefer\nAccessible storage at lower levels",
 		'acc_outdoor_heading' => 'Outdoor spaces',
 		'acc_outdoor_body'    => "Level patio immediately outside rear doors\nHard-standing surface suitable for wheelchairs\nSmall garden area, mostly flat",
 
@@ -481,7 +511,7 @@ function restwell_get_faq_page_defaults() {
 	return array(
 		'faq_label'        => 'FAQ',
 		'faq_heading'      => 'Your questions, answered honestly.',
-		'faq_intro'        => 'If you can\'t find the answer here, get in touch; we respond within 24 hours.',
+		'faq_intro'        => 'If you can\'t find the answer here, get in touch; we respond within 48 hours.',
 		'faq_list_label'   => '',
 		'faq_list_heading' => 'Frequently asked questions',
 
@@ -502,7 +532,7 @@ function restwell_get_faq_page_defaults() {
 		'faq_4_cat' => 'care',
 
 		'faq_5_q'   => 'How do I book?',
-		'faq_5_a'   => 'Use our enquiry form, email us, or call. We will get back to you within 24 hours, have a conversation about your needs, and confirm availability. Once you\'re happy, we take a deposit and send a booking confirmation.',
+		'faq_5_a'   => 'Use our enquiry form, email us, or call. We will get back to you within 48 hours, have a conversation about your needs, and confirm availability. Once you\'re happy, we take a deposit and send a booking confirmation.',
 		'faq_5_cat' => 'booking',
 
 		'faq_6_q'   => 'What is the minimum stay?',
@@ -510,11 +540,11 @@ function restwell_get_faq_page_defaults() {
 		'faq_6_cat' => 'booking',
 
 		'faq_7_q'   => 'What is included in the price?',
-		'faq_7_a'   => 'Exclusive use of the whole house, all accessibility equipment (ceiling hoist, profiling bed, wet room), linen and towels, private parking for two cars, and high-speed broadband. Care is priced separately if required.',
+		'faq_7_a'   => 'Exclusive use of the whole house, all accessibility equipment (ceiling hoist in the accessible bedroom, profiling bed, wet room), linen and towels, two off-road spaces on the private drive, and high-speed broadband. Need a third space? You can usually park on the road outside—there is no residents permit scheme on this road. Care is priced separately if required.',
 		'faq_7_cat' => 'booking',
 
 		'faq_8_q'   => 'Is the property suitable for hoists and profiling beds?',
-		'faq_8_a'   => 'The property already has a ceiling track hoist fitted, along with a profiling bed and a full wet room. If you have additional or specialist equipment needs, please get in touch before booking so we can confirm we can accommodate them.',
+		'faq_8_a'   => 'Yes. The accessible bedroom has a ceiling track hoist and profiling bed, and there is a full roll-in wet room on the same single-storey level, with a perching stool in the shower and a washbasin you can raise, lower, and swing aside when you need clearer space. A shower chair may be available on request; please say so when you enquire or book. If you have additional or specialist equipment needs, please get in touch before booking so we can confirm we can accommodate them.',
 		'faq_8_cat' => 'about',
 
 		'faq_9_q'   => 'What is Whitstable like for accessibility?',
@@ -538,12 +568,12 @@ function restwell_get_faq_page_defaults() {
 		'faq_13_cat' => 'funding',
 
 		'faq_14_q'   => 'What does CQC-regulated mean?',
-		'faq_14_a'   => 'CQC stands for Care Quality Commission, the independent regulator of health and social care in England. Continuity of Care Services, our partner provider, is inspected and rated by the CQC. This means the care you receive meets nationally recognised standards for safety and quality.',
+		'faq_14_a'   => 'CQC stands for Care Quality Commission, the independent regulator of health and social care in England. Continuity of Care Services, our partner provider, is inspected and rated by the CQC. This means the care you receive meets nationally recognised standards for safety and quality. You can see Continuity’s latest inspection summary on the <a href="https://www.cqc.org.uk/location/1-2624556588" target="_blank" rel="noopener noreferrer">Care Quality Commission website<span class="sr-only"> (opens in new tab)</span></a>.',
 		'faq_14_cat' => 'funding',
 
 		'faq_cta_label'   => '',
 		'faq_cta_heading' => 'Still have a question?',
-		'faq_cta_body'    => 'Get in touch and we will answer honestly. We respond within 24 hours.',
+		'faq_cta_body'    => 'Get in touch and we will answer honestly. We respond within 48 hours.',
 		'faq_cta_btn'     => 'Enquire now',
 		'faq_cta_url'     => '/enquire/',
 	);
@@ -556,11 +586,11 @@ function restwell_get_enquire_page_defaults() {
 	return array(
 		'enq_label'   => 'Get in touch',
 		'enq_heading' => 'Let\'s talk about your stay.',
-		'enq_intro'   => 'Fill in the form and we\'ll call you back within 24 hours. No commitment, no hard sell: just a conversation.',
+		'enq_intro'   => 'Fill in the form and we\'ll call you back within 48 hours. No commitment, no hard sell: just a conversation.',
 
 		'enq_form_heading'        => 'Tell us about your stay',
 		'enq_success_heading'     => 'Thank you. We\'ll be in touch.',
-		'enq_success_body'        => 'We will call you back within 24 hours to discuss your enquiry. If you would prefer an email response, just let us know.',
+		'enq_success_body'        => 'We will call you back within 48 hours to discuss your enquiry. If you would prefer an email response, just let us know.',
 		'enq_success_urgent_body' => 'As you\'ve indicated this is time-sensitive, we will aim to respond as quickly as possible.',
 
 		'enq_contact_heading' => 'Other ways to reach us',
@@ -591,7 +621,7 @@ function restwell_get_resources_page_defaults() {
 		'res_complaints_body'    => "If a funding application is refused, you have the right to request a review. Local authorities are required to follow a formal review process.\n\nUseful resources:\n\n- <a href=\"https://www.disabilityrightsuk.org\" target=\"_blank\" rel=\"noopener\">Disability Rights UK</a>\n- <a href=\"https://www.lgo.org.uk\" target=\"_blank\" rel=\"noopener\">Local Government & Social Care Ombudsman</a>",
 
 		'res_contacts_heading' => 'Key contacts',
-		'res_contacts_body'    => "We have compiled a short list of organisations that may be helpful:\n\n- <strong>Continuity of Care Services</strong>, our care partner: <a href=\"https://www.continuitycareservices.co.uk\" target=\"_blank\" rel=\"noopener\">continuitycareservices.co.uk</a>\n- <strong>Care Quality Commission</strong>, CQC register: <a href=\"https://www.cqc.org.uk\" target=\"_blank\" rel=\"noopener\">cqc.org.uk</a>\n- <strong>Disability Rights UK</strong>: <a href=\"https://www.disabilityrightsuk.org\" target=\"_blank\" rel=\"noopener\">disabilityrightsuk.org</a>",
+		'res_contacts_body'    => "We have compiled a short list of organisations that may be helpful:\n\n- <strong>Continuity of Care Services</strong>, our care partner: <a href=\"https://www.continuitycareservices.co.uk\" target=\"_blank\" rel=\"noopener noreferrer\">continuitycareservices.co.uk</a>\n- <strong>Continuity on the CQC register</strong> (inspection & rating): <a href=\"https://www.cqc.org.uk/location/1-2624556588\" target=\"_blank\" rel=\"noopener noreferrer\">cqc.org.uk profile</a>\n- <strong>Disability Rights UK</strong>: <a href=\"https://www.disabilityrightsuk.org\" target=\"_blank\" rel=\"noopener noreferrer\">disabilityrightsuk.org</a>",
 
 		'res_cta_heading' => 'Not sure where to start?',
 		'res_cta_body'    => 'Get in touch and we will help you think through the options. We have helped guests navigate funding before and will point you in the right direction.',
@@ -609,6 +639,7 @@ function restwell_get_guest_guide_page_defaults() {
 		'gg_checkout_time'   => '11:00 am',
 		'gg_house_rules'     => "Please treat the property with care; it is someone's home.\nNo smoking anywhere inside the property.\nPets are welcome, including assistance dogs. Please keep pets off the furniture.\nPlease lock all doors and close all windows when you go out.\nReport any damages as soon as possible.",
 		'gg_departure_notes' => "Strip the beds and leave used linen in the laundry room.\nPlace all rubbish in the bins provided.\nReturn all keys and fobs to the key safe (location shared on arrival).\nClose all windows and lock all doors.\nLeave the property in a tidy condition. Thank you!",
+		'gg_parking_info'    => "Two off-road spaces on the private driveway at the property—enough room for most cars and adapted vehicles if you deploy ramps thoughtfully.\nIf you are bringing more than two cars, you can usually park on the road outside. There is no residents permit scheme on this road, and we have not seen time-limited bay controls here—please still check any street signs when you arrive in case local rules change.",
 		'gg_local_info'      => "Whitstable town centre is approximately 15 minutes on foot via a flat, paved route.\nTankerton promenade is about 15 minutes away on foot. The promenade itself is wide, level, and fully surfaced, suitable for wheelchairs and powerchairs. The grassy slopes above it are steep, so stick to the paved path along the seafront. Free parking is available along Marine Parade at the top.\nTesco Extra (Whitstable) is a 7-minute drive and has accessible parking, automatic doors, and a wheelchair-friendly layout.\nWheelchair and equipment hire is available locally; we can share details of trusted suppliers before your stay. Just ask.",
 	);
 }
@@ -623,11 +654,11 @@ function restwell_get_who_its_for_page_defaults() {
 		'wif_intro'           => 'Whether you are booking for yourself, someone you support, or a client, Restwell is designed to make planning straightforward and your stay comfortable. Here is how it works for different people.',
 		'wif_hero_image_id'   => 0,
 		'wif_family_title'    => 'For guests and families',
-		'wif_family_body'     => '"Accessible" and "wheelchair friendly" are used loosely by a lot of accommodation. People book in good faith and arrive to find a step at the entrance, a bathroom that is too small to turn, or a hoist that is not actually there. Restwell works the other way: the ceiling track hoist is already fitted, the wet room has a roll-in shower with turning space, and every doorway and corridor is sized for a powerchair. The full measurements are published on our accessibility page. Check them before you enquire, not after. This is a private home, not a converted hotel room. No shared spaces, no clinical layout, and no surprises on arrival.',
+		'wif_family_body'     => '"Accessible" and "wheelchair friendly" are used loosely by a lot of accommodation. People book in good faith and arrive to find a step at the entrance, a bathroom that is too small to turn, or a hoist that is not actually there. Restwell works the other way: the ceiling track hoist is already fitted in the accessible bedroom, the wet room has a roll-in shower with turning space, and every doorway and corridor is sized for a powerchair. The full measurements are published on our accessibility page. Check them before you enquire, not after. This is a private home, not a converted hotel room. No shared spaces, no clinical layout, and no surprises on arrival.',
 		'wif_carers_title'    => 'For carers and support workers',
-		'wif_carers_body'     => 'The ceiling hoist is already fitted, the wet room is designed for assisted personal care, and there is a separate sleeping area for the support worker. The layout is practical, not just manageable. If your client has complex needs, check the suitability details with us before you commit. We will give you specifics, not a brochure. One thing many carers do not know: you have a legal right to a Carer\'s Assessment under the Care Act 2014. Your local council must carry one out if you ask. It can open up direct payment routes to fund a holiday or short break, so it is worth requesting if you have not had one.',
+		'wif_carers_body'     => 'The ceiling hoist is already fitted in the accessible bedroom; the wet room is designed for assisted personal care on the same level; and there is a separate sleeping area for the support worker. The layout is practical, not just manageable. If your client has complex needs, check the suitability details with us before you commit. We will give you specifics, not a brochure. One thing many carers do not know: you have a legal right to a Carer\'s Assessment under the Care Act 2014. Your local council must carry one out if you ask. It can open up direct payment routes to fund a holiday or short break, so it is worth requesting if you have not had one.',
 		'wif_ot_title'        => 'For occupational therapists and case managers',
-		'wif_ot_body'         => 'Our accessibility page publishes doorway widths, turning circle dimensions, ceiling track hoist specifications, profiling bed measurements, and wet room dimensions: the specifics that matter for a clinical recommendation. If you need something we have not published (transfer clearances, approach gradients, equipment positioning), ask and we will measure it. We understand a poor recommendation reflects on you. We would rather give you a straight answer than lose your trust, and we welcome referral conversations before any booking commitment.',
+		'wif_ot_body'         => 'Our accessibility page publishes doorway widths, turning circle dimensions, bedroom ceiling track hoist specifications, profiling bed measurements, and wet room dimensions: the specifics that matter for a clinical recommendation. If you need something we have not published (transfer clearances, approach gradients, equipment positioning), ask and we will measure it. We understand a poor recommendation reflects on you. We would rather give you a straight answer than lose your trust, and we welcome referral conversations before any booking commitment.',
 		'wif_commissioners_title' => 'For commissioners and social care teams',
 		'wif_commissioners_body'  => 'Under the Care Act 2014, short breaks at a private adapted setting can be included in a care and support plan where the property meets the person\'s assessed needs. Restwell supports direct payment stays, personal health budgets, and CHC-funded packages. We can provide the documentation a referral process typically requires: property specification, access measurements, equipment inventory, and written confirmation of our connection to Continuity of Care Services, a CQC-registered provider. Most local authority funding decisions require evidence. We provide it.',
 		'wif_visual_intro'    => 'Real photos help you judge fit before you book: layout, circulation space, and how equipment sits in the room. Pair these with our accessibility specification for verified measurements and features.',
@@ -656,9 +687,9 @@ function restwell_get_whitstable_guide_page_defaults() {
 		'wg_towns_heading' => 'Nearby towns worth visiting',
 		'wg_towns_body'    => "Canterbury (about 8 miles): the cathedral city. Good for a day out with shops, restaurants, and the cathedral itself. The city centre is mostly pedestrianised and largely flat, though some older streets are cobbled. There are several accessible car parks including the Whitefriars shopping centre. The cathedral has wheelchair access to most areas.\nFaversham (about 7 miles): a quieter market town with independent shops and pubs. The town centre is compact and mostly flat. Market days are Tuesday, Friday, and Saturday. A good option if you want a change of scene without a long drive.\nHerne Bay (about 4 miles): traditional seafront with a long, flat promenade that is fully paved and accessible. There is also a pier (partially rebuilt), amusement arcades, and fish and chips. An easy option for a couple of hours by the sea.",
 		'wg_getting_here_heading' => 'Getting here',
-		'wg_getting_here_body'    => "By car: Whitstable is reached via the M2 and A299 from London (about 60 miles, usually around 90 minutes depending on traffic). The property has off-street parking with enough space for adapted vehicles, including those with rear or side ramps.\nBy train: Whitstable station has direct services to London Victoria and London St Pancras (via Canterbury West or Faversham). Journey time is roughly 75-90 minutes. We do not verify station layout or platform access here; details change, so check National Rail Enquiries or your operator before you travel. From the station to the property is about a 10-minute drive; we can advise on taxi options if needed.",
+		'wg_getting_here_body'    => "By car: Whitstable is reached via the M2 and A299 from London (about 60 miles, usually around 90 minutes depending on traffic). The property has two off-road spaces on a private drive, with room for adapted vehicles including those with rear or side ramps. Extra cars can usually park on the road outside—no residents permit on this road.\nBy train: Whitstable station has direct services to London Victoria and London St Pancras (via Canterbury West or Faversham). Journey time is roughly 75-90 minutes. We do not verify station layout or platform access here; details change, so check National Rail Enquiries or your operator before you travel. From the station to the property is about a 10-minute drive; we can advise on taxi options if needed.",
 		'wg_getting_around_heading' => 'Getting around during your stay',
-		'wg_getting_around_body'    => "Most guests find a car is the easiest way to get around, especially if you need to transport equipment. The property parking is level and spacious.\nThe Stagecoach 400 bus runs between Whitstable and Canterbury and stops nearby. This route uses low-floor buses, but availability of the ramp and wheelchair space can vary; it is worth checking with Stagecoach before relying on it for a specific journey.\nIf you use a mobility scooter or powerchair, the Tankerton promenade and Whitstable seafront are both suitable surfaces. The town centre is mixed: some pavements are narrow or uneven in older parts.\nWheelchair hire is available locally. Ask us before your stay and we can share contact details for trusted suppliers in the area.",
+		'wg_getting_around_body'    => "Most guests find a car is the easiest way to get around, especially if you need to transport equipment. The driveway parking is level and off-road.\nThe Stagecoach 400 bus runs between Whitstable and Canterbury and stops nearby. This route uses low-floor buses, but availability of the ramp and wheelchair space can vary; it is worth checking with Stagecoach before relying on it for a specific journey.\nIf you use a mobility scooter or powerchair, the Tankerton promenade and Whitstable seafront are both suitable surfaces. The town centre is mixed: some pavements are narrow or uneven in older parts.\nWheelchair hire is available locally. Ask us before your stay and we can share contact details for trusted suppliers in the area.",
 		'wg_spotlight_image_1_id' => 0,
 		'wg_spotlight_image_1_caption' => 'Tankerton promenade and sea-wall route',
 		'wg_spotlight_image_2_id' => 0,
@@ -906,6 +937,117 @@ function restwell_upload_theme_logos( array &$result ) {
 }
 
 /**
+ * Upload homepage partner logos from theme assets into Media Library and map
+ * attachment IDs to Home page partner meta keys.
+ *
+ * Expected source folder:
+ *   /assets/images/partners/
+ *
+ * Supported filenames per partner (first match wins):
+ *   - care-spaces.(png|jpg|jpeg|webp|svg)
+ *   - thor-carpentry.(png|jpg|jpeg|webp|svg)
+ *   - wealden-rehab.(png|jpg|jpeg|webp|svg)
+ *   - continuity-of-care-services.(png|jpg|jpeg|webp|svg)
+ *   - continuity-training-academy.(png|jpg|jpeg|webp|svg)
+ *
+ * @param int   $home_id Home page ID.
+ * @param array $result  Setup result array (appends partner_logo_* keys).
+ * @param bool  $force   If true, re-upload and remap even when meta already has
+ *                       an attachment ID.
+ */
+function restwell_upload_partner_logos( $home_id, array &$result, $force = false ) {
+	$home_id = (int) $home_id;
+	if ( $home_id < 1 ) {
+		return;
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+
+	$partner_folder = trailingslashit( get_template_directory() ) . 'assets/images/partners/';
+	$extensions     = array( 'png', 'jpg', 'jpeg', 'webp', 'svg' );
+
+	$partner_logo_map = array(
+		array(
+			'meta_key'   => 'home_partner_1_logo_id',
+			'base_names' => array( 'care-spaces' ),
+		),
+		array(
+			'meta_key'   => 'home_partner_2_logo_id',
+			'base_names' => array( 'thor-carpentry' ),
+		),
+		array(
+			'meta_key'   => 'home_partner_3_logo_id',
+			'base_names' => array( 'wealden-rehab' ),
+		),
+		array(
+			'meta_key'   => 'home_partner_4_logo_id',
+			'base_names' => array( 'continuity-of-care-services' ),
+		),
+		array(
+			'meta_key'   => 'home_partner_5_logo_id',
+			'base_names' => array( 'continuity-training-academy' ),
+		),
+	);
+
+	foreach ( $partner_logo_map as $partner_logo ) {
+		$meta_key = (string) $partner_logo['meta_key'];
+
+		$existing_id = (int) get_post_meta( $home_id, $meta_key, true );
+		if ( ! $force && $existing_id > 0 && get_post( $existing_id ) ) {
+			$result['partner_logos_skipped'][] = $meta_key;
+			continue;
+		}
+
+		$matched_filename = '';
+		$matched_path     = '';
+		foreach ( (array) $partner_logo['base_names'] as $base_name ) {
+			foreach ( $extensions as $ext ) {
+				$candidate = $base_name . '.' . $ext;
+				$path      = $partner_folder . $candidate;
+				if ( file_exists( $path ) ) {
+					$matched_filename = $candidate;
+					$matched_path     = $path;
+					break 2;
+				}
+			}
+		}
+
+		if ( $matched_path === '' ) {
+			$result['partner_logos_missing'][] = $meta_key;
+			continue;
+		}
+
+		$tmp = wp_tempnam( $matched_filename );
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		if ( ! @copy( $matched_path, $tmp ) ) {
+			$result['partner_logos_failed'][] = $meta_key;
+			continue;
+		}
+
+		$att_id = media_handle_sideload(
+			array(
+				'name'     => $matched_filename,
+				'tmp_name' => $tmp,
+			),
+			$home_id,
+			''
+		);
+
+		if ( is_wp_error( $att_id ) ) {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			@unlink( $tmp );
+			$result['partner_logos_failed'][] = $meta_key;
+			continue;
+		}
+
+		update_post_meta( $home_id, $meta_key, (int) $att_id );
+		$result['partner_logos_uploaded'][] = $matched_filename . ' -> ' . $meta_key;
+	}
+}
+
+/**
  * Run theme setup: create pages, set front page, seed Home meta.
  *
  * @param bool $force               If true, re-seed Home and page content where supported, refresh seeded blog posts, and overwrite SEO meta from theme defaults.
@@ -932,6 +1074,10 @@ function restwell_run_theme_setup( $force = false, $skip_image_regen = false ) {
 		'logos_skipped'      => array(),
 		'logos_missing'      => array(),
 		'logos_failed'         => array(),
+		'partner_logos_uploaded' => array(),
+		'partner_logos_skipped'  => array(),
+		'partner_logos_missing'  => array(),
+		'partner_logos_failed'   => array(),
 		'image_regen_skipped'  => false,
 		'image_regen'          => null,
 	);
@@ -1032,6 +1178,7 @@ function restwell_run_theme_setup( $force = false, $skip_image_regen = false ) {
 
 	// Upload logos to Media Library so templates can use stable attachment URLs.
 	restwell_upload_theme_logos( $result );
+	restwell_upload_partner_logos( $home_id, $result, $force );
 
 	// Build restwell-hero / restwell-cta-bg (and other registered sizes) for every image; runs on Theme Setup unless skipped.
 	$run_regen = ! $skip_image_regen && apply_filters( 'restwell_theme_setup_run_image_subsize_regen', true, $force );
@@ -1170,7 +1317,7 @@ function restwell_get_accessibility_policy_content(): string {
 <p>Some pages include embedded maps, video, or links to other organisations. We cannot guarantee how accessible those services are. If something blocks you, tell us and we will try to provide an alternative where we can.</p>
 
 <h2>Feedback and help</h2>
-<p>If any part of this site does not work for you, or you need information in another format, email <a href="' . $mailto . '">' . esc_html( $email ) . '</a> or use our <a href="' . $enq . '">enquiry form</a>. We aim to reply within one working day.</p>
+<p>If any part of this site does not work for you, or you need information in another format, email <a href="' . $mailto . '">' . esc_html( $email ) . '</a> or use our <a href="' . $enq . '">enquiry form</a>. We aim to reply within 48 hours.</p>
 
 <h2>Formal complaints</h2>
 <p>If you are not satisfied with our response, the <a href="https://www.equalityhumanrights.com/en" target="_blank" rel="noopener noreferrer">Equality and Human Rights Commission (EHRC)<span class="sr-only"> (opens in new tab)</span></a> publishes guidance on accessibility rights in England, Scotland, and Wales.</p>
@@ -1321,6 +1468,18 @@ function restwell_theme_setup_format_message( $result ) {
 	if ( ! empty( $result['logos_failed'] ) ) {
 		$lines[] = '<strong>' . esc_html__( 'Logo upload failed:', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['logos_failed'] ) );
 	}
+	if ( ! empty( $result['partner_logos_uploaded'] ) ) {
+		$lines[] = '<strong>' . esc_html__( 'Partner logos uploaded and mapped:', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['partner_logos_uploaded'] ) );
+	}
+	if ( ! empty( $result['partner_logos_skipped'] ) ) {
+		$lines[] = '<strong>' . esc_html__( 'Partner logos already set:', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['partner_logos_skipped'] ) );
+	}
+	if ( ! empty( $result['partner_logos_missing'] ) ) {
+		$lines[] = '<strong>' . esc_html__( 'Partner logo files not found in /assets/images/partners/:', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['partner_logos_missing'] ) );
+	}
+	if ( ! empty( $result['partner_logos_failed'] ) ) {
+		$lines[] = '<strong>' . esc_html__( 'Partner logo upload failed:', 'restwell-retreats' ) . '</strong> ' . esc_html( implode( ', ', $result['partner_logos_failed'] ) );
+	}
 	if ( ! empty( $result['posts_page_set'] ) ) {
 		$lines[] = esc_html__( 'Blog page set as the posts archive (Posts page).', 'restwell-retreats' );
 	}
@@ -1423,7 +1582,7 @@ function restwell_migrate_property_practical_meta_v1() {
 	$park_cur = (string) get_post_meta( $page_id, 'prop_parking', true );
 	$park_old = 'Private driveway, two cars';
 	if ( $is_tbc( $park_cur ) || trim( $park_cur ) === $park_old ) {
-		update_post_meta( $page_id, 'prop_parking', $defaults['prop_parking'] ?? '2 cars' );
+		update_post_meta( $page_id, 'prop_parking', $defaults['prop_parking'] ?? '2 on private drive' );
 	}
 
 	foreach ( array( 'prop_bedrooms', 'prop_bathroom' ) as $key ) {
@@ -1493,6 +1652,97 @@ function restwell_migrate_property_parking_short_v1() {
 }
 add_action( 'init', 'restwell_migrate_property_parking_short_v1', 22 );
 add_action( 'after_switch_theme', 'restwell_migrate_property_parking_short_v1', 12 );
+
+/**
+ * One-time: correct bedroom count (2 + sofa bed, sleeps 5) and refresh parking strip label for existing installs.
+ */
+function restwell_migrate_property_bedrooms_parking_v2() {
+	if ( get_option( 'restwell_property_bedrooms_parking_v2', '' ) === '1' ) {
+		return;
+	}
+	$page = get_page_by_path( 'the-property', OBJECT, 'page' );
+	if ( ! $page || (int) $page->ID < 1 ) {
+		return;
+	}
+	$page_id = (int) $page->ID;
+
+	$cur_count = trim( (string) get_post_meta( $page_id, 'prop_bedrooms_count', true ) );
+	if ( $cur_count === '3' ) {
+		update_post_meta( $page_id, 'prop_bedrooms_count', '2' );
+	}
+
+	$old_bed_txt = 'Three bedrooms: flexible layout for guests, family, and carers';
+	$cur_bed     = trim( (string) get_post_meta( $page_id, 'prop_bedrooms', true ) );
+	if ( $cur_bed === $old_bed_txt ) {
+		update_post_meta( $page_id, 'prop_bedrooms', 'Two bedrooms, plus a sofa bed in the living area—sleeps up to five.' );
+	}
+
+	$cur_park = trim( (string) get_post_meta( $page_id, 'prop_parking', true ) );
+	if ( $cur_park === '2 cars' ) {
+		update_post_meta( $page_id, 'prop_parking', '2 on private drive' );
+	}
+
+	update_option( 'restwell_property_bedrooms_parking_v2', '1' );
+}
+add_action( 'init', 'restwell_migrate_property_bedrooms_parking_v2', 23 );
+add_action( 'after_switch_theme', 'restwell_migrate_property_bedrooms_parking_v2', 13 );
+
+/**
+ * One-time: sync FAQ / Accessibility / How it works / Guest Guide copy when pages still have pre-correction defaults.
+ */
+function restwell_migrate_faq_access_parking_bedrooms_v1() {
+	if ( get_option( 'restwell_faq_access_parking_bedrooms_v1', '' ) === '1' ) {
+		return;
+	}
+	$faq_old_a = 'Exclusive use of the whole house, all accessibility equipment (ceiling hoist in the accessible bedroom, profiling bed, wet room), linen and towels, private parking for two cars, and high-speed broadband. Care is priced separately if required.';
+	$faq_page  = get_page_by_path( 'faq', OBJECT, 'page' );
+	if ( $faq_page ) {
+		$fid = (int) $faq_page->ID;
+		if ( trim( (string) get_post_meta( $fid, 'faq_7_a', true ) ) === $faq_old_a ) {
+			$d = restwell_get_faq_page_defaults();
+			update_post_meta( $fid, 'faq_7_a', $d['faq_7_a'] );
+		}
+	}
+
+	$acc_page = get_page_by_path( 'accessibility', OBJECT, 'page' );
+	if ( $acc_page ) {
+		$aid          = (int) $acc_page->ID;
+		$ad           = restwell_get_accessibility_page_defaults();
+		$old_arrival  = "Level driveway with space for two cars\nStep-free path from car to front door\nWide front door (965 mm clear)\nLevel threshold, no step";
+		$old_bed_body = "Profiling bed with pressure-relieving mattress\nCeiling hoist with full-room track in this bedroom for transfers at the bed\nHeight-adjustable features\nSpace for carer on both sides of bed";
+		if ( trim( (string) get_post_meta( $aid, 'acc_arrival_body', true ) ) === $old_arrival ) {
+			update_post_meta( $aid, 'acc_arrival_body', $ad['acc_arrival_body'] );
+		}
+		if ( trim( (string) get_post_meta( $aid, 'acc_bedroom_body', true ) ) === $old_bed_body ) {
+			update_post_meta( $aid, 'acc_bedroom_heading', $ad['acc_bedroom_heading'] );
+			update_post_meta( $aid, 'acc_bedroom_body', $ad['acc_bedroom_body'] );
+		}
+	}
+
+	$hiw_page = get_page_by_path( 'how-it-works', OBJECT, 'page' );
+	if ( $hiw_page ) {
+		$hid = (int) $hiw_page->ID;
+		if ( trim( (string) get_post_meta( $hid, 'hiw_included_5_desc', true ) ) === 'Private driveway.' ) {
+			$hd = restwell_get_how_it_works_page_defaults();
+			update_post_meta( $hid, 'hiw_included_5_desc', $hd['hiw_included_5_desc'] );
+		}
+	}
+
+	$gg_page = get_page_by_path( 'guest-guide', OBJECT, 'page' );
+	if ( $gg_page ) {
+		$gid = (int) $gg_page->ID;
+		if ( trim( (string) get_post_meta( $gid, 'gg_parking_info', true ) ) === '' ) {
+			$gd = restwell_get_guest_guide_page_defaults();
+			if ( isset( $gd['gg_parking_info'] ) ) {
+				update_post_meta( $gid, 'gg_parking_info', $gd['gg_parking_info'] );
+			}
+		}
+	}
+
+	update_option( 'restwell_faq_access_parking_bedrooms_v1', '1' );
+}
+add_action( 'init', 'restwell_migrate_faq_access_parking_bedrooms_v1', 24 );
+add_action( 'after_switch_theme', 'restwell_migrate_faq_access_parking_bedrooms_v1', 14 );
 
 /**
  * One-time: assign dedicated legal / policy templates and ensure Accessibility Policy page exists.

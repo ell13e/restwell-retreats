@@ -13,6 +13,15 @@ $property_url         = home_url( '/the-property/' );
 $access_statement_url = function_exists( 'restwell_get_access_statement_url' ) ? restwell_get_access_statement_url() : '';
 $legal_entity_name    = (string) get_option( 'restwell_footer_legal_name', __( 'Homely Housing Investments Ltd t/a Restwell Retreats', 'restwell-retreats' ) );
 
+$footer_partner_url = trim( (string) get_option( 'restwell_footer_partner_url', 'https://www.continuitycareservices.co.uk/' ) );
+if ( $footer_partner_url === '' ) {
+	$footer_partner_url = 'https://www.continuitycareservices.co.uk/';
+}
+$footer_cqc_profile_url = trim( (string) get_option( 'restwell_footer_cqc_profile_url', 'https://www.cqc.org.uk/location/1-2624556588' ) );
+if ( $footer_cqc_profile_url === '' ) {
+	$footer_cqc_profile_url = 'https://www.cqc.org.uk/location/1-2624556588';
+}
+
 $social_profiles = function_exists( 'restwell_get_social_profile_urls' ) ? restwell_get_social_profile_urls() : array();
 
 $footer_cta_heading = trim( (string) get_option( 'restwell_footer_cta_heading', '' ) );
@@ -75,7 +84,12 @@ if ( $footer_cta_note === '' ) {
 						height="44"
 					>
 				</a>
-				<p class="footer-description"><?php echo esc_html__( 'Care provided by Continuity of Care Services.', 'restwell-retreats' ); ?></p>
+				<p class="footer-description">
+					<?php esc_html_e( 'Care partner:', 'restwell-retreats' ); ?>
+					<a href="<?php echo esc_url( $footer_partner_url ); ?>" class="footer-description__link" target="_blank" rel="noopener noreferrer" data-cta="footer-care-partner"><?php esc_html_e( 'Continuity of Care Services', 'restwell-retreats' ); ?><span class="sr-only"><?php esc_html_e( ' (opens in new tab)', 'restwell-retreats' ); ?></span></a>
+					<span class="footer-description__sep" aria-hidden="true"> · </span>
+					<a href="<?php echo esc_url( $footer_cqc_profile_url ); ?>" class="footer-description__link" target="_blank" rel="noopener noreferrer" data-cta="footer-cqc-profile"><?php esc_html_e( 'CQC inspection profile', 'restwell-retreats' ); ?><span class="sr-only"><?php esc_html_e( ' (opens in new tab)', 'restwell-retreats' ); ?></span></a>
+				</p>
 				<p class="footer-legal-name"><?php echo esc_html( $legal_entity_name ); ?></p>
 				<?php if ( ! empty( $social_profiles ) ) : ?>
 					<nav class="footer-social" aria-label="<?php esc_attr_e( 'Social media', 'restwell-retreats' ); ?>">

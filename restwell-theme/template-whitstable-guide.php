@@ -55,7 +55,7 @@ $access_cards = array(
 		'title' => 'Tankerton promenade',
 		'body'  => 'The promenade route is wide, level, and surfaced, which makes it the most practical seafront option for many wheelchair users.',
 		'note'  => 'The slopes down are steeper; many guests stay on the top route for easier access.',
-		'icon'  => 'drop',
+		'icon'  => 'waves',
 	),
 	array(
 		'title' => 'Whitstable harbour area',

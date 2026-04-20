@@ -35,7 +35,7 @@ $hero_cta_primary_url    = get_post_meta( $pid, 'hero_cta_primary_url', true ) ?
 $hero_cta_secondary_label= get_post_meta( $pid, 'hero_cta_secondary_label', true ) ?: 'Send an enquiry';
 $hero_cta_secondary_url  = get_post_meta( $pid, 'hero_cta_secondary_url', true ) ?: '/enquire/';
 // Optional line under hero CTAs: unset meta → default; saved empty string → hidden; non-empty → override.
-$hero_cta_reassurance_default = __( 'Usually reply within one working day · No obligation', 'restwell-retreats' );
+$hero_cta_reassurance_default = __( 'Usually reply within 48 hours · No obligation', 'restwell-retreats' );
 $hero_cta_reassurance_display  = $hero_cta_reassurance_default;
 if ( metadata_exists( 'post', $pid, 'hero_cta_reassurance' ) ) {
 	$hero_cta_reassurance_raw = get_post_meta( $pid, 'hero_cta_reassurance', true );
@@ -113,16 +113,24 @@ $home_faq_label        = $home_faq_label_meta !== '' ? $home_faq_label_meta : __
 $home_faq_heading      = $home_faq_heading_meta !== '' ? $home_faq_heading_meta : __( 'Common questions', 'restwell-retreats' );
 $home_faq_pairs        = function_exists( 'restwell_get_homepage_faq_pairs' ) ? restwell_get_homepage_faq_pairs( $pid ) : array();
 
-$trust_label          = get_post_meta( $pid, 'trust_label', true ) ?: '';
-$trust_heading        = get_post_meta( $pid, 'trust_heading', true ) ?: '';
-$trust_badge_image_id = (int) get_post_meta( $pid, 'trust_badge_image_id', true );
-$trust_line           = get_post_meta( $pid, 'trust_line', true ) ?: 'Care support by Continuity of Care Services · CQC regulated';
-$trust_partner_url    = get_post_meta( $pid, 'trust_partner_url', true ) ?: 'https://www.continuitycareservices.co.uk/';
+$trust_label           = get_post_meta( $pid, 'trust_label', true ) ?: '';
+$trust_heading         = get_post_meta( $pid, 'trust_heading', true ) ?: '';
+$trust_badge_image_id  = (int) get_post_meta( $pid, 'trust_badge_image_id', true );
+$trust_line            = get_post_meta( $pid, 'trust_line', true ) ?: 'Support from Continuity of Care Services · CQC regulated';
+$trust_partner_url     = get_post_meta( $pid, 'trust_partner_url', true ) ?: 'https://www.continuitycareservices.co.uk/';
+$trust_cqc_meta_raw = get_post_meta( $pid, 'trust_cqc_profile_url', true );
+if ( metadata_exists( 'post', $pid, 'trust_cqc_profile_url' ) ) {
+	$trust_cqc_profile_url = trim( (string) $trust_cqc_meta_raw );
+} else {
+	$trust_cqc_profile_url = 'https://www.cqc.org.uk/location/1-2624556588';
+}
 $trust_line_parts     = array_map( 'trim', explode( '·', $trust_line, 2 ) );
 $trust_line_primary   = isset( $trust_line_parts[0] ) ? $trust_line_parts[0] : '';
 $trust_line_secondary = isset( $trust_line_parts[1] ) ? $trust_line_parts[1] : '';
 $trust_badge_src      = $trust_badge_image_id ? wp_get_attachment_image_url( $trust_badge_image_id, 'medium' ) : '';
-$show_trust           = $trust_line !== '' || $trust_badge_src !== '';
+$show_trust_cqc_card  = $trust_cqc_profile_url !== '';
+$show_trust_partner   = $trust_line !== '';
+$show_trust_block     = $trust_line !== '' || $trust_badge_src !== '' || $show_trust_cqc_card;
 
 $testimonial_label  = get_post_meta( $pid, 'testimonial_label', true ) ?: '';
 $testimonial_heading = get_post_meta( $pid, 'testimonial_heading', true ) ?: 'What guests say';
@@ -234,9 +242,106 @@ $cta_image_id = (int) ( $m['cta_image_id'] ?? 0 );
 $hero_cta_primary_href   = $rw_fp_resolve_href( $hero_cta_primary_url );
 $hero_cta_secondary_href = $rw_fp_resolve_href( $hero_cta_secondary_url );
 
+$home_partners_label   = trim( (string) ( $m['home_partners_label'] ?? 'Trusted partners' ) );
+$home_partners_heading = trim( (string) ( $m['home_partners_heading'] ?? 'Our partners' ) );
+$home_partners_intro   = trim( (string) ( $m['home_partners_intro'] ?? 'The full story of how we adapted Restwell, who built it, and who supports guests today.' ) );
+$home_partners_cta_text = trim( (string) ( $m['home_partners_cta_text'] ?? 'See our journey' ) );
+$home_partners_cta_url_raw = trim( (string) ( $m['home_partners_cta_url'] ?? '/how-it-works/' ) );
+$home_partners_cta_url = $rw_fp_resolve_href( $home_partners_cta_url_raw );
+$home_partner_items    = array(
+	array(
+		'name'    => trim( (string) ( $m['home_partner_1_name'] ?? 'Care Spaces' ) ),
+		'url'     => trim( (string) ( $m['home_partner_1_url'] ?? 'https://www.carespaces.co.uk/' ) ),
+		'logo_id' => absint( $m['home_partner_1_logo_id'] ?? 0 ),
+		'blurb'   => trim( (string) ( $m['home_partner_1_blurb'] ?? 'Specialist design and installation for changing places, hygiene rooms, and accessible care environments.' ) ),
+		'scale'   => (float) ( $m['home_partner_1_logo_scale'] ?? 1.75 ),
+	),
+	array(
+		'name'    => trim( (string) ( $m['home_partner_2_name'] ?? 'Thor Carpentry' ) ),
+		'url'     => trim( (string) ( $m['home_partner_2_url'] ?? 'https://thorcarpenter.co.uk/' ) ),
+		'logo_id' => absint( $m['home_partner_2_logo_id'] ?? 0 ),
+		'blurb'   => trim( (string) ( $m['home_partner_2_blurb'] ?? 'Bespoke carpentry and practical adaptation works that help make the property function day to day.' ) ),
+		'scale'   => (float) ( $m['home_partner_2_logo_scale'] ?? 1.85 ),
+	),
+	array(
+		'name'    => trim( (string) ( $m['home_partner_3_name'] ?? 'Wealden Rehab' ) ),
+		'url'     => trim( (string) ( $m['home_partner_3_url'] ?? 'https://www.wealdenrehab.com/' ) ),
+		'logo_id' => absint( $m['home_partner_3_logo_id'] ?? 0 ),
+		'blurb'   => trim( (string) ( $m['home_partner_3_blurb'] ?? 'Care equipment specialists supporting bathing, moving and handling, and seating solutions.' ) ),
+		'scale'   => (float) ( $m['home_partner_3_logo_scale'] ?? 1.7 ),
+	),
+	array(
+		'name'    => trim( (string) ( $m['home_partner_4_name'] ?? 'Continuity of Care Services' ) ),
+		'url'     => trim( (string) ( $m['home_partner_4_url'] ?? 'https://www.continuitycareservices.co.uk/' ) ),
+		'logo_id' => absint( $m['home_partner_4_logo_id'] ?? 0 ),
+		'blurb'   => trim( (string) ( $m['home_partner_4_blurb'] ?? 'CQC-regulated care partner providing domiciliary, respite, complex and palliative care in Kent.' ) ),
+		'scale'   => (float) ( $m['home_partner_4_logo_scale'] ?? 1.65 ),
+	),
+	array(
+		'name'    => trim( (string) ( $m['home_partner_5_name'] ?? 'Continuity Training Academy' ) ),
+		'url'     => trim( (string) ( $m['home_partner_5_url'] ?? 'https://www.continuitytrainingacademy.co.uk/' ) ),
+		'logo_id' => absint( $m['home_partner_5_logo_id'] ?? 0 ),
+		'blurb'   => trim( (string) ( $m['home_partner_5_blurb'] ?? 'CPD-accredited care training provider supporting safer, compliant practice across care teams.' ) ),
+		'scale'   => (float) ( $m['home_partner_5_logo_scale'] ?? 1.6 ),
+	),
+);
+$home_partner_items = array_values(
+	array_filter(
+		$home_partner_items,
+		static function( $partner ) {
+			return is_array( $partner )
+				&& ! empty( $partner['name'] )
+				&& ! empty( $partner['url'] );
+		}
+	)
+);
+$home_partner_items = array_map(
+	static function ( $partner ) {
+		if ( ! is_array( $partner ) ) {
+			return $partner;
+		}
+		if ( isset( $partner['url'] ) && $partner['url'] === 'https://thorcarpentry.co.uk/' ) {
+			$partner['url'] = 'https://thorcarpenter.co.uk/';
+		}
+		$partner['scale'] = isset( $partner['scale'] ) ? (float) $partner['scale'] : 1.0;
+		/*
+		 * Legacy seeded values were tuned for tightly-cropped logos (~1.0).
+		 * New transparent exports have larger canvas padding, so auto-upscale
+		 * small legacy values to keep perceived logo size consistent.
+		 */
+		if ( $partner['scale'] <= 1.25 ) {
+			$partner['scale'] = $partner['scale'] * 1.65;
+		}
+		if ( $partner['scale'] < 0.85 ) {
+			$partner['scale'] = 0.85;
+		} elseif ( $partner['scale'] > 2.2 ) {
+			$partner['scale'] = 2.2;
+		}
+		return $partner;
+	},
+	$home_partner_items
+);
+$show_home_partners = ( $home_partners_heading !== '' ) && ! empty( $home_partner_items );
+
+$rw_fp_cta_heading_display = trim( (string) ( $m['cta_heading'] ?? '' ) );
+$rw_fp_cta_body_display    = trim( (string) ( $m['cta_body'] ?? '' ) );
+
+/*
+ * Keep homepage CTA distinct from footer CTA even on older seeded meta.
+ * Only remap when values still match legacy defaults exactly.
+ */
+if ( $rw_fp_cta_heading_display === 'Ready to plan your accessible stay?' ) {
+	$rw_fp_cta_heading_display = __( 'Need exact access details first?', 'restwell-retreats' );
+}
+if ( $rw_fp_cta_body_display === 'Ask about hoist limits, door widths, or funding. No pressure: we reply with specifics you can use.' ) {
+	$rw_fp_cta_body_display = __( 'Tell us your dates and practical needs. We will reply with clear measurements, equipment details, and next steps.', 'restwell-retreats' );
+}
+
 $rw_fp_cta_promise_display = isset( $m['cta_promise'] ) ? trim( (string) $m['cta_promise'] ) : '';
 if ( $rw_fp_cta_promise_display === '' ) {
-	$rw_fp_cta_promise_display = __( 'No booking commitment. Replies usually within one working day.', 'restwell-retreats' );
+	$rw_fp_cta_promise_display = __( 'No pressure to book. Useful answers, usually within 48 hours.', 'restwell-retreats' );
+} elseif ( $rw_fp_cta_promise_display === 'No booking commitment. Replies usually within one working day.' ) {
+	$rw_fp_cta_promise_display = __( 'No pressure to book. Useful answers, usually within 48 hours.', 'restwell-retreats' );
 }
 
 /*
@@ -260,7 +365,7 @@ if ( $show_home_comparison ) {
 if ( $show_home_faq && ! empty( $home_faq_pairs ) ) {
 	$rw_fp_major_bands[] = 'faq';
 }
-if ( $show_trust ) {
+if ( $show_trust_block ) {
 	$rw_fp_major_bands[] = 'trust';
 }
 $rw_fp_band_bg = array();
@@ -446,7 +551,7 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 
 	<!-- Who it's for -->
 	<section class="who-section <?php echo esc_attr( $rw_fp_section_y . ' ' . $rw_fp_who_bg ); ?>">
-		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
+		<div class="container mx-auto px-6">
 			<div class="text-center max-w-3xl mx-auto rw-stack <?php echo esc_attr( $rw_fp_head_block ); ?>">
 				<?php
 				$who_label_out = isset( $m['who_label'] ) ? trim( (string) $m['who_label'] ) : '';
@@ -660,6 +765,85 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 		</div>
 	</section>
 
+	<?php if ( $show_home_partners ) : ?>
+	<section class="rw-section-y--compact bg-[var(--bg-subtle)] border-b border-[var(--deep-teal)]/10 rw-seam-y-soft" aria-labelledby="home-partners-heading">
+		<div class="container <?php echo esc_attr( $rw_fp_inner ); ?>">
+			<div class="grid lg:grid-cols-[minmax(0,22rem)_1fr] lg:items-center rw-gap-grid-lg">
+				<header class="rw-stack rw-stack--tight text-left">
+					<?php if ( $home_partners_label !== '' ) : ?>
+						<p class="section-label m-0 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--gold)]">
+							<?php echo esc_html( $home_partners_label ); ?>
+						</p>
+					<?php endif; ?>
+
+					<h2 id="home-partners-heading" class="section-heading m-0 text-3xl md:text-4xl font-serif text-[var(--deep-teal)] leading-[1.1]">
+						<?php echo esc_html( $home_partners_heading ); ?>
+					</h2>
+
+					<?php if ( $home_partners_intro !== '' ) : ?>
+						<p class="m-0 max-w-[32ch] text-sm leading-relaxed text-[#3a5a63]">
+							<?php echo esc_html( $home_partners_intro ); ?>
+						</p>
+					<?php endif; ?>
+
+					<?php if ( $home_partners_cta_text !== '' && $home_partners_cta_url !== '' ) : ?>
+						<div class="pt-2">
+							<a
+								href="<?php echo esc_url( $home_partners_cta_url ); ?>"
+								class="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[var(--deep-teal)] px-6 py-2 text-sm font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#163f4d]"
+							>
+								<?php echo esc_html( $home_partners_cta_text ); ?>
+							</a>
+						</div>
+					<?php endif; ?>
+				</header>
+
+				<ul class="m-0 grid list-none grid-cols-2 items-center p-0 sm:grid-cols-6 rw-gap-grid">
+					<?php foreach ( $home_partner_items as $partner_index => $partner ) : ?>
+						<?php
+						/**
+						 * GRID LOGIC:
+						 * We use 6 columns.
+						 * Top row (0,1,2): Each takes 2 cols (Total 6).
+						 * Bottom row (3,4): Each takes 2 cols, but we shift the first one.
+						 */
+						$li_classes = 'm-0 flex items-center justify-center col-span-1 sm:col-span-2';
+
+						if ( 3 === (int) $partner_index ) {
+							// Offset the 4th item to center the bottom pair on desktop
+							$li_classes .= ' sm:col-start-2';
+						}
+						?>
+						<li class="<?php echo esc_attr( $li_classes ); ?>">
+							<a
+								class="group flex h-16 w-full items-center justify-center p-2 transition-opacity duration-300 hover:opacity-70"
+								href="<?php echo esc_url( $rw_fp_resolve_href( (string) $partner['url'] ) ); ?>"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<?php if ( ! empty( $partner['logo_id'] ) ) : ?>
+									<?php
+									echo wp_get_attachment_image(
+										(int) $partner['logo_id'],
+										'medium',
+										false,
+										array(
+											'class' => 'h-full w-auto max-w-full object-contain',
+											'alt'   => sprintf( __( '%s logo', 'restwell-retreats' ), (string) $partner['name'] ),
+											'style' => sprintf( 'transform: scale(%.2F);', (float) $partner['scale'] ),
+										)
+									);
+									?>
+								<?php endif; ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<?php endif; ?>
+
 	<!-- Bottom CTA -->
 	<section class="cta-section relative <?php echo esc_attr( $rw_fp_section_y_emphasis ); ?> rw-seam-t overflow-hidden">
 		<?php if ( $cta_image_id ) : ?>
@@ -680,29 +864,46 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 			?>
 		<?php endif; ?>
 		<div class="absolute inset-0 bg-[#1B4D5C]/75" aria-hidden="true"></div>
-		<div class="relative container text-center rw-stack <?php echo esc_attr( $rw_fp_inner_narrow ); ?>">
-			<h2 class="text-white text-3xl md:text-4xl m-0"><?php echo esc_html( $m['cta_heading'] ?? '' ); ?></h2>
-			<p class="text-white/95 text-lg max-w-prose mx-auto m-0 text-pretty">
-				<?php echo esc_html( $m['cta_body'] ?? '' ); ?>
-			</p>
-			<div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
-				<a
-					id="bottom-cta-enquire"
-					href="<?php echo esc_url( $rw_fp_resolve_href( isset( $m['cta_primary_url'] ) ? (string) $m['cta_primary_url'] : '' ) ); ?>"
-					class="btn btn-gold w-full sm:w-auto"
-					data-cta="cta-enquire"
-				>
-					<?php echo esc_html( $m['cta_primary_label'] ?? '' ); ?>
-				</a>
-				<a
-					href="<?php echo esc_url( $rw_fp_resolve_href( isset( $m['cta_secondary_url'] ) ? (string) $m['cta_secondary_url'] : '' ) ); ?>"
-					class="btn btn-ghost-light w-full sm:w-auto"
-					data-cta="cta-property"
-				>
-					<?php echo esc_html( $m['cta_secondary_label'] ?? '' ); ?>
-				</a>
+		<div class="relative container text-center <?php echo esc_attr( $rw_fp_inner ); ?>">
+			<div class="mx-auto grid max-w-5xl lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,1fr)] lg:items-center <?php echo esc_attr( $rw_fp_stack_gap_lg ); ?>">
+				<div class="rw-stack max-w-2xl text-center lg:max-w-none lg:text-left">
+					<h2 class="text-white text-3xl md:text-4xl m-0"><?php echo esc_html( $rw_fp_cta_heading_display ); ?></h2>
+					<p class="text-white/95 text-lg m-0 text-pretty max-w-prose mx-auto lg:mx-0">
+						<?php echo esc_html( $rw_fp_cta_body_display ); ?>
+					</p>
+					<ul class="m-0 list-none p-0 rw-stack text-sm text-white/90 max-w-md mx-auto lg:mx-0">
+						<li class="flex items-start gap-2.5 text-left">
+							<i class="ph-bold ph-check-circle mt-0.5 text-[var(--warm-gold-hero)]" aria-hidden="true"></i>
+							<span><?php esc_html_e( 'Private whole-property stay with care arranged only if you choose it', 'restwell-retreats' ); ?></span>
+						</li>
+						<li class="flex items-start gap-2.5 text-left">
+							<i class="ph-bold ph-check-circle mt-0.5 text-[var(--warm-gold-hero)]" aria-hidden="true"></i>
+							<span><?php esc_html_e( 'Adaptations and access details explained clearly before you book', 'restwell-retreats' ); ?></span>
+						</li>
+					</ul>
+				</div>
+				<aside class="rw-stack rounded-2xl border border-white/25 bg-white/10 p-5 text-left shadow-[0_16px_38px_rgba(0,0,0,0.2)] backdrop-blur-sm md:p-6">
+					<p class="m-0 text-xs font-semibold uppercase tracking-[0.14em] text-white/80"><?php esc_html_e( 'Get exact details', 'restwell-retreats' ); ?></p>
+					<div class="grid gap-3">
+						<a
+							id="bottom-cta-enquire"
+							href="<?php echo esc_url( $rw_fp_resolve_href( isset( $m['cta_primary_url'] ) ? (string) $m['cta_primary_url'] : '' ) ); ?>"
+							class="btn btn-gold w-full justify-center"
+							data-cta="cta-enquire"
+						>
+							<?php echo esc_html( $m['cta_primary_label'] ?? '' ); ?>
+						</a>
+						<a
+							href="<?php echo esc_url( $rw_fp_resolve_href( isset( $m['cta_secondary_url'] ) ? (string) $m['cta_secondary_url'] : '' ) ); ?>"
+							class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/55 px-5 py-3 text-center text-sm font-semibold text-white transition-colors duration-200 hover:bg-white/15 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:transition-none"
+							data-cta="cta-property"
+						>
+							<?php echo esc_html( $m['cta_secondary_label'] ?? '' ); ?>
+						</a>
+					</div>
+					<p class="m-0 text-xs leading-relaxed text-white/80"><?php echo esc_html( $rw_fp_cta_promise_display ); ?></p>
+				</aside>
 			</div>
-			<p class="text-white/90 text-sm m-0"><?php echo esc_html( $rw_fp_cta_promise_display ); ?></p>
 		</div>
 	</section>
 
@@ -841,60 +1042,27 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 	</section>
 	<?php endif; ?>
 
-	<?php if ( $show_trust ) : ?>
-	<!-- Trust / accreditations -->
-	<section class="<?php echo esc_attr( $rw_fp_trust_bg ); ?> rw-seam-y-muted <?php echo esc_attr( $rw_fp_section_y ); ?>" aria-label="<?php echo esc_attr( __( 'Trust and accreditation', 'restwell-retreats' ) ); ?>">
-		<div class="container <?php echo esc_attr( $rw_fp_inner_narrow ); ?> text-left">
-			<div class="rw-section-head rw-section-head--left rw-section-head--tight max-w-prose">
-			<?php if ( $trust_label !== '' ) : ?>
-				<p class="section-label"><?php echo esc_html( $trust_label ); ?></p>
-			<?php endif; ?>
-			<?php if ( $trust_heading !== '' ) : ?>
-				<h2 class="text-2xl font-serif text-[var(--deep-teal)] m-0"><?php echo esc_html( $trust_heading ); ?></h2>
-			<?php endif; ?>
-			</div>
-			<div class="flex flex-col sm:flex-row items-start justify-start gap-6 sm:gap-10 flex-wrap">
-				<?php if ( $trust_badge_image_id ) : ?>
-					<?php
-					echo wp_get_attachment_image(
-						$trust_badge_image_id,
-						'medium',
-						false,
-						array(
-							'class'    => 'h-16 w-auto object-contain',
-							'alt'      => __( 'CQC regulated care provider accreditation', 'restwell-retreats' ),
-							'loading'  => 'lazy',
-							'decoding' => 'async',
-							'sizes'    => '200px',
-						)
-					);
-					?>
-				<?php endif; ?>
-				<?php if ( $trust_line !== '' ) : ?>
-					<a
-						class="<?php echo esc_attr( $rw_fp_card_surface_solid . ' group/trust inline-flex max-w-prose flex-wrap items-start gap-x-3 gap-y-2 px-4 py-3 min-h-[44px] text-left text-[var(--deep-teal)] hover:border-[var(--deep-teal)]/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--deep-teal)] cursor-pointer' ); ?>"
-						href="<?php echo esc_url( $trust_partner_url ); ?>"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<span class="min-w-0 flex-1 space-y-1">
-							<span class="block text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[var(--warm-gold-text)]"><?php esc_html_e( 'Care partner', 'restwell-retreats' ); ?></span>
-							<?php if ( $trust_line_primary !== '' ) : ?>
-								<span class="block text-[1rem] leading-snug font-semibold md:text-[1.0625rem]"><?php echo esc_html( $trust_line_primary ); ?></span>
-							<?php else : ?>
-								<span class="block text-[1rem] leading-snug font-semibold md:text-[1.0625rem]"><?php echo esc_html( $trust_line ); ?></span>
-							<?php endif; ?>
-						</span>
-						<?php if ( $trust_line_secondary !== '' ) : ?>
-							<span class="inline-flex items-center whitespace-nowrap rounded-full border border-[var(--deep-teal)]/20 bg-[var(--sea-glass)]/30 px-2 py-1 text-[0.68rem] font-bold uppercase tracking-[0.11em] text-[var(--deep-teal)]"><?php echo esc_html( $trust_line_secondary ); ?></span>
-						<?php endif; ?>
-						<i class="ph ph-arrow-square-out text-[0.92rem] opacity-60 transition-all duration-300 group-hover/trust:translate-x-0.5 group-hover/trust:opacity-100" aria-hidden="true"></i>
-						<span class="sr-only"><?php esc_html_e( 'Opens the care provider website in a new tab', 'restwell-retreats' ); ?></span>
-					</a>
-				<?php endif; ?>
-			</div>
-		</div>
-	</section>
+	<?php if ( $show_trust_block ) : ?>
+	<?php
+	set_query_var(
+		'args',
+		array(
+			'section_class'          => trim( $rw_fp_trust_bg . ' rw-seam-y-muted ' . $rw_fp_section_y ),
+			'container_class'        => $rw_fp_inner,
+			'trust_label'            => $trust_label,
+			'trust_heading'          => $trust_heading,
+			'trust_badge_image_id'   => $trust_badge_image_id,
+			'show_trust_partner'     => $show_trust_partner,
+			'show_trust_cqc_card'    => $show_trust_cqc_card,
+			'trust_line_primary'     => $trust_line_primary,
+			'trust_line'             => $trust_line,
+			'trust_line_secondary'   => $trust_line_secondary,
+			'trust_partner_url'      => $trust_partner_url,
+			'trust_cqc_profile_url'  => $trust_cqc_profile_url,
+		)
+	);
+	get_template_part( 'template-parts/trust-strip' );
+	?>
 	<?php endif; ?>
 
 </main>

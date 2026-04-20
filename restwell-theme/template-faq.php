@@ -26,7 +26,7 @@ $faq_list_heading = get_post_meta( $pid, 'faq_list_heading', true ) ?: '';
 // CTA section
 $faq_cta_label   = get_post_meta( $pid, 'faq_cta_label', true ) ?: '';
 $faq_cta_heading = get_post_meta( $pid, 'faq_cta_heading', true ) ?: 'Still have a question?';
-$faq_cta_body    = get_post_meta( $pid, 'faq_cta_body', true ) ?: 'Get in touch and we will answer honestly. We respond within 24 hours.';
+$faq_cta_body    = get_post_meta( $pid, 'faq_cta_body', true ) ?: 'Get in touch and we will answer honestly. We respond within 48 hours.';
 $faq_cta_btn     = get_post_meta( $pid, 'faq_cta_btn', true ) ?: 'Ask us';
 $faq_cta_url     = esc_url( get_post_meta( $pid, 'faq_cta_url', true ) ?: home_url( '/enquire/' ) );
 
@@ -196,7 +196,7 @@ $categories = array(
 
 						<?php if ( $faq_question_sent ) : ?>
 							<p class="text-sm font-medium text-[var(--deep-teal)] bg-[var(--sea-glass)]/35 border border-[var(--sea-glass)] rounded-xl px-4 py-3 mb-4">
-								<?php esc_html_e( 'Thanks. Your question has been sent to our team. We usually reply within 24 hours.', 'restwell-retreats' ); ?>
+								<?php esc_html_e( 'Thanks. Your question has been sent to our team. We usually reply within 48 hours.', 'restwell-retreats' ); ?>
 							</p>
 						<?php endif; ?>
 

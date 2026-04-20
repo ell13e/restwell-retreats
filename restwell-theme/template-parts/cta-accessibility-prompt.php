@@ -38,5 +38,5 @@ $link_class = 'dark' === $variant
 <p class="<?php echo esc_attr( $wrap_class ); ?>">
 	<a href="<?php echo esc_url( get_permalink( $acc_page ) ); ?>" class="<?php echo esc_attr( $link_class ); ?>">
 		<?php esc_html_e( 'Full access specification', 'restwell-retreats' ); ?>
-	</a><?php echo esc_html__( ': hoist coverage, door widths, wet room.', 'restwell-retreats' ); ?>
+	</a><?php echo esc_html__( ': bedroom hoist layout, door widths, wet room.', 'restwell-retreats' ); ?>
 </p>

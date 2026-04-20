@@ -1189,9 +1189,7 @@
 
   .site-nav__dropdown-toggle:hover {
     background: rgba(168, 213, 208, 0.18);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-decoration-color: currentColor;
+    text-decoration: none;
   }
 
   .site-nav__dropdown-toggle:focus {
@@ -1207,9 +1205,7 @@
   .site-nav__item--has-dropdown.is-open > a {
     background: transparent;
     font-weight: var(--font-weight-ui);
-    text-decoration: underline;
-    text-decoration-thickness: 1.5px;
-    text-decoration-color: currentColor;
+    text-decoration: none;
   }
 
   .site-nav__dropdown-chevron {
@@ -1862,6 +1858,19 @@
     font-size: 0.9375rem;
     line-height: 1.6;
     margin: 0;
+  }
+
+  .footer-description__link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    font-weight: 600;
+  }
+
+  .footer-description__link:hover,
+  .footer-description__link:focus-visible {
+    color: rgba(245, 237, 224, 1);
+    text-decoration-thickness: 2px;
   }
 
   .footer-legal-name {
@@ -3160,6 +3169,11 @@
     color: color-mix(in srgb, var(--warm-gold-text) 72%, var(--deep-teal) 28%);
   }
 
+  /* Trust strip eyebrow on white/sand bands: tint toward teal so it pairs with heading + bg-subtle intro */
+  #main-content .rw-section-head--trust-strip .section-label {
+    color: color-mix(in srgb, var(--warm-gold-text) 62%, var(--deep-teal) 38%);
+  }
+
   .cta-section {
     background: linear-gradient(135deg, #1B4D5C 0%, #0d3040 100%);
     position: relative;
@@ -3672,6 +3686,71 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     vertical-align: bottom;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   11b. Legal policy pages (Privacy, Terms, Accessibility statement)
+   Shared by template-parts/legal-policy-layout.php — single source of styles.
+   ----------------------------------------------------------------------------- */
+
+.legal-policy-section {
+  background-color: var(--soft-sand);
+  border-top: 1px solid color-mix(in srgb, var(--deep-teal) 10%, transparent);
+}
+
+.legal-policy-document {
+  background-color: #fff;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--deep-teal) 8%, transparent);
+  box-shadow: 0 8px 30px rgb(0 0 0 / 0.04);
+  padding: 1.5rem 1.25rem 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .legal-policy-document {
+    border-radius: 1.25rem;
+    padding: 2rem 1.75rem 2.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .legal-policy-document {
+    padding: 2.5rem 2.25rem 2.75rem;
+  }
+}
+
+.legal-policy-document__content :where(table) {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.legal-policy-document__content :where(blockquote) {
+  border-left-color: color-mix(in srgb, var(--deep-teal) 35%, transparent);
+}
+
+/* Links: readable focus ring (WCAG), complements prose underline */
+.legal-policy-document__content :where(a):focus-visible {
+  outline: 3px solid var(--deep-teal);
+  outline-offset: 3px;
+  border-radius: 0.125rem;
+}
+
+.legal-policy-document__disclaimer {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--deep-teal) 12%, transparent);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--muted-grey);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .legal-policy-document__content :where(a) {
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
   }
 }
 

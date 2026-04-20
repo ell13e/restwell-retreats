@@ -242,7 +242,7 @@ function restwell_email_enquiry_ack( string $name, string $email, bool $urgent =
 
 	$steps = array(
 		'1.' => "We've logged your enquiry and our team has been notified.",
-		'2.' => 'A member of staff will review your details and contact you - usually within one working day.',
+		'2.' => 'A member of staff will review your details and contact you - usually within 48 hours.',
 		'3.' => 'If your plans change in the meantime, simply reply to this email.',
 	);
 
@@ -256,7 +256,7 @@ function restwell_email_enquiry_ack( string $name, string $email, bool $urgent =
 
 	$content = restwell_email_banner( 'Enquiry received', 'Thank you, ' . $first_name . '.' )
 		. '<p style="margin:0 0 20px 0;font-family:\'Lora\',Georgia,serif;font-size:16px;color:#1B4D5C;line-height:1.7;">
-    Thank you for getting in touch. Your enquiry is with our team and someone will be back to you - usually within one working day.
+    Thank you for getting in touch. Your enquiry is with our team and someone will be back to you - usually within 48 hours.
   </p>'
 		. $urgent_note
 		. '<p style="margin:0 0 12px 0;font-family:\'Inter\',system-ui,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:#6B6355;">What happens next</p>

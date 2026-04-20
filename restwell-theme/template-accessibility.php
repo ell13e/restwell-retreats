@@ -27,7 +27,7 @@ $acc_arrival_heading  = get_post_meta( $pid, 'acc_arrival_heading', true ) ?: 'A
 $acc_arrival_body     = get_post_meta( $pid, 'acc_arrival_body', true ) ?: "Level threshold with a wide front door\nQuiet, flat residential street with no steep approach";
 $acc_inside_heading   = get_post_meta( $pid, 'acc_inside_heading', true ) ?: 'Inside the property';
 $acc_inside_body      = get_post_meta( $pid, 'acc_inside_body', true ) ?: "Level access throughout the ground floor\nWide doorways suitable for standard and power wheelchairs";
-$acc_bedroom_heading  = get_post_meta( $pid, 'acc_bedroom_heading', true ) ?: 'Bedrooms';
+$acc_bedroom_heading  = get_post_meta( $pid, 'acc_bedroom_heading', true ) ?: 'Bedrooms & sleeping';
 $acc_bedroom_body     = get_post_meta( $pid, 'acc_bedroom_body', true ) ?: '';
 $acc_bathroom_heading = get_post_meta( $pid, 'acc_bathroom_heading', true ) ?: 'Bathroom';
 $acc_bathroom_body    = get_post_meta( $pid, 'acc_bathroom_body', true ) ?: '';
@@ -109,7 +109,7 @@ $rooms = array(
 									<span class="w-6 h-6 rounded-full bg-[#A8D5D0]/40 flex items-center justify-center flex-shrink-0 mt-0.5 text-[#1B4D5C] text-xs" aria-hidden="true">
 										<i class="ph-bold ph-check"></i>
 									</span>
-									<span><?php echo esc_html( $line ); ?></span>
+									<span><?php echo wp_kses_post( $line ); ?></span>
 								</li>
 							<?php endforeach; ?>
 						</ul>

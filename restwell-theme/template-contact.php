@@ -23,7 +23,7 @@ $email = (string) get_post_meta( $pid, 'contact_email', true ) ?: 'hello@restwel
 $address = (string) get_post_meta( $pid, 'contact_address', true ) ?: "Restwell Retreats\n101 Russell Drive\nWhitstable\nKent\nCT5 2RQ";
 
 $hours_heading = (string) get_post_meta( $pid, 'contact_hours_heading', true ) ?: 'Response times';
-$hours_body    = (string) get_post_meta( $pid, 'contact_hours_body', true ) ?: "We aim to reply to all enquiries within 24 hours.\nIf your enquiry is urgent, please call.";
+$hours_body    = (string) get_post_meta( $pid, 'contact_hours_body', true ) ?: "We aim to reply to all enquiries within 48 hours.\nIf your enquiry is urgent, please call.";
 
 $prof_heading = (string) get_post_meta( $pid, 'contact_prof_heading', true ) ?: 'For professionals';
 $prof_body    = (string) get_post_meta( $pid, 'contact_prof_body', true ) ?: 'If you are an occupational therapist, case manager, or commissioner, we are happy to provide property specifications, access measurements, and supporting information for referrals or funding applications. We prefer to give you specifics rather than marketing material.';

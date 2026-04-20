@@ -283,7 +283,7 @@ $prop_nearby_cta_url   = esc_url( $m_url( 'prop_nearby_cta_url' ) );
 		</div>
 	</section>
 
-	<!-- Accessibility features grid (8 items, 2 rows of 4) -->
+	<!-- Adapted property highlights: icons align to prop_feature_1…8 defaults in theme-setup (order matters if CMS copy changes). -->
 	<section class="rw-section-y bg-[var(--bg-subtle)]">
 		<div class="container">
 			<div class="rw-section-head rw-section-head--center">
@@ -294,7 +294,9 @@ $prop_nearby_cta_url   = esc_url( $m_url( 'prop_nearby_cta_url' ) );
 			</div>
 			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 rw-gap-grid max-w-5xl mx-auto">
 				<?php
-				$feature_icons = array( 'wheelchair', 'shower', 'bed', 'door-open', 'path', 'plant', 'fork-knife', 'wifi-high' );
+				// Slots 1–8 (pair with prop_feature_{n} defaults): hoist, wet room, bed, doors, step-free, garden, kitchen, Wi‑Fi.
+				// Kitchen uses cooking-pot (facility), not fork-knife (reads as dining — awkward beside disability/access messaging).
+				$feature_icons = array( 'wheelchair', 'shower', 'bed', 'door-open', 'path', 'plant', 'cooking-pot', 'wifi-high' );
 				foreach ( $prop_features as $j => $feature ) :
 				?>
 				<div class="rw-surface-card rw-card-hover-lift p-6 flex flex-col items-center text-center gap-3 motion-reduce:hover:translate-y-0 motion-reduce:transition-none">
@@ -335,7 +337,7 @@ $prop_nearby_cta_url   = esc_url( $m_url( 'prop_nearby_cta_url' ) );
 				<div class="rw-surface-card p-7 flex flex-col gap-5">
 					<div>
 						<h3 class="text-lg font-semibold font-serif text-[var(--deep-teal)] mb-2"><?php echo esc_html__( 'Have a specific requirement?', 'restwell-retreats' ); ?></h3>
-						<p class="rw-copy-body text-sm leading-relaxed"><?php echo esc_html__( 'Every guest is different. Whether you need to know about hoist access, particular bathroom equipment, bed configuration, or sensory environment, we are happy to talk it through before you commit to anything.', 'restwell-retreats' ); ?></p>
+						<p class="rw-copy-body text-sm leading-relaxed"><?php echo esc_html__( 'Every guest is different. Whether you need to know about the bedroom hoist layout, particular bathroom equipment, bed configuration, or sensory environment, we are happy to talk it through before you commit to anything.', 'restwell-retreats' ); ?></p>
 					</div>
 					<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary self-start">
 						<?php echo esc_html__( 'Ask us directly', 'restwell-retreats' ); ?>

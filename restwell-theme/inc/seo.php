@@ -641,7 +641,7 @@ function restwell_output_jsonld_front_page_vacation_rental() {
 
 	$desc = get_bloginfo( 'description' );
 	if ( $desc === '' ) {
-		$desc = __( 'Wheelchair-accessible adapted holiday bungalow in Whitstable, Kent: ceiling hoist, profiling bed, roll-in shower.', 'restwell-retreats' );
+		$desc = __( 'Wheelchair-accessible adapted holiday bungalow in Whitstable, Kent: bedroom ceiling track hoist, profiling bed, roll-in shower.', 'restwell-retreats' );
 	}
 
 	$price_range = (string) get_option( 'restwell_lodging_price_range', '' );
@@ -651,12 +651,24 @@ function restwell_output_jsonld_front_page_vacation_rental() {
 		$price_range = __( 'Rates on enquiry', 'restwell-retreats' );
 	}
 
+	$prop_page = get_page_by_path( 'the-property', OBJECT, 'page' );
+	$prop_pid  = $prop_page ? (int) $prop_page->ID : 0;
+	$pd        = function_exists( 'restwell_get_property_page_defaults' ) ? restwell_get_property_page_defaults() : array();
+	$br_meta   = $prop_pid > 0 ? get_post_meta( $prop_pid, 'prop_bedrooms_count', true ) : '';
+	$sl_meta   = $prop_pid > 0 ? get_post_meta( $prop_pid, 'prop_sleeps_value', true ) : '';
+	if ( $br_meta === '' || $br_meta === false ) {
+		$br_meta = $pd['prop_bedrooms_count'] ?? '2';
+	}
+	if ( $sl_meta === '' || $sl_meta === false ) {
+		$sl_meta = $pd['prop_sleeps_value'] ?? '5';
+	}
+
 	$schema = array(
 		'@context'    => 'https://schema.org',
 		'@type'       => 'VacationRental',
 		'@id'         => restwell_get_place_schema_id(),
 		'name'        => $site_name,
-		'description' => 'Accessible self-catering holiday home in Whitstable, Kent, designed for guests with disabilities and their families.',
+		'description' => 'Accessible self-catering holiday home in Whitstable, Kent, with a bedroom ceiling-track hoist, profiling bed, and roll-in wet room, designed for guests with disabilities and their families.',
 		'url'         => $place_url,
 		'priceRange'  => $price_range,
 		'address'     => array(
@@ -677,19 +689,29 @@ function restwell_output_jsonld_front_page_vacation_rental() {
 		'checkoutTime' => '11:00',
 		'petsAllowed'  => true,
 		'smokingAllowed' => false,
-		'numberOfRooms' => 1,
 		'tourBookingPage' => $booking_url,
 		'amenityFeature' => array(
 			array( '@type' => 'LocationFeatureSpecification', 'name' => 'Wheelchair accessible', 'value' => true ),
-			array( '@type' => 'LocationFeatureSpecification', 'name' => 'Ceiling track hoist', 'value' => true ),
+			array( '@type' => 'LocationFeatureSpecification', 'name' => 'Ceiling track hoist (accessible bedroom)', 'value' => true ),
 			array( '@type' => 'LocationFeatureSpecification', 'name' => 'Profiling bed', 'value' => true ),
 			array( '@type' => 'LocationFeatureSpecification', 'name' => 'Wet room / roll-in shower', 'value' => true ),
 			array( '@type' => 'LocationFeatureSpecification', 'name' => 'Level access throughout', 'value' => true ),
-			array( '@type' => 'LocationFeatureSpecification', 'name' => 'Off-street adapted parking', 'value' => true ),
+			array( '@type' => 'LocationFeatureSpecification', 'name' => 'Two off-road parking spaces (private drive)', 'value' => true ),
 			array( '@type' => 'LocationFeatureSpecification', 'name' => 'Self-catering kitchen', 'value' => true ),
 			array( '@type' => 'LocationFeatureSpecification', 'name' => 'Whole-property booking', 'value' => true ),
 		),
 	);
+
+	if ( $br_meta !== '' && is_numeric( $br_meta ) ) {
+		$schema['numberOfRooms'] = (int) $br_meta;
+	}
+	$max_sleeps = (int) filter_var( (string) $sl_meta, FILTER_SANITIZE_NUMBER_INT );
+	if ( $max_sleeps > 0 ) {
+		$schema['occupancy'] = array(
+			'@type'    => 'QuantitativeValue',
+			'maxValue' => $max_sleeps,
+		);
+	}
 
 	if ( $phone !== '' ) {
 		$schema['telephone'] = $phone;
@@ -721,7 +743,7 @@ function restwell_get_homepage_faq_pairs( $page_id = 0 ) {
 		),
 		array(
 			'q' => __( 'Is the property wheelchair accessible?', 'restwell-retreats' ),
-			'a' => __( 'Yes. The single-storey layout has level access on the ground floor, wide doorways, a ceiling track hoist, profiling bed, and a roll-in wet room. See our Accessibility page for dimensions and equipment.', 'restwell-retreats' ),
+			'a' => __( 'Yes. The single-storey layout has level access on the ground floor, wide doorways, a ceiling track hoist in the accessible bedroom, profiling bed, and a roll-in wet room on the same level with a height-adjustable washbasin. See our Accessibility page for dimensions and equipment.', 'restwell-retreats' ),
 		),
 		array(
 			'q' => __( 'Can I bring my own carer?', 'restwell-retreats' ),
@@ -733,7 +755,7 @@ function restwell_get_homepage_faq_pairs( $page_id = 0 ) {
 		),
 		array(
 			'q' => __( 'What accessibility features are included?', 'restwell-retreats' ),
-			'a' => __( 'Highlights include a ceiling track hoist, profiling bed, roll-in shower wet room, grab rails, level access, and adapted parking. Full detail is in our accessibility specification.', 'restwell-retreats' ),
+			'a' => __( 'Highlights include a ceiling track hoist in the accessible bedroom, profiling bed, roll-in shower wet room, grab rails, height-adjustable washbasin, level access, and two off-road spaces on the private drive. Full detail is in our accessibility specification.', 'restwell-retreats' ),
 		),
 		array(
 			'q' => __( 'Can I use personal budget or CHC funding?', 'restwell-retreats' ),
@@ -1174,7 +1196,7 @@ function restwell_get_faq_page_default_pairs() {
 		),
 		array(
 			'q'   => 'Is the property suitable for hoists and profiling beds?',
-			'a'   => 'The property already has a ceiling track hoist fitted, along with a profiling bed and a full wet room. If you have additional or specialist equipment needs, please get in touch before booking so we can confirm we can accommodate them.',
+			'a'   => 'Yes. The accessible bedroom has a ceiling track hoist and profiling bed, and there is a full roll-in wet room on the same single-storey level, with a perching stool in the shower and a washbasin you can raise, lower, and swing aside when you need clearer space. A shower chair may be available on request; please say so when you enquire or book. If you have additional or specialist equipment needs, please get in touch before booking so we can confirm we can accommodate them.',
 			'cat' => 'about',
 		),
 		array(
@@ -1184,8 +1206,8 @@ function restwell_get_faq_page_default_pairs() {
 		),
 		array(
 			'q'   => 'What does CQC-regulated mean?',
-			'a'   => 'CQC stands for Care Quality Commission, the independent regulator of health and social care in England. Continuity of Care Services, our partner provider, is inspected and rated by the CQC. This means the care you receive meets nationally recognised standards for safety and quality.',
-			'cat' => 'care',
+			'a'   => 'CQC stands for Care Quality Commission, the independent regulator of health and social care in England. Continuity of Care Services, our partner provider, is inspected and rated by the CQC. This means the care you receive meets nationally recognised standards for safety and quality. You can see Continuity’s latest inspection summary on the <a href="https://www.cqc.org.uk/location/1-2624556588" target="_blank" rel="noopener noreferrer">Care Quality Commission website<span class="sr-only"> (opens in new tab)</span></a>.',
+			'cat' => 'funding',
 		),
 	);
 }

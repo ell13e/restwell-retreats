@@ -195,7 +195,7 @@ for ( $i = 1; $i <= 3; $i++ ) {
 								echo '<i class="ph-bold ph-gift text-3xl"></i>';
 								break;
 							case 'kitchen':
-								echo '<i class="ph-bold ph-fork-knife text-3xl"></i>';
+								echo '<i class="ph-bold ph-cooking-pot text-3xl"></i>';
 								break;
 							case 'accessibility':
 								echo '<i class="ph-bold ph-wheelchair text-3xl"></i>';
