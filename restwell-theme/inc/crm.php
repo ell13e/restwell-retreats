@@ -217,7 +217,7 @@ function restwell_crm_maybe_create_table() {
 
 	update_option( 'restwell_crm_db_version', RESTWELL_CRM_DB_VERSION );
 }
-add_action( 'admin_init', 'restwell_crm_maybe_create_table' );
+add_action( 'init', 'restwell_crm_maybe_create_table', 5 );
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 2. SAVE ENQUIRY (called from enquire-handler.php)
@@ -1021,10 +1021,98 @@ function restwell_crm_dashboard_page() {
 				</div>
 			</div>
 
-		</div><!-- grid -->
+	</div><!-- grid -->
 
-		<?php if ( current_user_can( 'manage_options' ) ) : ?>
-		<!-- Notification settings -->
+	<!-- Where-to-edit-what orientation panel -->
+	<div class="rw-settings-wrap rw-orientation-wrap">
+		<div class="postbox">
+			<div class="postbox-header">
+				<h2 class="hndle">
+					<span class="rw-panel-title">
+						<span class="rw-panel-title__icon" aria-hidden="true">&#128196;</span>
+						<span><?php esc_html_e( 'Where to edit what', 'restwell-retreats' ); ?></span>
+					</span>
+				</h2>
+			</div>
+			<div class="inside">
+				<p class="description rw-description--tight-top">
+					<?php esc_html_e( 'Quick reference — every piece of content and where it lives.', 'restwell-retreats' ); ?>
+				</p>
+				<table class="widefat rw-orientation-table">
+					<thead>
+						<tr>
+							<th><?php esc_html_e( 'What you want to change', 'restwell-retreats' ); ?></th>
+							<th><?php esc_html_e( 'Where to go', 'restwell-retreats' ); ?></th>
+							<th><?php esc_html_e( 'Notes', 'restwell-retreats' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$base_url = admin_url( 'admin.php' );
+						$pages_url = admin_url( 'edit.php?post_type=page' );
+						$rows = array(
+							array(
+								__( 'Hero text, images, body copy on any page', 'restwell-retreats' ),
+								'<a href="' . esc_url( $pages_url ) . '">' . __( 'Pages → edit page → Page Content Fields metabox', 'restwell-retreats' ) . '</a>',
+								__( 'Use the tabbed sections in the "Page Content Fields" panel. Changes here update the live site immediately on save.', 'restwell-retreats' ),
+							),
+							array(
+								__( 'FAQ questions &amp; answers', 'restwell-retreats' ),
+								'<a href="' . esc_url( admin_url( 'post.php?post=' . (int) get_option( 'page_on_front' ) . '&action=edit' ) ) . '">' . __( 'Front Page → Page Content Fields → FAQ tab', 'restwell-retreats' ) . '</a>',
+								__( 'Up to 14 items. The same data renders on the FAQ page, How It Works page, and homepage. Categories: about | booking | care | local | funding.', 'restwell-retreats' ),
+							),
+							array(
+								__( 'SEO title &amp; meta description for a page', 'restwell-retreats' ),
+								__( 'Pages → edit page → Page Content Fields → SEO tab', 'restwell-retreats' ),
+								__( 'Focus keyphrase and meta description are set per-page here, not in a separate plugin.', 'restwell-retreats' ),
+							),
+							array(
+								__( 'GA4 Measurement ID', 'restwell-retreats' ),
+								'<a href="' . esc_url( add_query_arg( 'page', 'restwell-crm', $base_url ) ) . '">' . __( 'Dashboard → Settings (bottom of this page)', 'restwell-retreats' ) . '</a>',
+								__( 'Paste your G-XXXXXXXX ID. Analytics loads site-wide once saved.', 'restwell-retreats' ),
+							),
+							array(
+								__( 'Notification email / phone / address', 'restwell-retreats' ),
+								'<a href="' . esc_url( add_query_arg( 'page', 'restwell-crm', $base_url ) ) . '">' . __( 'Dashboard → Notification &amp; Site Settings', 'restwell-retreats' ) . '</a>',
+								__( 'Used in email templates, schema markup, footer, and 404 page.', 'restwell-retreats' ),
+							),
+							array(
+								__( 'Enquiries (contact form submissions)', 'restwell-retreats' ),
+								'<a href="' . esc_url( add_query_arg( 'page', 'restwell-enquiries', $base_url ) ) . '">' . __( 'Restwell → Enquiries', 'restwell-retreats' ) . '</a>',
+								__( 'View, reply, update status, add follow-up notes, and mark urgent.', 'restwell-retreats' ),
+							),
+							array(
+								__( 'Guest guide (pre-stay info sent to bookers)', 'restwell-retreats' ),
+								'<a href="' . esc_url( add_query_arg( 'page', 'restwell-guest-guide', $base_url ) ) . '">' . __( 'Restwell → Guest Guide', 'restwell-retreats' ) . '</a>',
+								__( 'Create a personalised guide link. Guests receive a private URL with their arrival details.', 'restwell-retreats' ),
+							),
+							array(
+								__( 'Partner logos on the homepage trust strip', 'restwell-retreats' ),
+								__( 'Pages → Front Page → Page Content Fields → Partners tab', 'restwell-retreats' ),
+								__( 'Upload a PNG for each partner. Leave empty to hide that slot.', 'restwell-retreats' ),
+							),
+							array(
+								__( 'Legal pages (Privacy Policy, Terms etc.)', 'restwell-retreats' ),
+								__( 'Pages → edit the relevant legal page → Page Content Fields', 'restwell-retreats' ),
+								__( 'Body accepts full HTML via the wp_kses_post sanitiser.', 'restwell-retreats' ),
+							),
+						);
+						foreach ( $rows as $row ) :
+						?>
+							<tr>
+								<td class="rw-orient-what"><strong><?php echo wp_kses_post( $row[0] ); ?></strong></td>
+								<td class="rw-orient-where"><?php echo wp_kses_post( $row[1] ); ?></td>
+								<td class="rw-orient-notes rw-table-meta"><?php echo wp_kses_post( $row[2] ); ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<?php if ( current_user_can( 'manage_options' ) ) : ?>
+	<!-- Notification settings -->
 		<div class="rw-settings-wrap">
 			<div class="postbox">
 				<div class="postbox-header">
@@ -1228,26 +1316,44 @@ function restwell_crm_dashboard_page() {
 									</p>
 								</td>
 							</tr>
-							<tr>
-								<th scope="row">
-									<label for="restwell_ga4_measurement_id">
-										<?php esc_html_e( 'Google Analytics 4 Measurement ID', 'restwell-retreats' ); ?>
-									</label>
-								</th>
-								<td>
+						<tr>
+							<th scope="row">
+								<label for="restwell_ga4_measurement_id">
+									<?php esc_html_e( 'Google Analytics 4 Measurement ID', 'restwell-retreats' ); ?>
+								</label>
+							</th>
+							<td>
+								<?php
+								$ga4_current = (string) get_option( 'restwell_ga4_measurement_id', '' );
+								if ( $ga4_current === '' ) {
+									$ga4_badge_class = 'rw-ga4-badge rw-ga4-badge--unset';
+									$ga4_badge_text  = __( 'Not set — analytics inactive', 'restwell-retreats' );
+								} elseif ( preg_match( '/^G-[A-Z0-9]+$/i', $ga4_current ) ) {
+									$ga4_badge_class = 'rw-ga4-badge rw-ga4-badge--active';
+									$ga4_badge_text  = __( 'Active', 'restwell-retreats' );
+								} else {
+									$ga4_badge_class = 'rw-ga4-badge rw-ga4-badge--invalid';
+									$ga4_badge_text  = __( 'Wrong format — should be G-XXXXXXXXXX', 'restwell-retreats' );
+								}
+								?>
+								<div class="rw-ga4-field-wrap">
 									<input
 										type="text"
 										id="restwell_ga4_measurement_id"
 										name="restwell_ga4_measurement_id"
-										value="<?php echo esc_attr( (string) get_option( 'restwell_ga4_measurement_id', '' ) ); ?>"
+										value="<?php echo esc_attr( $ga4_current ); ?>"
 										class="regular-text"
 										placeholder="G-XXXXXXXXXX"
 									/>
-									<p class="description">
-										<?php esc_html_e( 'Optional. When set, the gtag snippet is output on the front end.', 'restwell-retreats' ); ?>
-									</p>
-								</td>
-							</tr>
+									<span class="<?php echo esc_attr( $ga4_badge_class ); ?>" aria-live="polite">
+										<?php echo esc_html( $ga4_badge_text ); ?>
+									</span>
+								</div>
+								<p class="description">
+									<?php esc_html_e( 'Optional. When set, the gtag snippet is output on the front end.', 'restwell-retreats' ); ?>
+								</p>
+							</td>
+						</tr>
 							<tr>
 								<th scope="row">
 									<label for="restwell_bing_verification">
@@ -1487,6 +1593,13 @@ function restwell_crm_enquiries_page() {
 	$current_page  = max( 1, isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1 );
 	$offset        = ( $current_page - 1 ) * $per_page;
 
+	// Sortable columns.
+	$allowed_orderby = array( 'submitted_at', 'status', 'name' );
+	$orderby_raw     = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'submitted_at';
+	$orderby         = in_array( $orderby_raw, $allowed_orderby, true ) ? $orderby_raw : 'submitted_at';
+	$order_raw       = isset( $_GET['order'] ) ? strtoupper( sanitize_key( $_GET['order'] ) ) : 'DESC';
+	$order           = ( 'ASC' === $order_raw ) ? 'ASC' : 'DESC';
+
 	$where_parts = array( '1=1' );
 
 	if ( $status_filter && array_key_exists( $status_filter, restwell_crm_statuses() ) ) {
@@ -1507,7 +1620,7 @@ function restwell_crm_enquiries_page() {
 	// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$total = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table} WHERE {$where}" );
 	$rows  = $wpdb->get_results(
-		$wpdb->prepare( "SELECT * FROM {$table} WHERE {$where} ORDER BY submitted_at DESC LIMIT %d OFFSET %d", $per_page, $offset )
+		$wpdb->prepare( "SELECT * FROM {$table} WHERE {$where} ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d", $per_page, $offset )
 	);
 	// phpcs:enable
 
@@ -1666,20 +1779,63 @@ function restwell_crm_enquiries_page() {
 			</div>
 
 			<table class="wp-list-table widefat striped rw-enquiries-table">
-				<thead>
-					<tr>
-						<td class="manage-column check-column">
-							<input id="cb-select-all" type="checkbox">
-						</td>
-						<th scope="col" class="column-rw-flag"><span class="screen-reader-text"><?php esc_html_e( 'Flags', 'restwell-retreats' ); ?></span></th>
-						<th scope="col" class="column-rw-name"><?php esc_html_e( 'Name', 'restwell-retreats' ); ?></th>
-						<th scope="col" class="column-rw-contact"><?php esc_html_e( 'Contact', 'restwell-retreats' ); ?></th>
-						<th scope="col" class="column-rw-dates"><?php esc_html_e( 'Dates / Guests', 'restwell-retreats' ); ?></th>
-						<th scope="col" class="column-assigned"><?php esc_html_e( 'Assigned to', 'restwell-retreats' ); ?></th>
-						<th scope="col" class="column-rw-status"><?php esc_html_e( 'Status', 'restwell-retreats' ); ?></th>
-						<th scope="col" class="column-rw-received"><?php esc_html_e( 'Received', 'restwell-retreats' ); ?></th>
-					</tr>
-				</thead>
+			<?php
+			/**
+			 * Build a sortable column header link.
+			 *
+			 * @param string $col     Column key (must be in $allowed_orderby).
+			 * @param string $label   Display label.
+			 * @param string $current Current $orderby value.
+			 * @param string $current_order Current $order value.
+			 * @param string $base    Base URL.
+			 * @param array  $extras  Extra query args to preserve.
+			 * @return string HTML.
+			 */
+			$sort_link = function( string $col, string $label, string $current, string $current_order, string $base, array $extras ): string {
+				$is_active  = ( $col === $current );
+				$next_order = $is_active && 'ASC' === $current_order ? 'DESC' : 'ASC';
+				$arrow      = '';
+				if ( $is_active ) {
+					$arrow = 'ASC' === $current_order
+						? ' <span aria-hidden="true">&#9650;</span>'
+						: ' <span aria-hidden="true">&#9660;</span>';
+				}
+				$href = add_query_arg( array_merge( $extras, array( 'orderby' => $col, 'order' => $next_order ) ), $base );
+				return sprintf(
+					'<a href="%s" class="%s">%s%s</a>',
+					esc_url( $href ),
+					$is_active ? 'rw-sort-link rw-sort-link--active' : 'rw-sort-link',
+					esc_html( $label ),
+					$arrow
+				);
+			};
+			$sort_extras = array_filter( array(
+				'page'          => 'restwell-enquiries',
+				'status_filter' => $status_filter,
+				'owner_filter'  => $owner_filter !== 'all' ? $owner_filter : '',
+				's'             => $search,
+			) );
+			?>
+			<thead>
+				<tr>
+					<td class="manage-column check-column">
+						<input id="cb-select-all" type="checkbox">
+					</td>
+					<th scope="col" class="column-rw-flag"><span class="screen-reader-text"><?php esc_html_e( 'Flags', 'restwell-retreats' ); ?></span></th>
+					<th scope="col" class="column-rw-name sortable <?php echo 'name' === $orderby ? 'sorted' : ''; ?>">
+						<?php echo $sort_link( 'name', __( 'Name', 'restwell-retreats' ), $orderby, $order, admin_url( 'admin.php' ), $sort_extras ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					</th>
+					<th scope="col" class="column-rw-contact"><?php esc_html_e( 'Contact', 'restwell-retreats' ); ?></th>
+					<th scope="col" class="column-rw-dates"><?php esc_html_e( 'Dates / Guests', 'restwell-retreats' ); ?></th>
+					<th scope="col" class="column-assigned"><?php esc_html_e( 'Assigned to', 'restwell-retreats' ); ?></th>
+					<th scope="col" class="column-rw-status sortable <?php echo 'status' === $orderby ? 'sorted' : ''; ?>">
+						<?php echo $sort_link( 'status', __( 'Status', 'restwell-retreats' ), $orderby, $order, admin_url( 'admin.php' ), $sort_extras ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					</th>
+					<th scope="col" class="column-rw-received sortable <?php echo 'submitted_at' === $orderby ? 'sorted' : ''; ?>">
+						<?php echo $sort_link( 'submitted_at', __( 'Received', 'restwell-retreats' ), $orderby, $order, admin_url( 'admin.php' ), $sort_extras ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					</th>
+				</tr>
+			</thead>
 				<tbody>
 					<?php foreach ( $rows as $row ) : ?>
 						<?php
