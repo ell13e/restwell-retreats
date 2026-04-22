@@ -367,6 +367,46 @@ function restwell_seo_admin_normalize_for_keyphrase_match( string $text ): strin
 }
 
 /**
+ * Build a content string suitable for SEO analysis from a post's meta fields.
+ *
+ * Template pages use `post_content` only for free-form content added via the
+ * block editor, but almost all real content lives in structured meta fields
+ * (hero headings, body copy, intro text, FAQ answers, etc.).  For these pages
+ * `$post->post_content` is effectively always empty, making checks 6–8 always
+ * fail.  This helper aggregates all text-type and textarea-type meta field
+ * values into one string so the checks reflect what visitors actually read.
+ *
+ * @param WP_Post $post Post to analyse.
+ * @return string Aggregated plain-text content.
+ */
+function restwell_get_effective_content_for_seo( WP_Post $post ): string {
+	// Start with whatever the block editor stored (may be empty for templates).
+	$parts = array( wp_strip_all_tags( $post->post_content ) );
+
+	// Pull in all structured meta field values for this post's template.
+	if ( function_exists( 'restwell_get_page_content_field_definitions' ) ) {
+		$groups = restwell_get_page_content_field_definitions( $post );
+		foreach ( $groups as $items ) {
+			foreach ( $items as $key => $field ) {
+				if ( ! in_array( $field['type'], array( 'text', 'textarea' ), true ) ) {
+					continue;
+				}
+				// Skip SEO meta fields — those are analysed separately.
+				if ( in_array( $key, array( 'meta_title', 'meta_description', 'focus_keyphrase' ), true ) ) {
+					continue;
+				}
+				$val = (string) get_post_meta( $post->ID, $key, true );
+				if ( $val !== '' ) {
+					$parts[] = wp_strip_all_tags( $val );
+				}
+			}
+		}
+	}
+
+	return implode( ' ', array_filter( $parts ) );
+}
+
+/**
  * Run 8 SEO checks on the post and return their state.
  *
  * Uses theme SEO defaults when post meta is empty so analysis matches
@@ -397,7 +437,7 @@ function restwell_seo_admin_run_checks( WP_Post $post, string $focus_kp, string 
 		$meta_desc = (string) $defaults['meta_description'];
 	}
 
-	$content    = $post->post_content;
+	$content    = restwell_get_effective_content_for_seo( $post );
 	$title      = $meta_title ?: $post->post_title;
 	$desc       = $meta_desc;
 	$kp         = restwell_seo_admin_normalize_for_keyphrase_match( $focus_kp );

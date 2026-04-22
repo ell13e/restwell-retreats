@@ -45,7 +45,7 @@ $sections = array(
 		'key'     => 'getting_around',
 		'eyebrow' => 'During your stay',
 		'heading' => (string) get_post_meta( $pid, 'wg_getting_around_heading', true ) ?: 'Getting around during your stay',
-		'body'    => (string) get_post_meta( $pid, 'wg_getting_around_body', true ) ?: "Most guests find a car is the easiest way to get around, especially if you need to transport equipment. The property parking is level and spacious.\nThe Stagecoach 400 bus runs between Whitstable and Canterbury and stops nearby. This route uses low-floor buses, but availability of the ramp and wheelchair space can vary; it is worth checking with Stagecoach before relying on it for a specific journey.\nIf you use a mobility scooter or powerchair, the Tankerton promenade and Whitstable seafront are both suitable surfaces. The town centre is mixed: some pavements are narrow or uneven in older parts.\nWheelchair hire is available locally. Ask us before your stay and we can share contact details for trusted suppliers in the area.",
+		'body'    => (string) get_post_meta( $pid, 'wg_getting_around_body', true ) ?: "Most guests find a car is the easiest way to get around, especially if you need to transport equipment. The property parking is level and spacious.\nStagecoach South East routes connect Whitstable, Canterbury, and Herne Bay. From near The Plough, the 400 bus runs into Canterbury bus station and also serves the seafront and harbour area. Buses are usually low-floor, but ramp use and wheelchair space can vary on the day, so check before travel if you need a guaranteed accessible space.\nFor live times and route changes, use Google Maps or the Stagecoach app.\nIf you use a mobility scooter or powerchair, the Tankerton promenade and Whitstable seafront are both suitable surfaces. The town centre is mixed: some pavements are narrow or uneven in older parts.\nWheelchair hire is available locally. Ask us before your stay and we can share contact details for trusted suppliers in the area.",
 		'bg'      => 'bg-white',
 	),
 );
@@ -198,7 +198,7 @@ $wg_glance = array(
 					</div>
 					<?php if ( 'about' === $section['key'] ) : ?>
 						<p class="<?php echo esc_attr( $body_class ); ?> mt-8 pt-6 border-t border-[var(--deep-teal)]/10 m-0"><?php esc_html_e( 'Read more:', 'restwell-retreats' ); ?>
-							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/blog/accessible-beaches-coastal-walks-kent/' ) ); ?>"><?php esc_html_e( 'A guide to accessible beaches and coastal walks in Kent', 'restwell-retreats' ); ?></a>
+							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/accessible-beaches-coastal-walks-kent/' ) ); ?>"><?php esc_html_e( 'A guide to accessible beaches and coastal walks in Kent', 'restwell-retreats' ); ?></a>
 						</p>
 						<p class="<?php echo esc_attr( $body_class ); ?> mt-6 m-0 max-w-[65ch]">
 							<?php esc_html_e( 'Staying at Restwell puts Whitstable on your doorstep. For kit, access, and layout,', 'restwell-retreats' ); ?>
@@ -208,13 +208,24 @@ $wg_glance = array(
 							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>"><?php esc_html_e( 'get in touch about your stay', 'restwell-retreats' ); ?></a>.
 						</p>
 					<?php endif; ?>
-					<?php if ( 'getting_around' === $section['key'] ) : ?>
-						<p class="<?php echo esc_attr( $body_class ); ?> mt-8 pt-6 border-t border-[var(--deep-teal)]/10 m-0"><?php esc_html_e( 'If you want to understand whether our property suits your access needs specifically, start with', 'restwell-retreats' ); ?>
-							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/who-its-for/' ) ); ?>"><?php esc_html_e( 'who Restwell is for', 'restwell-retreats' ); ?></a>
-							<?php esc_html_e( 'and', 'restwell-retreats' ); ?>
-							<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/accessibility/' ) ); ?>"><?php esc_html_e( 'our accessibility specification', 'restwell-retreats' ); ?></a>.
-						</p>
-					<?php endif; ?>
+				<?php if ( 'getting_here' === $section['key'] ) : ?>
+					<p class="<?php echo esc_attr( $body_class ); ?> mt-8 pt-6 border-t border-[var(--deep-teal)]/10 m-0"><?php esc_html_e( 'For train times and platform access, check', 'restwell-retreats' ); ?>
+						<a class="<?php echo esc_attr( $link_class ); ?>" href="https://www.nationalrail.co.uk/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'National Rail Enquiries', 'restwell-retreats' ); ?><span class="sr-only"><?php esc_html_e( ' (opens in new tab)', 'restwell-retreats' ); ?></span></a>
+						<?php esc_html_e( 'before you travel. For how a stay is confirmed and what to expect on arrival,', 'restwell-retreats' ); ?>
+						<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/how-it-works/' ) ); ?>"><?php esc_html_e( 'see how it works', 'restwell-retreats' ); ?></a>.
+					</p>
+				<?php endif; ?>
+				<?php if ( 'getting_around' === $section['key'] ) : ?>
+					<p class="<?php echo esc_attr( $body_class ); ?> mt-8 pt-6 border-t border-[var(--deep-teal)]/10 m-0"><?php esc_html_e( 'For current Stagecoach 400 timetables and wheelchair space availability, check the', 'restwell-retreats' ); ?>
+						<a class="<?php echo esc_attr( $link_class ); ?>" href="https://www.stagecoachbus.com/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Stagecoach website', 'restwell-retreats' ); ?><span class="sr-only"><?php esc_html_e( ' (opens in new tab)', 'restwell-retreats' ); ?></span></a>
+						<?php esc_html_e( 'before you travel.', 'restwell-retreats' ); ?>
+					</p>
+					<p class="<?php echo esc_attr( $body_class ); ?> mt-4 m-0"><?php esc_html_e( 'If you want to understand whether our property suits your access needs specifically, start with', 'restwell-retreats' ); ?>
+						<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/who-its-for/' ) ); ?>"><?php esc_html_e( 'who Restwell is for', 'restwell-retreats' ); ?></a>
+						<?php esc_html_e( 'and', 'restwell-retreats' ); ?>
+						<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/accessibility/' ) ); ?>"><?php esc_html_e( 'our accessibility specification', 'restwell-retreats' ); ?></a>.
+					</p>
+				<?php endif; ?>
 				</div>
 			</div>
 		</section>
@@ -293,11 +304,12 @@ $wg_glance = array(
 					<p class="<?php echo esc_attr( $body_class ); ?> max-w-[65ch]"><?php echo esc_html( $related_intro ); ?></p>
 				</div>
 				<div class="flex flex-col flex-wrap items-stretch gap-4 sm:flex-row sm:items-center md:gap-5">
-				<a class="btn btn-outline w-full sm:w-auto justify-center whitespace-normal text-center leading-snug px-6" href="<?php echo esc_url( home_url( '/accessible-beaches-kent-coast/' ) ); ?>"><?php esc_html_e( 'Accessible beaches on the Kent coast', 'restwell-retreats' ); ?></a>
+				<a class="btn btn-outline w-full sm:w-auto justify-center whitespace-normal text-center leading-snug px-6" href="<?php echo esc_url( home_url( '/accessible-beaches-coastal-walks-kent/' ) ); ?>"><?php esc_html_e( 'Accessible beaches on the Kent coast', 'restwell-retreats' ); ?></a>
 				<a class="btn btn-outline w-full sm:w-auto justify-center whitespace-normal text-center leading-snug px-6" href="<?php echo esc_url( home_url( '/who-its-for/' ) ); ?>"><?php esc_html_e( 'Who Restwell is for', 'restwell-retreats' ); ?></a>
 				<a class="btn btn-outline w-full sm:w-auto justify-center whitespace-normal text-center leading-snug px-6" href="<?php echo esc_url( home_url( '/direct-payment-holiday-accommodation/' ) ); ?>"><?php esc_html_e( 'Using direct payments for holidays', 'restwell-retreats' ); ?></a>
-				<a class="btn btn-outline w-full sm:w-auto justify-center whitespace-normal text-center leading-snug px-6" href="<?php echo esc_url( home_url( '/carers-respite-holiday-guide/' ) ); ?>"><?php esc_html_e( "Carers' respite: rights and funding", 'restwell-retreats' ); ?></a>
-				</div>
+			<a class="btn btn-outline w-full sm:w-auto justify-center whitespace-normal text-center leading-snug px-6" href="<?php echo esc_url( home_url( '/carers-respite-holiday-guide/' ) ); ?>"><?php esc_html_e( "Carers' respite: rights and funding", 'restwell-retreats' ); ?></a>
+			<a class="btn btn-outline w-full sm:w-auto justify-center whitespace-normal text-center leading-snug px-6" href="<?php echo esc_url( home_url( '/faq/' ) ); ?>"><?php esc_html_e( 'Booking and planning FAQs', 'restwell-retreats' ); ?></a>
+			</div>
 			</div>
 		</div>
 	</section>
@@ -356,13 +368,18 @@ $wg_glance = array(
 						<p class="<?php echo esc_attr( $body_class ); ?> mb-0 max-w-[65ch]"><?php echo esc_html( $eating_intro ); ?></p>
 					<?php endif; ?>
 				</div>
-				<div class="wg-content-body wg-eating-body space-y-5 <?php echo esc_attr( $body_class ); ?> border-t border-[var(--deep-teal)]/10 pt-8 md:pt-10">
-					<?php foreach ( preg_split( "/\\r\\n|\\r|\\n/", $eating_body ) as $para ) : ?>
-						<?php if ( trim( $para ) !== '' ) : ?>
-							<p class="m-0"><?php echo wp_kses_post( $para ); ?></p>
-						<?php endif; ?>
-					<?php endforeach; ?>
-				</div>
+			<div class="wg-content-body wg-eating-body space-y-5 <?php echo esc_attr( $body_class ); ?> border-t border-[var(--deep-teal)]/10 pt-8 md:pt-10">
+				<?php foreach ( preg_split( "/\\r\\n|\\r|\\n/", $eating_body ) as $para ) : ?>
+					<?php if ( trim( $para ) !== '' ) : ?>
+						<p class="m-0"><?php echo wp_kses_post( $para ); ?></p>
+					<?php endif; ?>
+				<?php endforeach; ?>
+				<p class="m-0 pt-6 border-t border-[var(--deep-teal)]/10 <?php echo esc_attr( $body_class ); ?>"><?php esc_html_e( 'For full details on the property and equipment,', 'restwell-retreats' ); ?>
+					<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/the-property/' ) ); ?>"><?php esc_html_e( 'see the adapted bungalow', 'restwell-retreats' ); ?></a>.
+					<?php esc_html_e( 'When you are ready,', 'restwell-retreats' ); ?>
+					<a class="<?php echo esc_attr( $link_class ); ?>" href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>"><?php esc_html_e( 'get in touch about your stay', 'restwell-retreats' ); ?></a>.
+				</p>
+			</div>
 			</div>
 		</div>
 	</section>

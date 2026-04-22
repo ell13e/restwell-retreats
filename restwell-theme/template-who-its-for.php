@@ -160,6 +160,7 @@ $img_3_id = (int) get_post_meta( $pid, 'wif_section_image_3_id', true );
 $img_1_cap = (string) get_post_meta( $pid, 'wif_section_image_1_caption', true ) ?: __( 'Wet room and accessible bathroom', 'restwell-retreats' );
 $img_2_cap = (string) get_post_meta( $pid, 'wif_section_image_2_caption', true ) ?: __( 'Spacious layout for equipment and transfers', 'restwell-retreats' );
 $img_3_cap = (string) get_post_meta( $pid, 'wif_section_image_3_caption', true ) ?: __( 'Comfortable, private spaces', 'restwell-retreats' );
+$wif_tldr_markup = function_exists( 'restwell_get_tldr_markup' ) ? restwell_get_tldr_markup( $pid, '' ) : '';
 
 ?>
 <main class="flex-1 restwell-wif-page" id="main-content">
@@ -175,6 +176,7 @@ $img_3_cap = (string) get_post_meta( $pid, 'wif_section_image_3_caption', true )
 			'intro'      => $intro,
 			'media_id'   => $hero_image_id,
 			'image_alt'  => $heading,
+			'append_after_h1_html' => $wif_tldr_markup,
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );
@@ -215,63 +217,48 @@ $img_3_cap = (string) get_post_meta( $pid, 'wif_section_image_3_caption', true )
 
 			<div class="flex flex-col rw-stack rw-stack--loose">
 				<?php foreach ( $personas as $card ) : ?>
-					<div id="<?php echo esc_attr( $card['id'] ); ?>" class="wif-persona-card scroll-mt-28 rounded-2xl border border-gray-100/90 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-[box-shadow,border-color] duration-300 ease-out hover:border-gray-200/90 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] motion-reduce:transition-none">
-						<div class="flex flex-row gap-4 sm:gap-5 items-start wif-persona-card__inner">
-							<div class="wif-icon-circle w-11 h-11 sm:w-12 sm:h-12" aria-hidden="true">
+					<details id="<?php echo esc_attr( $card['id'] ); ?>" class="wif-persona-card scroll-mt-28 rounded-2xl border border-gray-100/90 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-[box-shadow,border-color] duration-300 ease-out hover:border-gray-200/90 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] motion-reduce:transition-none group">
+						<summary class="wif-persona-card__inner flex items-center gap-4 sm:gap-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] focus-visible:ring-offset-2 rounded-2xl">
+							<div class="wif-icon-circle w-11 h-11 sm:w-12 sm:h-12 shrink-0" aria-hidden="true">
 								<i class="ph-bold ph-<?php echo esc_attr( $card['icon'] ); ?> text-lg sm:text-xl"></i>
 							</div>
-							<div class="min-w-0 flex-1 flex flex-col">
-								<h3 class="text-xl sm:text-2xl font-serif text-[var(--deep-teal)] m-0 leading-tight shrink-0" id="wif-heading-<?php echo esc_attr( $card['id'] ); ?>">
-									<button
-										type="button"
-										class="wif-persona-expand wif-persona-expand--header flex w-full items-center justify-between gap-3 text-left font-inherit text-inherit"
-										id="wif-expand-<?php echo esc_attr( $card['id'] ); ?>"
-										aria-expanded="false"
-										aria-controls="wif-panel-<?php echo esc_attr( $card['id'] ); ?>"
-									>
-										<span class="sr-only"><?php esc_html_e( 'Expand section:', 'restwell-retreats' ); ?></span>
-										<span class="min-w-0 flex-1"><?php echo esc_html( $card['title'] ); ?></span>
-										<span class="wif-persona-expand__icon flex-shrink-0" aria-hidden="true"><i class="ph-bold ph-caret-down"></i></span>
-									</button>
-								</h3>
-								<div class="wif-persona-card__panel-shell">
-									<div class="wif-persona-card__panel-overflow">
-										<div id="wif-panel-<?php echo esc_attr( $card['id'] ); ?>" class="wif-persona-card__panel" role="region" aria-labelledby="wif-heading-<?php echo esc_attr( $card['id'] ); ?>" aria-hidden="true" inert>
-											<div class="wif-persona-card__body mt-6 border-t border-gray-200/80 pt-6 md:pt-7">
-										<div class="wif-persona-card__split flex flex-col gap-7 lg:flex-row lg:items-stretch lg:gap-8 xl:gap-10">
-											<div class="wif-persona-card__prose min-w-0 w-full max-w-prose flex-1 space-y-4 text-[var(--muted-grey)] text-[15px] sm:text-base leading-[1.65] sm:leading-relaxed lg:pt-1">
-											<?php foreach ( restwell_wif_split_body_paragraphs( $card['body'] ) as $para ) : ?>
-												<p class="m-0"><?php echo esc_html( $para ); ?></p>
+							<h3 class="text-xl sm:text-2xl font-serif text-[var(--deep-teal)] m-0 leading-tight flex-1 min-w-0" id="wif-heading-<?php echo esc_attr( $card['id'] ); ?>">
+								<?php echo esc_html( $card['title'] ); ?>
+							</h3>
+							<span class="flex-shrink-0 text-[var(--warm-gold-text)] transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
+								<i class="ph-bold ph-caret-down"></i>
+							</span>
+						</summary>
+						<div class="wif-persona-card__body border-t border-gray-200/80 px-5 sm:px-8 lg:px-10 pt-6 md:pt-7 pb-6 sm:pb-8">
+							<div class="wif-persona-card__split flex flex-col gap-7 lg:flex-row lg:items-stretch lg:gap-8 xl:gap-10">
+								<div class="wif-persona-card__prose min-w-0 w-full max-w-prose flex-1 space-y-4 text-[var(--muted-grey)] text-[15px] sm:text-base leading-[1.65] sm:leading-relaxed lg:pt-1">
+								<?php foreach ( restwell_wif_split_body_paragraphs( $card['body'] ) as $para ) : ?>
+									<p class="m-0"><?php echo esc_html( $para ); ?></p>
+								<?php endforeach; ?>
+								</div>
+								<aside class="wif-persona-card__aside w-full shrink-0 lg:flex lg:min-h-0 lg:max-w-sm lg:flex-col xl:max-w-md">
+									<div class="wif-persona-card__highlights flex flex-col rounded-2xl border border-gray-100/90 bg-[var(--bg-subtle)] p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sm:p-6 lg:h-full lg:min-h-0">
+										<ul class="wif-persona-card__bullets m-0 list-none space-y-3.5 p-0 text-sm leading-snug text-[var(--muted-grey)] sm:leading-relaxed">
+											<?php foreach ( $card['bullets'] as $item ) : ?>
+												<li class="grid grid-cols-[1.25rem_minmax(0,1fr)] items-start gap-x-2 text-left">
+													<span class="wif-icon-circle wif-icon-circle--muted h-5 w-5 shrink-0" aria-hidden="true">
+														<i class="ph-bold ph-check text-[10px]"></i>
+													</span>
+													<div class="min-w-0"><?php echo esc_html( $item ); ?></div>
+												</li>
 											<?php endforeach; ?>
-											</div>
-											<aside class="wif-persona-card__aside w-full shrink-0 lg:flex lg:min-h-0 lg:max-w-sm lg:flex-col xl:max-w-md">
-												<div class="wif-persona-card__highlights flex flex-col rounded-2xl border border-gray-100/90 bg-[var(--bg-subtle)] p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sm:p-6 lg:h-full lg:min-h-0">
-													<ul class="wif-persona-card__bullets m-0 list-none space-y-3.5 p-0 text-sm leading-snug text-[var(--muted-grey)] sm:leading-relaxed">
-														<?php foreach ( $card['bullets'] as $item ) : ?>
-															<li class="grid grid-cols-[1.25rem_minmax(0,1fr)] items-start gap-x-2 text-left">
-																<span class="wif-icon-circle wif-icon-circle--muted h-5 w-5 shrink-0" aria-hidden="true">
-																	<i class="ph-bold ph-check text-[10px]"></i>
-																</span>
-																<div class="min-w-0"><?php echo esc_html( $item ); ?></div>
-															</li>
-														<?php endforeach; ?>
-													</ul>
-													<div class="wif-persona-card__cta mt-4 border-t border-gray-200/60 pt-4 lg:mt-auto">
-														<a class="inline-flex min-h-[2.75rem] w-full items-center justify-center gap-2 rounded-2xl bg-[var(--deep-teal)] px-6 py-3 text-center text-sm font-semibold text-white whitespace-normal no-underline transition-[opacity,transform] duration-300 ease-in-out hover:-translate-y-0.5 hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0" href="<?php echo esc_url( home_url( $card['inline_cta_url'] ) ); ?>">
-															<?php echo esc_html( $card['inline_cta_label'] ); ?>
-															<i class="ph-bold ph-arrow-right text-xs" aria-hidden="true"></i>
-														</a>
-													</div>
-												</div>
-											</aside>
-										</div>
-											</div>
+										</ul>
+										<div class="wif-persona-card__cta mt-4 border-t border-gray-200/60 pt-4 lg:mt-auto">
+											<a class="inline-flex min-h-[2.75rem] w-full items-center justify-center gap-2 rounded-2xl bg-[var(--deep-teal)] px-6 py-3 text-center text-sm font-semibold text-white whitespace-normal no-underline transition-[opacity,transform] duration-300 ease-in-out hover:-translate-y-0.5 hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0" href="<?php echo esc_url( home_url( $card['inline_cta_url'] ) ); ?>">
+												<?php echo esc_html( $card['inline_cta_label'] ); ?>
+												<i class="ph-bold ph-arrow-right text-xs" aria-hidden="true"></i>
+											</a>
 										</div>
 									</div>
-								</div>
+								</aside>
 							</div>
 						</div>
-					</div>
+					</details>
 				<?php endforeach; ?>
 			</div>
 		</div>
@@ -315,40 +302,40 @@ $img_3_cap = (string) get_post_meta( $pid, 'wif_section_image_3_caption', true )
 
 	<section class="rw-section-y bg-[var(--soft-sand)] scroll-mt-28" id="wif-funding" aria-labelledby="wif-funding-heading">
 		<div class="container max-w-5xl">
-			<div class="rw-stack rw-mb-section max-w-prose">
-				<p class="section-label"><?php esc_html_e( 'Funding', 'restwell-retreats' ); ?></p>
-				<h2 id="wif-funding-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php echo esc_html( $funding_heading ); ?></h2>
-				<p class="text-gray-600 m-0 leading-relaxed max-w-prose"><?php echo esc_html( $funding_body ); ?></p>
-			</div>
-			<div class="wif-funding-routes grid md:grid-cols-3 rw-gap-grid mb-12 md:mb-14 items-stretch">
-				<?php foreach ( $funding_routes as $route ) : ?>
-					<article class="flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 ease-out hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-						<header class="shrink-0 px-6 pt-7 pb-4 md:px-7 md:pt-8">
-							<div class="wif-icon-circle wif-icon-circle--feature h-14 w-14" aria-hidden="true">
-								<i class="ph-bold ph-<?php echo esc_attr( $route['icon'] ); ?> text-lg"></i>
-							</div>
-							<h3 class="mt-5 text-lg font-serif leading-snug text-[var(--deep-teal)]"><?php echo esc_html( $route['title'] ); ?></h3>
-						</header>
-						<div class="flex min-h-0 flex-1 flex-col border-t border-gray-100/80 bg-[var(--bg-subtle)]/80 px-6 py-5 md:px-7">
-							<ul class="m-0 list-none space-y-4 p-0 text-sm leading-relaxed text-gray-600 md:space-y-5">
-								<?php foreach ( $route['bullets'] as $bullet ) : ?>
-									<li class="grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-x-3 text-left">
-										<span class="wif-icon-circle wif-icon-circle--muted h-6 w-6" aria-hidden="true">
-											<i class="ph-bold ph-check text-[11px]"></i>
-										</span>
-										<div class="min-w-0 pt-0.5"><?php echo esc_html( $bullet ); ?></div>
-									</li>
-								<?php endforeach; ?>
-							</ul>
+		<div class="rw-stack rw-mb-section max-w-2xl mx-auto text-center">
+			<p class="section-label text-center"><?php esc_html_e( 'Funding', 'restwell-retreats' ); ?></p>
+			<h2 id="wif-funding-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0 text-center"><?php echo esc_html( $funding_heading ); ?></h2>
+			<p class="text-gray-600 m-0 leading-relaxed text-center"><?php echo esc_html( $funding_body ); ?></p>
+		</div>
+		<div class="wif-funding-routes grid sm:grid-cols-2 lg:grid-cols-3 rw-gap-grid mb-12 md:mb-14 items-stretch">
+			<?php foreach ( $funding_routes as $route ) : ?>
+				<article class="flex h-full min-h-0 flex-col rounded-2xl border border-gray-100 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 ease-out hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 overflow-hidden">
+				<header class="shrink-0 flex items-start gap-4 px-6 pt-7 pb-5 md:px-7">
+						<div class="wif-icon-circle wif-icon-circle--feature h-11 w-11 shrink-0 mt-0.5" aria-hidden="true">
+							<i class="ph-bold ph-<?php echo esc_attr( $route['icon'] ); ?> text-base"></i>
 						</div>
-						<footer class="shrink-0 border-t border-gray-100 bg-white px-6 py-5 md:px-7">
-							<a class="btn btn-outline btn-sm w-full whitespace-normal text-center leading-snug" href="<?php echo esc_url( home_url( $route['cta_url'] ) ); ?>">
-								<?php echo esc_html( $route['cta_label'] ); ?>
-							</a>
-						</footer>
-					</article>
-				<?php endforeach; ?>
-			</div>
+						<h3 class="m-0 text-[1.05rem] font-serif leading-snug text-[var(--deep-teal)]"><?php echo esc_html( $route['title'] ); ?></h3>
+					</header>
+					<div class="flex min-h-0 flex-1 flex-col border-t border-gray-100/80 px-6 py-5 md:px-7">
+						<ul class="m-0 list-none space-y-3.5 p-0 text-sm leading-relaxed text-gray-600">
+							<?php foreach ( $route['bullets'] as $bullet ) : ?>
+								<li class="flex items-start gap-3 text-left">
+									<span class="wif-icon-circle wif-icon-circle--muted h-5 w-5 shrink-0 mt-0.5" aria-hidden="true">
+										<i class="ph-bold ph-check text-[10px]"></i>
+									</span>
+									<span class="min-w-0"><?php echo esc_html( $bullet ); ?></span>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+					<footer class="shrink-0 border-t border-gray-100 px-6 py-5 md:px-7">
+						<a class="btn btn-outline btn-sm w-full whitespace-normal text-center leading-snug" href="<?php echo esc_url( home_url( $route['cta_url'] ) ); ?>">
+							<?php echo esc_html( $route['cta_label'] ); ?>
+						</a>
+					</footer>
+				</article>
+			<?php endforeach; ?>
+		</div>
 			<div class="rounded-2xl border border-[var(--deep-teal)]/15 bg-white/80 p-8 md:p-10 text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] max-w-2xl mx-auto">
 				<p class="text-gray-600 leading-relaxed mb-6 m-0"><?php esc_html_e( 'Step-by-step timelines, Kent-specific context, and practical guidance on using assessments and personal budgets, all in one place.', 'restwell-retreats' ); ?></p>
 				<a class="inline-flex items-center justify-center gap-2 bg-[var(--deep-teal)] text-white font-semibold px-8 py-3.5 rounded-2xl text-base hover:opacity-90 hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)] no-underline" href="<?php echo esc_url( home_url( '/resources/' ) ); ?>">
@@ -400,13 +387,13 @@ $img_3_cap = (string) get_post_meta( $pid, 'wif_section_image_3_caption', true )
 			<div class="rw-stack rw-mb-section max-w-prose">
 				<p class="section-label"><?php esc_html_e( 'Related reading', 'restwell-retreats' ); ?></p>
 				<h2 id="wif-related-reading-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php esc_html_e( 'Guides for families and referrers', 'restwell-retreats' ); ?></h2>
-				<p class="text-gray-600 m-0 leading-relaxed max-w-prose"><?php esc_html_e( 'Local walks, funding context, and planning support: useful context once you have your next step in mind.', 'restwell-retreats' ); ?></p>
+				<p class="text-gray-600 m-0 leading-relaxed max-w-prose"><?php esc_html_e( 'This page is the audience-fit hub. For funding decisions, use the dedicated funding hub and then read topic-specific funding articles.', 'restwell-retreats' ); ?></p>
 			</div>
 			<div class="flex flex-wrap gap-3">
+				<a class="btn btn-outline btn-sm" href="<?php echo esc_url( home_url( '/resources/' ) ); ?>"><?php esc_html_e( 'Funding & support hub', 'restwell-retreats' ); ?></a>
 				<a class="btn btn-outline btn-sm" href="<?php echo esc_url( home_url( '/whitstable-area-guide/' ) ); ?>"><?php esc_html_e( 'Whitstable area guide', 'restwell-retreats' ); ?></a>
 				<a class="btn btn-outline btn-sm" href="<?php echo esc_url( home_url( '/accessible-beaches-kent-coast/' ) ); ?>"><?php esc_html_e( 'Accessible beaches and coastal walks', 'restwell-retreats' ); ?></a>
 				<a class="btn btn-outline btn-sm" href="<?php echo esc_url( home_url( '/revitalise-alternatives-accessible-holidays/' ) ); ?>"><?php esc_html_e( 'Revitalise alternatives', 'restwell-retreats' ); ?></a>
-				<a class="btn btn-outline btn-sm" href="<?php echo esc_url( home_url( '/direct-payment-holiday-accommodation/' ) ); ?>"><?php esc_html_e( 'Direct payments for holiday stays', 'restwell-retreats' ); ?></a>
 			</div>
 		</div>
 	</section>

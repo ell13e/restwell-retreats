@@ -52,20 +52,9 @@ if ( $faq_flash_key ) {
 $faq_form_input_class = 'w-full rounded-xl border border-[#CFC2AD] bg-[#FFFEFC] px-4 py-3 text-sm text-[#1B4D5C] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A8D5D0] focus:ring-offset-2';
 $faq_form_label_class = 'block text-sm font-semibold text-[#1B4D5C] mb-1.5';
 
-// Build FAQ pairs with optional category (faq_N_cat).
+// Build FAQ pairs via centralised helper (single source of truth across all pages).
 // Category values: about | booking | care | local | funding
-$faq_pairs = array();
-for ( $i = 1; $i <= 14; $i++ ) {
-	$q   = get_post_meta( $pid, "faq_{$i}_q", true );
-	$a   = get_post_meta( $pid, "faq_{$i}_a", true );
-	$cat = get_post_meta( $pid, "faq_{$i}_cat", true ) ?: 'about';
-	if ( $q || $a ) {
-		$faq_pairs[] = array( 'q' => $q ?: '', 'a' => $a ?: '', 'cat' => $cat );
-	}
-}
-if ( empty( $faq_pairs ) && function_exists( 'restwell_get_faq_page_default_pairs' ) ) {
-	$faq_pairs = restwell_get_faq_page_default_pairs();
-}
+$faq_pairs = function_exists( 'restwell_get_faq_items' ) ? restwell_get_faq_items( 'faq-page' ) : array();
 
 // Category definitions for tabs.
 $categories = array(

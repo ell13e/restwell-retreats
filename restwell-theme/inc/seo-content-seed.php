@@ -50,8 +50,8 @@ function restwell_get_seo_meta_defaults_by_slug() {
 		),
 		'who-its-for'           => array(
 			'meta_title'       => 'Respite Breaks in Kent | Who It Is For | ' . $name,
-			'meta_description' => 'Respite breaks in Kent for families, carers, OTs, and commissioners: how Restwell supports guests, case managers, referrals, and funded routes.',
-			'focus_keyphrase'  => 'respite breaks in kent',
+			'meta_description' => 'Who Restwell is for: guests, families, carers, OTs, and commissioners. Use this page for suitability and referrals, then visit the funding hub for routes.',
+			'focus_keyphrase'  => 'accessible stay suitability',
 		),
 		'whitstable-area-guide' => array(
 			'meta_title'       => 'Whitstable Kent Coast Guide | Days Out | ' . $name,
@@ -70,8 +70,8 @@ function restwell_get_seo_meta_defaults_by_slug() {
 		),
 		'resources'             => array(
 			'meta_title'       => 'Accessible Break in Kent | Funding Hub | ' . $name,
-			'meta_description' => 'Plan an accessible break in Kent: direct payments, CHC, local authority routes, grants, and what to ask your social worker before you book.',
-			'focus_keyphrase'  => 'accessible break in kent',
+			'meta_description' => 'Funding hub for accessible breaks in Kent: direct payments, CHC, local authority routes, grants, and practical questions for social care teams.',
+			'focus_keyphrase'  => 'holiday care funding kent',
 		),
 		'blog'                  => array(
 			'meta_title'       => 'Accessible Travel Blog | Kent Stories | ' . $name,
@@ -104,9 +104,9 @@ function restwell_get_seo_meta_defaults_by_slug() {
 			'focus_keyphrase'  => 'accessible self-catering holiday',
 		),
 		'carers-respite-holiday-guide'             => array(
-			'meta_title'       => 'Respite Holidays for Carers | Rights | ' . $name,
-			'meta_description' => 'Respite holidays for unpaid carers: carer\'s assessment, Kent routes, direct payments, grants, and how to plan a break that actually restores you.',
-			'focus_keyphrase'  => 'respite holidays',
+			'meta_title'       => 'Carer Assessment & Respite Rights Guide | ' . $name,
+			'meta_description' => 'Guide to carer assessments and respite rights for unpaid carers: legal routes, funding pathways, and planning steps for short breaks.',
+			'focus_keyphrase'  => 'carer assessment respite rights',
 		),
 		'privacy-policy'        => array(
 			'meta_title'       => 'Restwell Privacy | Policy & Data | ' . $name,
@@ -325,8 +325,8 @@ function restwell_seed_priority_blog_posts( array &$result, bool $force = false 
 			'slug'             => 'carers-respite-holiday-guide',
 			'title'            => "Carers taking holidays: respite rights, funding, and how to plan a break that works",
 			'excerpt'          => "A practical guide for unpaid carers: what you're entitled to under the Care Act, how to get a carer's assessment in Kent, the funding routes available, and what makes a supported break actually restful.",
-			'meta_title'       => 'Respite Holidays for Carers | Rights | ' . $site_name,
-			'meta_description' => 'Respite holidays for unpaid carers: carer\'s assessment, Kent routes, direct payments, grants, and how to plan a break that actually restores you.',
+			'meta_title'       => 'Carer Assessment & Respite Rights Guide | ' . $site_name,
+			'meta_description' => 'Guide to carer assessments and respite rights for unpaid carers: legal routes, funding pathways, and planning steps for short breaks.',
 			'content'          => restwell_get_blog_post_carers_respite_html(),
 			'category_slug'    => 'funding-care',
 		),

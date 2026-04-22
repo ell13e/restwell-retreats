@@ -413,6 +413,20 @@
 		// Initialise: "all" active.
 		setActivePill(pills[0]);
 		filterItems('all');
+
+		// Track FAQ expansions on FAQ template lists.
+		if (typeof window.gtag === 'function') {
+			items.forEach(function (item) {
+				item.addEventListener('toggle', function () {
+					if (!item.open) return;
+					window.gtag('event', 'faq_expanded', {
+						page_path: window.location.pathname,
+						user_type: 'guest',
+						faq_category: item.getAttribute('data-category') || 'unknown',
+					});
+				});
+			});
+		}
 	}
 
 	/**
@@ -426,6 +440,13 @@
 		items.forEach(function (item) {
 			item.addEventListener('toggle', function () {
 				if (!item.open) return;
+				if (typeof window.gtag === 'function') {
+					window.gtag('event', 'faq_expanded', {
+						page_path: window.location.pathname,
+						user_type: 'guest',
+						faq_category: item.getAttribute('data-category') || 'home',
+					});
+				}
 				items.forEach(function (otherItem) {
 					if (otherItem !== item) {
 						otherItem.open = false;
@@ -452,6 +473,18 @@
 	function initMultiStepForm() {
 		var form = document.querySelector('.restwell-enq-form[data-multistep]');
 		if (!form) return;
+		var startedTracked = false;
+
+		function trackFormStarted() {
+			if (startedTracked || typeof window.gtag !== 'function') {
+				return;
+			}
+			startedTracked = true;
+			window.gtag('event', 'enquiry_form_started', {
+				page_path: window.location.pathname,
+				user_type: 'guest',
+			});
+		}
 
 		function todayYmd() {
 			var d = new Date();
@@ -568,6 +601,15 @@
 					formHeading.focus({ preventScroll: true });
 				}
 			}
+
+			// Optional step progression signal for funnel diagnostics.
+			if (!skipScroll && typeof window.gtag === 'function') {
+				window.gtag('event', 'enquiry_step_changed', {
+					page_path: window.location.pathname,
+					user_type: 'guest',
+					enquiry_step: n,
+				});
+			}
 		}
 
 		function clearErrors(step) {
@@ -668,6 +710,21 @@
 			}
 		});
 
+		form.addEventListener(
+			'focusin',
+			function () {
+				trackFormStarted();
+			},
+			{ passive: true }
+		);
+		form.addEventListener(
+			'input',
+			function () {
+				trackFormStarted();
+			},
+			{ passive: true }
+		);
+
 		// Final submit: validate every step (novalidate suppresses native checks for multi-step UX).
 		form.addEventListener('submit', function (e) {
 			var order = [1, 2, 3];
@@ -703,6 +760,45 @@
 
 		// Initialise at step 1 - skip scroll so the page loads at the top.
 		showStep(1, true);
+	}
+
+	/**
+	 * Scroll-depth tracking for content engagement.
+	 * Fires once each at 25%, 50%, 75%, and 90%.
+	 */
+	function initScrollDepthTracking() {
+		if (typeof window.gtag !== 'function') {
+			return;
+		}
+		var fired = { 25: false, 50: false, 75: false, 90: false };
+		function maxScrollTop() {
+			var doc = document.documentElement;
+			var body = document.body;
+			var scrollHeight = Math.max(
+				body ? body.scrollHeight : 0,
+				doc ? doc.scrollHeight : 0,
+				body ? body.offsetHeight : 0,
+				doc ? doc.offsetHeight : 0
+			);
+			var inner = window.innerHeight || (doc ? doc.clientHeight : 0) || 0;
+			return Math.max(1, scrollHeight - inner);
+		}
+		function checkDepth() {
+			var top = window.pageYOffset || document.documentElement.scrollTop || 0;
+			var pct = Math.round((top / maxScrollTop()) * 100);
+			[25, 50, 75, 90].forEach(function (threshold) {
+				if (!fired[threshold] && pct >= threshold) {
+					fired[threshold] = true;
+					window.gtag('event', 'scroll_depth', {
+						page_path: window.location.pathname,
+						user_type: 'guest',
+						scroll_percent: threshold,
+					});
+				}
+			});
+		}
+		window.addEventListener('scroll', checkDepth, { passive: true });
+		checkDepth();
 	}
 
 	/**
@@ -876,31 +972,64 @@
 		});
 		setTimeout(updateScrollAffordance, 400);
 
-	// Intercept clicks on the persona nav links so we can open the accordion
-	// and scroll to the card top ourselves, rather than letting the browser
-	// jump to the element before the panel has expanded.
+	// Close all other persona cards smoothly when one opens (exclusive accordion).
+	var allCards = root.querySelectorAll('details.wif-persona-card');
+
+	function closeCard(card) {
+		var body = card.querySelector('.wif-persona-card__body');
+		if (!body) {
+			card.open = false;
+			return;
+		}
+		var startHeight = body.offsetHeight;
+		var anim = body.animate(
+			[{ height: startHeight + 'px', overflow: 'hidden' }, { height: '0px', overflow: 'hidden' }],
+			{ duration: 260, easing: 'ease-in-out' }
+		);
+		anim.onfinish = function () {
+			card.open = false;
+		};
+	}
+
+	allCards.forEach(function (card) {
+		card.addEventListener('toggle', function () {
+			if (!card.open) {
+				return;
+			}
+			allCards.forEach(function (other) {
+				if (other !== card && other.open) {
+					closeCard(other);
+				}
+			});
+		});
+	});
+
+	// Open the <details> card when a persona nav link is clicked.
 	personaLinks.forEach(function (link) {
-		link.addEventListener('click', function (e) {
+		link.addEventListener('click', function () {
 			var id = link.getAttribute('data-wif-anchor') || (link.hash && link.hash.slice(1));
 			if (!id) {
 				return;
 			}
 			var card = document.getElementById(id);
-			if (!card) {
-				return;
+			if (card && card.tagName === 'DETAILS') {
+				card.open = true;
 			}
-			// Only intercept clicks for persona accordion cards.
-			// Non-accordion sections (e.g. #wif-funding) scroll natively via the browser.
-			if (!card.classList.contains('wif-persona-card')) {
-				return;
-			}
-			e.preventDefault();
-			// Push the hash without triggering a native jump.
-			history.pushState(null, '', '#' + id);
-			// openFromHash reads window.location.hash, so dispatch it.
-			window.dispatchEvent(new Event('hashchange'));
 		});
 	});
+	// Open from initial hash or subsequent hash changes.
+	function openDetailsFromHash() {
+		var hash = location.hash.slice(1);
+		if (!hash) {
+			return;
+		}
+		var el = document.getElementById(hash);
+		if (el && el.tagName === 'DETAILS') {
+			el.open = true;
+		}
+	}
+	openDetailsFromHash();
+	window.addEventListener('hashchange', openDetailsFromHash, { passive: true });
 	window.addEventListener('scroll', onScrollOrResize, { passive: true });
 	window.addEventListener('resize', onScrollOrResize, { passive: true });
 	updateActive();
@@ -976,142 +1105,6 @@
 			},
 			true
 		);
-	}
-
-	/**
-	 * Who It's For: persona accordions - one panel open; CSS grid 0fr/1fr height (no hidden flash).
-	 * Deep link: hash opens panel; scroll runs after expand transition (or immediately if reduced motion).
-	 */
-	function initWifPersonaAccordions() {
-		var root = document.querySelector('.restwell-wif-page');
-		if (!root) {
-			return;
-		}
-		var groups = [];
-		root.querySelectorAll('.wif-persona-card .wif-persona-expand').forEach(function (btn) {
-			var panelId = btn.getAttribute('aria-controls');
-			if (!panelId) {
-				return;
-			}
-			var panel = document.getElementById(panelId);
-			var card = btn.closest('.wif-persona-card');
-			if (!panel || !card) {
-				return;
-			}
-			groups.push({ btn: btn, panel: panel, card: card });
-		});
-		if (!groups.length) {
-			return;
-		}
-		function setInert(el, on) {
-			if (!el) {
-				return;
-			}
-			if (on) {
-				el.setAttribute('inert', '');
-			} else {
-				el.removeAttribute('inert');
-			}
-		}
-		function setGroupState(g, open) {
-			g.btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-			g.panel.setAttribute('aria-hidden', open ? 'false' : 'true');
-			setInert(g.panel, !open);
-			g.card.classList.toggle('wif-persona-card--expanded', open);
-		}
-		function closeAll() {
-			groups.forEach(function (g) {
-				setGroupState(g, false);
-			});
-		}
-		function getStickyOffset() {
-			var offset = 0;
-			['.site-header', '.wif-persona-nav'].forEach(function (sel) {
-				var el = document.querySelector(sel);
-				if (el) {
-					offset += el.getBoundingClientRect().height;
-				}
-			});
-			return offset + 8;
-		}
-		function scrollCardIntoView(card) {
-			var reduced =
-				window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			function doScroll() {
-				var y = card.getBoundingClientRect().top + window.pageYOffset - getStickyOffset();
-				window.scrollTo({ top: Math.max(0, y), behavior: reduced ? 'auto' : 'smooth' });
-			}
-			if (reduced) {
-				requestAnimationFrame(function () {
-					requestAnimationFrame(doScroll);
-				});
-				return;
-			}
-			var shell = card.querySelector('.wif-persona-card__panel-shell');
-			var ran = false;
-			function runOnce() {
-				if (ran) {
-					return;
-				}
-				ran = true;
-				doScroll();
-			}
-			var fallback = window.setTimeout(runOnce, 440);
-			if (shell) {
-				shell.addEventListener(
-					'transitionend',
-					function onEnd(e) {
-						if (e.propertyName !== 'grid-template-rows') {
-							return;
-						}
-						window.clearTimeout(fallback);
-						shell.removeEventListener('transitionend', onEnd);
-						runOnce();
-					},
-					false
-				);
-			} else {
-				window.clearTimeout(fallback);
-				requestAnimationFrame(function () {
-					requestAnimationFrame(runOnce);
-				});
-			}
-		}
-		function openFromHash() {
-			var hash = window.location.hash ? window.location.hash.slice(1) : '';
-			if (!hash) {
-				return;
-			}
-			var card = document.getElementById(hash);
-			if (!card || !card.classList.contains('wif-persona-card')) {
-				return;
-			}
-			var i;
-			for (i = 0; i < groups.length; i++) {
-				if (card.contains(groups[i].btn)) {
-					groups.forEach(function (g, j) {
-						setGroupState(g, j === i);
-					});
-					scrollCardIntoView(card);
-					return;
-				}
-			}
-		}
-		closeAll();
-		groups.forEach(function (g) {
-			g.btn.addEventListener('click', function () {
-				var isOpen = g.btn.getAttribute('aria-expanded') === 'true';
-				if (isOpen) {
-					setGroupState(g, false);
-				} else {
-					groups.forEach(function (o) {
-						setGroupState(o, o === g);
-					});
-				}
-			});
-		});
-		openFromHash();
-		window.addEventListener('hashchange', openFromHash);
 	}
 
 	function initHomeComparisonScrollHints() {
@@ -1197,8 +1190,8 @@
 		initRestwellGa4SecondaryEvents();
 		initEnquirySuccessScroll();
 		initRestwellCtaAnalytics();
+		initScrollDepthTracking();
 		initWifPersonaNav();
-		initWifPersonaAccordions();
 		initRevealAnimations();
 		initHomeComparisonScrollHints();
 	});

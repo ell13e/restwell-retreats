@@ -51,7 +51,7 @@ function restwell_get_theme_setup_defaults() {
 		'hero_cta_secondary_url'   => '/enquire/',
 		'hero_cta_promise'         => '',
 		'home_partners_label'      => 'Trusted partners',
-		'home_partners_heading'    => 'Our partners',
+		'home_partners_heading'    => 'Specialist Partners',
 		'home_partners_intro'      => 'The full story of how we adapted Restwell, who built it, and who supports guests today.',
 		'home_partners_cta_text'   => 'See our journey',
 		'home_partners_cta_url'    => '/how-it-works/',
@@ -91,11 +91,11 @@ function restwell_get_theme_setup_defaults() {
 		'what_restwell_heading' => 'A proper accessible coastal holiday.',
 		'highlights_heading'    => '',
 		'highlight_1_title'     => 'Ceiling track hoist',
-		'highlight_1_desc'      => 'Ceiling track in the accessible bedroom, laid for the full room so transfers at the profiling bed are straightforward.',
+		'highlight_1_desc'      => 'Full-room ceiling track in the accessible bedroom for daily bed transfers.',
 		'highlight_2_title'   => 'Profiling bed',
-		'highlight_2_desc'      => 'Adjustable, with a pressure-relieving mattress. Ready for your stay.',
+		'highlight_2_desc'      => 'Adjustable profiling bed with a pressure-relieving mattress, ready on arrival.',
 		'highlight_3_title'     => 'Full wet room',
-		'highlight_3_desc'      => 'Roll-in shower, grab rails, perching stool in the shower, height-adjustable washbasin that swings aside, and space to turn and assist (shower chair may be available on request).',
+		'highlight_3_desc'      => 'Roll-in wet room with grab rails and an adjustable washbasin; shower chair may be available.',
 		'intro_body'            => 'Restwell is a wheelchair-accessible, single-storey self-catering bungalow in Whitstable, Kent, for guests with disabilities, their families, and carers. You book the whole property for a private coastal break. Optional professional care is available through Continuity of Care Services (CQC-regulated), on your terms.',
 
 		'who_label'        => "Who it's for",
@@ -275,21 +275,21 @@ function restwell_get_property_page_defaults() {
 		'prop_features_label'   => 'At a glance',
 		'prop_features_heading' => 'What\'s in the house',
 		'prop_feature_1'        => 'Ceiling track hoist',
-		'prop_feature_1_desc'   => 'Track laid for the full accessible bedroom—focused where bed-based transfers happen every day',
+		'prop_feature_1_desc'   => 'Full-room track in the accessible bedroom for daily bed transfers',
 		'prop_feature_2'        => 'Wet room',
-		'prop_feature_2_desc'   => 'Roll-in shower, grab rails, perching stool in the shower, fully height-adjustable washbasin that swings aside (shower chair may be available on request)',
+		'prop_feature_2_desc'   => 'Roll-in shower, grab rails, and adjustable washbasin; shower chair may be available on request',
 		'prop_feature_3'        => 'Adjustable profiling bed',
-		'prop_feature_3_desc'   => 'With pressure-relieving mattress',
+		'prop_feature_3_desc'   => 'Pressure-relieving mattress included and ready for your stay',
 		'prop_feature_4'        => 'Wide doorways',
-		'prop_feature_4_desc'   => 'Internal doors 926 mm clear; front door 965 mm',
+		'prop_feature_4_desc'   => 'Internal doors 926 mm clear; front door 965 mm clear',
 		'prop_feature_5'        => 'Step-free access',
 		'prop_feature_5_desc'   => 'Level entry from private-drive parking to all rooms',
 		'prop_feature_6'        => 'Accessible outdoor space',
-		'prop_feature_6_desc'   => 'Hard-standing patio and level garden',
+		'prop_feature_6_desc'   => 'Hard-standing patio with a level, step-free garden route',
 		'prop_feature_7'        => 'Fully equipped kitchen',
-		'prop_feature_7_desc'   => 'Gas hob (not induction); height-adapted worktop section',
+		'prop_feature_7_desc'   => 'Gas hob kitchen with a height-adapted worktop section',
 		'prop_feature_8'        => 'High-speed broadband',
-		'prop_feature_8_desc'   => 'Reliable Wi-Fi throughout the property',
+		'prop_feature_8_desc'   => 'Reliable Wi-Fi coverage across the whole property',
 
 		'prop_acc_label'      => 'Accessibility in detail',
 		'prop_acc_heading'    => 'Honest accessibility information',
@@ -429,17 +429,17 @@ function restwell_get_how_it_works_page_defaults() {
 		'hiw_included_heading' => 'Everything in the house is yours.',
 		'hiw_included_intro'   => 'Your booking covers exclusive use of the whole property for the duration of your stay.',
 		'hiw_included_1_title' => 'Exclusive use of the whole house',
-		'hiw_included_1_desc'  => 'No shared spaces, no other guests.',
+		'hiw_included_1_desc'  => 'Private use of the whole bungalow, with no shared spaces.',
 		'hiw_included_2_title' => 'Ceiling hoist & profiling bed',
-		'hiw_included_2_desc'  => 'Ceiling track hoist in the accessible bedroom, profiling bed, and wet room with grab rails and a height-adjustable washbasin that swings aside—in place and ready for your arrival.',
+		'hiw_included_2_desc'  => 'Ceiling hoist, profiling bed, and wet room with grab rails are ready on arrival.',
 		'hiw_included_3_title' => 'High-speed broadband',
-		'hiw_included_3_desc'  => 'Reliable Wi-Fi throughout.',
+		'hiw_included_3_desc'  => 'Reliable Wi-Fi coverage across the property for guests and carers.',
 		'hiw_included_4_title' => 'Linen and towels',
-		'hiw_included_4_desc'  => 'Freshly laundered for your arrival.',
+		'hiw_included_4_desc'  => 'Freshly laundered bed linen and towels, prepared before you arrive.',
 		'hiw_included_5_title' => 'Parking for two cars',
-		'hiw_included_5_desc'  => 'Two off-road spaces on the private drive. On-street outside if you need more room—no residents permit on this road.',
+		'hiw_included_5_desc'  => 'Two off-road spaces on the private drive, with nearby on-street overflow.',
 		'hiw_included_6_title' => 'Welcome information pack',
-		'hiw_included_6_desc'  => 'Local tips, emergency contacts, house guide, plus tea, coffee, and a few basics so you are not shopping the moment you arrive.',
+		'hiw_included_6_desc'  => 'House guide, local contacts, plus tea, coffee, and basic arrival essentials.',
 
 		'hiw_cta_label'           => 'Ready?',
 		'hiw_cta_heading'         => 'Start with a conversation.',
@@ -689,7 +689,7 @@ function restwell_get_whitstable_guide_page_defaults() {
 		'wg_getting_here_heading' => 'Getting here',
 		'wg_getting_here_body'    => "By car: Whitstable is reached via the M2 and A299 from London (about 60 miles, usually around 90 minutes depending on traffic). The property has two off-road spaces on a private drive, with room for adapted vehicles including those with rear or side ramps. Extra cars can usually park on the road outside—no residents permit on this road.\nBy train: Whitstable station has direct services to London Victoria and London St Pancras (via Canterbury West or Faversham). Journey time is roughly 75-90 minutes. We do not verify station layout or platform access here; details change, so check National Rail Enquiries or your operator before you travel. From the station to the property is about a 10-minute drive; we can advise on taxi options if needed.",
 		'wg_getting_around_heading' => 'Getting around during your stay',
-		'wg_getting_around_body'    => "Most guests find a car is the easiest way to get around, especially if you need to transport equipment. The driveway parking is level and off-road.\nThe Stagecoach 400 bus runs between Whitstable and Canterbury and stops nearby. This route uses low-floor buses, but availability of the ramp and wheelchair space can vary; it is worth checking with Stagecoach before relying on it for a specific journey.\nIf you use a mobility scooter or powerchair, the Tankerton promenade and Whitstable seafront are both suitable surfaces. The town centre is mixed: some pavements are narrow or uneven in older parts.\nWheelchair hire is available locally. Ask us before your stay and we can share contact details for trusted suppliers in the area.",
+		'wg_getting_around_body'    => "Most guests find a car is the easiest way to get around, especially if you need to transport equipment. The driveway parking is level and off-road.\nStagecoach South East routes connect Whitstable, Canterbury, and Herne Bay. From near The Plough, the 400 bus runs into Canterbury bus station and also serves the seafront and harbour area. Buses are usually low-floor, but ramp use and wheelchair space can vary on the day, so check before travel if you need a guaranteed accessible space.\nFor live times and route changes, use Google Maps or the Stagecoach app.\nIf you use a mobility scooter or powerchair, the Tankerton promenade and Whitstable seafront are both suitable surfaces. The town centre is mixed: some pavements are narrow or uneven in older parts.\nWheelchair hire is available locally. Ask us before your stay and we can share contact details for trusted suppliers in the area.",
 		'wg_spotlight_image_1_id' => 0,
 		'wg_spotlight_image_1_caption' => 'Tankerton promenade and sea-wall route',
 		'wg_spotlight_image_2_id' => 0,
@@ -1264,29 +1264,71 @@ function restwell_get_privacy_policy_content(): string {
  * @return string HTML string.
  */
 function restwell_get_terms_conditions_content(): string {
-	$site    = esc_html( get_bloginfo( 'name' ) );
 	$entity  = esc_html( restwell_get_legal_entity_display_name() );
 	$enquire = esc_url( home_url( '/enquire/' ) );
+	$privacy = esc_url( home_url( '/privacy-policy/' ) );
 	$email   = restwell_get_public_enquiry_email();
 	$mailto  = esc_url( 'mailto:' . $email );
 
-	return '<h2>Booking</h2>
-<p>These terms apply when you book accessible self-catering accommodation with ' . $entity . ' (trading as "' . $site . '") in Whitstable, Kent. A booking is confirmed only when we have received a signed booking form and any deposit we ask for, and we have sent you written confirmation. All stays are subject to availability.</p>
+	return '<h2>The booking</h2>
+<p>These terms apply when you book the adapted self-catering bungalow at 101 Russell Drive, Whitstable, Kent, CT5 2RQ with ' . $entity . '. Your booking is confirmed when you receive written confirmation from us. Until that point, no contract exists and the dates are not reserved. All bookings are subject to availability.</p>
+
+<h2>Accessibility requirements</h2>
+<p>We ask you to share your accessibility and equipment requirements at the time of booking so we can confirm the property is suitable for your needs. Requirements disclosed after written confirmation has been issued may not be possible to meet; we cannot guarantee changes to setup or equipment at short notice.</p>
 
 <h2>Payment</h2>
-<p>A non-refundable deposit (the amount is confirmed when you book) secures your dates. The balance is due six weeks before arrival unless we agree otherwise in writing. We accept BACS bank transfer and debit or credit card.</p>
+<p>A deposit secures your dates; the amount is confirmed at the time of booking. The balance is due no later than six weeks before arrival unless we agree otherwise in writing. We accept bank transfer (BACS) and debit or credit card.</p>
 
-<h2>Cancellation</h2>
-<p>If you cancel more than six weeks before arrival you forfeit the deposit. If you cancel within six weeks of arrival the full balance remains payable unless we re-let the property. We strongly recommend travel and cancellation insurance.</p>
+<h2>Cancellation by you</h2>
+<p>If you need to cancel, please contact us as soon as possible. Refunds are calculated as follows:</p>
+<ul>
+<li><strong>More than 30 days before arrival:</strong> full refund of all payments made.</li>
+<li><strong>14 to 30 days before arrival:</strong> 50 per cent refund of the total booking cost.</li>
+<li><strong>Fewer than 14 days before arrival:</strong> no refund will be issued.</li>
+</ul>
+<p>We strongly recommend that all guests take out travel and cancellation insurance.</p>
+
+<h2>Accessibility and exceptional circumstances</h2>
+<p>We recognise that guests booking accessible accommodation may face unforeseen medical or care-related changes. Where cancellation results from serious illness, injury, or a care emergency, we may offer a partial refund or a free date change subject to availability. We may ask for reasonable supporting evidence, such as a letter from a doctor. Each situation is considered on its own merits.</p>
+
+<h2>Date changes</h2>
+<p>You may request a change of dates up to 14 days before arrival at no additional charge, subject to availability. Changes requested within 14 days of arrival may incur an administration fee.</p>
+
+<h2>Early departure and no-shows</h2>
+<p>No refund is given for early departure or for failure to arrive without prior notice.</p>
+
+<h2>If we cancel</h2>
+<p>In the event that we must cancel your booking, you will receive a full refund of all payments made, or the option to rebook on alternative dates.</p>
+
+<h2>Check-in and check-out</h2>
+<p>Check-in is from 15:00. Check-out is by 11:00. If your accessibility requirements mean a different time would help, let us know when booking and we will accommodate where possible.</p>
+
+<h2>Number of guests</h2>
+<p>The property has a maximum occupancy confirmed at the time of booking. This number must not be exceeded without prior written agreement.</p>
+
+<h2>Accessibility equipment</h2>
+<p>The property includes a ceiling track hoist, profiling bed, wet room, and other accessibility features. Please use all equipment safely and only for its intended purpose. Report any fault or problem to us immediately so we can resolve it promptly. Equipment must be left in the condition and position in which it was found.</p>
+
+<h2>Assistance dogs</h2>
+<p>Assistance dogs are welcome. Please let us know in advance so we can ensure everything is ready for your stay.</p>
+
+<h2>Smoking and vaping</h2>
+<p>Smoking and vaping are not permitted inside the property. If you smoke, please do so outside and dispose of waste safely.</p>
+
+<h2>Care of the property</h2>
+<p>Please take reasonable care of the bungalow and its contents. Report any breakages or damage as soon as they occur. Please leave the property in a tidy condition on departure: lights off, windows closed, doors locked, and used towels left in the bathroom.</p>
 
 <h2>Care support</h2>
-<p>Optional care may be arranged with Continuity of Care Services (CQC-regulated). Their terms and privacy notices apply to the care they deliver. We introduce the service only and are not responsible for how care is provided.</p>
+<p>Optional care can be arranged with Continuity of Care Services, a CQC-regulated provider. Their own terms and privacy notices apply to the care they deliver. ' . $entity . ' introduces that service only and takes no responsibility for the care provided.</p>
 
 <h2>Liability</h2>
-<p>Except where the law does not allow us to limit liability, ' . $entity . ' is not liable for loss, damage, or injury to guests or their belongings during the stay except where caused by our negligence. Guests should hold appropriate travel and medical insurance.</p>
+<p>To the extent permitted by law, ' . $entity . ' is not liable for loss, injury, or damage to guests or their belongings during a stay, except where caused directly by our negligence. Guests are responsible for holding adequate travel, cancellation, and personal insurance.</p>
+
+<h2>Your data</h2>
+<p>We handle your personal information in line with our <a href="' . $privacy . '">privacy policy</a>.</p>
 
 <h2>Contact</h2>
-<p>Questions about these terms? Use <a href="' . $enquire . '">our enquiry page</a> or email <a href="' . $mailto . '">' . esc_html( $email ) . '</a>.</p>
+<p>Questions about these terms: use <a href="' . $enquire . '">our enquiry page</a> or email <a href="' . $mailto . '">' . esc_html( $email ) . '</a>.</p>
 
 <p><em>Last updated: ' . esc_html( gmdate( 'F Y' ) ) . '.</em></p>';
 }
@@ -1349,7 +1391,7 @@ function restwell_get_terms_conditions_page_defaults() {
 	return array(
 		'legal_label'         => 'Bookings',
 		'legal_heading'       => 'Terms & Conditions',
-		'legal_intro'         => 'Deposit, balance, cancellation, optional care via Continuity of Care Services, and liability for stays at our Whitstable accessible bungalow.',
+		'legal_intro'         => 'Booking confirmation, payment, cancellation terms, accessibility and exceptional circumstances, house rules, optional care via Continuity of Care Services, and liability.',
 		'legal_hero_image_id' => 0,
 		'legal_body_html'     => '',
 	);
@@ -1743,6 +1785,142 @@ function restwell_migrate_faq_access_parking_bedrooms_v1() {
 }
 add_action( 'init', 'restwell_migrate_faq_access_parking_bedrooms_v1', 24 );
 add_action( 'after_switch_theme', 'restwell_migrate_faq_access_parking_bedrooms_v1', 14 );
+
+/**
+ * One-time: normalise Property "What's in the house" card copy length for cleaner side-by-side rhythm.
+ *
+ * Only overwrites values that still match the previous defaults so editor-customised copy is preserved.
+ */
+function restwell_migrate_property_feature_copy_balance_v1() {
+	if ( get_option( 'restwell_property_feature_copy_balance_v1', '' ) === '1' ) {
+		return;
+	}
+	$page = get_page_by_path( 'the-property', OBJECT, 'page' );
+	if ( ! $page || (int) $page->ID < 1 ) {
+		return;
+	}
+	$page_id = (int) $page->ID;
+
+	$replacements = array(
+		'prop_feature_1_desc' => array(
+			'old' => 'Track laid for the full accessible bedroom—focused where bed-based transfers happen every day',
+			'new' => 'Full-room track in the accessible bedroom for daily bed transfers',
+		),
+		'prop_feature_2_desc' => array(
+			'old' => 'Roll-in shower, grab rails, perching stool in the shower, fully height-adjustable washbasin that swings aside (shower chair may be available on request)',
+			'new' => 'Roll-in shower, grab rails, and adjustable washbasin; shower chair may be available on request',
+		),
+		'prop_feature_3_desc' => array(
+			'old' => 'With pressure-relieving mattress',
+			'new' => 'Pressure-relieving mattress included and ready for your stay',
+		),
+		'prop_feature_4_desc' => array(
+			'old' => 'Internal doors 926 mm clear; front door 965 mm',
+			'new' => 'Internal doors 926 mm clear; front door 965 mm clear',
+		),
+		'prop_feature_6_desc' => array(
+			'old' => 'Hard-standing patio and level garden',
+			'new' => 'Hard-standing patio with a level, step-free garden route',
+		),
+		'prop_feature_7_desc' => array(
+			'old' => 'Gas hob (not induction); height-adapted worktop section',
+			'new' => 'Gas hob kitchen with a height-adapted worktop section',
+		),
+		'prop_feature_8_desc' => array(
+			'old' => 'Reliable Wi-Fi throughout the property',
+			'new' => 'Reliable Wi-Fi coverage across the whole property',
+		),
+	);
+
+	foreach ( $replacements as $meta_key => $pair ) {
+		$current = trim( (string) get_post_meta( $page_id, $meta_key, true ) );
+		if ( $current === trim( $pair['old'] ) ) {
+			update_post_meta( $page_id, $meta_key, $pair['new'] );
+		}
+	}
+
+	update_option( 'restwell_property_feature_copy_balance_v1', '1' );
+}
+add_action( 'init', 'restwell_migrate_property_feature_copy_balance_v1', 25 );
+add_action( 'after_switch_theme', 'restwell_migrate_property_feature_copy_balance_v1', 15 );
+
+/**
+ * One-time: balance homepage and "How it works" card description lengths.
+ *
+ * Only replaces copy that still matches older defaults, preserving editor-updated content.
+ */
+function restwell_migrate_home_hiw_card_copy_balance_v1() {
+	if ( get_option( 'restwell_home_hiw_card_copy_balance_v1', '' ) === '1' ) {
+		return;
+	}
+
+	$home_id = (int) get_option( 'page_on_front', 0 );
+	if ( $home_id > 0 ) {
+		$home_replacements = array(
+			'highlight_1_desc' => array(
+				'old' => 'Ceiling track in the accessible bedroom, laid for the full room so transfers at the profiling bed are straightforward.',
+				'new' => 'Full-room ceiling track in the accessible bedroom for daily bed transfers.',
+			),
+			'highlight_2_desc' => array(
+				'old' => 'Adjustable, with a pressure-relieving mattress. Ready for your stay.',
+				'new' => 'Adjustable profiling bed with a pressure-relieving mattress, ready on arrival.',
+			),
+			'highlight_3_desc' => array(
+				'old' => 'Roll-in shower, grab rails, perching stool in the shower, height-adjustable washbasin that swings aside, and space to turn and assist (shower chair may be available on request).',
+				'new' => 'Roll-in wet room with grab rails and an adjustable washbasin; shower chair may be available.',
+			),
+		);
+
+		foreach ( $home_replacements as $meta_key => $pair ) {
+			$current = trim( (string) get_post_meta( $home_id, $meta_key, true ) );
+			if ( $current === trim( $pair['old'] ) ) {
+				update_post_meta( $home_id, $meta_key, $pair['new'] );
+			}
+		}
+	}
+
+	$hiw_page = get_page_by_path( 'how-it-works', OBJECT, 'page' );
+	if ( $hiw_page && (int) $hiw_page->ID > 0 ) {
+		$hiw_id = (int) $hiw_page->ID;
+		$hiw_replacements = array(
+			'hiw_included_1_desc' => array(
+				'old' => 'No shared spaces, no other guests.',
+				'new' => 'Private use of the whole bungalow, with no shared spaces.',
+			),
+			'hiw_included_2_desc' => array(
+				'old' => 'Ceiling track hoist in the accessible bedroom, profiling bed, and wet room with grab rails and a height-adjustable washbasin that swings aside—in place and ready for your arrival.',
+				'new' => 'Ceiling hoist, profiling bed, and wet room with grab rails are ready on arrival.',
+			),
+			'hiw_included_3_desc' => array(
+				'old' => 'Reliable Wi-Fi throughout.',
+				'new' => 'Reliable Wi-Fi coverage across the property for guests and carers.',
+			),
+			'hiw_included_4_desc' => array(
+				'old' => 'Freshly laundered for your arrival.',
+				'new' => 'Freshly laundered bed linen and towels, prepared before you arrive.',
+			),
+			'hiw_included_5_desc' => array(
+				'old' => 'Two off-road spaces on the private drive. On-street outside if you need more room—no residents permit on this road.',
+				'new' => 'Two off-road spaces on the private drive, with nearby on-street overflow.',
+			),
+			'hiw_included_6_desc' => array(
+				'old' => 'Local tips, emergency contacts, house guide, plus tea, coffee, and a few basics so you are not shopping the moment you arrive.',
+				'new' => 'House guide, local contacts, plus tea, coffee, and basic arrival essentials.',
+			),
+		);
+
+		foreach ( $hiw_replacements as $meta_key => $pair ) {
+			$current = trim( (string) get_post_meta( $hiw_id, $meta_key, true ) );
+			if ( $current === trim( $pair['old'] ) ) {
+				update_post_meta( $hiw_id, $meta_key, $pair['new'] );
+			}
+		}
+	}
+
+	update_option( 'restwell_home_hiw_card_copy_balance_v1', '1' );
+}
+add_action( 'init', 'restwell_migrate_home_hiw_card_copy_balance_v1', 26 );
+add_action( 'after_switch_theme', 'restwell_migrate_home_hiw_card_copy_balance_v1', 16 );
 
 /**
  * One-time: assign dedicated legal / policy templates and ensure Accessibility Policy page exists.

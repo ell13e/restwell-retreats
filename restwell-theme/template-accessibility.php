@@ -49,6 +49,7 @@ $acc_dest_reality_body      = get_post_meta( $pid, 'acc_dest_reality_body', true
 
 $access_statement_url = restwell_get_access_statement_url();
 $access_statement_url = $access_statement_url !== '' ? esc_url( $access_statement_url ) : '';
+$acc_tldr_markup      = function_exists( 'restwell_get_tldr_markup' ) ? restwell_get_tldr_markup( $pid, '' ) : '';
 
 $rooms = array(
 	array( 'heading' => $acc_arrival_heading,  'body' => $acc_arrival_body ),
@@ -59,7 +60,7 @@ $rooms = array(
 	array( 'heading' => $acc_outdoor_heading,  'body' => $acc_outdoor_body ),
 );
 ?>
-<main class="flex-1" id="main-content">
+<main class="flex-1 restwell-wif-page" id="main-content">
 <?php get_template_part( 'template-parts/breadcrumb' ); ?>
 
 	<?php
@@ -71,6 +72,7 @@ $rooms = array(
 			'heading'     => $acc_heading,
 			'intro'       => $acc_intro,
 			'media_id'    => $acc_hero_image_id,
+			'append_after_h1_html' => $acc_tldr_markup,
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );
@@ -78,17 +80,19 @@ $rooms = array(
 
 	<!-- Room by room -->
 	<section class="rw-section-y bg-[var(--bg-subtle)]" aria-labelledby="acc-room-heading">
-		<div class="container max-w-4xl">
-			<div class="rw-stack rw-mb-section max-w-prose">
-			<?php if ( $acc_room_label !== '' ) : ?>
-				<p class="section-label"><?php echo esc_html( $acc_room_label ); ?></p>
-			<?php endif; ?>
-			<h2 id="acc-room-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php echo esc_html( $acc_room_heading ); ?></h2>
-			<?php if ( $acc_room_intro !== '' ) : ?>
-				<p class="text-gray-600 leading-relaxed m-0"><?php echo esc_html( $acc_room_intro ); ?></p>
-			<?php endif; ?>
+		<div class="container max-w-5xl">
+
+			<div class="rw-section-head max-w-prose">
+				<?php if ( $acc_room_label !== '' ) : ?>
+					<p class="section-label"><?php echo esc_html( $acc_room_label ); ?></p>
+				<?php endif; ?>
+				<h2 id="acc-room-heading" class="text-3xl md:text-4xl font-serif text-[var(--deep-teal)] m-0 leading-tight"><?php echo esc_html( $acc_room_heading ); ?></h2>
+				<?php if ( $acc_room_intro !== '' ) : ?>
+					<p class="text-[var(--muted-grey)] leading-relaxed m-0"><?php echo esc_html( $acc_room_intro ); ?></p>
+				<?php endif; ?>
 			</div>
-			<div class="space-y-6">
+
+			<div class="grid sm:grid-cols-2 rw-gap-grid">
 				<?php foreach ( $rooms as $room ) :
 					$lines = array_filter( array_map( 'trim', explode( "\n", $room['body'] ) ), function ( $line ) {
 						$lower = strtolower( $line );
@@ -99,98 +103,134 @@ $rooms = array(
 					} );
 					if ( empty( $lines ) ) continue;
 				?>
-					<div class="bg-white rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100
-					            hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5
-					            transition-all duration-300 ease-out motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-						<h3 class="text-xl font-serif text-[var(--deep-teal)] mb-4"><?php echo esc_html( $room['heading'] ); ?></h3>
-						<ul class="space-y-3 text-gray-700">
-							<?php foreach ( $lines as $line ) : ?>
-								<li class="flex items-start gap-3">
-									<span class="w-6 h-6 rounded-full bg-[#A8D5D0]/40 flex items-center justify-center flex-shrink-0 mt-0.5 text-[#1B4D5C] text-xs" aria-hidden="true">
-										<i class="ph-bold ph-check"></i>
-									</span>
-									<span><?php echo wp_kses_post( $line ); ?></span>
-								</li>
-							<?php endforeach; ?>
-						</ul>
-					</div>
+					<article class="flex flex-col bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]
+					                transition-all duration-300 ease-out
+					                hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5
+					                motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+						<header class="flex items-center gap-4 px-6 pt-6 pb-5 border-b border-gray-100/80">
+							<div class="wif-icon-circle wif-icon-circle--feature h-10 w-10 shrink-0" aria-hidden="true">
+								<i class="ph-bold ph-check text-sm"></i>
+							</div>
+							<h3 class="text-lg font-serif text-[var(--deep-teal)] m-0 leading-snug"><?php echo esc_html( $room['heading'] ); ?></h3>
+						</header>
+						<div class="flex-1 px-6 py-5">
+							<ul class="m-0 list-none p-0 space-y-3 text-sm leading-relaxed text-[var(--muted-grey)]">
+								<?php foreach ( $lines as $line ) : ?>
+									<li class="flex items-start gap-3 text-left">
+										<span class="wif-icon-circle wif-icon-circle--muted h-5 w-5 shrink-0 mt-0.5" aria-hidden="true">
+											<i class="ph-bold ph-check text-[10px]"></i>
+										</span>
+										<span class="min-w-0"><?php echo wp_kses_post( $line ); ?></span>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						</div>
+					</article>
 				<?php endforeach; ?>
 			</div>
 
-			<!-- Inquiry cards for specific requirements -->
-			<div class="mt-12 grid md:grid-cols-2 rw-gap-grid">
-				<div class="bg-[var(--bg-subtle)] rounded-2xl p-7 border border-gray-100 flex flex-col gap-5">
-					<div>
-						<h3 class="text-lg font-serif text-[var(--deep-teal)] mb-2">Have a specific requirement?</h3>
-						<p class="text-gray-600 leading-relaxed text-sm">We are happy to discuss access needs, measurements, or equipment availability. Get in touch and we will answer honestly.</p>
+			<!-- Inquiry cards -->
+			<div class="mt-10 md:mt-12 grid md:grid-cols-2 rw-gap-grid">
+				<article class="flex h-full min-h-0 flex-col rounded-2xl border border-gray-100 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+					<div class="flex items-start gap-4 px-6 pt-6 pb-5">
+						<div class="wif-icon-circle wif-icon-circle--feature h-10 w-10 shrink-0" aria-hidden="true">
+							<i class="ph-bold ph-chat-circle-text text-sm"></i>
+						</div>
+						<div>
+							<h3 class="text-[1.05rem] font-serif text-[var(--deep-teal)] m-0 mb-1.5 leading-snug"><?php esc_html_e( 'Have a specific requirement?', 'restwell-retreats' ); ?></h3>
+							<p class="text-[var(--muted-grey)] leading-relaxed text-sm m-0"><?php esc_html_e( 'We are happy to discuss access needs, measurements, or equipment availability. Get in touch and we will answer honestly.', 'restwell-retreats' ); ?></p>
+						</div>
 					</div>
-					<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary self-start">
-						Ask us directly <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
-					</a>
-				</div>
-				<div class="bg-[var(--bg-subtle)] rounded-2xl p-7 border border-gray-100 flex flex-col gap-5">
-					<div>
-						<h3 class="text-lg font-serif text-[var(--deep-teal)] mb-2">Need precise measurements?</h3>
-						<p class="text-gray-600 leading-relaxed text-sm">Door widths, turning circles, bed heights, grab rail positions: we can provide exact figures for any room in the property.</p>
+					<footer class="mt-auto border-t border-gray-100 px-6 py-5">
+						<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary btn-sm w-full text-center whitespace-normal leading-snug">
+							<?php esc_html_e( 'Ask us directly', 'restwell-retreats' ); ?>
+							<i class="ph-bold ph-arrow-right text-xs" aria-hidden="true"></i>
+						</a>
+					</footer>
+				</article>
+				<article class="flex h-full min-h-0 flex-col rounded-2xl border border-gray-100 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+					<div class="flex items-start gap-4 px-6 pt-6 pb-5">
+						<div class="wif-icon-circle wif-icon-circle--feature h-10 w-10 shrink-0" aria-hidden="true">
+							<i class="ph-bold ph-ruler text-sm"></i>
+						</div>
+						<div>
+							<h3 class="text-[1.05rem] font-serif text-[var(--deep-teal)] m-0 mb-1.5 leading-snug"><?php esc_html_e( 'Need precise measurements?', 'restwell-retreats' ); ?></h3>
+							<p class="text-[var(--muted-grey)] leading-relaxed text-sm m-0"><?php esc_html_e( 'Door widths, turning circles, bed heights, grab rail positions: we can provide exact figures for any room in the property.', 'restwell-retreats' ); ?></p>
+						</div>
 					</div>
-					<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary self-start">
-						Request measurements <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
-					</a>
-				</div>
+					<footer class="mt-auto border-t border-gray-100 px-6 py-5">
+						<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary btn-sm w-full text-center whitespace-normal leading-snug">
+							<?php esc_html_e( 'Request measurements', 'restwell-retreats' ); ?>
+							<i class="ph-bold ph-arrow-right text-xs" aria-hidden="true"></i>
+						</a>
+					</footer>
+				</article>
 			</div>
+
 		</div>
 	</section>
 
 	<!-- Destination: what to expect -->
 	<section class="rw-section-y bg-[var(--soft-sand)]" aria-labelledby="acc-dest-heading">
-		<div class="container max-w-4xl">
-			<div class="rw-stack rw-mb-section max-w-prose">
-			<?php if ( $acc_dest_label !== '' ) : ?>
-				<p class="section-label"><?php echo esc_html( $acc_dest_label ); ?></p>
-			<?php endif; ?>
-			<h2 id="acc-dest-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php echo esc_html( $acc_dest_heading ); ?></h2>
-			<p class="text-gray-600 leading-relaxed m-0"><?php echo esc_html( $acc_dest_intro ); ?></p>
+		<div class="container max-w-5xl">
+
+			<div class="rw-section-head max-w-prose">
+				<?php if ( $acc_dest_label !== '' ) : ?>
+					<p class="section-label"><?php echo esc_html( $acc_dest_label ); ?></p>
+				<?php endif; ?>
+				<h2 id="acc-dest-heading" class="text-3xl md:text-4xl font-serif text-[var(--deep-teal)] m-0 leading-tight"><?php echo esc_html( $acc_dest_heading ); ?></h2>
+				<p class="text-[var(--muted-grey)] leading-relaxed m-0"><?php echo esc_html( $acc_dest_intro ); ?></p>
 			</div>
+
 			<div class="grid md:grid-cols-3 rw-gap-grid">
 
 				<!-- The good -->
-				<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col gap-4
-				            hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5
-				            transition-all duration-300 ease-out motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-					<div class="w-10 h-10 rounded-full bg-[#A8D5D0]/40 flex items-center justify-center text-[var(--deep-teal)]" aria-hidden="true">
-						<i class="ph-bold ph-check text-sm"></i>
+				<article class="flex flex-col bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]
+				                transition-all duration-300 ease-out
+				                hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5
+				                motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+					<div class="flex items-start gap-4 px-6 pt-6 pb-4">
+						<div class="wif-icon-circle wif-icon-circle--feature h-10 w-10 shrink-0" aria-hidden="true">
+							<i class="ph-bold ph-check-circle text-base"></i>
+						</div>
+						<h3 class="text-[1.05rem] font-serif text-[var(--deep-teal)] m-0 pt-1.5 leading-snug"><?php echo esc_html( $acc_dest_good_heading ); ?></h3>
 					</div>
-					<div>
-						<h3 class="text-lg font-semibold font-serif text-[var(--deep-teal)] mb-2"><?php echo esc_html( $acc_dest_good_heading ); ?></h3>
-						<p class="text-gray-600 text-sm leading-relaxed"><?php echo esc_html( $acc_dest_good_body ); ?></p>
+					<div class="flex-1 px-6 pb-6 border-t border-gray-100/60">
+						<p class="text-[var(--muted-grey)] text-sm leading-relaxed m-0 pt-4"><?php echo esc_html( $acc_dest_good_body ); ?></p>
 					</div>
-				</div>
+				</article>
 
 				<!-- The challenge -->
-				<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col gap-4
-				            hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5
-				            transition-all duration-300 ease-out motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-					<div class="w-10 h-10 rounded-full bg-[#A8D5D0]/40 flex items-center justify-center text-[var(--deep-teal)]" aria-hidden="true">
-						<i class="ph-bold ph-path text-sm"></i>
+				<article class="flex flex-col bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]
+				                transition-all duration-300 ease-out
+				                hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5
+				                motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+					<div class="flex items-start gap-4 px-6 pt-6 pb-4">
+						<div class="wif-icon-circle wif-icon-circle--muted h-10 w-10 shrink-0" aria-hidden="true">
+							<i class="ph-bold ph-warning text-base"></i>
+						</div>
+						<h3 class="text-[1.05rem] font-serif text-[var(--deep-teal)] m-0 pt-1.5 leading-snug"><?php echo esc_html( $acc_dest_challenge_heading ); ?></h3>
 					</div>
-					<div>
-						<h3 class="text-lg font-semibold font-serif text-[var(--deep-teal)] mb-2"><?php echo esc_html( $acc_dest_challenge_heading ); ?></h3>
-						<p class="text-gray-600 text-sm leading-relaxed"><?php echo esc_html( $acc_dest_challenge_body ); ?></p>
+					<div class="flex-1 px-6 pb-6 border-t border-gray-100/60">
+						<p class="text-[var(--muted-grey)] text-sm leading-relaxed m-0 pt-4"><?php echo esc_html( $acc_dest_challenge_body ); ?></p>
 					</div>
-				</div>
+				</article>
 
 				<!-- The reality -->
-				<div class="bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col gap-4
-				            hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5
-				            transition-all duration-300 ease-out motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-					<div class="w-10 h-10 rounded-full bg-[#A8D5D0]/40 flex items-center justify-center text-[var(--deep-teal)]" aria-hidden="true">
-						<i class="ph-bold ph-info text-sm"></i>
+				<article class="flex flex-col bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]
+				                transition-all duration-300 ease-out
+				                hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:-translate-y-0.5
+				                motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+					<div class="flex items-start gap-4 px-6 pt-6 pb-4">
+						<div class="wif-icon-circle wif-icon-circle--muted h-10 w-10 shrink-0" aria-hidden="true">
+							<i class="ph-bold ph-info text-base"></i>
+						</div>
+						<h3 class="text-[1.05rem] font-serif text-[var(--deep-teal)] m-0 pt-1.5 leading-snug"><?php echo esc_html( $acc_dest_reality_heading ); ?></h3>
 					</div>
-					<div>
-						<h3 class="text-lg font-semibold font-serif text-[var(--deep-teal)] mb-2"><?php echo esc_html( $acc_dest_reality_heading ); ?></h3>
-						<p class="text-gray-600 text-sm leading-relaxed"><?php echo esc_html( $acc_dest_reality_body ); ?></p>
+					<div class="flex-1 px-6 pb-6 border-t border-gray-100/60">
+						<p class="text-[var(--muted-grey)] text-sm leading-relaxed m-0 pt-4"><?php echo esc_html( $acc_dest_reality_body ); ?></p>
 					</div>
-				</div>
+				</article>
 
 			</div>
 		</div>
@@ -198,22 +238,40 @@ $rooms = array(
 
 	<?php if ( $access_statement_url !== '' ) : ?>
 	<!-- Access statement download -->
-	<section class="rw-section-y bg-white border-t border-[#E8DFD0]/80" aria-labelledby="acc-statement-heading">
-		<div class="container max-w-3xl text-center">
-			<h3 id="acc-statement-heading" class="text-2xl md:text-3xl font-serif text-[var(--deep-teal)] mb-4"><?php esc_html_e( 'Download our access statement', 'restwell-retreats' ); ?></h3>
-			<p class="text-gray-600 leading-relaxed mb-8 max-w-prose mx-auto"><?php esc_html_e( 'A PDF summary of access routes, door widths, equipment, and the local area, useful for OTs, commissioners, and planning your stay.', 'restwell-retreats' ); ?></p>
-			<a href="<?php echo esc_url( $access_statement_url ); ?>" class="btn btn-primary inline-flex items-center gap-2" rel="noopener" target="_blank">
-				<i class="ph-bold ph-file-pdf" aria-hidden="true"></i>
-				<?php esc_html_e( 'Open access statement (PDF)', 'restwell-retreats' ); ?>
-			</a>
-			<p class="text-sm text-[var(--muted-grey)] mt-6">
-				<a href="<?php echo esc_url( home_url( '/the-property/' ) ); ?>" class="text-[var(--deep-teal)] underline underline-offset-2 hover:no-underline"><?php esc_html_e( 'The Property', 'restwell-retreats' ); ?></a>
-				<span aria-hidden="true"> · </span>
-				<a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>" class="text-[var(--deep-teal)] underline underline-offset-2 hover:no-underline"><?php esc_html_e( 'FAQ', 'restwell-retreats' ); ?></a>
-			</p>
+	<section class="rw-section-y bg-white" aria-labelledby="acc-statement-heading">
+		<div class="container max-w-5xl">
+			<div class="rounded-2xl border border-[var(--deep-teal)]/15 bg-[var(--bg-subtle)] p-8 md:p-10 text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] max-w-2xl mx-auto">
+				<div class="wif-icon-circle wif-icon-circle--feature h-12 w-12 mx-auto mb-5" aria-hidden="true">
+					<i class="ph-bold ph-file-pdf text-xl"></i>
+				</div>
+				<h2 id="acc-statement-heading" class="text-2xl md:text-3xl font-serif text-[var(--deep-teal)] mb-3 m-0"><?php esc_html_e( 'Download our access statement', 'restwell-retreats' ); ?></h2>
+				<p class="text-[var(--muted-grey)] leading-relaxed mb-7 max-w-prose mx-auto m-0"><?php esc_html_e( 'A PDF summary of access routes, door widths, equipment, and the local area, useful for OTs, commissioners, and planning your stay.', 'restwell-retreats' ); ?></p>
+				<a href="<?php echo esc_url( $access_statement_url ); ?>" class="inline-flex items-center justify-center gap-2 bg-[var(--deep-teal)] text-white font-semibold px-8 py-3.5 rounded-2xl text-base hover:opacity-90 hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)] no-underline" rel="noopener noreferrer" target="_blank">
+					<i class="ph-bold ph-file-pdf" aria-hidden="true"></i>
+					<?php esc_html_e( 'Open access statement (PDF)', 'restwell-retreats' ); ?>
+					<span class="sr-only"><?php esc_html_e( '(opens in new tab)', 'restwell-retreats' ); ?></span>
+				</a>
+			</div>
 		</div>
 	</section>
 	<?php endif; ?>
+
+	<!-- Related pages -->
+	<section class="rw-section-y bg-[var(--bg-subtle)]" aria-labelledby="acc-related-heading">
+		<div class="container max-w-5xl">
+			<div class="rw-section-head max-w-prose">
+				<p class="section-label"><?php esc_html_e( 'Related reading', 'restwell-retreats' ); ?></p>
+				<h2 id="acc-related-heading" class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php esc_html_e( 'Before you enquire', 'restwell-retreats' ); ?></h2>
+				<p class="text-[var(--muted-grey)] m-0 leading-relaxed max-w-prose"><?php esc_html_e( 'Everything you need to judge whether the property is right for your situation, before committing to anything.', 'restwell-retreats' ); ?></p>
+			</div>
+			<div class="flex flex-wrap gap-3">
+				<a class="btn btn-outline btn-sm" href="<?php echo esc_url( home_url( '/the-property/' ) ); ?>"><?php esc_html_e( 'The property', 'restwell-retreats' ); ?></a>
+				<a class="btn btn-outline btn-sm" href="<?php echo esc_url( home_url( '/who-its-for/' ) ); ?>"><?php esc_html_e( 'Who it is for', 'restwell-retreats' ); ?></a>
+				<a class="btn btn-outline btn-sm" href="<?php echo esc_url( home_url( '/faq/' ) ); ?>"><?php esc_html_e( 'Frequently asked questions', 'restwell-retreats' ); ?></a>
+				<a class="btn btn-outline btn-sm" href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>"><?php esc_html_e( 'Send an enquiry', 'restwell-retreats' ); ?></a>
+			</div>
+		</div>
+	</section>
 
 </main>
 <?php get_footer(); ?>

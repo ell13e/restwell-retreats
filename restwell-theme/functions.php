@@ -14,6 +14,7 @@ require_once get_template_directory() . '/inc/blog-categories.php';
 // Disable Gutenberg block editor - use classic editor
 add_filter( 'use_block_editor_for_post', '__return_false' );
 add_filter( 'use_widgets_block_editor', '__return_false' );
+add_filter( 'xmlrpc_enabled', '__return_false' );
 
 require_once get_template_directory() . '/inc/enqueue.php';
 require_once get_template_directory() . '/inc/performance.php';
@@ -24,8 +25,11 @@ require_once get_template_directory() . '/inc/social-profiles.php';
 require_once get_template_directory() . '/inc/emails.php';
 require_once get_template_directory() . '/inc/form-notify.php';
 require_once get_template_directory() . '/inc/crm.php';
+require_once get_template_directory() . '/inc/faq.php';
 require_once get_template_directory() . '/inc/faq-question-handler.php';
 require_once get_template_directory() . '/inc/enquire-handler.php';
+require_once get_template_directory() . '/inc/tldr.php';
+require_once get_template_directory() . '/inc/seo-social-meta.php';
 require_once get_template_directory() . '/inc/seo.php';
 require_once get_template_directory() . '/inc/seo-admin.php';
 require_once get_template_directory() . '/inc/guest-guide.php';
@@ -190,6 +194,20 @@ function restwell_redirect_legacy_carers_guide_slug() {
 	}
 }
 add_action( 'template_redirect', 'restwell_redirect_legacy_carers_guide_slug', 21 );
+
+/**
+ * Redirect public author archives to home to reduce user-enumeration surface.
+ */
+function restwell_redirect_author_archives() {
+	if ( is_admin() || wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		return;
+	}
+	if ( is_author() ) {
+		wp_safe_redirect( home_url( '/' ), 301 );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'restwell_redirect_author_archives', 22 );
 
 /**
  * Primary navigation tree for desktop: top-level links plus dropdown groups.

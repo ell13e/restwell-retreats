@@ -1,0 +1,84 @@
+/**
+ * Admin meta fields – tabbed page content metabox styles.
+ *
+ * @package Restwell_Retreats
+ */
+
+.restwell-meta-fields .nav-tab-wrapper {
+	margin-bottom: 0;
+	border-bottom: 1px solid #c3c4c7;
+}
+
+.restwell-meta-fields .restwell-tab-panel {
+	display: none;
+	padding: 1.25rem 0 0;
+	border-top: none;
+}
+
+.restwell-meta-fields .restwell-tab-panel.active {
+	display: block;
+}
+
+.restwell-meta-fields .restwell-field {
+	margin-bottom: 1.25rem;
+}
+
+.restwell-meta-fields .restwell-field:last-child {
+	margin-bottom: 0;
+}
+
+.restwell-meta-fields .restwell-field label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 0.35rem;
+	color: #1d2327;
+}
+
+.restwell-meta-fields .restwell-field input[type="text"],
+.restwell-meta-fields .restwell-field input[type="number"] {
+	width: 100%;
+	max-width: 32rem;
+	padding: 0.5rem 0.75rem;
+	font-size: 14px;
+}
+
+.restwell-meta-fields .restwell-field input[type="number"] {
+	max-width: 8rem;
+}
+
+.restwell-meta-fields .restwell-field textarea {
+	width: 100%;
+	min-height: 100px;
+	padding: 0.5rem 0.75rem;
+	font-size: 14px;
+	line-height: 1.5;
+	resize: vertical;
+}
+
+.restwell-meta-fields .restwell-image-preview {
+	margin-bottom: 10px;
+}
+
+.restwell-meta-fields .restwell-image-preview img {
+	max-width: 100%;
+	height: auto;
+	max-height: 200px;
+	border-radius: 4px;
+	border: 1px solid #c3c4c7;
+	display: block;
+}
+
+.restwell-meta-fields .restwell-image-preview .restwell-media-preview-text {
+	display: inline-block;
+	padding: 0.5rem 0;
+	color: #1d2327;
+}
+
+.restwell-meta-fields .restwell-image-upload .button {
+	margin-right: 8px;
+	margin-top: 4px;
+}
+
+.restwell-meta-fields .restwell-remove-image {
+	color: #b32d2e !important;
+}

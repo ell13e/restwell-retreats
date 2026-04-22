@@ -77,6 +77,40 @@ $prop_acc_label     = $m( 'prop_acc_label' );
 $prop_acc_heading   = $m( 'prop_acc_heading' );
 $prop_acc_intro     = $m( 'prop_acc_intro' );
 $prop_acc_confirmed = $m( 'prop_acc_confirmed' );
+$prop_acc_items     = array_values(
+	array_filter(
+		array_map(
+			static function ( $item ) {
+				$item = trim( preg_replace( '/\s+/', ' ', (string) $item ) );
+				if ( $item === '' ) {
+					return '';
+				}
+
+				$replacements = array(
+					'/^Step-free access from parking to all rooms$/i' => 'Step-free access from parking to all rooms',
+					'/^Two off-road car spaces.*$/i'                   => '2 off-road driveway spaces',
+					'/^Ceiling track hoist.*$/i'                       => 'Ceiling track hoist in the accessible bedroom',
+					'/^Wet room with roll-in shower.*$/i'              => 'Wet room with roll-in shower, grab rails, and adjustable washbasin',
+					'/^Adjustable profiling bed.*$/i'                  => 'Adjustable profiling bed with pressure-relieving mattress',
+					'/^Front door:.*$/i'                               => 'Front door 965 mm clear width; internal doors 926 mm clear',
+					'/^Level garden.*$/i'                              => 'Level garden with hard-standing patio',
+					'/^Wi-?Fi throughout the property$/i'              => 'Wi-Fi throughout the property',
+				);
+
+				foreach ( $replacements as $pattern => $replacement ) {
+					if ( preg_match( $pattern, $item ) ) {
+						return $replacement;
+					}
+				}
+
+				// Fallback: keep first clear clause so bullets stay scannable.
+				$first_clause = preg_split( '/[;(]/', $item );
+				return trim( (string) ( $first_clause[0] ?? $item ) );
+			},
+			explode( "\n", (string) $prop_acc_confirmed )
+		)
+	)
+);
 
 // Comparison: why not just an accessible hotel?
 $prop_comparison_label           = $m( 'prop_comparison_label' );
@@ -189,6 +223,7 @@ if ( $prop_gallery_external_link_set( $prop_gallery_btn_3_url_raw ) ) {
 
 $prop_nearby_label   = $m( 'prop_nearby_label' );
 $prop_nearby_heading = $m( 'prop_nearby_heading' );
+$prop_tldr_markup    = function_exists( 'restwell_get_tldr_markup' ) ? restwell_get_tldr_markup( $pid, '' ) : '';
 $rw_nearby_icons = array( 'fork-knife', 'drop', 'shopping-bag', 'umbrella', 'shopping-cart', 'pill', 'bus', 'first-aid' );
 $rw_nearby_types = array( 'Food &amp; Drink', 'The Coast', 'Town &amp; Shops', 'The Coast', 'Practical', 'Wellbeing', 'Transport', 'Wellbeing' );
 $nearby          = array();
@@ -219,6 +254,7 @@ $prop_nearby_cta_url   = esc_url( $m_url( 'prop_nearby_cta_url' ) );
 			'intro'         => $prop_hero_subtitle,
 			'media_id'      => $prop_hero_image_id,
 			'image_alt'     => $prop_hero_heading,
+			'append_after_h1_html' => $prop_tldr_markup,
 			'cta_primary'   => $prop_hero_cta_text !== '' ? array(
 				'label' => $prop_hero_cta_text,
 				'url'   => $prop_hero_cta_url,
@@ -312,38 +348,44 @@ $prop_nearby_cta_url   = esc_url( $m_url( 'prop_nearby_cta_url' ) );
 	</section>
 
 	<!-- Accessibility you can rely on -->
-	<section class="rw-section-y bg-white">
-		<div class="container max-w-4xl">
-			<div class="rw-stack rw-mb-section max-w-prose">
+<section class="rw-section-y bg-white">
+		<div class="container">
+			<div class="max-w-5xl mx-auto rw-stack rw-stack--loose">
+			<div class="rw-section-head rw-section-head--center max-w-3xl mx-auto text-center">
 			<?php if ( $prop_acc_label !== '' ) : ?>
 				<p class="section-label"><?php echo esc_html( $prop_acc_label ); ?></p>
 			<?php endif; ?>
-			<h2 class="text-3xl font-serif text-[var(--deep-teal)] m-0"><?php echo esc_html( $prop_acc_heading ); ?></h2>
-			<p class="rw-copy-body m-0 leading-relaxed max-w-prose"><?php echo esc_html( $prop_acc_intro ); ?></p>
+			<h2 class="text-3xl md:text-4xl font-serif text-[var(--deep-teal)] m-0 leading-[1.15] md:leading-[1.18]"><?php echo esc_html( $prop_acc_heading ); ?></h2>
+			<p class="rw-copy-body m-0 leading-[1.65] max-w-prose mx-auto text-center"><?php echo esc_html( $prop_acc_intro ); ?></p>
 			</div>
-			<div class="grid md:grid-cols-2 rw-gap-grid-lg items-start">
-				<!-- Verified features list -->
-				<ul class="space-y-3" aria-label="<?php echo esc_attr__( 'Verified accessibility features', 'restwell-retreats' ); ?>">
-					<?php foreach ( array_filter( array_map( 'trim', explode( "\n", $prop_acc_confirmed ) ) ) as $item ) : ?>
-						<li class="flex items-start gap-3">
-							<span class="w-6 h-6 rounded-full bg-[#A8D5D0]/40 flex items-center justify-center flex-shrink-0 mt-0.5 text-[var(--deep-teal)]" aria-hidden="true">
-								<i class="ph-bold ph-check text-xs"></i>
-							</span>
-								<span class="rw-copy-body leading-snug"><?php echo esc_html( $item ); ?></span>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-				<!-- Specific requirements card -->
-				<div class="rw-surface-card p-7 flex flex-col gap-5">
-					<div>
-						<h3 class="text-lg font-semibold font-serif text-[var(--deep-teal)] mb-2"><?php echo esc_html__( 'Have a specific requirement?', 'restwell-retreats' ); ?></h3>
-						<p class="rw-copy-body text-sm leading-relaxed"><?php echo esc_html__( 'Every guest is different. Whether you need to know about the bedroom hoist layout, particular bathroom equipment, bed configuration, or sensory environment, we are happy to talk it through before you commit to anything.', 'restwell-retreats' ); ?></p>
+			<article class="max-w-4xl mx-auto w-full rounded-2xl bg-[var(--bg-subtle)] border border-gray-200/60 overflow-hidden">
+				<div class="p-7 md:p-10 rw-stack">
+					<div class="rw-stack rw-stack--tight text-center">
+						<h3 class="text-xl md:text-2xl font-serif text-[var(--deep-teal)] m-0 leading-[1.22]"><?php echo esc_html__( 'Confirmed accessibility features', 'restwell-retreats' ); ?></h3>
+						<p class="rw-copy-muted text-sm md:text-base leading-[1.6] m-0"><?php echo esc_html__( 'These details are checked and in place at the property.', 'restwell-retreats' ); ?></p>
 					</div>
-					<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-primary self-start">
-						<?php echo esc_html__( 'Ask us directly', 'restwell-retreats' ); ?>
-						<i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
-					</a>
+					<ul class="m-0 list-none p-0 space-y-3.5 md:columns-2 md:gap-8" aria-label="<?php echo esc_attr__( 'Verified accessibility features', 'restwell-retreats' ); ?>">
+						<?php foreach ( $prop_acc_items as $item ) : ?>
+							<li class="flex items-start gap-3 break-inside-avoid mb-3.5 md:mb-4">
+								<span class="wif-icon-circle wif-icon-circle--muted h-5 w-5 md:h-6 md:w-6 shrink-0 mt-0.5" aria-hidden="true">
+									<i class="ph-bold ph-check text-[10px] md:text-xs"></i>
+								</span>
+								<span class="rw-copy-body text-[15px] leading-[1.55] text-[var(--muted-grey)] min-w-0"><?php echo esc_html( $item ); ?></span>
+							</li>
+						<?php endforeach; ?>
+					</ul>
 				</div>
+				<footer class="border-t border-gray-200/70 bg-white/70 px-7 py-5 md:px-10 md:py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<p class="rw-copy-body text-sm md:text-base leading-[1.6] text-[var(--muted-grey)] m-0"><?php echo esc_html__( 'Need exact room layout details, equipment positions, or sensory information?', 'restwell-retreats' ); ?></p>
+					<div class="flex items-center gap-3">
+						<a href="<?php echo esc_url( home_url( '/enquire/' ) ); ?>" class="btn btn-outline btn-sm text-center whitespace-nowrap">
+							<?php echo esc_html__( 'Ask us directly', 'restwell-retreats' ); ?>
+							<i class="ph-bold ph-arrow-right text-sm" aria-hidden="true"></i>
+						</a>
+						<span class="rw-copy-muted text-xs md:text-sm whitespace-nowrap"><?php echo esc_html__( 'No commitment.', 'restwell-retreats' ); ?></span>
+					</div>
+				</footer>
+			</article>
 			</div>
 		</div>
 	</section>
@@ -477,30 +519,43 @@ $prop_nearby_cta_url   = esc_url( $m_url( 'prop_nearby_cta_url' ) );
 	<!-- The essentials -->
 	<section class="rw-section-y bg-white">
 		<div class="container">
-			<?php if ( $prop_practical_label !== '' ) : ?>
-				<p class="section-label text-center mb-3"><?php echo esc_html( $prop_practical_label ); ?></p>
-			<?php endif; ?>
-			<h2 class="text-3xl font-serif text-[var(--deep-teal)] text-center mb-10"><?php echo esc_html( $prop_practical_heading ); ?></h2>
-			<!-- Spec strip: single container, items divided by lines -->
-			<div class="max-w-3xl mx-auto bg-[var(--bg-subtle)] rounded-2xl overflow-hidden grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200/70">
+			<div class="rw-section-head rw-section-head--center max-w-2xl">
+				<?php if ( $prop_practical_label !== '' ) : ?>
+					<p class="section-label text-center m-0"><?php echo esc_html( $prop_practical_label ); ?></p>
+				<?php endif; ?>
+				<h2 class="text-3xl md:text-4xl font-serif text-[var(--deep-teal)] text-center m-0 leading-tight"><?php echo esc_html( $prop_practical_heading ); ?></h2>
+			</div>
+			<div class="max-w-5xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 rw-gap-grid">
 				<?php
 				$essentials_icons = array( 'bed', 'bathtub', 'garage', 'users-three' );
 				$essentials_keys  = array( 'bedrooms', 'bathrooms', 'parking', 'sleeps' );
 				foreach ( $essentials_keys as $k => $key ) :
 					$item = $prop_essentials[ $key ];
-					// Parking and sleeps often need more horizontal space than counts; span full width on small screens.
-					$span_class = ( $k >= 2 ) ? ' col-span-2 md:col-span-1' : '';
+					$value_text = trim( wp_strip_all_tags( (string) $item['value'] ) );
+					$display_value = $value_text;
+					$display_label = (string) $item['label'];
+					$label_class = 'text-[var(--muted-grey)] text-xs md:text-sm tracking-[0.16em] uppercase';
+
+					// Keep the parking tile aligned with the other stat cards: one number + one label.
+					if ( 'parking' === $key && preg_match( '/^\d+/', $value_text, $parking_match ) ) {
+						$display_value = $parking_match[0] . ' Car';
+						$display_label = 'Driveway';
+						$label_class = 'text-[var(--muted-grey)] text-xs md:text-sm tracking-[0.03em]';
+					}
+
+					$is_long_value = strlen( $display_value ) > 10;
+					$value_size_class = $is_long_value ? 'text-[1.35rem] leading-snug max-w-[9.25rem]' : 'text-3xl max-w-xs';
 					?>
-				<div class="py-8 px-5 flex flex-col items-center text-center gap-1.5<?php echo esc_attr( $span_class ); ?>">
-					<div class="w-10 h-10 rounded-full bg-[var(--deep-teal)]/10 flex items-center justify-center text-[var(--deep-teal)] mb-1" aria-hidden="true">
-						<i class="ph-bold ph-<?php echo esc_attr( $essentials_icons[ $k ] ); ?> text-base"></i>
+				<article class="rw-surface-card rw-card-hover-lift p-6 flex flex-col items-center text-center gap-3 min-h-[12.5rem] motion-reduce:hover:translate-y-0 motion-reduce:transition-none">
+					<div class="text-[var(--deep-teal)]" aria-hidden="true">
+						<i class="ph-bold ph-<?php echo esc_attr( $essentials_icons[ $k ] ); ?> text-2xl"></i>
 					</div>
-					<span class="text-2xl sm:text-3xl font-bold text-[var(--deep-teal)] leading-tight text-pretty max-w-xs mx-auto"><?php echo esc_html( $item['value'] ); ?></span>
-					<span class="text-gray-500 text-xs tracking-wide uppercase"><?php echo esc_html( $item['label'] ); ?></span>
-				</div>
+					<span class="<?php echo esc_attr( $value_size_class ); ?> font-bold text-[var(--deep-teal)] text-pretty mx-auto"><?php echo esc_html( $display_value ); ?></span>
+					<span class="<?php echo esc_attr( $label_class ); ?>"><?php echo esc_html( $display_label ); ?></span>
+				</article>
 				<?php endforeach; ?>
 			</div>
-			<p class="text-center rw-copy-muted text-sm mt-6">
+			<p class="text-center rw-copy-muted text-sm md:text-base mt-7">
 				<?php echo esc_html__( 'Have a question about the property?', 'restwell-retreats' ); ?>
 				<a href="<?php echo esc_url( $prop_confirm_details_url ); ?>" class="text-[var(--deep-teal)] font-medium hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] rounded ml-0.5"><?php echo esc_html__( 'Get in touch', 'restwell-retreats' ); ?></a>
 			</p>
@@ -514,13 +569,17 @@ $prop_nearby_cta_url   = esc_url( $m_url( 'prop_nearby_cta_url' ) );
 				<p class="section-label text-center mb-3"><?php echo esc_html( $prop_nearby_label ); ?></p>
 			<?php endif; ?>
 			<h2 id="explore-whitstable-heading" class="text-3xl md:text-4xl font-serif text-[var(--deep-teal)] text-center mb-6 md:mb-8 tracking-tight"><?php echo esc_html( $prop_nearby_heading ); ?></h2>
-			<p class="rw-copy-body text-center max-w-lg mx-auto mb-10 md:mb-12 leading-relaxed"><?php echo esc_html__( 'Places and services near the property. Filter by what matters to you.', 'restwell-retreats' ); ?></p>
+			<p class="rw-copy-body text-center max-w-lg mx-auto mb-4 leading-relaxed"><?php echo esc_html__( 'Places and services near the property. Filter by what matters to you.', 'restwell-retreats' ); ?></p>
+			<p class="rw-copy-muted text-center max-w-2xl mx-auto mb-10 md:mb-12 leading-relaxed">
+				<?php echo esc_html__( 'For local buses, Stagecoach routes connect Whitstable, Canterbury, and Herne Bay. The 400 from near The Plough serves Canterbury bus station and the seafront/harbour corridor.', 'restwell-retreats' ); ?>
+				<a href="<?php echo esc_url( home_url( '/whitstable-area-guide/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline hover:no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] rounded-sm"><?php echo esc_html__( 'See full transport notes', 'restwell-retreats' ); ?></a>.
+			</p>
 
 			<div class="explore-whitstable-filter flex flex-wrap justify-center gap-2 mb-6 md:mb-8" role="group" aria-label="<?php echo esc_attr__( 'Filter nearby places', 'restwell-retreats' ); ?>">
-				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="all" aria-pressed="true"><?php echo esc_html__( 'All', 'restwell-retreats' ); ?></button>
-				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="wheelchair-friendly" aria-pressed="false"><?php echo esc_html__( 'Wheelchair-friendly', 'restwell-retreats' ); ?></button>
-				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="quieter" aria-pressed="false"><?php echo esc_html__( 'Quieter', 'restwell-retreats' ); ?></button>
-				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="practical" aria-pressed="false"><?php echo esc_html__( 'Practical', 'restwell-retreats' ); ?></button>
+				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm md:text-base font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="all" aria-pressed="true"><?php echo esc_html__( 'All', 'restwell-retreats' ); ?></button>
+				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm md:text-base font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="wheelchair-friendly" aria-pressed="false"><?php echo esc_html__( 'Wheelchair-friendly', 'restwell-retreats' ); ?></button>
+				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm md:text-base font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="quieter" aria-pressed="false"><?php echo esc_html__( 'Quieter', 'restwell-retreats' ); ?></button>
+				<button type="button" class="explore-filter-pill rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm md:text-base font-medium transition-all duration-200 ease-out motion-reduce:transition-none bg-white text-[var(--deep-teal)] border-2 border-gray-200 hover:border-[var(--deep-teal)]/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--deep-teal)]" data-filter="practical" aria-pressed="false"><?php echo esc_html__( 'Practical', 'restwell-retreats' ); ?></button>
 			</div>
 			<p id="explore-filter-status" class="explore-filter-status text-center text-gray-500 text-xs min-h-0 mb-6" aria-live="polite" aria-atomic="true"></p>
 
@@ -537,24 +596,24 @@ $prop_nearby_cta_url   = esc_url( $m_url( 'prop_nearby_cta_url' ) );
 				<article class="explore-card bg-white rounded-2xl p-5 sm:p-6 shadow-[0_4px_20px_rgb(0,0,0,0.05)] flex flex-col border border-gray-100 transition-[box-shadow,transform] duration-200 ease-out hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0" role="listitem" data-filter="<?php echo esc_attr( $place['filter'] ); ?>">
 
 					<!-- 1. Meta row: icon + category type + distance, all left-aligned -->
-					<div class="flex items-center gap-2 mb-2.5">
-						<span class="shrink-0 size-6 rounded-full bg-[var(--deep-teal)]/10 flex items-center justify-center text-[var(--deep-teal)]" aria-hidden="true">
-							<i class="ph-bold ph-<?php echo esc_attr( $card_icon ); ?> text-[9px]"></i>
+					<div class="flex items-center gap-2.5 mb-3">
+						<span class="explore-card__meta-icon-wrap shrink-0 rounded-full bg-[var(--deep-teal)]/10 flex items-center justify-center text-[var(--deep-teal)]" aria-hidden="true">
+							<i class="explore-card__meta-icon ph-bold ph-<?php echo esc_attr( $card_icon ); ?>"></i>
 						</span>
 						<?php if ( $card_type !== '' ) : ?>
-							<span class="text-[10px] font-semibold uppercase tracking-widest text-[var(--deep-teal)]/55 whitespace-nowrap"><?php echo wp_kses_post( $card_type ); ?></span>
+							<span class="text-[11px] md:text-xs font-semibold uppercase tracking-widest text-[var(--deep-teal)]/70 whitespace-nowrap"><?php echo wp_kses_post( $card_type ); ?></span>
 						<?php endif; ?>
 						<?php if ( ! empty( $place['distance'] ) ) : ?>
-							<span class="text-[10px] text-gray-400 whitespace-nowrap before:content-['·'] before:mr-2" aria-label="<?php echo esc_attr__( 'Distance from property', 'restwell-retreats' ); ?>"><?php echo esc_html( $place['distance'] ); ?></span>
+							<span class="text-[11px] md:text-xs text-gray-500 whitespace-nowrap before:content-['·'] before:mr-2" aria-label="<?php echo esc_attr__( 'Distance from property', 'restwell-retreats' ); ?>"><?php echo esc_html( $place['distance'] ); ?></span>
 						<?php endif; ?>
 					</div>
 
 					<!-- 2. Title: now left-aligned with body text below -->
-					<h3 class="text-base font-semibold font-serif text-[var(--deep-teal)] leading-snug mb-3">
+					<h3 class="text-lg md:text-xl font-semibold font-serif text-[var(--deep-teal)] leading-snug mb-3">
 						<?php if ( ! empty( $place['map_url'] ) ) : ?>
 							<a href="<?php echo esc_url( $place['map_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="group inline-flex items-baseline gap-1.5 text-[var(--deep-teal)] no-underline hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-teal)] rounded-sm">
 								<?php echo esc_html( $place['title'] ); ?>
-								<i class="ph-bold ph-arrow-square-out text-[10px] opacity-40 group-hover:opacity-70 transition-opacity shrink-0" aria-hidden="true"></i>
+								<i class="ph-bold ph-arrow-square-out text-xs md:text-sm opacity-40 group-hover:opacity-70 transition-opacity shrink-0" aria-hidden="true"></i>
 								<span class="sr-only"><?php echo esc_html__( '(opens in Google Maps)', 'restwell-retreats' ); ?></span>
 							</a>
 						<?php else : ?>
@@ -563,15 +622,15 @@ $prop_nearby_cta_url   = esc_url( $m_url( 'prop_nearby_cta_url' ) );
 					</h3>
 
 					<!-- 3. Body text -->
-					<div class="rw-copy-body leading-relaxed text-sm flex-1 space-y-2">
+					<div class="rw-copy-body leading-relaxed text-sm md:text-base flex-1 space-y-2">
 						<?php echo wp_kses_post( wpautop( $place['body'] ) ); ?>
 					</div>
 
 					<!-- 4. Access footer -->
 					<?php if ( ! empty( $place['acc'] ) ) : ?>
 						<div class="mt-3 pt-3 border-t border-gray-100" aria-label="<?php echo esc_attr__( 'Accessibility information', 'restwell-retreats' ); ?>">
-							<p class="rw-copy-muted text-xs leading-relaxed flex items-start gap-1.5">
-								<i class="ph-bold ph-wheelchair shrink-0 mt-[3px]" aria-hidden="true"></i>
+							<p class="rw-copy-muted text-xs md:text-sm leading-relaxed flex items-start gap-2">
+								<i class="explore-card__acc-icon ph-bold ph-wheelchair shrink-0" aria-hidden="true"></i>
 								<span><?php echo esc_html( $place['acc'] ); ?></span>
 							</p>
 						</div>

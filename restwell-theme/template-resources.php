@@ -81,6 +81,7 @@ $sections = array(
 	array( 'id' => 'res-complaints', 'label' => 'Complaints & appeals',        'heading' => $res_complaints_heading, 'body' => $res_complaints_body, 'eyebrow' => 'If things go wrong' ),
 	array( 'id' => 'res-contacts',   'label' => 'Key contacts',                'heading' => $res_contacts_heading,   'body' => $res_contacts_body,   'eyebrow' => 'Quick reference',  'is_contacts' => true ),
 );
+$res_tldr_markup = function_exists( 'restwell_get_tldr_markup' ) ? restwell_get_tldr_markup( $pid, '' ) : '';
 ?>
 <main class="flex-1" id="main-content">
 <?php get_template_part( 'template-parts/breadcrumb' ); ?>
@@ -94,6 +95,7 @@ $sections = array(
 			'heading'     => $res_heading,
 			'intro'       => $res_intro,
 			'media_id'    => $res_hero_image_id,
+			'append_after_h1_html' => $res_tldr_markup,
 		)
 	);
 	get_template_part( 'template-parts/interior-hero' );
@@ -165,8 +167,14 @@ $sections = array(
 	<section class="rw-section-y--compact bg-white border-t border-gray-100" aria-labelledby="res-related-heading">
 		<div class="container max-w-3xl">
 			<h2 id="res-related-heading" class="text-2xl font-serif text-[var(--deep-teal)] mb-6"><?php esc_html_e( 'Related guides', 'restwell-retreats' ); ?></h2>
-			<p class="text-gray-600 mb-6 leading-relaxed"><?php esc_html_e( 'These articles cover the practical detail behind the funding routes above.', 'restwell-retreats' ); ?></p>
+			<p class="text-gray-600 mb-6 leading-relaxed"><?php esc_html_e( 'This page is the funding hub. Use the links below for deeper, single-topic articles.', 'restwell-retreats' ); ?></p>
 			<ul class="space-y-3">
+				<li>
+					<a href="<?php echo esc_url( home_url( '/who-its-for/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
+						<?php esc_html_e( 'Who this stay is for (audience fit guide)', 'restwell-retreats' ); ?>
+					</a>
+					<span class="text-gray-500">: <?php esc_html_e( 'guest, family, carer, and referrer suitability without funding detail.', 'restwell-retreats' ); ?></span>
+				</li>
 				<li>
 					<a href="<?php echo esc_url( home_url( '/direct-payment-holiday-accommodation/' ) ); ?>" class="text-[var(--deep-teal)] font-medium underline underline-offset-2 hover:no-underline">
 						<?php esc_html_e( 'How to use your direct payment for a holiday', 'restwell-retreats' ); ?>

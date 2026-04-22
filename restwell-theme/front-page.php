@@ -111,7 +111,7 @@ $home_faq_heading_meta = get_post_meta( $pid, 'home_faq_heading', true );
 $show_home_faq         = ! ( metadata_exists( 'post', $pid, 'home_faq_heading' ) && $home_faq_heading_meta === '' );
 $home_faq_label        = $home_faq_label_meta !== '' ? $home_faq_label_meta : __( 'Quick answers', 'restwell-retreats' );
 $home_faq_heading      = $home_faq_heading_meta !== '' ? $home_faq_heading_meta : __( 'Common questions', 'restwell-retreats' );
-$home_faq_pairs        = function_exists( 'restwell_get_homepage_faq_pairs' ) ? restwell_get_homepage_faq_pairs( $pid ) : array();
+$home_faq_pairs        = function_exists( 'restwell_get_faq_items' ) ? restwell_get_faq_items( 'homepage' ) : array();
 
 $trust_label           = get_post_meta( $pid, 'trust_label', true ) ?: '';
 $trust_heading         = get_post_meta( $pid, 'trust_heading', true ) ?: '';
@@ -243,11 +243,22 @@ $hero_cta_primary_href   = $rw_fp_resolve_href( $hero_cta_primary_url );
 $hero_cta_secondary_href = $rw_fp_resolve_href( $hero_cta_secondary_url );
 
 $home_partners_label   = trim( (string) ( $m['home_partners_label'] ?? 'Trusted partners' ) );
-$home_partners_heading = trim( (string) ( $m['home_partners_heading'] ?? 'Our partners' ) );
-$home_partners_intro   = trim( (string) ( $m['home_partners_intro'] ?? 'The full story of how we adapted Restwell, who built it, and who supports guests today.' ) );
-$home_partners_cta_text = trim( (string) ( $m['home_partners_cta_text'] ?? 'See our journey' ) );
-$home_partners_cta_url_raw = trim( (string) ( $m['home_partners_cta_url'] ?? '/how-it-works/' ) );
-$home_partners_cta_url = $rw_fp_resolve_href( $home_partners_cta_url_raw );
+$home_partners_heading = trim( (string) ( $m['home_partners_heading'] ?? 'Specialist Partners' ) );
+$home_partners_intro   = trim( (string) ( $m['home_partners_intro'] ?? 'These are the specialist teams behind Restwell: adaptation, equipment, and ongoing care support for guests.' ) );
+/*
+ * Keep partners copy clear even when older seeded meta is still present.
+ * Only remap when values exactly match the legacy defaults.
+ */
+if (
+	$home_partners_heading === 'Our partners'
+	|| $home_partners_heading === 'Built with specialist partners'
+	|| $home_partners_heading === 'Specialist partners behind Restwell'
+) {
+	$home_partners_heading = __( 'Specialist Partners', 'restwell-retreats' );
+}
+if ( $home_partners_intro === 'The full story of how we adapted Restwell, who built it, and who supports guests today.' ) {
+	$home_partners_intro = __( 'These are the specialist teams behind Restwell: adaptation, equipment, and ongoing care support for guests.', 'restwell-retreats' );
+}
 $home_partner_items    = array(
 	array(
 		'name'    => trim( (string) ( $m['home_partner_1_name'] ?? 'Care Spaces' ) ),
@@ -384,7 +395,7 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 <main class="flex-1" id="main-content">
 	<!--
 		Homepage order (wireframe): hero → spec strip → discovery cards (area & funding)
-		→ who (guest/carer) → property spotlight → testimonials → why Restwell → bottom CTA → comparison → FAQ → trust.
+		→ who (guest/carer) → property spotlight → testimonials → why Restwell → comparison → bottom CTA → FAQ → trust.
 	-->
 	<!-- Hero Section -->
 	<section class="hero home-hero relative flex overflow-hidden <?php echo ( $hero_media_id && $hero_media_url ) ? 'hero--has-media' : ''; ?> <?php echo ( $hero_media_id && $hero_is_video ) ? 'hero--has-video' : ''; ?> <?php echo $hero_media_id ? '' : 'bg-[var(--deep-teal)]'; ?>" aria-labelledby="home-hero-heading"<?php echo ! empty( $home_hero_describedby ) ? ' aria-describedby="' . esc_attr( implode( ' ', $home_hero_describedby ) ) . '"' : ''; ?>>
@@ -439,6 +450,14 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 								<?php endforeach; ?>
 							</span>
 						</h1>
+						<?php
+						$home_tldr_markup = function_exists( 'restwell_get_tldr_markup' )
+							? restwell_get_tldr_markup( $pid, '' )
+							: '';
+						if ( $home_tldr_markup !== '' ) :
+						?>
+						<?php echo $home_tldr_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php endif; ?>
 						<?php if ( trim( (string) $hero_lede_paragraph ) !== '' ) : ?>
 						<p id="home-hero-lede" class="home-hero__lede max-w-prose text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.3)] font-sans text-base sm:text-lg md:text-xl font-normal leading-relaxed tracking-normal sm:tracking-tight text-balance m-0">
 							<?php echo esc_html( $hero_lede_paragraph ); ?>
@@ -776,7 +795,7 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 						</p>
 					<?php endif; ?>
 
-					<h2 id="home-partners-heading" class="section-heading m-0 text-3xl md:text-4xl font-serif text-[var(--deep-teal)] leading-[1.1]">
+					<h2 id="home-partners-heading" class="section-heading home-partners__heading m-0 text-3xl md:text-3xl font-serif text-[var(--deep-teal)]">
 						<?php echo esc_html( $home_partners_heading ); ?>
 					</h2>
 
@@ -786,16 +805,6 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 						</p>
 					<?php endif; ?>
 
-					<?php if ( $home_partners_cta_text !== '' && $home_partners_cta_url !== '' ) : ?>
-						<div class="pt-2">
-							<a
-								href="<?php echo esc_url( $home_partners_cta_url ); ?>"
-								class="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[var(--deep-teal)] px-6 py-2 text-sm font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#163f4d]"
-							>
-								<?php echo esc_html( $home_partners_cta_text ); ?>
-							</a>
-						</div>
-					<?php endif; ?>
 				</header>
 
 				<ul class="m-0 grid list-none grid-cols-2 items-center p-0 sm:grid-cols-6 rw-gap-grid">
@@ -843,69 +852,6 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 		</div>
 	</section>
 	<?php endif; ?>
-
-	<!-- Bottom CTA -->
-	<section class="cta-section relative <?php echo esc_attr( $rw_fp_section_y_emphasis ); ?> rw-seam-t overflow-hidden">
-		<?php if ( $cta_image_id ) : ?>
-			<?php
-			echo wp_get_attachment_image(
-				$cta_image_id,
-				'full',
-				false,
-				array(
-					'class'       => 'absolute inset-0 w-full h-full object-cover -z-10',
-					'alt'         => '',
-					'loading'     => 'lazy',
-					'decoding'    => 'async',
-					'sizes'       => '100vw',
-					'aria-hidden' => 'true',
-				)
-			);
-			?>
-		<?php endif; ?>
-		<div class="absolute inset-0 bg-[#1B4D5C]/75" aria-hidden="true"></div>
-		<div class="relative container text-center <?php echo esc_attr( $rw_fp_inner ); ?>">
-			<div class="mx-auto grid max-w-5xl lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,1fr)] lg:items-center <?php echo esc_attr( $rw_fp_stack_gap_lg ); ?>">
-				<div class="rw-stack max-w-2xl text-center lg:max-w-none lg:text-left">
-					<h2 class="text-white text-3xl md:text-4xl m-0"><?php echo esc_html( $rw_fp_cta_heading_display ); ?></h2>
-					<p class="text-white/95 text-lg m-0 text-pretty max-w-prose mx-auto lg:mx-0">
-						<?php echo esc_html( $rw_fp_cta_body_display ); ?>
-					</p>
-					<ul class="m-0 list-none p-0 rw-stack text-sm text-white/90 max-w-md mx-auto lg:mx-0">
-						<li class="flex items-start gap-2.5 text-left">
-							<i class="ph-bold ph-check-circle mt-0.5 text-[var(--warm-gold-hero)]" aria-hidden="true"></i>
-							<span><?php esc_html_e( 'Private whole-property stay with care arranged only if you choose it', 'restwell-retreats' ); ?></span>
-						</li>
-						<li class="flex items-start gap-2.5 text-left">
-							<i class="ph-bold ph-check-circle mt-0.5 text-[var(--warm-gold-hero)]" aria-hidden="true"></i>
-							<span><?php esc_html_e( 'Adaptations and access details explained clearly before you book', 'restwell-retreats' ); ?></span>
-						</li>
-					</ul>
-				</div>
-				<aside class="rw-stack rounded-2xl border border-white/25 bg-white/10 p-5 text-left shadow-[0_16px_38px_rgba(0,0,0,0.2)] backdrop-blur-sm md:p-6">
-					<p class="m-0 text-xs font-semibold uppercase tracking-[0.14em] text-white/80"><?php esc_html_e( 'Get exact details', 'restwell-retreats' ); ?></p>
-					<div class="grid gap-3">
-						<a
-							id="bottom-cta-enquire"
-							href="<?php echo esc_url( $rw_fp_resolve_href( isset( $m['cta_primary_url'] ) ? (string) $m['cta_primary_url'] : '' ) ); ?>"
-							class="btn btn-gold w-full justify-center"
-							data-cta="cta-enquire"
-						>
-							<?php echo esc_html( $m['cta_primary_label'] ?? '' ); ?>
-						</a>
-						<a
-							href="<?php echo esc_url( $rw_fp_resolve_href( isset( $m['cta_secondary_url'] ) ? (string) $m['cta_secondary_url'] : '' ) ); ?>"
-							class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/55 px-5 py-3 text-center text-sm font-semibold text-white transition-colors duration-200 hover:bg-white/15 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:transition-none"
-							data-cta="cta-property"
-						>
-							<?php echo esc_html( $m['cta_secondary_label'] ?? '' ); ?>
-						</a>
-					</div>
-					<p class="m-0 text-xs leading-relaxed text-white/80"><?php echo esc_html( $rw_fp_cta_promise_display ); ?></p>
-				</aside>
-			</div>
-		</div>
-	</section>
 
 	<?php if ( $show_home_comparison ) : ?>
 	<section class="home-comparison-section <?php echo esc_attr( $rw_fp_section_y . ' ' . $rw_fp_comparison_bg ); ?> rw-seam-t" aria-labelledby="home-comparison-heading" aria-describedby="home-comparison-summary">
@@ -995,6 +941,69 @@ $rw_fp_trust_bg        = isset( $rw_fp_band_bg['trust'] ) ? $rw_fp_band_bg['trus
 		</div>
 	</section>
 	<?php endif; ?>
+
+	<!-- Bottom CTA -->
+	<section class="cta-section relative <?php echo esc_attr( $rw_fp_section_y_emphasis ); ?> rw-seam-t overflow-hidden">
+		<?php if ( $cta_image_id ) : ?>
+			<?php
+			echo wp_get_attachment_image(
+				$cta_image_id,
+				'full',
+				false,
+				array(
+					'class'       => 'absolute inset-0 w-full h-full object-cover -z-10',
+					'alt'         => '',
+					'loading'     => 'lazy',
+					'decoding'    => 'async',
+					'sizes'       => '100vw',
+					'aria-hidden' => 'true',
+				)
+			);
+			?>
+		<?php endif; ?>
+		<div class="absolute inset-0 bg-[#1B4D5C]/75" aria-hidden="true"></div>
+		<div class="relative container text-center <?php echo esc_attr( $rw_fp_inner ); ?>">
+			<div class="mx-auto grid max-w-5xl lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,1fr)] lg:items-center <?php echo esc_attr( $rw_fp_stack_gap_lg ); ?>">
+				<div class="rw-stack max-w-2xl text-center lg:max-w-none lg:text-left">
+					<h2 class="text-white text-3xl md:text-4xl m-0"><?php echo esc_html( $rw_fp_cta_heading_display ); ?></h2>
+					<p class="text-white/95 text-lg m-0 text-pretty max-w-prose mx-auto lg:mx-0">
+						<?php echo esc_html( $rw_fp_cta_body_display ); ?>
+					</p>
+					<ul class="m-0 list-none p-0 rw-stack text-sm text-white/90 max-w-md mx-auto lg:mx-0">
+						<li class="flex items-start gap-2.5 text-left">
+							<i class="ph-bold ph-check-circle mt-0.5 text-[var(--warm-gold-hero)]" aria-hidden="true"></i>
+							<span><?php esc_html_e( 'Private whole-property stay with care arranged only if you choose it', 'restwell-retreats' ); ?></span>
+						</li>
+						<li class="flex items-start gap-2.5 text-left">
+							<i class="ph-bold ph-check-circle mt-0.5 text-[var(--warm-gold-hero)]" aria-hidden="true"></i>
+							<span><?php esc_html_e( 'Adaptations and access details explained clearly before you book', 'restwell-retreats' ); ?></span>
+						</li>
+					</ul>
+				</div>
+				<aside class="rw-stack rounded-2xl border border-white/25 bg-white/10 p-5 text-left shadow-[0_16px_38px_rgba(0,0,0,0.2)] backdrop-blur-sm md:p-6">
+					<p class="m-0 text-xs font-semibold uppercase tracking-[0.14em] text-white/80"><?php esc_html_e( 'Get exact details', 'restwell-retreats' ); ?></p>
+					<div class="grid gap-3">
+						<a
+							id="bottom-cta-enquire"
+							href="<?php echo esc_url( $rw_fp_resolve_href( isset( $m['cta_primary_url'] ) ? (string) $m['cta_primary_url'] : '' ) ); ?>"
+							class="btn btn-gold w-full justify-center"
+							data-cta="cta-enquire"
+						>
+							<?php echo esc_html( $m['cta_primary_label'] ?? '' ); ?>
+						</a>
+						<a
+							href="<?php echo esc_url( $rw_fp_resolve_href( isset( $m['cta_secondary_url'] ) ? (string) $m['cta_secondary_url'] : '' ) ); ?>"
+							class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/55 px-5 py-3 text-center text-sm font-semibold text-white transition-colors duration-200 hover:bg-white/15 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:transition-none"
+							data-cta="cta-property"
+						>
+							<?php echo esc_html( $m['cta_secondary_label'] ?? '' ); ?>
+						</a>
+					</div>
+					<p class="m-0 text-xs leading-relaxed text-white/80"><?php echo esc_html( $rw_fp_cta_promise_display ); ?></p>
+				</aside>
+			</div>
+		</div>
+	</section>
 
 	<?php if ( $show_home_faq && ! empty( $home_faq_pairs ) ) : ?>
 	<!-- Homepage FAQ: same accordion markup/classes as template-faq.php (FAQPage JSON-LD in inc/seo.php) -->

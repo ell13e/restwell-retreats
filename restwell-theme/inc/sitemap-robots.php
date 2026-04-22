@@ -58,3 +58,17 @@ function restwell_robots_txt_allow_ai_crawlers( $output, $public ) {
 	return $output;
 }
 add_filter( 'robots_txt', 'restwell_robots_txt_allow_ai_crawlers', 20, 2 );
+
+/**
+ * Remove attachment URLs from WordPress XML sitemap post-type providers.
+ *
+ * @param array<string, WP_Post_Type> $post_types Registered sitemap post types.
+ * @return array<string, WP_Post_Type>
+ */
+function restwell_sitemap_exclude_attachment_post_type( $post_types ) {
+	if ( isset( $post_types['attachment'] ) ) {
+		unset( $post_types['attachment'] );
+	}
+	return $post_types;
+}
+add_filter( 'wp_sitemaps_post_types', 'restwell_sitemap_exclude_attachment_post_type' );

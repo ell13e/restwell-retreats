@@ -23,6 +23,7 @@ $hiw_hero_cta_url            = esc_url( get_post_meta( $pid, 'hiw_hero_cta_url',
 $hiw_hero_cta_promise        = get_post_meta( $pid, 'hiw_hero_cta_promise', true ) ?: '';
 $hiw_hero_cta_secondary_text = get_post_meta( $pid, 'hiw_hero_cta_secondary_text', true ) ?: '';
 $hiw_hero_cta_secondary_url  = esc_url( get_post_meta( $pid, 'hiw_hero_cta_secondary_url', true ) ?: home_url( '/enquire/' ) );
+$hiw_tldr_markup             = function_exists( 'restwell_get_tldr_markup' ) ? restwell_get_tldr_markup( $pid, '' ) : '';
 
 // Steps (4) - section label, heading + step copy
 $hiw_steps_label   = get_post_meta( $pid, 'hiw_steps_label', true ) ?: 'FOUR-STEP PROCESS';
@@ -66,12 +67,12 @@ $hiw_included_label   = get_post_meta( $pid, 'hiw_included_label', true ) ?: 'WH
 $hiw_included_heading = get_post_meta( $pid, 'hiw_included_heading', true ) ?: "What's included in every stay";
 $hiw_included_intro   = get_post_meta( $pid, 'hiw_included_intro', true ) ?: 'No hidden extras. These come with every booking as standard.';
 $included_items = array(
-	array( 'title' => 'Bed linen & towels', 'desc' => 'Fresh linen and towels so you can relax from the moment you arrive.', 'icon' => 'linen' ),
-	array( 'title' => 'Welcome pack', 'desc' => 'Tea, coffee, milk, and a few basics so you are not shopping the moment you arrive.', 'icon' => 'gift' ),
-	array( 'title' => 'Full kitchen', 'desc' => 'Fully equipped kitchen for cooking at your own pace.', 'icon' => 'kitchen' ),
-	array( 'title' => 'Private garden', 'desc' => 'Your own outdoor space to enjoy.', 'icon' => 'garden' ),
-	array( 'title' => 'Fast Wi-Fi', 'desc' => 'Stay connected when you need to.', 'icon' => 'wifi' ),
-	array( 'title' => 'Accessible parking', 'desc' => 'Designated parking close to the property.', 'icon' => 'parking' ),
+	array( 'title' => 'Bed linen & towels', 'desc' => 'Freshly laundered bed linen and towels, prepared before you arrive.', 'icon' => 'linen' ),
+	array( 'title' => 'Welcome pack', 'desc' => 'House guide, local contacts, plus tea, coffee, and basic arrival essentials.', 'icon' => 'gift' ),
+	array( 'title' => 'Full kitchen', 'desc' => 'Fully equipped kitchen so you can cook comfortably at your own pace.', 'icon' => 'kitchen' ),
+	array( 'title' => 'Private garden', 'desc' => 'Private use of the whole bungalow, with no shared spaces.', 'icon' => 'garden' ),
+	array( 'title' => 'Fast Wi-Fi', 'desc' => 'Reliable Wi-Fi coverage across the property for guests and carers.', 'icon' => 'wifi' ),
+	array( 'title' => 'Accessible parking', 'desc' => 'Two off-road spaces on the private drive, with nearby on-street overflow.', 'icon' => 'parking' ),
 );
 for ( $i = 1; $i <= 6; $i++ ) {
 	$t = get_post_meta( $pid, "hiw_included_{$i}_title", true );
@@ -96,26 +97,8 @@ $hiw_cta_secondary_url    = esc_url( get_post_meta( $pid, 'hiw_cta_secondary_url
 $hiw_faq_label   = get_post_meta( $pid, 'hiw_faq_label', true ) ?: 'HAVE QUESTIONS?';
 $hiw_faq_heading = get_post_meta( $pid, 'hiw_faq_heading', true ) ?: 'Common questions';
 $hiw_faq_intro   = get_post_meta( $pid, 'hiw_faq_intro', true ) ?: 'Answers to the things people ask us most. Anything else: just get in touch.';
-$faq_pairs = array();
-for ( $i = 1; $i <= 3; $i++ ) {
-	$q = get_post_meta( $pid, "hiw_faq_{$i}_q", true );
-	$a = get_post_meta( $pid, "hiw_faq_{$i}_a", true );
-	if ( $i === 1 && ! $q ) {
-		$q = 'Do I have to use the care support?';
-		$a = $a ?: 'Absolutely not. Care support is an optional extra we can arrange if you need it, but you are also welcome to arrange your own care or manage without.';
-	}
-	if ( $i === 2 && ! $q ) {
-		$q = 'Can I bring my own carer?';
-		$a = $a ?: 'Yes. You are always welcome to bring your own Personal Assistant or carer. The property is designed to accommodate everyone comfortably.';
-	}
-	if ( $i === 3 && ! $q ) {
-		$q = 'How far is the property from the beach?';
-		$a = $a ?: 'The Tankerton promenade is about 15 minutes\' flat walk from the property. The town centre and harbour are about a 7-minute drive or 20-minute walk. We can provide exact routes and accessibility notes for any destination before your stay.';
-	}
-	if ( $q || $a ) {
-		$faq_pairs[] = array( 'q' => $q ?: '', 'a' => $a ?: '' );
-	}
-}
+// Use centralised helper so How It Works shows the same FAQs as the FAQ page.
+$faq_pairs = function_exists( 'restwell_get_faq_items' ) ? restwell_get_faq_items( 'how-it-works' ) : array();
 ?>
 <main class="flex-1" id="main-content">
 <?php get_template_part( 'template-parts/breadcrumb' ); ?>
@@ -128,6 +111,7 @@ for ( $i = 1; $i <= 3; $i++ ) {
 			'heading'       => $hiw_heading,
 			'intro'         => $hiw_intro,
 			'media_id'      => $hiw_hero_image_id,
+			'append_after_h1_html' => $hiw_tldr_markup,
 			'cta_primary'   => $hiw_hero_cta_text !== '' ? array(
 				'label' => $hiw_hero_cta_text,
 				'url'   => $hiw_hero_cta_url,

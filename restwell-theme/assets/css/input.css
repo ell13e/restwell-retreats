@@ -555,6 +555,42 @@
     border-color: var(--deep-teal);
   }
 
+  /* Explore Whitstable cards: single source of truth for icon sizing */
+  .explore-card .explore-card__meta-icon-wrap {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .explore-card .explore-card__meta-icon,
+  .explore-card .explore-card__acc-icon {
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .explore-card .explore-card__meta-icon {
+    font-size: 1.1rem;
+  }
+
+  .explore-card .explore-card__acc-icon {
+    font-size: 1.15rem;
+    margin-top: 1px;
+  }
+
+  @media (min-width: 768px) {
+    .explore-card .explore-card__meta-icon-wrap {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    .explore-card .explore-card__meta-icon {
+      font-size: 1.25rem;
+    }
+
+    .explore-card .explore-card__acc-icon {
+      font-size: 1.3rem;
+    }
+  }
+
   /* FAQ category filter pills: active state by aria-pressed */
   .faq-filter .faq-filter-pill[aria-pressed="true"] {
     background-color: var(--deep-teal);
@@ -3271,6 +3307,13 @@
     margin-bottom: 0;
   }
 
+  /* Homepage partners strip: keep heading wraps deliberate and readable. */
+  #main-content .home-partners__heading {
+    max-width: 12ch;
+    line-height: 1.2;
+    margin-bottom: 0.625rem;
+  }
+
   /* #D4A853 with white text = 2.20:1 ✗ - switched to deep-teal text on warm-gold-hero.
      #F0C97A (warm-gold-hero) with deep-teal text = 5.90:1 ✅
      Hover darkens to #DDB860 with deep-teal text = 4.91:1 ✅ */
@@ -3341,15 +3384,15 @@
     color: #fff;
   }
 
-  #main-content .w-12.h-12 svg,
-  #main-content .w-11.h-11 svg {
+  #main-content .w-12.h-12:not(.wif-icon-circle) svg,
+  #main-content .w-11.h-11:not(.wif-icon-circle) svg {
     width: 2.5rem;
     height: 2.5rem;
     color: #1B4D5C;
   }
 
-  #main-content .w-12.h-12,
-  #main-content .w-11.h-11 {
+  #main-content .w-12.h-12:not(.wif-icon-circle),
+  #main-content .w-11.h-11:not(.wif-icon-circle) {
     width: 2.5rem;
     height: 2.5rem;
     margin-bottom: 1rem;
@@ -3358,7 +3401,7 @@
     justify-content: center;
   }
 
-  #main-content .w-11.h-11 {
+  #main-content .w-11.h-11:not(.wif-icon-circle) {
     margin-left: auto;
     margin-right: auto;
   }
@@ -3862,6 +3905,10 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
+.wif-persona-card summary .wif-icon-circle {
+  margin-bottom: 0;
+}
+
 /* Funding route cards: outline CTAs may wrap - keep touch target without clipping */
 .wif-funding-routes .btn-sm {
   min-height: 2.75rem;
@@ -4044,83 +4091,6 @@
   background-color: color-mix(in srgb, var(--deep-teal) 11%, white);
 }
 
-/* Persona cards: expand control in header */
-.wif-persona-expand {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2.75rem;
-  min-height: 2.75rem;
-  margin-top: -0.25rem;
-  padding: 0.25rem;
-  color: var(--deep-teal);
-  background: transparent;
-  border: 1px solid color-mix(in srgb, var(--deep-teal) 22%, transparent);
-  border-radius: 0.75rem;
-  cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.2s ease;
-}
-
-/* Full-width card title row: title + chevron (replaces icon-only control) */
-.wif-persona-expand--header {
-  min-width: 0;
-  width: 100%;
-  min-height: 2.75rem;
-  margin-top: 0;
-  padding: 0.25rem 0.25rem 0.25rem 0;
-  border: 0;
-  border-radius: 0.75rem;
-  align-items: center;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: color-mix(in srgb, var(--deep-teal) 12%, transparent);
-}
-
-.wif-persona-expand--header .wif-persona-expand__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2.75rem;
-  min-height: 2.75rem;
-  border: 1px solid color-mix(in srgb, var(--deep-teal) 22%, transparent);
-  border-radius: 0.625rem;
-  background: transparent;
-  transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease;
-}
-
-/* Header row: title reads as plain heading; chevron is the compact affordance */
-.wif-persona-expand--header:hover {
-  background-color: transparent;
-  border-color: transparent;
-}
-
-.wif-persona-expand--header:hover .wif-persona-expand__icon {
-  background-color: var(--bg-subtle);
-  border-color: color-mix(in srgb, var(--deep-teal) 40%, transparent);
-}
-
-.wif-persona-expand--header:focus-visible {
-  outline: 3px solid var(--deep-teal);
-  outline-offset: 2px;
-}
-
-.wif-persona-expand--header:focus-visible .wif-persona-expand__icon {
-  outline: none;
-}
-
-.wif-persona-expand:hover:not(.wif-persona-expand--header) {
-  background-color: var(--bg-subtle);
-  border-color: color-mix(in srgb, var(--deep-teal) 40%, transparent);
-}
-
-.wif-persona-expand:focus-visible:not(.wif-persona-expand--header) {
-  outline: 3px solid var(--deep-teal);
-  outline-offset: 2px;
-}
 
 /* -----------------------------------------------------------------------------
    Launch polish utilities
@@ -4151,70 +4121,25 @@
   color: var(--muted-grey);
 }
 
-.wif-persona-expand:not(.wif-persona-expand--header) .wif-persona-expand__icon {
-  display: block;
-  transition: transform 0.2s ease;
-}
-
-.wif-persona-expand[aria-expanded='true'] .wif-persona-expand__icon {
-  transform: rotate(180deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .wif-persona-expand .wif-persona-expand__icon {
-    transition: none;
-  }
-}
 
 /* Persona accordion: stable padding (no layout shift on open/close) */
 .wif-persona-card__inner {
-  padding: 1.125rem 1.25rem 1.35rem;
+  padding: 1.125rem 1.25rem;
 }
 
 @media (min-width: 640px) {
   .wif-persona-card__inner {
-    padding: 1.35rem 1.75rem 1.75rem;
+    padding: 1.35rem 1.75rem;
   }
 }
 
-/* Mobile: more inset so long copy does not feel edge-to-edge; prose gets subtle separation */
 @media (max-width: 639px) {
-  .wif-persona-card__inner {
-    padding: 1.25rem 1.35rem 1.5rem;
-  }
-
-  .wif-persona-card__body {
-    padding-bottom: 0.25rem;
-  }
-
   .wif-persona-card__bullets > li {
     padding-bottom: 0.125rem;
   }
 }
 
-/* Height animation: 0fr → 1fr (replaces display:none / hidden - smooth, no jump) */
-.wif-persona-card__panel-shell {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.38s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.wif-persona-card--expanded .wif-persona-card__panel-shell {
-  grid-template-rows: 1fr;
-}
-
-.wif-persona-card__panel-overflow {
-  min-height: 0;
-  overflow: hidden;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .wif-persona-card__panel-shell {
-    transition: none;
-  }
-}
-
-.wif-persona-card--expanded {
+details.wif-persona-card[open] {
   box-shadow:
     0 12px 40px rgb(0 0 0 / 0.07),
     0 1px 0 rgb(0 0 0 / 0.04);
@@ -4463,4 +4388,12 @@
 #main-content h2[class*="text-center"],
 #main-content h3[class*="text-center"] {
   text-wrap: balance;
+}
+
+.min-h-\[12\.5rem\] {
+  min-height: 11rem;
+}
+
+.flex {
+  display: flex;
 }

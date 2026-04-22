@@ -23,13 +23,13 @@ function restwell_enqueue_scripts() {
 	 */
 	wp_enqueue_style(
 		'phosphor-icons-regular',
-		'https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css',
+		$theme_uri . '/assets/fonts/phosphor/regular/style.css',
 		array(),
 		'2.1.1'
 	);
 	wp_enqueue_style(
 		'phosphor-icons-bold',
-		'https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css',
+		$theme_uri . '/assets/fonts/phosphor/bold/style.css',
 		array( 'phosphor-icons-regular' ),
 		'2.1.1'
 	);
@@ -106,11 +106,30 @@ function restwell_enqueue_admin_styles( $hook_suffix ) {
 		return;
 	}
 
+	$theme_uri = get_template_directory_uri();
+	$version   = wp_get_theme()->get( 'Version' );
+
 	wp_enqueue_style(
 		'restwell-admin-crm',
-		get_template_directory_uri() . '/assets/css/admin-crm.css',
+		$theme_uri . '/assets/css/admin-crm.css',
 		array(),
-		wp_get_theme()->get( 'Version' )
+		$version
 	);
+
+	if ( $page_editor_gg ) {
+		wp_enqueue_style(
+			'restwell-admin-meta-fields',
+			$theme_uri . '/assets/css/admin-meta-fields.css',
+			array(),
+			$version
+		);
+		wp_enqueue_script(
+			'restwell-admin-meta-fields',
+			$theme_uri . '/assets/js/admin-meta-fields.js',
+			array(),
+			$version,
+			true
+		);
+	}
 }
 add_action( 'admin_enqueue_scripts', 'restwell_enqueue_admin_styles' );
